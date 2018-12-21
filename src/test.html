@@ -1,0 +1,140 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <link rel="stylesheet" href="css/main.css" type="text/css" />
+
+  <title>demo1</title>
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/all.js"></script>
+  <script type="module" src="js/oh-binding-doc.js"></script>
+</head>
+
+<body>
+  <partial src="mainnav.html"></partial>
+
+  <oh-binding-doc count="10"></oh-binding-doc>
+
+  <br>
+  <br>
+
+  <p>Lorem ipsum dolor sit amet, inani intellegat vel ad. Pri quis epicuri ea. Eros oratio impetus ut ius. At nec prima
+    tollit dolores, stet scripta contentiones his ex, ut corpora petentium eos. At magna mazim fastidii qui, in eam
+    perpetua volutpat expetenda.
+  </p>
+  <p>
+    Sit an falli movet tempor, ad erat abhorreant vix, has nonumes comprehensam ne. Eu graeco ocurreret mea, homero
+    quodsi cu pri, te altera alterum suscipit cum. Sea justo ocurreret et, pri no viris habemus. Stet invenire
+    mediocrem ea has. Ad pri iudico electram mnesarchum, eos vidit justo eu. Nec tacimates persequeris ne.
+  </p>
+  <p>
+    Eos fabulas partiendo ea, mel meis vocibus offendit eu, quas appareat electram duo cu. Te qui indoctum erroribus.
+    Ei debitis assueverit vix. Ea ius aeque sententiae, ubique tempor comprehensam qui an. Usu errem laboramus no. No
+    duo iudico legere, tota interpretaris te per.
+  </p>
+  <p>
+    Eam legendos liberavisse ad. Pri feugait conceptam at, sint epicurei ne vim, eos an falli eligendi. Te pro elit
+    solum. Eum mundi comprehensam ex, honestatis complectitur concludaturque pro ad, an eos essent voluptatum. Ne sed
+    impetus phaedrum.
+  </p>
+  <p>
+    Id iriure prodesset usu. Ius at melius insolens constituam. Te his velit constituam disputationi, vis eu diam cibo
+    dicit. An est convenire abhorreant.
+  </p>
+  <p>
+    Tation nominati in his, cu vix autem comprehensam. Cu eam erant appetere, assum democritum ne cum. Per dolor mollis
+    feugiat an, aperiri intellegam vel an, ei alienum consulatu ius. Te mei quidam similique, ius dicant iudicabit
+    delicatissimi ei. Ne mel facer urbanitas complectitur, ut eos referrentur consequuntur.
+  </p>
+  <p>
+    Mei et melius debitis feugait, ut nec delectus senserit praesent, est nullam officiis ad. Eum id delenit
+    accommodare vituperatoribus, molestie mnesarchum sit ea, vis ne adhuc maiorum. Qui dolorum dolorem convenire at. No
+    tantas commodo deterruisset mea, mea ferri munere praesent cu. Ex pri latine dolorem mediocrem, veri quaestio eos
+    te. Dolor feugiat probatus no sed, id melius efficiantur comprehensam sea.
+  </p>
+  <p>
+    Mea ne congue regione elaboraret, nam homero doctus recteque ex, ex lorem luptatum reformidans vis. Has ut equidem
+    delicata percipitur. Vidisse pertinacia ne eos. Ad nec quis erant eirmod, no mel saepe tritani.
+  </p>
+  <p>
+    Ex aperiam omittantur vix. Ubique sensibus adversarium quo no, consulatu gloriatur ex cum. Agam aliquip
+    concludaturque id quo, numquam nostrum eum ex. Duo ut elit mollis ancillae. Tamquam inciderint mel an, te delicata
+    definiebas sea, viris corrumpit repudiare qui ut. Mentitum perpetua ei ius, est te ferri assentior, et diam error
+    ullamcorper mea.
+  </p>
+  <p>
+    Ius no vidit timeam, quidam electram forensibus eos et. Per ne exerci laboramus suscipiantur, ius dictas euripidis
+    maiestatis ex. Soleat labore et cum. Mei minim docendi ne. Ius oporteat percipitur et, no vim disputando
+    conclusionemque. Tation maluisset imperdiet at mea. Pri falli tempor et.
+  </p>
+  <div>
+    <br>
+    <smart-combo-box drop-down-position="bottom" label="Phone" selection-mode="one" class="combos1">
+      <smart-list-item>Mobile</smart-list-item>
+      <smart-list-item>Home</smart-list-item>
+      <smart-list-item>Work</smart-list-item>
+    </smart-combo-box>
+    <br>
+    <br>
+    <smart-drop-down-list drop-down-position="bottom" label="Phone" selection-mode="one" class="combos1">
+      <smart-list-item>Mobile</smart-list-item>
+      <smart-list-item>Home</smart-list-item>
+      <smart-list-item>Work</smart-list-item>
+    </smart-drop-down-list>
+  </div>
+  <div>
+    <smart-gauge labels-visibility="all" ticks-visibility="minor" ticks-position="scale" scale-position="inside"
+      digital-display start-angle="-30" end-angle="210" min="0" max="100" value="10" precision-digits="0"></smart-gauge>
+  </div>
+  <div id="toastContainer1" style="width:350px;height:200px"></div>
+  <div>
+    <smart-toast append-to="toastContainer1" auto-open class="snackbar">Message sent</smart-toast>
+  </div>
+  <div>
+    <smart-slider></smart-slider>
+  </div>
+  <div id="menu1Container">
+    <smart-button id="menu1Token" class="material flat menu-token"><i class="material-icons">&#xE5D4;</i></smart-button>
+    <smart-menu id="menu1" class="material animation" mode="dropDown">
+      <smart-menu-item label="Refresh"></smart-menu-item>
+      <smart-menu-item label="Settings"></smart-menu-item>
+      <smart-menu-item label="Send feedback"></smart-menu-item>
+      <smart-menu-item label="Help"></smart-menu-item>
+      <smart-menu-item label="Signout"></smart-menu-item>
+    </smart-menu>
+    <script>
+      let menuTokens = document.getElementsByClassName('menu-token');
+      let menu1 = document.getElementById('menu1');
+      menuTokens[0].addEventListener('mouseup', function (event) {
+        menu1.open(menuTokens[0].offsetLeft, menuTokens[0].offsetTop);
+      });
+    </script>
+  </div>
+  <template id="templateWithButtons">
+    <smart-button class="flat">CANCEL</smart-button>
+    <smart-button class="flat">OK</smart-button>
+  </template>
+  <div>
+    <smart-repeat-button><i class="material-icons">keyboard_arrow_left</i></smart-repeat-button>
+  </div>
+  <div>
+    <smart-calendar></smart-calendar>
+    <smart-time-picker footer footer-template="templateWithButtons"></smart-time-picker>
+  </div>
+  <div>
+    <smart-button>Click Me</smart-button>
+  </div>
+
+  <style>
+    smart-date-time-picker {
+      position: relative;
+      left: 0px;
+      width: 270px;
+    }
+  </style>
+
+</body>
+
+</html>

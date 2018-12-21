@@ -1,0 +1,32 @@
+<header class="navbarui">
+    <div class="inner">
+        <div class="sidebar-button">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon">
+                <path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
+            </svg>
+        </div>
+        <a class="home" href="index.html"><img src="img/openhab-logo.png" alt="openHAB" class="logo"></a>
+        <nav id="mainnav">
+            <a href="maintenance.html">Maintenance</a>
+            <a href="addons.html">Add-ons</a>
+            <a href="inbox.html">Inbox <span class="badge badge-pill badge-orange">0</span></a>
+            <a href="things.html">Things</a>
+            <a href="items.html">Items</a>
+            <a href="timer.html">Timer</a>
+            <a href="rules.html">Rules</a>
+        </nav>
+    </div>
+</header>
+<script type="module">
+    function markActiveLink() {
+        var c = document.getElementById("mainnav").children;
+        for (var i = 0; i < c.length; i++) {
+            const classlist = c[i].classList;
+            classlist.remove("active");
+            if (new URL(c[i].href).pathname == window.location.pathname)
+                classlist.add("active");
+        }
+    }
+    markActiveLink();
+    document.addEventListener("DOMContentLoaded", markActiveLink);
+</script>

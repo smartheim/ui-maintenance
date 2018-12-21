@@ -1,0 +1,49 @@
+{
+  "name": "paper-ui-ng",
+  "version": "1.0.0",
+  "description": "Configuration and maintenance interface for openHAB",
+  "author": "David Graeff",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp build",
+    "lint": "gulp lint",
+    "dev": "gulp serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidgraeff/paper-ui-ng.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "connect-gzip": "^0.1.6",
+    "csso": "^3.5.1",
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.7.0",
+    "gulp-csslint": "^1.0.1",
+    "gulp-html-i18n": "^0.14.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-open": "^3.0.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-rollup-each": "^2.2.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sass-lint": "^1.4.0",
+    "gulp-uglify-es": "^1.0.4",
+    "html": "^1.0.0",
+    "lodash.partition": "^4.6.0",
+    "plugin-error": "^1.0.1",
+    "register-service-worker": "^1.5.2",
+    "rollup": "^0.68.2",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "vinyl-sourcemaps-apply": "^0.2.1",
+    "workbox-build": "^3.6.3"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.6.3",
+    "@oom/page-loader": "^3.0.0",
+    "bootstrap": "^4.2.1",
+    "macro-carousel": "^1.0.0"
+  }
+}

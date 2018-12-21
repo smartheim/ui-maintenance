@@ -1,0 +1,130 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <link rel="stylesheet" href="css/main.css" type="text/css" />
+  <link rel="icon" href="img/favicon.ico">
+
+  <title>openHAB - Empowering the smart home</title>
+
+  <link rel="stylesheet" href="css/home.css" type="text/css" />
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/oh-community.js" defer></script>
+  <script type="module" src="js/carousel.js" defer></script>
+  <script type="module" src="js/toggle-check.js" defer></script>
+</head>
+
+<body>
+  <partial src="mainnav.html"></partial>
+
+  <main class="centered">
+    <section class="intro">
+      <macro-carousel pagination>
+        <article class="slide">
+          <img src="img/openhab-logo.png" alt="openHAB" class="logo">
+          <h3>
+            Welcome aboard! You are now part of the ever growing openHAB community.
+          </h3>
+          <p>
+            You are using Paper UI, the setup and maintenance interface of openHAB.
+            If this is your first time here, swipe through these slides for a quick tutorial.
+          </p>
+          <p>You have just upgraded to a new major version?<br>
+            Have a look at the <a target="_blank" href="https://github.com/openhab/openhab-distro/releases">changelog</a>,
+            especially the breaking changes section.
+          </p>
+        </article>
+        <article class="slide" style="background: linear-gradient(to bottom right, #b48d02, #554300);">
+          <h1>Extend openHAB</h1>
+          <p>A fresh installation has a limited functionality only.</p>
+          <p>Find the section "Add-ons" in the top navigation bar and
+            extend your openHAB installation. Choose from over 300 addons.</p>
+          <p>
+            An addon that enables you to use a physical device is called a <u>binding</u>.</p>
+          <center><img src="img/tutorial/addons.jpg"></center>
+        </article>
+        <article class="slide" style="background: linear-gradient(to bottom right, #b47002, #553a00);">
+          <h1>Concepts - Bindings and Things</h1>
+          <p>A binding provides <u>Things</u>. A Thing can have <u>Channels</u>.</p>
+          <center><img style="max-width: 60%;max-height: 100%" src="img/tutorial/concepts.png"></center>
+        </article>
+        <article class="slide" style="background: linear-gradient(to bottom right, #b47002, #553a00);">
+          <h1>Concepts - Channels</h1>
+          <p>A Channel has a unique <u>ID</u>, a specific <u>Type</u> (Text, Number, Percentage, ...),
+            an optional unit (like Temperature in degrees celsius) and a <u>State</u>.</p>
+        </article>
+        <article class="slide" style="background: linear-gradient(to bottom right, #b47002, #553a00);">
+          <h1>Concepts - Items</h1>
+          <p>Channels are not used directly to control devices or visualize device states.</p>
+          <p>Instead you <u>link</u> a Channel to one or more <u>Items</u>.</p>
+          <p>This abstraction seems unnecessary at first glance, but allows for some interesting concepts
+            and complex scenarios.
+          </p>
+          <center><img style="max-width: 60%;max-height: 100%" src="img/tutorial/concepts.png"></center>
+        </article>
+        <article class="slide" style="background: linear-gradient(to bottom right, #b47002, #553a00);">
+          <h1>Concepts - Groups</h1>
+          <p>Lorem ipsum...</p>
+        </article>
+        <article class="slide" style="background: linear-gradient(to bottom right, #b47002, #553a00);">
+          <h1>Concepts - Rules</h1>
+          <p>Lorem ipsum...</p>
+        </article>
+        <article class="slide" style="background: linear-gradient(to bottom right, #b47002, #553a00);">
+          <h1>Concepts - Timers</h1>
+          <p>Lorem ipsum...</p>
+        </article>
+        <article class="slide" style="background: linear-gradient(to bottom right, #b47002, #553a00);">
+          <h1>Habpanel</h1>
+          <p>When I have set up my smart home, how do I control it via openHAB?</p>
+
+          <img style="max-width: 60%;max-height: 100%;float:right;padding-right: 20px;" src="img/tutorial/habpanel.png">
+
+          <p>This is where you need to leave Paper UI (this is really setup and maintenance only).
+            We provide an Android App, an iOS App and also a web-based solution for all kind of devices called <u>Habpanel</u>.
+          </p>
+          <p>Make sure you have installed Habpanel in the <a href="addons.html">Add-ons</a> section.</p>
+        </article>
+        <article class="slide" style="background: linear-gradient(to bottom right, #b4b102, #4f5500);">
+          <h1>Excercises</h1>
+          <p>We have a huge list of tutorials and how-to's for all kind of situations in our <a href="https://community.openhab.org">Community</a>
+            board.
+            To get you started, here are some interactive exercises:
+          </p>
+          <div>Beginner:</div>
+          <ol>
+            <li><a href="#"><b>The inbox</b></a>: Add a Thing from the Inbox</li>
+            <li><a href="#"><b>Thing all manual</b></a>: Add a Thing manually</li>
+            <li><a href="#"><b>Channel & Item</b></a>: Create an item and link it to a channel</li>
+          </ol>
+          <div>Advanced:</div>
+          <ol>
+            <li><a href="#"><b>The inbox</b></a>: Add a Thing from the Inbox</li>
+            <li><a href="#"><b>Thing all manual</b></a>: Add a Thing manually</li>
+            <li><a href="#"><b>Channel & Item</b></a>: Create an item and link it to a channel</li>
+          </ol>
+        </article>
+      </macro-carousel>
+      <toggle-check storekey="skiphome">Show the "Maintenance" screen by default</toggle-check>
+    </section>
+    <section class="news">
+      <div class="card border-orange mb-3">
+        <div class="card-header"><span>Latest announcements</span><a href="#" id="refreshTopics"><i class="fas fa-sync-alt"></i></a></div>
+        <div class="card-body">
+          <oh-community-topics class="card-text" refreshbutton="refreshTopics" topics="c/announcements/l/latest" order="created"></oh-community-topics>
+        </div>
+        <div class="card-footer">
+          <nav>
+            <a href="https://community.openhab.org">Community</a> |
+            <a href="https://www.openhab.org/doc">Documentation</a>
+          </nav>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</body>
+
+</html>

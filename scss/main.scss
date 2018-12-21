@@ -1,0 +1,175 @@
+/* Fonts */
+
+$fa-font-path: "../fonts";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+@import "fonts/font-robotic";
+/* The openHAB Theme is orange flavoured. Use the two below defined colors. */
+
+@import "smart-components/smart-component-fix";
+@import "smart-components/smart.common";
+@import "smart-components/smart.variables";
+@import "smart-components/smart.default";
+@import "partials/variables";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "partials/headerbar";
+@import "partials/animations";
+html {
+    font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    word-spacing: 1px;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+    color: #2c3e50;
+    background-color: var(--background-large-screen);
+}
+
+@media (max-width: get-breakpoints("xxl")) {
+    body {
+        background-color: initial;
+    }
+}
+
+main {
+    width: 100%;
+}
+
+main:not(.centered) {
+    display: flex;
+    contain: content;
+}
+
+main:not(.centered) > section.main {
+    width: 100%;
+    padding-right: 20px;
+    padding-left: 20px;
+    contain: content;
+}
+
+@media (min-height: 800px) {
+    main:not(.centered) {
+        min-height: 600px;
+    }
+}
+
+@media (min-width: get-breakpoints("lg")) {
+    main.centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: space-between;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        z-index: 0;
+        margin: auto;
+        width: get-breakpoints("lg");
+        animation: fadein 0.5s;
+    }
+}
+
+@media (min-width: get-breakpoints("xxl")) {
+    main:not(.centered) {
+        justify-content: center;
+    }
+    main:not(.centered) > section:not(.main) {
+       width: 300px;
+    }
+    main:not(.centered) > section.main {
+        box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
+        background-color: #fff;
+        width: get-breakpoints("lg");
+        animation: swingin 0.2s;
+        contain: strict;
+    }
+}
+// @media (max-width: get-breakpoints("xxl")) {
+//     main {
+//         box-shadow: initial;
+//     }
+// }
+
+.centeredsmallcard {
+    margin: 10px auto 30px;
+    width: 70%;
+    min-width: 300px;
+    max-width: 600px;
+    padding: 50px 30px 30px 30px;
+}
+
+a {
+    position: relative;
+    display: inline-block;
+    color: #ff7214;
+    padding: 0;
+    text-decoration: none;
+}
+
+a.active,
+a:hover {
+    text-decoration: underline;
+}
+
+.helpbtn {
+    width: 30px;
+    height: 30px;
+    text-decoration: none;
+    color: black;
+    border-radius: 55px;
+    border: dotted 1px;
+    animation: breathe 0.75s 0s infinite alternate;
+    animation-direction: alternate;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.helpbtn:hover:before {
+    animation-play-state: running;  
+    animation: ping 3s 0s infinite;
+}
+
+.helpbtn:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    z-index: 10;
+    border-radius: 55px;
+    height: 100%;
+    width: 100%;
+    transform-origin: center;
+    border: none;
+    animation: ping 3s 0s 3;
+}
+
+.swingout {
+    animation: swingout 0.2s;
+}
+
+.fadein {
+    animation: fadein 0.5s;
+}
+
+oh-community-topics:not(:defined) {
+    display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+oh-community-topics ul {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0;
+}

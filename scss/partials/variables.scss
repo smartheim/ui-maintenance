@@ -1,0 +1,22 @@
+
+$theme-colors: ( "orange": #ff7214, "primary": #ff7214, "info": #f0ad4e);
+$container-max-widths: (xxl: 1600px); // Add a "very large screen width"
+html {
+    --background-large-screen: #ececec;
+}
+
+@import "../node_modules/bootstrap/scss/_functions.scss";
+@import "../node_modules/bootstrap/scss/_variables.scss";
+/**
+ * About responsiveness. The bootstrap break points are used.
+ *   sm: 540px,
+ *   md: 720px,
+ *   lg: 960px,
+ *   xl: 1140px
+ * 
+ * SCSS Helper to reuse bootstrap defined break points. Usage: "max-width: get-breakpoints("lg");"
+ */
+
+@function get-breakpoints($key: "md") {
+    @return map-get($container-max-widths, $key);
+}

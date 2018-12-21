@@ -1,0 +1,13 @@
+import './smartcomponents/smart.core.js';
+import './smartcomponents/smart.dropdownlist.js';
+import './smartcomponents/smart.combobox.js';
+import './smartcomponents/smart.listbox.js';
+import './smartcomponents/smart.numerictextbox.js';
+import './smartcomponents/smart.tank.js';
+import './smartcomponents/smart.gauge.js';
+import './smartcomponents/smart.slider.js';
+import './smartcomponents/smart.toast.js';
+import './smartcomponents/smart.menu.js';
+import './smartcomponents/smart.timepicker.js';
+import './smartcomponents/smart.date.js';
+import './smartcomponents/smart.calendar.js';
