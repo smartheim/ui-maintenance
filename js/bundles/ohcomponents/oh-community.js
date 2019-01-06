@@ -1,23 +1,22 @@
 import { html, define, render } from './hybrids.js';
 
-const controller = new AbortController();
-const signal = controller.signal;
-
-export function fetchWithTimeout(url) {
+function fetchWithTimeout(url) {
+  const controller = new AbortController();
+  const signal = controller.signal;
   setTimeout(() => controller.abort(), 5000);
   return fetch(url, { signal });
 }
 
-export function resetCache(host) {
-  host.timestamp = 0;
-}
-
-export function topicListHtml(jsonData) {
+function topicListHtml(jsonData, limit) {
+  console.log("topic", limit);
   var d = "<ul>";
-  jsonData.topic_list.topics.forEach(topic => {
+  var counter = 0;
+  for(var topic of jsonData.topic_list.topics) {
     const date = new Date(topic.created_at).toLocaleDateString();
-    d += "<li><a href='https://community.openhab.org/t/" + topic.slug + "/" + topic.id + "'>" + topic.title + "</a> <small>" + date + "</small></li>"
-  });
+    d += "<li><a target='_blank' href='https://community.openhab.org/t/" + topic.slug + "/" + topic.id + "'>" + topic.title + "</a> <small>" + date + "</small></li>"
+    if (limit>0 && limit<=counter) break;
+    ++counter;
+  };
   return d + "</ul>";
 }
 
@@ -38,8 +37,9 @@ export const OhCommunityTopics = {
       }
     }
   },
+  limit: 0,
   topics: "",
-  order: "?order=created",
+  order: "created",
   url: ({ topics, order }) => {
     if (order != "")
       return "https://cors-anywhere.herokuapp.com/https://community.openhab.org/" + topics + ".json?order="+order;
@@ -56,7 +56,7 @@ export const OhCommunityTopics = {
       localStorage.removeItem("timestamp_" + host.url);
     }
   },
-  htmlData: ({ url, cacheTimeMinutes, timestamp }) => {
+  htmlData: ({ url, cacheTimeMinutes, timestamp, limit }) => {
     // First try to use the cached text
     var cachedData = localStorage.getItem(url);
     if (cachedData && (timestamp + cacheTimeMinutes * 60 * 1000) > Date.now()) {
@@ -71,9 +71,8 @@ export const OhCommunityTopics = {
         }
         return response;
       })
-      .then(response => response.text())
-      .then(str => JSON.parse(str))
-      .then(str => topicListHtml(str))
+      .then(response => response.json())
+      .then(str => topicListHtml(str, limit))
       .then(str => {
         localStorage.setItem(url, str);
         localStorage.setItem("timestamp_" + url, Date.now());
@@ -82,9 +81,7 @@ export const OhCommunityTopics = {
       .then(value => html`<div innerHTML="${value}"></div>`)
       .catch(e => html`<div>${e}. Url: ${url}</div>`)
   },
-  render: render(({ htmlData }) => html`
-    ${html.resolve(htmlData, html`Loading...`, 0)}
-  `, { shadowRoot: false })
+  render: render(({ htmlData }) => html`${html.resolve(htmlData, html`Loading...`, 0)}`, { shadowRoot: false })
 };
 
 define('oh-community-topics', OhCommunityTopics);

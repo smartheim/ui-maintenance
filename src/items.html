@@ -1,32 +1,34 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <link rel="stylesheet" href="css/main.css" type="text/css" />
-
+  <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
-
-  <script type="module" src="js/app.js"></script>
 </head>
 
 <body>
+  <nav></nav>
   <partial src="mainnav.html"></partial>
+  <section class="header">
+    <a href="#" class="helpbtn"><i class="fas fa-question"></i></a>
+    <h4>Add &amp; remove Items. Change tags, titles and Group affiliations</h4>
+  </section>
   <main>
-    <section></section>
-    <section class="main">
+    <div>Lorem ipsum</div>
+    <div id="app"></div>
+    <template id="postTemplate">
       <div>
-        <h1 class="title">
-          Items
-        </h1>
-        <h2 class="subtitle">
-          Add, remove and modify Items.
-        </h2>
-        Lorem ipsum
+        <ul>
+          <li v-for="post in posts">{{post.title}}:<div>{{post.body}}</div>
+          </li>
+        </ul>
+        <p v-if="pending.posts">loading posts...</p>
+        <p v-if="error.posts">loading failed</p>
       </div>
-    </section>
-    <section></section>
+    </template>
   </main>
+  <footer></footer>
+  <aside></aside>
+  <script type="module" src="js/items.js" asnyc></script>
 </body>
 
 </html>

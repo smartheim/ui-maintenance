@@ -1,0 +1,56 @@
+body {
+    display: flex;
+}
+
+@media (max-width: get-breakpoints("md")) {
+    body {
+        display: block;
+    }
+    body>nav {
+        position: absolute;
+    }
+}
+
+@media (min-width: get-breakpoints("xl")) {
+    body>nav {
+        min-width: 200px;
+    }
+}
+
+main {
+    padding-top: 20px;
+    width: 100%;
+    contain: content;
+}
+
+main>* {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+@media (min-height: 800px) {
+    main {
+        min-height: 600px;
+    }
+}
+
+@media (min-width: get-breakpoints("xxl")) {
+    body {
+        justify-content: center;
+    }
+    body>aside,
+    body>nav {
+        width: 300px;
+    }
+    body>section {
+        box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
+        background-color: #fff;
+        width: get-breakpoints("lg");
+        animation: swingin 0.2s;
+    }
+    section.header {
+        width: get-breakpoints("lg");
+        margin: auto;
+        box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
+    }
+}

@@ -1,19 +1,18 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <link rel="stylesheet" href="css/main.css" type="text/css" />
-
+  <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
-
-  <script type="module" src="js/app.js"></script>
-  <script type="module" src="js/login.js"></script>
 </head>
 
 <body>
+  <nav></nav>
   <partial src="mainnav.html"></partial>
-  <main class="centered">
+  <section class="header">
+    <a href="#" class="helpbtn"><i class="fas fa-question"></i></a>
+    <h4>Connect to openHAB Server</h4>
+  </section>
+  <main>
     <section class="container">
       <div class="card centeredsmallcard">
         <div class="text-center d-none credentials">
@@ -37,9 +36,25 @@
                 do I need to enter credentials?</a>
             </div>
           </div>
-          <div class="my-2 d-none text-danger" id="crossorigin">
-            Your openHAB installation does not allow access from another domain.
-            Please add <q>org.eclipse.smarthome.cors:enable=true</q> to your <code>services.cfg</code> file.
+          <div class="my-2 d-none" id="crossorigin">
+            <details class="alert alert-info" role="alert">
+              <summary>Your openHAB installation does not allow access from another domain.</summary>
+              <p class="mt-2">If you do not use a reverse proxy:<br>
+                Please add <q>org.eclipse.smarthome.cors:enable=true</q> to your <code>services.cfg</code> file.
+              </p>
+              <p>If you do use a reverse proxy (openhabian!):<br>
+                Add the following lines to `/etc/nginx/sites-enabled/openhab`:
+                <pre>
+server {
+    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow_Credentials' 'true';
+    add_header 'Access-Control-Allow-Headers' 'Authorization,Accept,Origin,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+    add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS,PUT,DELETE,PATCH';
+    ...
+}
+</pre>
+              </p>
+            </details>
           </div>
           <button type="submit" class="btn btn-orange w-100">Login</button>
         </form>
@@ -47,6 +62,9 @@
       </div>
     </section>
   </main>
+  <footer></footer>
+  <aside></aside>
+  <script type="module" src="js/login.js" async></script>
 </body>
 
 </html>

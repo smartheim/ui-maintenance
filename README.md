@@ -32,13 +32,13 @@ use competitors like Reactive, VueJS, Ember, Backbone, Aurelia, Meteor.js.
 
 SPAs require most libraries and interfaces to be loaded and initialized during startup,
 although only a fraction is used on every rendered page.
-Angular loads over 1 MB of Javascript which needs to be parsed.
 
 Paper UI therefore suffered from feeling unresponsive in certain situations and is hard to extend.
 
-## Architecture and used technology
+## New approach: Architecture and used technology
 
-This new approch uses Web components (v1) and static html pages.
+This new approch uses Web components (v1), static html pages, progressive enhancement
+and progressive webapps (PWA) technologies like advanced caching.
 
 Web components allow to define own html tags like "oh-binding-doc".
 Such an "oh-binding-doc" custom component for example would load and display the documentation for a given binding:
@@ -57,47 +57,120 @@ Such an "oh-binding-doc" custom component for example would load and display the
 * Web components (v1) are a standard web technology and work in
   all evergreen-browsers (Chrome, Firefox, Samsung Internet, Opera, Safari, Edge).
   No framework is required and at the same time every framework is compatible.
-* Static Html pages (/index.html, /items.html, /things.html) allow to only load the exact subset of necessary libraries and style sheets per page
+* Static Html pages (/index.html, /items.html, /things.html) allow to only load the
+  exact subset of necessary libraries and style sheets per page
   and reduces memory consumption and first-time load impression.
-* A service worker cache and ajax partial page reloads are in place, implemented
-  as progressive enhancements instead of fixed requirements.
+
+### Page layout and page changing
+
+There is a responsive css grid layout in place, therefore the html layout need to
+be similar on all pages. Have a look at `src/newpage_template.html` for a commented
+html layout that need to be conformed to.
+
+The advantage of SPAs are that the shell of the application stays, so there is no
+flickering while changing to another subpage. This is also realised in this version as a
+progressive enhancement. Have a look at `js/bundles/app/index.js` where you find
+the @oom/page-loader library to be loaded and setup to intercept clicks and
+perform page changes via only replacing parts of the current shown page.
+
+### Static pages 
+
+Each html file in `src/` is an independant html file. That means that `head` need to 
+be defined for each page and the html markup for the basic layout need to be repeated
+for each page as well. Thanks to css, that is minimal though.
+
+Still a build system (Gulp) is in place to process html files. For one to implement i18n
+(translations) and the other reason is to save us from repetitive html markup. This is
+done via a build system plugin to support html partials.
+
+1. Store your html fragment into `partials/*.html`.
+2. Use it in your `src/*.html` page via `<partial src="your-partial-filename.html"></partial>`.
+
+Nested partials are supported but should be avoided.
+Partials do support basic variables. Just use attributes on the markup (like `key="value"`)
+and use `@@key` within your partial.
+
+#### Why no Markdown / other markup language
+
+Most of the time in this application you are not presenting just text
+(the tuturial section is an exception), but you are presenting interactive content, forms,
+or need custom html tags (Web components).
+
+The context help texts are written in Markdown though. You find them in `assets/contexthelp`.
+They are dynamically fetched when required (and cached as html in the localstorage).
+
+### Caching
+
+A service worker cache is in place. While you develop, you should open the DevTools of your
+browser and tick the checkbox "Disable cache" (in the tab Network on Chrome) or disable the
+service worker (Tab "Application" -> "Service Worker" -> "Bypass for network" in Chrome.)
+
+All dynamically fetched contents like forum posts, help texts and github data is cached
+in the users localstorage as prerendered html. The cache has an expire duration of 1 day.
 
 ### Web component
 
-Some predefined Webcomponents from https://www.htmlelements.com are used (Apache 2 license).
-No virtual DOM, Themeable, no polyfills, no further dependencies.
+Webcomponents for
 
-Webcomponents to interact with
-
+* fetching and displaying a context help,
 * the openHAB REST interface,
 * the openHAB community forum,
 * github openHAB addons repository for documentation fetching
+* navigation components (breadcrumb, prev/next-buttons)
 
-are available in `js/oh-*.js` and can be used from other projects as well.
+are available in `js/bundles/ohcomponents/*.js` and can be used in other projects as well.
 
-### State management
+Those components are developed with [hybrid.js](https://github.com/hybridsjs/hybrids),
+which allows declarative definitions of Webcomponents. This adds 4KB, but saves with each
+new component, because a pure Web Component requires quite a bit of repetitive boilerplate.
 
-State management is done via the lightweight, framework independent `Redux` library.
-In `js/state-*.js` some *Redux* stores are available that automatically interact with the openHAB
-REST Api for Things, Items, Discovery, Addons.
+### Icons / Fonts / Styling
 
-### Styling / Icons
+FontAwesome icons are used. Just use the `<i>` tag like `<i class="fa fas-heart"></i>`.
 
-FontAwesome icons are used. Styles are defined as Scss files (css with nesting, imports and some other goodies)
-in `scss/`. Each file in this directory is compiled into a corresponding *css/.css* file. Subdirectories are ignored.
+All fonts are embedded, no external fonts are referenced. Included are font-awesome, roboto and 'smart.icons'.
+
+Styles are defined in sass files in `scss/`.
+Sass files are normal css but allow nesting, imports and variables.
+
+The bootstrap 4 default theme is automatically imported.
+The primary and "-orange" colors are changed to the openHAB orange theme though.
+A new responsive breakpoint has been added ("xxl").
+
+Each file in `scss/` is compiled into a corresponding minified *css/.css* file. Subdirectories are ignored.
+A file should be named like the html page that includes it (index.scss, tutorial.scss etc).
 
 ### Javascript
 
-You can add your independant javascript modules into the `js/` directory. During the build all files in this directory
-are minified.
+You can add your independant javascript files (ES6 modules!) into the `js/` directory.
+During the build all files in this directory are minified.
 
 If you want to use npm dependencies
-and bundle your module to a single file, put your module files under `js/bundles/your-bundle-name/`. The entry point
-file must be `index.js`. During the build a single, minified file is created under `js/your-bundle-name.js`.
+and bundle multiple files into a single file, put your files under `js/bundles/your-bundle-name/`. The entry point
+file must be `index.js`. During the build a single, tree-shaked, minified file is created under `js/your-bundle-name.js`.
 
 All javascript files and npm dependencies must be valid ES6 modules (no commonjs, no amd).
 No transpiling is performed during the build, as **all** javascript capable browsers
-support ES6 modules by now.
+support ES6 modules by now. (This app is not targeting Internet Explorer).
+
+Embed your js files into a webpage by either adding it to `partials/head.html` or
+by adding it to the `<body>` section of a page. Do NOT add it to the indivial `<head>` tag
+of a page.
+
+#### State management
+
+State management for REST data is done via the [`Vuex`](https://vuex.vuejs.org/) library.
+In `js/bundles/stores/*.js` *Vuex* stores are available that automatically interact with the openHAB
+REST Api for Things, Items, Discovery, Addons.
+
+Because the Vuex stores are used mostly together with Vue for rendering dynamic lists,
+Vue is included as well.
+
+#### Reactive parts like Lists
+
+Vue is used for reactive parts of the App like rendering a reactive list of Things from the Things-Store.
+The templates are not prerendered with a bundler, they are in `<template>` tags within the
+respective html file.
 
 ## Missing openHAB functionality
 

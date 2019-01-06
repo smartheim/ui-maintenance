@@ -18,7 +18,7 @@ export const ToggleCheck = {
   storekey: "",
   checked: {
     set: (host, value) => {
-      if (host.storekey!="") localStorage.setItem(host.storekey, value);
+      if (host.storekey != "") localStorage.setItem(host.storekey, value);
       return value;
     },
     get: (host, lastValue) => {
@@ -27,17 +27,25 @@ export const ToggleCheck = {
       return lastValue;
     }
   },
-  render: ({ checked }) => html`
+  small: true,
+  render: ({ checked, small }) => html`
     <style>
     label {
       display: flex;
       align-items: center;
+      margin: inherit;
+      padding: inherit;
+      color: inherit;
     }
     label span {
           position: relative;
           display: inline-block;
           width: 60px;
           height: 34px;
+    }
+    label.small span {
+      height: 18px;
+      width: 44px;
     }
     input {
         opacity: 0;
@@ -66,6 +74,12 @@ export const ToggleCheck = {
         -webkit-transition: .4s;
         transition: .4s;
     }
+    label.small .slider:before {
+      height: 16px;
+      width: 16px;
+      bottom: 1px;
+      left: 1px;
+    }
     input:checked+.slider {
         background-color: #ff7214;
     }
@@ -87,7 +101,7 @@ export const ToggleCheck = {
         padding-left: 10px;
     }
     </style>
-    <label>
+    <label class="${small ? "small" : ""}">
       <span>
         ${checkedOrUnchecked(checked, changeState)}
         <span class="slider round"></span>

@@ -18,6 +18,28 @@
     }
 }
 
+@keyframes swinginx {
+    from {
+        opacity: 0;
+        transform: translateX(20px)
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0px)
+    }
+}
+
+@keyframes swinginxr {
+    from {
+        opacity: 0;
+        transform: translateX(-20px)
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0px)
+    }
+}
+
 @keyframes swingout {
     from {
         opacity: 1;

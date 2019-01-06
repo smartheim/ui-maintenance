@@ -1,22 +1,33 @@
-import { html, define } from './hybrids.js';
-​import { Marked } from './marked.js';
-​
-const controller = new AbortController();
-const signal = controller.signal;
+import { html, define } from "./hybrids.js";
+import { Marked } from "./marked/index.mjs";
+
 const marked = new Marked();
 
-export function resetCache(host) {
-  host.timestamp = 0;
-}
-
-export function fetchWithTimeout(url) {
+function fetchWithTimeout(url) {
+  const controller = new AbortController();
+  const signal = controller.signal;
   setTimeout(() => controller.abort(), 5000);
-  return fetch(url, {signal});
+  return fetch(url, { signal });
 }
 
 export const OhBindingDoc = {
   cacheTimeMinutes: 1440, // Ony day
   binding: 'eclipse/mqtt',
+  refreshbutton: {
+    set: (host, value) => { },
+    connect: (host, key) => {
+      var e = document.getElementById(host.getAttribute(key));
+      const clickListener = (event) => {
+        host.timestamp = 0;
+        console.log("clicked");
+        event.preventDefault();
+      };
+      if (e) e.addEventListener("click", clickListener);
+      return () => {
+        if (e) e.removeEventListener("click", clickListener);
+      }
+    }
+  },
   url: ({ binding }) => {
       const args = `${binding}`.split("/");
       if (args[0]=="eclipse")
@@ -59,10 +70,7 @@ export const OhBindingDoc = {
     .then(value => html`<div innerHTML="${value}"></div>`)
     .catch(e => html`<div>Error! ${e}</div>`)
   },
-  render: ({ count, url, htmlData }) => html`
-    <smart-button onclick="${resetCache}">Refresh</smart-button>
-    ${html.resolve(htmlData, html`Loading...`,0 )}
-  `,
+  render: ({ htmlData }) => html`${html.resolve(htmlData, html`Loading...`,0 )}`,
 };
 
 define('oh-binding-doc', OhBindingDoc);

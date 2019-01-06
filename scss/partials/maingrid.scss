@@ -1,0 +1,102 @@
+@import "partials/variables";
+body {
+    display: grid;
+    grid-template-columns: [nav] 1fr [main] get-breakpoints("lg") [aside] 1fr [end];
+    grid-template-rows: auto;
+    & > nav {
+        grid-column: 1 / span 1;
+        grid-row: 2 / span 3;
+        justify-self: end;
+        animation: swinginx 0.2s;
+    }
+    & > aside {
+        grid-column: 3 / span 1;
+        grid-row: 2 / span 3;
+        justify-self: start;
+    }
+    & > header {
+        grid-column: 2 / span 1;
+        grid-row: 1;
+    }
+    & > section.header {
+        grid-column: 2 / span 1;
+        grid-row: 2;
+        box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
+    }
+    & > main {
+        grid-column: 2 / span 1;
+        grid-row: 3;
+        box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
+    }
+    & > footer {
+        grid-column: 2 / span 1;
+        grid-row: 4;
+    }
+}
+
+@media (min-height: 800px) {
+    main {
+        min-height: 600px;
+    }
+}
+
+@media (max-width: get-breakpoints("xxl")) {
+    body {
+        display: grid;
+        grid-template-columns: [nav] 1fr [main] get-breakpoints("md") [aside] 1fr [end];
+    }
+}
+
+@media (max-width: get-breakpoints("xl")) {
+    body {
+        display: grid;
+        grid-template-columns: [nav] auto [main] auto [aside] auto [end];
+        grid-template-rows: auto auto auto auto;
+        & > header {
+            grid-column: 1 / span 3;
+            grid-row: 1;
+        }
+        & > section.header {
+            grid-column: 1 / span 3;
+            grid-row: 2;
+            box-shadow: none;
+        }
+        & > nav {
+            grid-column: 1 / span 1;
+            grid-row: 3 / span 2;
+            justify-self: start;
+        }
+        & > aside {
+            grid-column: 3 / span 1;
+            grid-row: 3 / span 2;
+        }
+        & > main {
+            grid-column: 2 / span 1;
+            grid-row: 3;
+            box-shadow: none;
+        }
+        & > footer {
+            grid-column: 2 / span 1;
+            grid-row: 4;
+        }
+    }
+}
+
+@media (max-width: get-breakpoints("md")) {
+    body {
+        display: initial;
+       & > nav {
+            position: absolute;
+            background-color: lightgray;
+            box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
+            width: 250px;
+            transform: translateX(-250px);
+            z-index: 20;
+            top: 80px;
+            transition: transform 0.3s;
+        }
+        & > aside {
+            position: absolute;
+        }
+    }
+}

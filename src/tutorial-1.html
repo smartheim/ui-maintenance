@@ -1,0 +1,68 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+  <link rel="next" href="tutorial-2.html" />
+  <link rel="parent" href="index.html" />
+</head>
+
+<body>
+  <nav>
+    <partial src="tutorialnavigation.html"></partial>
+    <script type="module" src="js/tutorial.js" async></script>
+  </nav>
+  <partial src="mainnav.html"></partial>
+  <section class="header">
+    <h4>OpenHAB UI Guide</h4>
+  </section>
+  <main>
+    <nav-breadcrumb></nav-breadcrumb>
+    <p>You will now learn all necessary basics to get you going with openHAB.<br>
+      Right now you are using the "Setup and Maintenance" interface, also called Paper <abbr title="User interface">UI</abbr>
+      in the community.</p>
+
+    <details class="alert alert-info" role="alert">
+      <summary>This tutorial and also this interface is strictly using new openHAB 2 technology.</summary>
+      <p class="mt-2">Please be careful when reading user topics in our community, as those can reference
+        older techniques. You want to avoid topics about:</p>
+      <ul>
+        <li>Sitemaps</li>
+        <li>DSL Rules</li>
+        <li><i>.thing</i>, <i>.item</i> files</li>
+      </ul>
+    </details>
+
+    <h4>What openHAB can do for you</h4>
+
+    <img style="float:left;width: 160px;" src="img/openhab-logo-square.png">
+    <p>openHAB is a mature home automation platform that is protocol agnostic,
+      meaning it can connect to nearly any home automation hardware on the market today.</p>
+
+    <p>Usually you just need to install an additional piece of software via this web interface,
+      use a feature detection of your hardwares capabilities and you can already control your external solution.
+    </p>
+
+    <p>Via timers and rules you start automating like turning your lights on when your phone is in WiFi range,
+      but only if it is already later than 6 pm. <b>Only your imagination is the limit.</b>
+    </p>
+
+    <p>openHAB also <i class="fas fa-heart"></i> and supports <abbr title="Do-it-yourself">DIY</abbr> hardware. We
+      speak about this later on
+      in the tutorial.</p>
+
+    <h4>About this interface</h4>
+    <p>Use this interface to setup new devices, configure existing ones, create automation rules and timers.</p>
+    <p>You do not <b>control</b> your devices via this interface. Download the
+      <a target="_blank" href="https://play.google.com/store/apps/details?id=org.openhab.habdroid.beta">Android App</a>,
+      iOS App, HaBot or use HabPanel instead.</p>
+
+  </main>
+  <footer>
+    <nav-buttons></nav-buttons>
+  </footer>
+  <aside>
+  </aside>
+</body>
+
+</html>

@@ -1,122 +1,57 @@
 @import "partials/variables";
+main .logo {
+    max-width: calc(100% - 40px);
+    padding: 20px 0;
+    animation: fadein 1s linear 0.2s 1 normal both;
+    // animation: glow 10s infinite alternate;
+    // filter: drop-shadow(0px 0px 4px rgba(26, 26, 26, 0.8));
+}
 
-section.intro {
-    flex: 1;
-    padding: 20px;
-    padding-top: 60px;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    .logo {
-        width: 100%;
-        padding-bottom: 1em;
+@keyframes glow {
+    from {
+        filter: drop-shadow(0px 0px 0px rgba(26, 26, 26, 0.8));
     }
-    nav {
-        text-align: center;
-    }
-    macro-carousel {
-        animation: fadein 2s;
-        background-color: #fff;
-        width: 700px;
-        height: 500px;
-        min-height: 500px;
-        margin: 20px;
-        box-shadow: 0 0 10px rgba(26, 26, 26, .25);
-    }
-    macro-carousel:not(:defined)>* {
-        opacity: 0;
-        transition: opacity 0.3s ease-in-out;
-    }
-    p,
-    h1,
-    h3 {
-        padding-bottom: 20px;
-        margin: 0;
-    }
-    .slide {
-        padding: 20px;
-        height: 100%;
-        color: white;
-        font-family: sans-serif;
-        h1 {
-            text-align: center;
-        }
-    }
-    .slide:first-child {
-        text-align: center;
-        color: black;
+    to {
+        filter: drop-shadow(0px 0px 8px rgba(255, 145, 0, 0.8));
     }
 }
 
-section.news {
-    animation: fadein 2s;
-    align-self: start;
-    width: 100%;
-    padding: 20px;
-    padding-top: 100px;
-    .card {
-        height: 100%;
+main {
+    .card .btn-secondary {
+        min-width: 190px;
     }
-    .card-header {
+}
+
+body>main {
+    grid-row: 2!important;
+}
+
+header .logo {
+    animation: fadein 1s linear 0s 1 reverse forwards;
+}
+
+aside {
+    max-width: 300px;
+    min-width: 270px;
+    opacity: 0;
+    animation: swinginxr 1s linear 1s 1 normal forwards;
+    h4 {
+        padding: 10px;
         display: flex;
-        min-height: 2.5em;
         span {
             flex: 1;
         }
     }
-    .card-body {
-        overflow-y: scroll;
-    }
-    .card-footer {
-        text-align: center;
-    }
-}
-
-@media (max-height: 650px) {
-    main.centered {
-        align-items: initial;
-    }
-}
-
-@media (min-width: get-breakpoints("xl")) {
-    section.news {
-        width: 600px;
-        height: 400px;
-        padding: 20px;
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-    }
-}
-
-@media (min-width: get-breakpoints("lg")) and (max-width: get-breakpoints("xl")) {
-    section.news {
-        width: 300px;
-        bottom: 10px;
-        right: 10px;
-    }
-}
-
-@media (max-width: get-breakpoints("lg")) {
-    main.centered {
-        flex-direction: column;
-        height: initial;
-    }
-    section.intro {
-        width: 100%;
-        macro-carousel {
-            width: 100%;
-            height: fit-content;
+    li {
+        display: flex;
+        a {
+            flex: 1;
         }
     }
-    section.news {
-        height: initial;
-        max-height: 400px;
-    }
 }
 
-@media (max-width: get-breakpoints("sm")) {
-    section.intro {
-        max-height: initial;
+@media (max-width: get-breakpoints("xxl")) {
+    aside {
+        flex: 0;
     }
 }

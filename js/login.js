@@ -1,27 +1,36 @@
-import { openhabLoginOK, nav, openhabHost } from './app.js';
+import { nav, openhabHost, checkLogin } from './app.js';
 
-function prepareLoginForm() {
-    var inputHost = document.getElementById('inputHost');
-    if (!inputHost) return;
-    
-    console.log("loaded input");
+function prepare(inputHost, loginform) {
     inputHost.value = openhabHost();
-    openhabLoginOK().then(() => nav.go("index.html")).catch(e => {
-        if (e == "404") // host not correct
-        inputHost.classList.add("text-danger");
-        else if (e == "crossorigin") {
+    document.getElementById("crossorigin").classList.add("d-none");
+    loginform.querySelectorAll(".credentials").forEach(element => element.classList.add("d-none"));
+    loginform.querySelectorAll(".hostonly").forEach(element => element.classList.remove("d-none"));
+    return checkLogin().catch(e => {
+        if (e.message == "404") // host not correct
+            inputHost.classList.add("text-danger");
+        else if (e.message == "crossorigin") {
             document.getElementById("crossorigin").classList.remove("d-none");
         }
         else { // auth error
-            document.getElementsByClassName("credentials").forEach(element => element.classList.remove("d-none") ); 
-            document.getElementsByClassName("hostonly").forEach(element => element.classList.add("d-none") ); 
+            console.log(e);
+            loginform.querySelectorAll(".credentials").forEach(element => element.classList.remove("d-none"));
+            loginform.querySelectorAll(".hostonly").forEach(element => element.classList.add("d-none"));
         }
+        throw e;
     });
-    document.getElementById('loginform').addEventListener("submit", event => {
-        event.preventDefault();
-        localStorage.setItem("host", new FormData(event.target).get("host"));
-        nav.go("index.html");
-    })
 }
 
-document.addEventListener("DOMContentLoaded", prepareLoginForm);
+function prepareLoginForm() {
+    const inputHost = document.getElementById('inputHost');
+    const loginform = document.getElementById('loginform');
+    if (!inputHost || !loginform) return;
+    loginform.addEventListener("submit", event => {
+        event.preventDefault();
+        localStorage.setItem("host", new FormData(event.target).get("host"));
+        prepare(inputHost, loginform).then(() => nav.go("index.html")).catch(() => { });
+    });
+    prepare(inputHost, loginform).catch(() => { });
+}
+
+document.addEventListener("DOMContentLoaded", () => prepareLoginForm());
+if (['interactive', 'complete'].includes(document.readyState)) prepareLoginForm();

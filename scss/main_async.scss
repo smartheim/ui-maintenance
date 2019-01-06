@@ -1,0 +1,18 @@
+/* Fonts */
+
+$fa-font-path: "../fonts";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+@import "fonts/font-robotic";
+
+section.header {
+    background-image: url("../img/pattern_opacity.png");
+}
+header .logo {
+    background-image: url(../img/openhab-logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 100%;
+    min-height: 22px;
+}

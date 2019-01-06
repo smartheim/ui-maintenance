@@ -1,9 +1,14 @@
-import Navigator from '@oom/page-loader';
+import Navigator from './page/navigator';
 import { register } from 'register-service-worker'
 import { checkLogin } from './logincheck'
+import { whenDomReady } from './ready'
+import './about'
+export * from './host'
+export * from './fetch'
+export * from './notifications'
 
 // Service worker for caching
-register('./js/sw.js', {
+register('./sw.js', {
   offline() {
     console.log('No internet connection found. App is running in offline mode.')
   },
@@ -12,26 +17,75 @@ register('./js/sw.js', {
   }
 })
 
-function prepareLoadedContent() {
-  const main = document.querySelector("main");
+function prepareLoadedContent(event) {
+  if (event.target) event.target.classList.remove("disabled");
   setTimeout(() => {
-    main.classList.remove("d-none")
     document.dispatchEvent(new Event('DOMContentLoaded'));
   }, 50);
 }
 
+function checkReload(target, section) {
+  var d = target.dataset.noReload ? target.dataset.noReload.split(",") : [];
+  return !d.includes(section);
+}
+
 // Ajax page reload, to keep the redux state stores if possible
 // https://github.com/oom-components/page-loader
-const nav = new Navigator((loader, event) =>
+const nav = new Navigator((loader, event) => {
+  event.target.classList.add("disabled");
   loader.load()
-    .then(page => { document.querySelector("main").classList.add("swingout"); return page; })
-    .then(page => page.replaceStyles())
-    .then(page => page.replaceScripts())
-    .then(page => page.replaceContent('main', main => main.classList.add("d-none")))
-    .then(() => prepareLoadedContent())
-);
+    .then(page => page.replaceStyles("body"))
+    .then(page => page.replaceScripts("body"))
+    .then(page => page.replaceContent('main').replaceContent('footer').replaceContent('section.header').replaceNavReferences())
+    .then(page => checkReload(event.target, "aside") ? page.replaceContent('aside') : page)
+    .then(page => checkReload(event.target, "nav") ? page.replaceContent('body>nav') : page)
+    .then(() => prepareLoadedContent(event))
+    .catch(e => { // Connection lost? Check login
+      console.log("Failed to load page:", e.message);
+      document.querySelector("main").innerHTML = `
+        <main class='centered'>
+          <section></section><section class='main card p-4'>Page not found. Are you offline?</section><section></section>
+        </main>
+        `;
+      checkLogin().catch(() => { });
+    })
+});
+nav.addFilter((el, url) => {
+  if (new URL(url).pathname == window.location.pathname) return false;
+  return true;
+});
 nav.init();
 
-checkLogin();
+function startupAfterDomChanged() {
+  checkLogin().catch(() => { });
+  var hasRedirected = sessionStorage.getItem("redirected");
+  if (!hasRedirected) {
+    sessionStorage.setItem("redirected", "true");
+    if (window.location.pathname === "/index.html") {
+      nav.go("maintenance.html");
+    }
+  }
+}
 
-export { nav };
+// Startup
+document.addEventListener("DOMContentLoaded", startupAfterDomChanged);
+if (['interactive', 'complete'].includes(document.readyState)) startupAfterDomChanged();
+
+export function markActiveLinkAfterPageLoad(id, handler) {
+  var elem = document.getElementById(id);
+  if (!elem) {
+    document.removeEventListener("DOMContentLoaded", handler);
+    return;
+  }
+
+  var c = elem.children;
+  for (var i = 0; i < c.length; i++) {
+    var link = c[i].children[0];
+    const classlist = link.classList;
+    classlist.remove("active");
+    if (new URL(link.href).pathname == window.location.pathname)
+      classlist.add("active");
+  }
+}
+
+export { nav, checkLogin, whenDomReady };
