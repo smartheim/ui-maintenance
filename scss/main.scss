@@ -1,5 +1,3 @@
-/* The openHAB Theme is orange flavoured. Use the two below defined colors. */
-
 @import "partials/variables";
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "partials/headerbar";
@@ -7,10 +5,9 @@
 @import "partials/notifications";
 @import "partials/subnavigation";
 @import "partials/maingrid";
+@import "partials/contexthelp";
+
 html {
-    font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
-    word-spacing: 1px;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     -moz-osx-font-smoothing: grayscale;
@@ -28,15 +25,18 @@ html {
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
     color: #2c3e50;
     width: 100%;
 }
 
+main {
+    background-color: white;
+}
+
 main>* {
-    margin: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 section.header {
@@ -46,7 +46,15 @@ section.header {
     background-repeat: no-repeat;
     color: white;
     text-align: center;
-    padding: 20px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h4 {
+        margin: 0;
+        padding: 0;
+        flex: 1;
+    }
 }
 
 @media (max-width: get-breakpoints("md")) {
@@ -69,9 +77,13 @@ section.header {
 a {
     position: relative;
     display: inline-block;
-    color: #ff7214;
+    color: theme-color("orange");
     padding: 0;
     text-decoration: none;
+}
+
+a:focus {
+    outline: none;
 }
 
 a.active,
@@ -82,48 +94,6 @@ a:hover {
 a.disabled {
     color: gray;
     pointer-events: none;
-}
-
-.helpbtn {
-    width: 40px;
-    height: 40px;
-    text-decoration: none;
-    color: black;
-    border-radius: 55px;
-    border: dotted 1px;
-    animation: breathe 0.75s 0s infinite alternate;
-    animation-direction: alternate;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    float: right;
-    font-weight: bolder;
-}
-
-.helpbtn:hover {
-    text-decoration: none;
-}
-
-.helpbtn:hover:before {
-    animation-play-state: running;
-    animation: ping 3s 0s infinite;
-}
-
-.helpbtn:before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    z-index: 10;
-    border-radius: 55px;
-    height: 100%;
-    width: 100%;
-    transform-origin: center;
-    border: none;
-    animation: ping 3s 0s 3;
-}
-
-.swingout {
-    animation: swingout 0.2s;
 }
 
 .fadein {
@@ -138,4 +108,8 @@ oh-community-topics ul {
     list-style-type: none;
     margin: 0;
     padding-left: 0;
+}
+
+nav-breadcrumb {
+    padding: 20px 0;
 }

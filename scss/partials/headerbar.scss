@@ -3,10 +3,11 @@
     z-index: 1;
     position: relative;
     contain: content;
-    box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
     width: 100%;
     background-color: #fff;
-    padding: .7rem 1.5rem;
+    padding: 0 1.5rem;
+    height: 60px;
+    align-items: center;
     display: flex;
     .sidebar-button {
         display: none;
@@ -16,12 +17,21 @@
         .icon {
             display: block;
         }
+        color: inherit;
+    }
+    .sidebar-button:hover {
+        color: theme-color("orange");
     }
     .home {
-        flex: 0 0 auto;
         width: 160px;
-        img {
-            height: 100%;
+        display: flex;
+        align-items: center;
+        div {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position-y: center;
+            height: 40px;
+            width: 100%;
         }
     }
     nav {
@@ -30,7 +40,6 @@
         font-size: .9rem;
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
         flex: 1;
         justify-content: flex-end;
         &>div:first-child {
@@ -56,13 +65,13 @@
         }
     }
     @media (max-width: get-breakpoints("xxl")) {
-        padding: .7rem .5rem;
+        padding: 0 .5rem;
         .home {
             width: 100px;
         }
         nav {
             padding-left: .5rem;
-            & > div {
+            &>div {
                 margin-left: 1rem;
             }
         }

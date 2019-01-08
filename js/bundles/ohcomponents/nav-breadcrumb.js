@@ -19,7 +19,7 @@ export const NavBreadcrumb = {
     }
   },
   render: render(({ title, parent, parentLink }) => html`
-  <div class="m-4">
+  <div style="padding: inherit;margin: inherit;">
     <a class="" href="${parentLink}">${parent}</a> →
     <a class="disabled" href="#">${title}</a>
   </div>

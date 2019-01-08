@@ -113,7 +113,7 @@ const compileBundles = () =>
             path.basename = path.dirname; path.dirname = '';
             return path;
         }))
-        .pipe(uglify())
+//        .pipe(uglify())
         .pipe(gulp.dest(config.paths.distjs)).pipe(connect.reload());
 compileBundles.description = "Creating bundles"
 

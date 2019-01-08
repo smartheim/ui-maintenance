@@ -3,17 +3,6 @@ main .logo {
     max-width: calc(100% - 40px);
     padding: 20px 0;
     animation: fadein 1s linear 0.2s 1 normal both;
-    // animation: glow 10s infinite alternate;
-    // filter: drop-shadow(0px 0px 4px rgba(26, 26, 26, 0.8));
-}
-
-@keyframes glow {
-    from {
-        filter: drop-shadow(0px 0px 0px rgba(26, 26, 26, 0.8));
-    }
-    to {
-        filter: drop-shadow(0px 0px 8px rgba(255, 145, 0, 0.8));
-    }
 }
 
 main {
@@ -31,10 +20,10 @@ header .logo {
 }
 
 aside {
+    opacity: 0;
+    animation: swinginxr 1s ease-in-out 1s 1 normal forwards;
     max-width: 300px;
     min-width: 270px;
-    opacity: 0;
-    animation: swinginxr 1s linear 1s 1 normal forwards;
     h4 {
         padding: 10px;
         display: flex;

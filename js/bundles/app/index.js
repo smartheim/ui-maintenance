@@ -1,10 +1,9 @@
 import Navigator from './page/navigator';
 import { register } from 'register-service-worker'
 import { checkLogin } from './logincheck'
-import { whenDomReady } from './ready'
-import './about'
+import { Notification } from './notifications'
 export * from './host'
-export * from './fetch'
+export * from '../../common/fetch'
 export * from './notifications'
 
 // Service worker for caching
@@ -17,6 +16,10 @@ register('./sw.js', {
   }
 })
 
+export function defaultStartPage() {
+  return localStorage.getItem('skiphome') == "true" ? "maintenance.html" : null
+}
+
 function prepareLoadedContent(event) {
   if (event.target) event.target.classList.remove("disabled");
   setTimeout(() => {
@@ -27,6 +30,15 @@ function prepareLoadedContent(event) {
 function checkReload(target, section) {
   var d = target.dataset.noReload ? target.dataset.noReload.split(",") : [];
   return !d.includes(section);
+}
+
+window.toggleContext = (event) => {
+  document.querySelector('body').classList.toggle('showcontext');
+  event.preventDefault();
+}
+window.toggleSidebar = (event) => {
+  document.querySelector('body').classList.toggle('showsidebar');
+  event.preventDefault();
 }
 
 // Ajax page reload, to keep the redux state stores if possible
@@ -47,7 +59,7 @@ const nav = new Navigator((loader, event) => {
           <section></section><section class='main card p-4'>Page not found. Are you offline?</section><section></section>
         </main>
         `;
-      checkLogin().catch(() => { });
+      checkLogin(true).catch(() => { });
     })
 });
 nav.addFilter((el, url) => {
@@ -57,6 +69,7 @@ nav.addFilter((el, url) => {
 nav.init();
 
 function startupAfterDomChanged() {
+  (new Notification('alert-area', "about")).show(`This is a design study.<br><a href="about.html" data-close>About</a>`);
   checkLogin().catch(() => { });
   var hasRedirected = sessionStorage.getItem("redirected");
   if (!hasRedirected) {
@@ -88,4 +101,4 @@ export function markActiveLinkAfterPageLoad(id, handler) {
   }
 }
 
-export { nav, checkLogin, whenDomReady };
+export { nav, checkLogin };

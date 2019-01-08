@@ -2,34 +2,43 @@
 body {
     display: grid;
     grid-template-columns: [nav] 1fr [main] get-breakpoints("lg") [aside] 1fr [end];
-    grid-template-rows: auto;
-    & > nav {
-        grid-column: 1 / span 1;
-        grid-row: 2 / span 3;
+    grid-template-rows: min-content min-content 1fr auto;
+    min-height: 100%;
+    &>nav {
+        grid-column: 1;
+        grid-row: 3 / span 2;
         justify-self: end;
         animation: swinginx 0.2s;
     }
-    & > aside {
-        grid-column: 3 / span 1;
-        grid-row: 2 / span 3;
+    &>aside {
+        grid-column: 3;
+        grid-row: 2 / span 4;
         justify-self: start;
+        position: relative;
+        z-index: 5;
+        contain: layout;
     }
-    & > header {
-        grid-column: 2 / span 1;
+    &>header {
+        grid-column: 2;
         grid-row: 1;
     }
-    & > section.header {
-        grid-column: 2 / span 1;
+    &>section.header {
+        grid-column: 2;
         grid-row: 2;
         box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
+        position: relative;
+        z-index: 11;
     }
-    & > main {
-        grid-column: 2 / span 1;
+    &>main {
+        grid-column: 2;
         grid-row: 3;
         box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
+        position: relative;
+        z-index: 10;
+        align-self: stretch;
     }
-    & > footer {
-        grid-column: 2 / span 1;
+    &>footer {
+        grid-column: 2;
         grid-row: 4;
     }
 }
@@ -50,32 +59,40 @@ body {
 @media (max-width: get-breakpoints("xl")) {
     body {
         display: grid;
-        grid-template-columns: [nav] auto [main] auto [aside] auto [end];
-        grid-template-rows: auto auto auto auto;
-        & > header {
+        grid-template-columns: [nav] min-content [main] auto [aside] auto [end];
+        &>header {
             grid-column: 1 / span 3;
             grid-row: 1;
         }
-        & > section.header {
+        &>section.header {
             grid-column: 1 / span 3;
             grid-row: 2;
             box-shadow: none;
         }
-        & > nav {
+        &>nav {
             grid-column: 1 / span 1;
             grid-row: 3 / span 2;
             justify-self: start;
         }
-        & > aside {
-            grid-column: 3 / span 1;
-            grid-row: 3 / span 2;
+        &>aside {
+            // grid-column: 3 / span 1;
+            // grid-row: 3 / span 2;
+            position: absolute; // There is no space. Make it absolute
+            top: 20px;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 20;
+            display: none;
+            max-width: initial !important;
+            max-height: initial !important;
         }
-        & > main {
-            grid-column: 2 / span 1;
+        &>main {
+            grid-column: 2 / span 2; // span 2 because no context help
             grid-row: 3;
             box-shadow: none;
         }
-        & > footer {
+        &>footer {
             grid-column: 2 / span 1;
             grid-row: 4;
         }
@@ -85,18 +102,5 @@ body {
 @media (max-width: get-breakpoints("md")) {
     body {
         display: initial;
-       & > nav {
-            position: absolute;
-            background-color: lightgray;
-            box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
-            width: 250px;
-            transform: translateX(-250px);
-            z-index: 20;
-            top: 80px;
-            transition: transform 0.3s;
-        }
-        & > aside {
-            position: absolute;
-        }
     }
 }

@@ -126,51 +126,11 @@ new component, because a pure Web Component requires quite a bit of repetitive b
 
 ### Icons / Fonts / Styling
 
-FontAwesome icons are used. Just use the `<i>` tag like `<i class="fa fas-heart"></i>`.
-
-All fonts are embedded, no external fonts are referenced. Included are font-awesome, roboto and 'smart.icons'.
-
-Styles are defined in sass files in `scss/`.
-Sass files are normal css but allow nesting, imports and variables.
-
-The bootstrap 4 default theme is automatically imported.
-The primary and "-orange" colors are changed to the openHAB orange theme though.
-A new responsive breakpoint has been added ("xxl").
-
-Each file in `scss/` is compiled into a corresponding minified *css/.css* file. Subdirectories are ignored.
-A file should be named like the html page that includes it (index.scss, tutorial.scss etc).
+See [Styling Readme](scss/readme.md).
 
 ### Javascript
 
-You can add your independant javascript files (ES6 modules!) into the `js/` directory.
-During the build all files in this directory are minified.
-
-If you want to use npm dependencies
-and bundle multiple files into a single file, put your files under `js/bundles/your-bundle-name/`. The entry point
-file must be `index.js`. During the build a single, tree-shaked, minified file is created under `js/your-bundle-name.js`.
-
-All javascript files and npm dependencies must be valid ES6 modules (no commonjs, no amd).
-No transpiling is performed during the build, as **all** javascript capable browsers
-support ES6 modules by now. (This app is not targeting Internet Explorer).
-
-Embed your js files into a webpage by either adding it to `partials/head.html` or
-by adding it to the `<body>` section of a page. Do NOT add it to the indivial `<head>` tag
-of a page.
-
-#### State management
-
-State management for REST data is done via the [`Vuex`](https://vuex.vuejs.org/) library.
-In `js/bundles/stores/*.js` *Vuex* stores are available that automatically interact with the openHAB
-REST Api for Things, Items, Discovery, Addons.
-
-Because the Vuex stores are used mostly together with Vue for rendering dynamic lists,
-Vue is included as well.
-
-#### Reactive parts like Lists
-
-Vue is used for reactive parts of the App like rendering a reactive list of Things from the Things-Store.
-The templates are not prerendered with a bundler, they are in `<template>` tags within the
-respective html file.
+See [Javascript Readme](js/readme.md).
 
 ## Missing openHAB functionality
 
@@ -181,16 +141,15 @@ Missing services:
 * Backup service: Configure a local or cloud backup destination and intervals.
 * SSL certificate management service: Add/Remove trusted (D)TLS certificates for peer devices and setup own certificate.
 * Rules/scripts files REST service: Alter files on disk via the REST API.
-* Items files REST service: Alter files on disk via the REST API.
-* Things files REST service: Alter files on disk via the REST API.
-* Manual Addons managment: Manual Jar upload, download, (de)activate via the REST API
+* Issue Import/Export for Things/Item files. Requires "storage" association and "note" field for AbstractThing and AbstractItem.
+* Manual Addons managment: Manual Jar upload, download, (de)activate via the REST API.
 * Average and longtime resource observe service:
   Detects thread abuse and memory leaks for long time stability
 * OSGI bundles info/start/stop REST interface
 
 Missing core functionality:
 
-* Notification infrastructure
+* Notification infrastructure (including PUSH mobile notifications like HabBot)
 * Thing Handler actions: For example to have a "Start pairing" or "Firmware reset" action.
 * Timer/Alarm configuration:
   - Add/edit/remove/list/activate/deactivate singleshot and reoccurring alarms to be used in scripts/rules.
@@ -200,10 +159,6 @@ Missing core functionality:
   - Average and longtime resource observe service fragment with warnings.
   - log feed: The last x log lines and link to Logtail if existing
   - openHabian fragment: Update/package status
-
-## Development links
-
-Visit https://www.htmlelements.com/demos.html to see the API for htmlelements Webcomponents.
 
 Cheers,
 David Graeff

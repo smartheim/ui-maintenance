@@ -1,0 +1,123 @@
+section.header {
+    .helpbtn {
+        margin-right: 20px;
+        width: 40px;
+        height: 40px;
+        text-decoration: none;
+        color: white;
+        border-radius: 55px;
+        background-color: #f0ad4e;
+        transition: background-color 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bolder;
+        justify-self: flex-end;
+    }
+    .helpbtn:hover {
+        text-decoration: none;
+        color: theme-color("orange");
+        animation: none;
+        background-color: white;
+    }
+    .helpbtn:hover:before {
+        animation-play-state: running;
+        animation: ping 3s 0s infinite;
+    }
+    .helpbtn:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        z-index: 10;
+        border-radius: 55px;
+        height: 100%;
+        width: 100%;
+        transform-origin: center;
+        border: none;
+        animation: ping 3s 0s 3;
+    }
+}
+
+aside.contexthelp {
+    min-width: 300px;
+    max-width: 400px;
+    transition: transform 1s, opacity 1s;
+    oh-context-help {
+        div {
+            background-color: white;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            scrollbar-color: rebeccapurple green;
+            scrollbar-width: thin;
+            &>* {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            &::-webkit-scrollbar-track {
+                box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                background-color: #F5F5F5;
+            }
+            &::-webkit-scrollbar {
+                width: 12px;
+                background-color: #F5F5F5;
+            }
+            &::-webkit-scrollbar-thumb {
+                box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+                background-color: #555;
+            }
+        }
+    }
+}
+
+body:not(.showcontext) aside.contexthelp {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+a.helpbtn i.fa-question {
+    display: block;
+}
+
+a.helpbtn i.fa-times {
+    display: none;
+}
+
+.showcontext a.helpbtn i.fa-question {
+    display: none;
+}
+
+.showcontext a.helpbtn i.fa-times {
+    display: block;
+}
+
+.showcontext a.helpbtn:before {
+    content: none;
+}
+
+a.helpbtn2 {
+    display: none;
+    background-color: white;
+    font-size: 20pt;
+    text-align: right;
+}
+
+// The context help (aside block) collapses to an absolute "modal window", that
+// is hidden by default. The background is dimmed, if shown.
+@media (max-width: get-breakpoints("xl")) {
+    body.showcontext:before {
+        z-index: 10;
+        background-color: rgba(22, 22, 22, 0.335);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        content: " ";
+    }
+    .showcontext>aside {
+        display: block;
+    }
+    .showcontext a.helpbtn2 {
+        display: block;
+    }
+}

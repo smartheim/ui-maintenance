@@ -26,7 +26,7 @@ export const NavButtons = {
     }
   },
   render: render ( ({ prevEnabled, nextEnabled, prevLink, nextLink }) => html`
-  <div style="display: flex;justify-content: flex-end" class="mt-4">
+  <div style="display: flex;justify-content: flex-end;margin:inherit;padding:inherit;">
     <a data-no-reload="nav" class="btn btn-primary col-2 mx-2 ${prevEnabled ? "" : "disabled"}" href="${prevLink}">Back</a>
     <a data-no-reload="nav" class="btn btn-primary col-2 mx-2 ${nextEnabled ? "" : "disabled"}" href="${nextLink}">Next</a>
   </div>

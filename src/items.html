@@ -8,13 +8,10 @@
 <body>
   <nav></nav>
   <partial src="mainnav.html"></partial>
-  <section class="header">
-    <a href="#" class="helpbtn"><i class="fas fa-question"></i></a>
-    <h4>Add &amp; remove Items. Change tags, titles and Group affiliations</h4>
-  </section>
+  <partial src="pagetitleheader.html" title="Add &amp; remove Items. Change tags, titles and Group affiliations"></partial>
   <main>
     <div>Lorem ipsum</div>
-    <div id="app"></div>
+    <div id="items-app"></div>
     <template id="postTemplate">
       <div>
         <ul>
@@ -27,8 +24,8 @@
     </template>
   </main>
   <footer></footer>
-  <aside></aside>
-  <script type="module" src="js/items.js" asnyc></script>
+  <partial src="contexthelp.html" help="items"></partial>
+  <script type="module" src="js/items.js" async></script>
 </body>
 
 </html>

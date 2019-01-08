@@ -11,18 +11,17 @@
   <!-- add the top bar mainmenu -->
   <partial src="mainnav.html"></partial>
   <!-- add the orange pattern, description area with the question icon -->
-  <section class="header">
-    <a href="#" class="helpbtn"><i class="fas fa-question"></i></a>
-    <h4>Page description</h4>
-  </section>
+  <!-- alternative: <section class="header">your content</section>-->
+  <partial src="pagetitleheader.html" title="Page description"></partial>
   <!-- main content -->
   <main>
     <div>Lorem ipsum</div>
   </main>
   <!-- a footer below the main content -->
   <footer>An optional footer</footer>
-  <!-- a right side content help, 2nd level menu or whatever -->
-  <aside>context help and others</aside>
+  <!-- a right side xontext help, 2nd level menu or whatever -->
+  <!-- alternative: <aside>context help and others</aside>-->
+  <partial src="contexthelp.html" help="your-page"></partial>
 </body>
 
 </html>

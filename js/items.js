@@ -1,9 +1,10 @@
 import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
 
 function start() {
+    if (!document.getElementById("#items-app")) return;
     new Vue({
         store,
-        el: '#app',
+        el: '#items-app',
         template: '#postTemplate',
         created() {
             this.getPosts();

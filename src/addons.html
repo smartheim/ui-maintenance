@@ -7,53 +7,27 @@
 
 <body>
   <nav class="sidebar leftright">
+    <h4>Navigation</h4>
     <ul>
+      <li><a href="#" class="active disabled">List Add-ons</a></li>
+      <li><a href="#">Manage manuall file add-ons</a></li>
       <li>
         <div class="sidebar-group">
-          <p>Welcome to openHAB</p>
+          <p>Official Add-ons</p>
           <ul class="sidebar-group-items">
-            <li><a href="/docs/" class="active sidebar-link">Introduction</a></li>
-          </ul>
-        </div>
-      </li>
-      <li>
-        <div class="sidebar-group">
-          <p>Concepts</p>
-          <ul class="sidebar-group-items">
-            <li><a href="/docs/concepts/">Concepts Overview</a></li>
-            <li><a href="/docs/concepts/things.html">Things</a></li>
-            <li><a href="/docs/concepts/items.html">Items</a></li>
-            <li><a href="/docs/concepts/discovery.html">Thing Discovery</a></li>
-            <li><a href="/docs/concepts/audio.html">Audio &amp; Voice</a></li>
-            <li><a href="/docs/concepts/units-of-measurement.html">Units Of Measurement</a></li>
-          </ul>
-        </div>
-      </li>
-      <li>
-        <div class="sidebar-group">
-          <p>Installation Guide</span></p>
-          <ul class="sidebar-group-items">
-            <li><a href="/docs/installation/">Installation Overview</a></li>
-            <li><a href="/docs/installation/linux.html">Linux</a></li>
-            <li><a href="/docs/installation/windows.html">Windows</a></li>
-            <li><a href="/docs/installation/macos.html">macOS</a></li>
-            <li><a href="/docs/installation/openhabian.html">openHABian</a></li>
-            <li><a href="/docs/installation/rasppi.html">Raspberry Pi</a></li>
-            <li><a href="/docs/installation/pine.html">PINE A64</a></li>
-            <li><a href="/docs/installation/docker.html">Docker</a></li>
-            <li><a href="/docs/installation/synology.html">Synology DiskStation</a></li>
-            <li><a href="/docs/installation/qnap.html">QNAP NAS</a></li>
-            <li><a href="/docs/installation/security.html">Security</a></li>
+            <li><a href="addon_install.html#category=binding">Binding</a></li>
+            <li><a href="addon_install.html#category=integration">System integration</a></li>
+            <li><a href="addon_install.html#category=persistence">Persistence service</a></li>
+            <li><a href="addon_install.html#category=transformation">Transformation</a></li>
+            <li><a href="addon_install.html#category=voice">Voice service</a></li>
+            <li><a href="addon_install.html#category=maintenance">Maintenance Widget</a></li>
           </ul>
         </div>
       </li>
     </ul>
   </nav>
   <partial src="mainnav.html"></partial>
-  <section class="header">
-    <a href="#" class="helpbtn"><i class="fas fa-question"></i></a>
-    <h4>Install official, marketplace and manuall addons and configure them</h4>
-  </section>
+  <partial src="pagetitleheader.html" title="Install official, marketplace and manuall addons and configure them"></partial>
   <main>
     <div class="card mt-5">
       <div class="card-body">
@@ -61,7 +35,6 @@
         <p class="card-text">Create broker connections, connect Things/Channels to MQTT Topics.</p>
         <a href="#" class="btn btn-primary">Install</a>
         <a href="#" class="btn btn-secondary">Documentation</a>
-        <a href="#" class="btn btn-secondary">Report a bug</a>
       </div>
       <div class="card-footer">
         <div class="card-text text-right">Authors: Author1, Author2, Au..
@@ -79,6 +52,7 @@
         <a href="#" class="btn btn-danger">Uninstall</a>
         <a href="#" class="btn btn-secondary">Documentation</a>
         <a href="#" class="btn btn-secondary">Report a bug</a>
+        <a href="#" class="btn btn-secondary disabled">Configure</a>
       </div>
       <div class="card-footer">
         <div class="card-text text-right">Authors: Author1, Author2, Au..
@@ -92,7 +66,7 @@
     </div>
   </main>
   <footer></footer>
-  <aside></aside>
+  <partial src="contexthelp.html" help="addons"></partial>
 </body>
 
 </html>
