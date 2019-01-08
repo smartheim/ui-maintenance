@@ -2,6 +2,7 @@ import Navigator from './page/navigator';
 import { register } from 'register-service-worker'
 import { checkLogin } from './logincheck'
 import { Notification } from './notifications'
+import { markActiveLinksAfterPageLoad } from './autoactive'
 export * from './host'
 export * from '../../common/fetch'
 export * from './notifications'
@@ -69,36 +70,21 @@ nav.addFilter((el, url) => {
 nav.init();
 
 function startupAfterDomChanged() {
-  (new Notification('alert-area', "about")).show(`This is a design study.<br><a href="about.html" data-close>About</a>`);
-  checkLogin().catch(() => { });
   var hasRedirected = sessionStorage.getItem("redirected");
   if (!hasRedirected) {
     sessionStorage.setItem("redirected", "true");
     if (window.location.pathname === "/index.html") {
       nav.go("maintenance.html");
+      return;
     }
   }
+  (new Notification('alert-area', "about")).show(`This is a design study.<br><a href="about.html" data-close>About</a>`);
+  checkLogin().catch(() => { });
+  markActiveLinksAfterPageLoad();
 }
 
 // Startup
 document.addEventListener("DOMContentLoaded", startupAfterDomChanged);
 if (['interactive', 'complete'].includes(document.readyState)) startupAfterDomChanged();
-
-export function markActiveLinkAfterPageLoad(id, handler) {
-  var elem = document.getElementById(id);
-  if (!elem) {
-    document.removeEventListener("DOMContentLoaded", handler);
-    return;
-  }
-
-  var c = elem.children;
-  for (var i = 0; i < c.length; i++) {
-    var link = c[i].children[0];
-    const classlist = link.classList;
-    classlist.remove("active");
-    if (new URL(link.href).pathname == window.location.pathname)
-      classlist.add("active");
-  }
-}
 
 export { nav, checkLogin };

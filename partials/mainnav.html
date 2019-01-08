@@ -5,7 +5,7 @@
         </svg>
     </a>
     <a class="home" href="index.html"><div alt="openHAB" class="logo"></div></a>
-    <nav id="mainnav">
+    <nav class="autoactive">
         <div><a href="maintenance.html">Maintenance</a></div>
         <div><a href="addons.html">Add-ons</a></div>
         <div><a href="inbox.html">Inbox <span class="badge badge-pill badge-orange">0</span></a></div>
@@ -15,11 +15,4 @@
         <div><a href="rules.html">Rules</a></div>
     </nav>
 </header>
-<script type="module">
-    import { markActiveLinkAfterPageLoad } from "./js/app.js";
-    const handler = function () {markActiveLinkAfterPageLoad("mainnav"); }
-    document.removeEventListener("DOMContentLoaded", handler);
-    document.addEventListener("DOMContentLoaded", handler);
-    handler();
-</script>
 <div id="alert-area" class="alert-area"></div>
