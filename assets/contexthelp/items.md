@@ -7,28 +7,30 @@ You can manually add a new *Item*, if you click on "Add Item" to your left.
 
 ## Textual mode
 
-For batch editing, filter your list first and then click on the "text view mode" icon
-for a textual representation.
+Filter your list to only show wanted *Items* &rarr; click on the "text view mode" icon.
+Batch edit your *Items* in a textual representation while using
 
-* Use copy &amp; paste,
-* regex find &amp; replace,
+* copy &amp; paste and
+* regex find &amp; replace.
 
-to batch edit your *Items*. Hit **Save** when you are done.
-
-Each textual represented *Item* will be applied to openHAB in order.
-Syntax errors and conflicts are reported for errornous lines,
-but non-affected *Items* are still applied.
+<mark>Save</mark>: Each textual represented *Item* will
+be applied to openHAB in order of appearence.
+Removed *Item* lines result in removed *Items*.
+Syntax errors and conflicts are reported per line,
+but do not affect other *Items* in the same document.
 
 <mark>Please note</mark>: The textual mode is powerful.
 If you clear the entire text field and hit save:
-Everything is gone. Act responsible in this mode!
+Everything is gone. Act responsible!
 
 ## Backup
 
 Your *Items* are automatically backup'd by openHAB. But you can also 
 grab a manual copy when you click on "Export Items to files" in the left navigation menu.
 
-Click "Import Items from files" to import again. Current *Items* with the
-same "Item ID" are overwritten, but Items will never be removed.
+Click "Import Items from files" to import again:
+
+1. Current *Items* with the same "Item ID" are overwritten
+2. An import file cannot remove *Items*.
 
 The import/export path is configured in the [Maintenance](maintenance.html) section.

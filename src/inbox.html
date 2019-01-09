@@ -6,7 +6,20 @@
 </head>
 
 <body>
-  <nav></nav>
+  <nav class="sidebar leftright">
+    <h4>Actions</h4>
+    <ul>
+      <li><a href="#">Start <b>full</b> discovery</a></li>
+      <li><a href="#">Add-on specific discovery</a></li>
+      <li><a href="#" class="disabled" id="clearresults">Clear results</a></li>
+    </ul>
+    <p>Settings</p>
+    <ul>
+      <li>
+        <toggle-check class="ml-4" storekey="enabletest" title="">Auto approve</toggle-check>
+      </li>
+    </ul>
+  </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Find all devices that are auto discoverable with your current set of add-ons."></partial>
   <main>

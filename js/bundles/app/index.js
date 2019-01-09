@@ -1,37 +1,33 @@
-import Navigator from './page/navigator';
-import { register } from 'register-service-worker'
+/**
+ * This index file links in all other files in this directory.
+ * 
+ * It also provides "toggleContext" and "toggleSidebar" commands
+ * in the global context.
+ * 
+ * On every DOMContentLoaded event (async/ajax page load) and normal
+ * page load the method "startupAfterDomChanged" is called. Add your
+ * start up init code there as well if necessary.
+ * 
+ * 1. Currently it redirects the user if he is on the "index.html" page
+ *    to the maintenance page if he has checked that option.
+ *  
+ * 2. It also shows a notification that this is a design study.
+ * 
+ * 3. It checks the login status to the (auto) configured openHAB instance.
+ * 
+ * 4. All navigation panels (class .autoactive) update their active link class.
+ */
+
 import { checkLogin } from './logincheck'
 import { Notification } from './notifications'
 import { markActiveLinksAfterPageLoad } from './autoactive'
 export * from './host'
 export * from '../../common/fetch'
 export * from './notifications'
+import "./serviceworker";
+import { nav } from "./asyncPageLoad";
 
-// Service worker for caching
-register('./sw.js', {
-  offline() {
-    console.log('No internet connection found. App is running in offline mode.')
-  },
-  error(error) {
-    console.error('Error during service worker registration:', error)
-  }
-})
-
-export function defaultStartPage() {
-  return localStorage.getItem('skiphome') == "true" ? "maintenance.html" : null
-}
-
-function prepareLoadedContent(event) {
-  if (event.target) event.target.classList.remove("disabled");
-  setTimeout(() => {
-    document.dispatchEvent(new Event('DOMContentLoaded'));
-  }, 50);
-}
-
-function checkReload(target, section) {
-  var d = target.dataset.noReload ? target.dataset.noReload.split(",") : [];
-  return !d.includes(section);
-}
+export const version = "w2";
 
 window.toggleContext = (event) => {
   document.querySelector('body').classList.toggle('showcontext');
@@ -42,43 +38,18 @@ window.toggleSidebar = (event) => {
   event.preventDefault();
 }
 
-// Ajax page reload, to keep the redux state stores if possible
-// https://github.com/oom-components/page-loader
-const nav = new Navigator((loader, event) => {
-  event.target.classList.add("disabled");
-  loader.load()
-    .then(page => page.replaceStyles("body"))
-    .then(page => page.replaceScripts("body"))
-    .then(page => page.replaceContent('main').replaceContent('footer').replaceContent('section.header').replaceNavReferences())
-    .then(page => checkReload(event.target, "aside") ? page.replaceContent('aside') : page)
-    .then(page => checkReload(event.target, "nav") ? page.replaceContent('body>nav') : page)
-    .then(() => prepareLoadedContent(event))
-    .catch(e => { // Connection lost? Check login
-      console.log("Failed to load page:", e.message);
-      document.querySelector("main").innerHTML = `
-        <main class='centered'>
-          <section></section><section class='main card p-4'>Page not found. Are you offline?</section><section></section>
-        </main>
-        `;
-      checkLogin(true).catch(() => { });
-    })
-});
-nav.addFilter((el, url) => {
-  if (new URL(url).pathname == window.location.pathname) return false;
-  return true;
-});
-nav.init();
-
 function startupAfterDomChanged() {
-  var hasRedirected = sessionStorage.getItem("redirected");
-  if (!hasRedirected) {
-    sessionStorage.setItem("redirected", "true");
-    if (window.location.pathname === "/index.html") {
-      nav.go("maintenance.html");
-      return;
+  if (localStorage.getItem('skiphome') == "true") {
+    var hasRedirected = sessionStorage.getItem("redirected");
+    if (!hasRedirected) {
+      sessionStorage.setItem("redirected", "true");
+      if (window.location.pathname === "/index.html") {
+        nav.go("maintenance.html");
+        return;
+      }
     }
   }
-  (new Notification('alert-area', "about")).show(`This is a design study.<br><a href="about.html" data-close>About</a>`);
+  (new Notification('alert-area', "about")).show(`This is a design study.<br><a href="about.html" data-close>About version ${version}</a>`);
   checkLogin().catch(() => { });
   markActiveLinksAfterPageLoad();
 }

@@ -1,10 +1,12 @@
-> You know what an openHAB **Thing** is, right? If not, please first go through the tutorial.
+<small>You know what an openHAB **Thing** is, right?</small>
+<small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
 
-Especially new devices and services have means to perform a discovery on them.
-openHAB will ask all its installed [bindings](addons.html) for discovered *Things*.
+Newer devices and services have means to perform discovery.
+openHAB performs an automatic discovery in the background for
+all its installed [bindings](addons.html).
 
 Some bindings can't perform a discovery all the time, like the Network binding
-for example. Click on the "Start discovery now" link to your left to kindly ask
+for example. Click on the "Start full discovery" action to your left to kindly ask
 those bindings right now.
 
 Some bindings can't perform a discovery at all. Reasons can be that devices

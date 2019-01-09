@@ -10,28 +10,30 @@ Most of the time, you want to embrace ready configured *Things* from the discove
 
 ## Textual mode
 
-For batch editing, filter your list first and then click on the "text view mode" icon
-for a textual representation.
+Filter your list to only show wanted *Things* &rarr; click on the "text view mode" icon.
+Batch edit your *Things* in a textual representation while using
 
-* Use copy &amp; paste,
-* regex find &amp; replace,
+* copy &amp; paste and
+* regex find &amp; replace.
 
-to batch edit your *Items*. Hit **Save** when you are done.
-
-Each textual represented *Thing* will be applied to openHAB in order.
-Syntax errors and conflicts are reported for errornous lines,
-but non-affected *Things* are still applied.
+<mark>Save</mark>: Each textual represented *Thing* will
+be applied to openHAB in order of appearence.
+Removed *Thing* lines result in removed *Things*.
+Syntax errors and conflicts are reported per line,
+but do not affect other *Things* in the same document.
 
 <mark>Please note</mark>: The textual mode is powerful.
 If you clear the entire text field and hit save:
-Everything is gone. Act responsible in this mode!
+Everything is gone. Act responsible!
 
 ## Backup
 
 Your *Things* are automatically backup'd by openHAB. But you can also 
 grab a manual copy when you click on "Export Things to files" in the left navigation menu.
 
-Click "Import Things from files" to import again. Current *Things* with the
-same "Thing ID" are overwritten, but Things will never be removed.
+Click "Import Things from files" to import again:
+
+1. Current *Things* with the same "Thing ID" are overwritten
+2. An import file cannot remove *Things*.
 
 The import/export path is configured in the [Maintenance](maintenance.html) section.

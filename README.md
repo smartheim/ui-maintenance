@@ -75,13 +75,13 @@ perform page changes via only replacing parts of the current shown page.
 
 ### Static pages 
 
-Each html file in `src/` is an independant html file. That means that `head` need to 
-be defined for each page and the html markup for the basic layout need to be repeated
-for each page as well. Thanks to css, that is minimal though.
+Each html file in `src/` is an independant html file. That means that
+the html markup for the basic layout need to be repeated
+for each page. Thanks to css, that is minimal though.
 
-Still a build system (Gulp) is in place to process html files. For one to implement i18n
-(translations) and the other reason is to save us from repetitive html markup. This is
-done via a build system plugin to support html partials.
+A build system (Gulp) is in place to process html files anyway. For one to implement i18n
+(translations) and the other reason is to save us from repetitive html like navigation areas.
+Html partials are used like this:
 
 1. Store your html fragment into `partials/*.html`.
 2. Use it in your `src/*.html` page via `<partial src="your-partial-filename.html"></partial>`.

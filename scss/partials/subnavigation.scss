@@ -8,9 +8,6 @@
         margin: 0;
         list-style-type: none;
     }
-    .sidebar-group a {
-        padding-left: 2rem;
-    }
     a.active {
         font-weight: bold;
         color: theme-color("orange");
@@ -29,13 +26,12 @@
     a:hover {
         color: theme-color("orange");
     }
-    .sidebar-group>p:first-child {
-        color: black;
-        transition: color .15s ease;
-        font-size: 1.1em;
-        font-weight: bolder;
-        padding: 0 1.5rem;
-        margin-top: 0;
+    h4 {
+        padding: 10px;
+    }
+    p {
+        padding: 0 0.5rem;
+        margin-top: .5rem;
         margin-bottom: .5rem;
     }
 }
@@ -62,6 +58,16 @@
             color: white;
             padding: 10px;
         }
+        p {
+            color: white;
+            transition: color .15s ease;
+            font-size: 1.1em;
+            font-weight: bolder;
+            padding: 0 0.5rem;
+            margin-top: .5rem;
+            margin-bottom: .5rem;
+            background-color: #ff7214;
+        }
         a {
             width: 100%;
         }
@@ -78,17 +84,17 @@
 }
 
 @media (max-width: get-breakpoints("md")) {
-    body > nav {
-            position: absolute;
-            background-color: lightgray;
-            box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
-            width: 250px;
-            transform: translateX(-250px);
-            z-index: 20;
-            top: 60px;
-            transition: transform 0.3s;
+    body>nav {
+        position: absolute;
+        background-color: lightgray;
+        box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);
+        width: 250px;
+        transform: translateX(-250px);
+        z-index: 20;
+        top: 60px;
+        transition: transform 0.3s;
     }
-    body.showsidebar > nav {
+    body.showsidebar>nav {
         transform: translateX(0px);
     }
 }
