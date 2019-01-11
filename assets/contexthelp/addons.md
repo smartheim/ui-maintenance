@@ -1,6 +1,6 @@
 In this section you extend the functionality of openHAB.
 
-Add-ons allows openHAB to recognise devices, to extend what
+Add-ons allow openHAB to recognise devices, to extend what
 you can do in Rules and Scripts, and to make openHAB
 available to other services like Amazon Alexa, Google Home,
 Apple HomeKit and so on.

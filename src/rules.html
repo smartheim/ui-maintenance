@@ -6,14 +6,44 @@
 </head>
 
 <body>
-  <partial src="rulesnav.html"></partial>
+    <link rel="stylesheet" href="css/rules.css" type="text/css" />
+  <nav class="sidebar leftright">
+    <partial src="rulesnav.html"></partial>
+    <p>Rule components</p>
+    <oh-rule-components></oh-rule-components>
+  </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Manage, add, remove and modify your automation rules"></partial>
   <main>
-    <div>Lorem ipsum</div>
+      <div class="mt-4"><ui-filter placeholder="Filter..."></ui-filter></div>
+    
+    <div id="rulesapp">
+
+    </div>
+    <template id="node-template">
+      <g class="node" :transform="transform">
+        <rect x="0" y="0" height="50" width="100"></rect>
+        <text x="5" y="15">{{node.label}}</text>
+        <text x="5" y="30">treePos: [{{node.level}}][{{node.index}}]</text>
+        <text x="5" y="45">weight: {{node.weight}}</text>
+      </g>
+    </template>
+
+    <template id="link-template">
+      <path :id="link.id" class="link" :d="path">
+    </template>
+
+    <template id="container-template">
+        <svg :width="service.svgWidth" :height="service.svgHeight + 10">
+          <link-template v-for="link in getAllLinks(service.data)" :key="link.id" :link="link"></link-template>
+          <node-template v-for="node in getAllNodes(service.data)" :key="node.id" :node="node"></node-template>
+        </svg>
+    </template>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="rules"></partial>
+  <script type="module" src="js/rules.js" async></script>
 </body>
 
 </html>

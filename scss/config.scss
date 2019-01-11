@@ -1,0 +1,11 @@
+.config {
+    margin-top: 10px;
+    .elements {
+        display: flex;
+        justify-content: space-around;
+    }
+    .element {
+        margin: 10px;
+        flex: 1;
+    }
+}

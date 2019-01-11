@@ -1,0 +1,8 @@
+[
+    {
+        "author": "David Graeff",
+        "description": "Link MQTT topics to things",
+        "id": "mqtt",
+        "name": "MQTT Thing Binding"
+    }
+]

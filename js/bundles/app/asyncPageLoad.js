@@ -50,7 +50,7 @@ const nav = new Navigator((loader, event) => {
         })
 });
 nav.addFilter((el, url) => {
-    if (new URL(url).pathname == window.location.pathname) return false;
+    if (!el.dataset.noReload && new URL(url).pathname == window.location.pathname) return false;
     return true;
 });
 nav.init();

@@ -104,6 +104,12 @@ details[open] summary~* {
     animation: swinginxr .5s ease-in-out;
 }
 
+.custom-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
 oh-community-topics ul {
     list-style-type: none;
     margin: 0;

@@ -1,0 +1,2050 @@
+[
+    {
+        "id": "binding-avmfritz",
+        "label": "AVM FRITZ!Box Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/avmfritz/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-airquality",
+        "label": "Air Quality Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/airquality/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-airvisualnode",
+        "label": "AirVisual Node Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/airvisualnode/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-alarmdecoder1",
+        "label": "Alarm Decoder Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/alarmdecoder1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-allplay",
+        "label": "AllPlay Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/allplay/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-amazondashbutton",
+        "label": "Amazon Dash Button Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/amazondashbutton/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "persistence-dynamodb",
+        "label": "Amazon DynamoDB Persistence",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/dynamodb/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "binding-amazonechocontrol",
+        "label": "Amazon Echo Control Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/amazonechocontrol/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-anel1",
+        "label": "Anel Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/anel1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-astro",
+        "label": "Astro Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/astro/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-atlona",
+        "label": "Atlona PRO3 Switch Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/atlona/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-autelis",
+        "label": "Autelis Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/autelis/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "misc-azureiothub",
+        "label": "Azure IoT Hub Connector",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "misc"
+    },
+    {
+        "id": "ui-basic",
+        "label": "Basic UI",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": true,
+        "type": "ui"
+    },
+    {
+        "id": "binding-bigassfan",
+        "label": "Big Ass Fan Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/bigassfan/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-bluetooth",
+        "label": "Bluetooth Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/bluetooth/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-boschindego",
+        "label": "Bosch Indego Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/boschindego/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-bosesoundtouch",
+        "label": "Bose SoundTouch Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/bosesoundtouch/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-bticino1",
+        "label": "Bticino Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/bticino1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-caldav-command1",
+        "label": "CalDAV Binding (command)",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/caldav-command1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-caldav-personal1",
+        "label": "CalDAV Binding (personal)",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/caldav-personal1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-cardio2e1",
+        "label": "Cardio IIé binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/cardio2e1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-myq1",
+        "label": "Chamberlain MyQ Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/myq1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-chromecast",
+        "label": "Chromecast Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/chromecast/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "ui-classic",
+        "label": "Classic UI",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "ui"
+    },
+    {
+        "id": "ui-cometvisu",
+        "label": "CometVisu Backend",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "ui"
+    },
+    {
+        "id": "binding-comfoair1",
+        "label": "ComfoAir Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/comfoair1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-coolmasternet",
+        "label": "CoolMasterNet Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/coolmasternet/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-dlinksmarthome",
+        "label": "D-Link Smart Home Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/dlinksmarthome/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-dmx",
+        "label": "DMX Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/dmx/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-dscalarm",
+        "label": "DSCAlarm Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/dscalarm/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-dsmr",
+        "label": "DSMR Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/dsmr/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-denon1",
+        "label": "Denon Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/denon1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-denonmarantz",
+        "label": "DenonMarantz Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/denonmarantz/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "misc-market",
+        "label": "Eclipse IoT Market",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "misc"
+    },
+    {
+        "id": "action-ecobee",
+        "label": "Ecobee Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/ecobee/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "binding-ecobee1",
+        "label": "Ecobee Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ecobee1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "misc-mqttbroker",
+        "label": "Embedded MQTT Broker",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": true,
+        "type": "misc"
+    },
+    {
+        "id": "binding-enocean1",
+        "label": "EnOcean Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/enocean1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-energenie1",
+        "label": "Energenie Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/energenie1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-enphaseenergy1",
+        "label": "Enphase Energy Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/enphaseenergy1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-epsonprojector1",
+        "label": "Epson Projector Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/epsonprojector1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-exec",
+        "label": "Exec Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/exec/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "transformation-exec",
+        "label": "Exec Transformation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "transformation"
+    },
+    {
+        "id": "binding-expire1",
+        "label": "Expire Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/expire1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-fs201",
+        "label": "FS20 Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/fs201/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-ftpupload",
+        "label": "FTP Upload Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ftpupload/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-fatekplc1",
+        "label": "Fatek PLC Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/fatekplc1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-feed",
+        "label": "Feed Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/feed/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-feican",
+        "label": "Feican Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/feican/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-folding",
+        "label": "Folding Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/folding/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-freebox",
+        "label": "Freebox Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/freebox/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-freeswitch1",
+        "label": "Freeswitch Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/freeswitch1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-fritzbox1",
+        "label": "Fritzbox Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/fritzbox1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-fritzboxtr0641",
+        "label": "Fritzbox TR064 Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/fritzboxtr0641/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-fronius",
+        "label": "Fronius Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/fronius/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-fsinternetradio",
+        "label": "Frontier Silicon Internet Radio Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/fsinternetradio/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-gc100ir1",
+        "label": "GC100IR Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/gc100ir1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-gpio1",
+        "label": "GPIO Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/gpio1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-gpstracker",
+        "label": "GPSTracker Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/gpstracker/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-groheondus",
+        "label": "GROHE ONDUS Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/groheondus/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-garadget1",
+        "label": "Garadget Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/garadget1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-gardena",
+        "label": "Gardena Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/gardena/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-globalcache",
+        "label": "GlobalCache Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/globalcache/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "persistence-gcal",
+        "label": "Google Calendar Presence Simulator",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/gcal/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "misc-gcal1",
+        "label": "Google Calendar Scheduler",
+        "version": "1.13.0.SNAPSHOT",
+        "installed": false,
+        "type": "misc"
+    },
+    {
+        "id": "voice-googletts",
+        "label": "Google Cloud Text-to-Speech",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "voice"
+    },
+    {
+        "id": "ui-habpanel",
+        "label": "HABPanel",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": true,
+        "type": "ui"
+    },
+    {
+        "id": "ui-habmin",
+        "label": "HABmin",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "ui"
+    },
+    {
+        "id": "binding-hdpowerview",
+        "label": "HD PowerView Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/hdpowerview/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-hdanywhere",
+        "label": "HDAnywhere Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/hdanywhere/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-http1",
+        "label": "HTTP Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/http1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-harmonyhub",
+        "label": "Harmony Hub Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/harmonyhub/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-heatmiser1",
+        "label": "Heatmiser Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/heatmiser1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-helios",
+        "label": "Helios Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/helios/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "ui-homebuilder",
+        "label": "Home Builder",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "ui"
+    },
+    {
+        "id": "misc-homekit",
+        "label": "HomeKit Integration",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "misc"
+    },
+    {
+        "id": "binding-homematic",
+        "label": "Homematic Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/homematic/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-horizon1",
+        "label": "Horizon Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/horizon1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-hue",
+        "label": "Hue Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/hue/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "misc-hueemulation",
+        "label": "Hue Emulation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": true,
+        "type": "misc"
+    },
+    {
+        "id": "binding-hyperion",
+        "label": "Hyperion Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/hyperion/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-iec6205621meter1",
+        "label": "IEC 62056-21 Meter",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/iec6205621meter1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-ihc1",
+        "label": "IHC Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ihc1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-ipp",
+        "label": "IPP Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ipp/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-ipx8001",
+        "label": "IPX800 Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ipx8001/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-irtrans",
+        "label": "IRTrans Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/irtrans/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "misc-imperihome",
+        "label": "ImperiHome Integration",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "misc"
+    },
+    {
+        "id": "persistence-influxdb",
+        "label": "InfluxDB (v 1.0) Persistence",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/influxdb/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "binding-insteonplm1",
+        "label": "InsteonPLM Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/insteonplm1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-intertechno1",
+        "label": "Intertechno Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/intertechno1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "persistence-jdbc-derby",
+        "label": "JDBC Persistence Apache Derby",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/jdbc-derby/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "persistence-jdbc-h2",
+        "label": "JDBC Persistence H2",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/jdbc-h2/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "persistence-jdbc-hsqldb",
+        "label": "JDBC Persistence HSQLDB",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/jdbc-hsqldb/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "persistence-jdbc-mariadb",
+        "label": "JDBC Persistence MariaDB",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/jdbc-mariadb/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "persistence-jdbc-mysql",
+        "label": "JDBC Persistence MySQL",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/jdbc-mysql/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "persistence-jdbc-postgresql",
+        "label": "JDBC Persistence PostgreSQL",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/jdbc-postgresql/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "persistence-jdbc-sqlite",
+        "label": "JDBC Persistence SQLite",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/jdbc-sqlite/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "persistence-jpa",
+        "label": "JPA Persistence",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/jpa/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "transformation-jsonpath",
+        "label": "JSONPath Transformation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "transformation"
+    },
+    {
+        "id": "transformation-javascript",
+        "label": "Javascript Transformation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "transformation"
+    },
+    {
+        "id": "binding-jeelink",
+        "label": "Jeelink Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/jeelink/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-km1001",
+        "label": "KM200 Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/km1001/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-knx",
+        "label": "KNX Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/knx/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-keba",
+        "label": "Keba Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/keba/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-kodi",
+        "label": "Kodi Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/kodi/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-kostalinverter",
+        "label": "Kostal Inverter Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/kostalinverter/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-koubachi1",
+        "label": "Koubachi Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/koubachi1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-lcn1",
+        "label": "LCN Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/lcn1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-lgtvserial",
+        "label": "LG TV Serial Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/lgtvserial/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-lgwebos",
+        "label": "LG webOS Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/lgwebos/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-lgtv1",
+        "label": "LGTV Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/lgtv1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-lifx",
+        "label": "LIFX Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/lifx/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-lirc",
+        "label": "LIRC Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/lirc/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-lametrictime",
+        "label": "LaMetric Time Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/lametrictime/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-leapmotion",
+        "label": "LeapMotion Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/leapmotion/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-logreader",
+        "label": "Log Reader Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/logreader/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-loxone",
+        "label": "Loxone Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/loxone/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-lutron",
+        "label": "Lutron Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/lutron/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-max",
+        "label": "MAX! Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/max/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-maxcul1",
+        "label": "MAX! CUL Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/maxcul1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-mcp23017",
+        "label": "MCP23017 Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/mcp23017/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "action-mqtt",
+        "label": "MQTT Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/mqtt/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "binding-mqtt1",
+        "label": "MQTT Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/mqtt1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "persistence-mqtt",
+        "label": "MQTT Persistence",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/mqtt/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "action-mail",
+        "label": "Mail Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/mail/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "transformation-map",
+        "label": "Map Transformation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "transformation"
+    },
+    {
+        "id": "persistence-mapdb",
+        "label": "MapDB Persistence",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/mapdb/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "voice-marytts",
+        "label": "Mary Text-to-Speech",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "voice"
+    },
+    {
+        "id": "binding-meteostick",
+        "label": "Meteostick Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/meteostick/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "action-mios",
+        "label": "MiOS Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/mios/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "binding-mios1",
+        "label": "MiOS Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/mios1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-miele",
+        "label": "Miele@home Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/miele/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-milight",
+        "label": "Milight Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/milight/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-minecraft",
+        "label": "Minecraft Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/minecraft/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-mochadx101",
+        "label": "MochadX10 Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/mochadx101/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-modbus",
+        "label": "Modbus Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/modbus/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "persistence-mysql",
+        "label": "MySQL Persistence",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/mysql/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "binding-mystromecopower1",
+        "label": "MystromEcoPower Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/mystromecopower1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-neeo",
+        "label": "NEEO Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/neeo/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "misc-neeo",
+        "label": "NEEO Integration",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "misc"
+    },
+    {
+        "id": "binding-ntp",
+        "label": "NTP Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ntp/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-neato",
+        "label": "Neato Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/neato/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-neohub1",
+        "label": "Neohub Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/neohub1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-nest",
+        "label": "Nest Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/nest/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-netatmo",
+        "label": "Netatmo Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/netatmo/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-network",
+        "label": "Network Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/network/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-networkupstools1",
+        "label": "Network UPS Tools Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/networkupstools1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-nibeheatpump",
+        "label": "Nibe Heat Pump Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/nibeheatpump/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-nibeuplink",
+        "label": "NibeUplink Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/nibeuplink/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-nikohomecontrol",
+        "label": "Niko Home Control Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/nikohomecontrol/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-nikobus1",
+        "label": "Nikobus Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/nikobus1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-novelanheatpump1",
+        "label": "Novelan Heatpump Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/novelanheatpump1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-owserver1",
+        "label": "OWServer Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/owserver1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-oceanic",
+        "label": "Oceanic Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/oceanic/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-onebusaway",
+        "label": "OneBusAway Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/onebusaway/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-onewire",
+        "label": "OneWire Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/onewire/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-onewiregpio",
+        "label": "OneWireGPIO Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/onewiregpio/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-onkyo",
+        "label": "Onkyo Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/onkyo/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-openenergymonitor1",
+        "label": "OpenEnergyMonitor Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/openenergymonitor1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-opensprinkler",
+        "label": "OpenSprinkler Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/opensprinkler/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-openuv",
+        "label": "OpenSprinkler Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/openuv/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-orvibo",
+        "label": "Orvibo Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/orvibo/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-phc",
+        "label": "PHC Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/phc/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "ui-cometvisu-php",
+        "label": "PHP support for CometVisu",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "ui"
+    },
+    {
+        "id": "binding-panasonictv1",
+        "label": "Panasonic TV Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/panasonictv1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "ui-paper",
+        "label": "Paper UI",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": true,
+        "type": "ui"
+    },
+    {
+        "id": "action-pebble",
+        "label": "Pebble Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/pebble/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "binding-pentair",
+        "label": "Pentair Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/pentair/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "voice-picotts",
+        "label": "Pico Text-to-Speech",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "voice"
+    },
+    {
+        "id": "binding-piface1",
+        "label": "Piface Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/piface1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-pioneeravr",
+        "label": "PioneerAVR Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/pioneeravr/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-plex1",
+        "label": "Plex Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/plex1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-plugwise",
+        "label": "Plugwise Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/plugwise/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-powermax",
+        "label": "Powermax Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/powermax/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "action-prowl",
+        "label": "Prowl Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/prowl/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "binding-pulseaudio",
+        "label": "Pulseaudio Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/pulseaudio/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "action-pushbullet",
+        "label": "Pushbullet Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/pushbullet/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "action-pushover",
+        "label": "Pushover Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/pushover/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "action-pushsafer",
+        "label": "Pushsafer Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/pushsafer/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "misc-restdocs",
+        "label": "REST Documentation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "misc"
+    },
+    {
+        "id": "binding-rfxcom",
+        "label": "RFXCOM Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/rfxcom/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-rme",
+        "label": "RME Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/rme/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "persistence-rrd4j",
+        "label": "RRD4j Persistence",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/persistence/rrd4j/",
+        "installed": false,
+        "type": "persistence"
+    },
+    {
+        "id": "transformation-regex",
+        "label": "RegEx Transformation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "transformation"
+    },
+    {
+        "id": "binding-regoheatpump",
+        "label": "RegoHeatPump Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/regoheatpump/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-robonect",
+        "label": "Robonect Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/robonect/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-rotelra1x",
+        "label": "RotelRa1x Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/rotelra1x/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "misc-ruleengine",
+        "label": "Rule Engine (Experimental)",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": true,
+        "type": "misc"
+    },
+    {
+        "id": "binding-russound",
+        "label": "Russound Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/russound/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-smaenergymeter",
+        "label": "SMA Energy Monitor Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/smaenergymeter/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-snmp1",
+        "label": "SNMP Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/snmp1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-samsungac1",
+        "label": "Samsung A/C Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/samsungac1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-samsungtv",
+        "label": "Samsung TV Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/samsungtv/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-sapp1",
+        "label": "Sapp Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/sapp1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-satel",
+        "label": "Satel Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/satel/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "transformation-scale",
+        "label": "Scale Transformation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "transformation"
+    },
+    {
+        "id": "binding-seneye",
+        "label": "Seneye Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/seneye/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-sensebox",
+        "label": "Sensebox Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/sensebox/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-serial1",
+        "label": "Serial Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/serial1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-serialbutton",
+        "label": "Serial Button Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/serialbutton/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-silvercrestwifisocket",
+        "label": "Silvercrest Wifi Plug Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/silvercrestwifisocket/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-sleepiq",
+        "label": "SleepIQ Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/sleepiq/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-solaredge",
+        "label": "SolarEdge Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/solaredge/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-solarlog",
+        "label": "SolarLog Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/solarlog/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-somfytahoma",
+        "label": "Somfy Tahoma Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/somfytahoma/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-urtsi",
+        "label": "Somfy URTSI II Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/urtsi/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-sonance1",
+        "label": "Sonance Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/sonance1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-sonos",
+        "label": "Sonos Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/sonos/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-souliss1",
+        "label": "Souliss Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/souliss1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-squeezebox",
+        "label": "Squeezebox Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/squeezebox/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-swegonventilation1",
+        "label": "Swegon Ventilation Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/swegonventilation1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-synopanalyzer",
+        "label": "Synop Analyzer Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/synopanalyzer/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-systeminfo",
+        "label": "System Info Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/systeminfo/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-tcp1",
+        "label": "TCP/UDP Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/tcp1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-tplinksmarthome",
+        "label": "TP-Link Smart Home Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/tplinksmarthome/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-tradfri",
+        "label": "TRÅDFRI Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/tradfri/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-tado",
+        "label": "Tado Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/tado/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-tankerkoenig",
+        "label": "Tankerkoenig Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/tankerkoenig/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "action-telegram",
+        "label": "Telegram Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/telegram/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "binding-tellstick",
+        "label": "Tellstick Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/tellstick/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-tesla",
+        "label": "Tesla Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/tesla/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-tinkerforge1",
+        "label": "Tinkerforge Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/tinkerforge1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-toon",
+        "label": "Toon Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/toon/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "action-twitter",
+        "label": "Twitter Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/twitter/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "binding-ucprelayboard",
+        "label": "UCProjects.eu Relay Board Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ucprelayboard/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-upb1",
+        "label": "Universal Powerline Bus Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/upb1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-valloxmv",
+        "label": "ValloxMV Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/valloxmv/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-velbus",
+        "label": "Velbus Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/velbus/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-vitotronic",
+        "label": "Vitotronic Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/vitotronic/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "voice-voicerss",
+        "label": "VoiceRSS Text-to-Speech",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "voice"
+    },
+    {
+        "id": "binding-wol1",
+        "label": "WOL (Wake-on-LAN) Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/wol1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-ecotouch1",
+        "label": "Waterkotte Ecotouch Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ecotouch1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-weather1",
+        "label": "Weather Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/weather1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-weatherunderground",
+        "label": "WeatherUnderground Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/weatherunderground/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-wemo",
+        "label": "Wemo Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/wemo/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-wifiled",
+        "label": "WiFi LED Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/wifiled/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-windcentrale",
+        "label": "Windcentrale Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/windcentrale/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "action-xbmc",
+        "label": "XBMC Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/xbmc/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "binding-xbmc1",
+        "label": "XBMC Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/xbmc1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "action-xmpp",
+        "label": "XMPP Action",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/actions/xmpp/",
+        "installed": false,
+        "type": "action"
+    },
+    {
+        "id": "transformation-xpath",
+        "label": "XPath Transformation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "transformation"
+    },
+    {
+        "id": "transformation-xslt",
+        "label": "XSLT Transformation",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "transformation"
+    },
+    {
+        "id": "binding-mihome",
+        "label": "Xiaomi Mi Smart Home Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/mihome/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-yahooweather",
+        "label": "Yahoo Weather Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/yahooweather/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-yamahareceiver",
+        "label": "Yamaha Receiver Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/yamahareceiver/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-yeelight",
+        "label": "Yeelight Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/yeelight/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-zwave",
+        "label": "Z-Wave Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/zwave/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-zway",
+        "label": "Z-Way Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/zway/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-zigbee",
+        "label": "ZigBee Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/zigbee/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-zoneminder",
+        "label": "ZoneMinder Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/zoneminder/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-cm11a",
+        "label": "cm11a Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/cm11a/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-digitalstrom",
+        "label": "digitalSTROM Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/digitalstrom/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-ebus1",
+        "label": "eBUS Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ebus1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-ekey1",
+        "label": "ekey Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/ekey1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-icloud",
+        "label": "icloud Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/icloud/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-innogysmarthome",
+        "label": "innogy Smarthome Binding",
+        "version": "2.4.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/innogysmarthome/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "binding-jointspace1",
+        "label": "jointSPACE Binding",
+        "version": "1.13.0.SNAPSHOT",
+        "link": "https://www.openhab.org/addons/bindings/jointspace1/",
+        "installed": false,
+        "type": "binding"
+    },
+    {
+        "id": "voice-mactts",
+        "label": "macOS Text-to-Speech",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "voice"
+    },
+    {
+        "id": "misc-openhabcloud",
+        "label": "openHAB Cloud Connector",
+        "version": "2.4.0.SNAPSHOT",
+        "installed": false,
+        "type": "misc"
+    }
+]

@@ -1,0 +1,132 @@
+[
+    {
+        "statusInfo": {
+            "status": "ONLINE",
+            "statusDetail": "NONE"
+        },
+        "editable": true,
+        "label": "Generic MQTT Thing",
+        "bridgeUID": "mqtt:systemBroker:embedded-mqtt-broker",
+        "configuration": {},
+        "properties": {},
+        "UID": "mqtt:topic:3edb5737",
+        "thingTypeUID": "mqtt:topic",
+        "channels": [
+            {
+                "linkedItems": [
+                    "mqtt_topic_3edb5737_testtext"
+                ],
+                "uid": "mqtt:topic:3edb5737:testtext",
+                "id": "testtext",
+                "channelTypeUID": "mqtt:String",
+                "itemType": "String",
+                "kind": "STATE",
+                "label": "Test Text",
+                "defaultTags": [],
+                "properties": {},
+                "configuration": {
+                    "stateTopic": "test/text"
+                }
+            },
+            {
+                "linkedItems": [
+                    "mqtt_topic_3edb5737_testnumber"
+                ],
+                "uid": "mqtt:topic:3edb5737:testnumber",
+                "id": "testnumber",
+                "channelTypeUID": "mqtt:Number",
+                "itemType": "Number",
+                "kind": "STATE",
+                "label": "Test number",
+                "defaultTags": [],
+                "properties": {},
+                "configuration": {
+                    "commandTopic": "test/number/set",
+                    "stateTopic": "test/number",
+                    "step": 1.0
+                }
+            },
+            {
+                "linkedItems": [
+                    "mqtt_topic_3edb5737_testswitch"
+                ],
+                "uid": "mqtt:topic:3edb5737:testswitch",
+                "id": "testswitch",
+                "channelTypeUID": "mqtt:Switch",
+                "itemType": "Switch",
+                "kind": "STATE",
+                "label": "Test switch",
+                "defaultTags": [],
+                "properties": {},
+                "configuration": {
+                    "commandTopic": "test/switch/set",
+                    "stateTopic": "test/switch"
+                }
+            },
+            {
+                "linkedItems": [
+                    "mqtt_topic_3edb5737_multistate"
+                ],
+                "uid": "mqtt:topic:3edb5737:multistate",
+                "id": "multistate",
+                "channelTypeUID": "mqtt:EnumSwitch",
+                "itemType": "Switch",
+                "kind": "STATE",
+                "label": "Multi State",
+                "defaultTags": [],
+                "properties": {},
+                "configuration": {
+                    "allowedStates": "AAA,BBB,CCC",
+                    "commandTopic": "test/multi/set",
+                    "stateTopic": "test/multi"
+                }
+            }
+        ]
+    },
+    {
+        "statusInfo": {
+            "status": "UNINITIALIZED",
+            "statusDetail": "HANDLER_CONFIGURATION_PENDING"
+        },
+        "editable": true,
+        "label": "testname (HomeAssistant MQTT Switch)",
+        "bridgeUID": "mqtt:systemBroker:embedded-mqtt-broker",
+        "configuration": {
+            "baseid": "homeassistant",
+            "nodeid": "node",
+            "deviceid": "testobject-node",
+            "objectid": "testobject"
+        },
+        "properties": {
+            "basetopic": "homeassistant"
+        },
+        "UID": "mqtt:homeassistant:embedded-mqtt-broker:testobject-node",
+        "thingTypeUID": "mqtt:homeassistant",
+        "channels": []
+    },
+    {
+        "statusInfo": {
+            "status": "ONLINE",
+            "statusDetail": "NONE"
+        },
+        "editable": true,
+        "label": "MQTT Broker",
+        "configuration": {},
+        "properties": {
+            "password": "",
+            "brokerid": "embedded-mqtt-broker",
+            "qos": "0",
+            "port": "1883.0",
+            "retain": "false",
+            "keep_alive_time_ms": "60",
+            "host": "127.0.0.1",
+            "reconnect_time_ms": "10000",
+            "lastwill": "",
+            "url": "127.0.0.1:1883",
+            "username": ""
+        },
+        "UID": "mqtt:systemBroker:embedded-mqtt-broker",
+        "thingTypeUID": "mqtt:systemBroker",
+        "channels": []
+    }
+]

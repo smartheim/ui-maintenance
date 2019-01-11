@@ -1,0 +1,15 @@
+main {
+    display: flex;
+    flex-direction: column;
+
+    #editorwindow {
+        flex: 1;
+        overflow: hidden;
+
+        & > div {
+            position: absolute;
+            bottom: 30px;
+            margin-top: 30px;
+        }
+    }
+}

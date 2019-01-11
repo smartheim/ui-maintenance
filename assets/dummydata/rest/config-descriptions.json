@@ -1,0 +1,1959 @@
+[
+    {
+        "uri": "system:inbox",
+        "parameters": [
+            {
+                "defaultValue": "true",
+                "description": "\u003cp\u003eIf enabled, an inbox result matching an existing thing is automatically ignored.\u003c/p\u003e \u003cp\u003eIf set to false, the inbox may contain results although identical things already exist.\u003c/p\u003e",
+                "label": "Auto Ignore",
+                "name": "autoIgnore",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "If enabled, inbox results are automatically approved, unless they were marked as ignored.",
+                "label": "Auto Approve",
+                "name": "autoApprove",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "ui:basic",
+        "parameters": [
+            {
+                "defaultValue": "default",
+                "description": "Defines the UI theme.",
+                "label": "Theme",
+                "name": "theme",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Default",
+                        "value": "default"
+                    },
+                    {
+                        "label": "Dark",
+                        "value": "dark"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "svg",
+                "description": "Defines whether bitmap or vector icons are used by the UI.",
+                "label": "Icon Format",
+                "name": "iconType",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Bitmap",
+                        "value": "png"
+                    },
+                    {
+                        "label": "Vector",
+                        "value": "svg"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "true",
+                "description": "Defines whether UI renders icons for the widgets or not.",
+                "label": "Enable Icons",
+                "name": "enableIcons",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Enable",
+                        "value": "true"
+                    },
+                    {
+                        "label": "Disable",
+                        "value": "false"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "When enabled, changes the layout so that more widgets can fit on the screen.",
+                "label": "Condensed Layout",
+                "name": "condensedLayout",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Enable",
+                        "value": "true"
+                    },
+                    {
+                        "label": "Disable",
+                        "value": "false"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "Displays all widget states in uppercase.",
+                "label": "Capitalize Values",
+                "name": "capitalizeValues",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Enable",
+                        "value": "true"
+                    },
+                    {
+                        "label": "Disable",
+                        "value": "false"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "description": "The sitemap to show if no parameter is passed.",
+                "label": "Default Sitemap",
+                "name": "defaultSitemap",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "channel-type:mqtt:Switch",
+        "parameters": [
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will subscribe to, to receive the state. This can be left empty, the thing will be state-less then.",
+                "label": "MQTT state topic",
+                "name": "stateTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will send a command to.",
+                "label": "MQTT command topic",
+                "name": "commandTopic",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "Any supported transformation can be used. An example for a received JSON from a MQTT state topic would be a pattern of JSONPATH:$.device.status.temperature for a json {device: {status: { temperature: 23.2 }}}.",
+                "label": "Transformation pattern",
+                "name": "transformationPattern",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "0",
+                "description": "A number (like 1, 10) or a string (like ON) that is recognised as on state.",
+                "label": "ON value",
+                "name": "on",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "1",
+                "description": "A number (like 0, -10) or a string (like OFF) that is recognised as off state.",
+                "label": "OFF value",
+                "name": "off",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "Inverse the meaning. A received \"ON\" will switch the thing channel off and vice versa.",
+                "label": "Inverse",
+                "name": "inverse",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:network",
+        "parameters": [
+            {
+                "description": "A subnet (e.g. 192.168.1.0/24)",
+                "label": "Primary Address",
+                "name": "primaryAddress",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "A broadcast address (e.g. 192.168.1.255)",
+                "label": "Broadcast Address",
+                "name": "broadcastAddress",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "Use only one IP address per interface and family",
+                "label": "Single IP Address per Interface",
+                "name": "useOnlyOneAddress",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "true",
+                "description": "Use IPv6 Addresses if available",
+                "label": "Use IPv6",
+                "name": "useIPv6",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "channel-type:mqtt:Dimmer",
+        "parameters": [
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will subscribe to, to receive the state. This can be left empty, the thing will be state-less then.",
+                "label": "MQTT state topic",
+                "name": "stateTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will send a command to. This can be left empty",
+                "label": "MQTT command topic",
+                "name": "commandTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "Any supported transformation can be used. An example for a received JSON from a MQTT state topic would be a pattern of JSONPATH:$.device.status.temperature for a json {device: {status: { temperature: 23.2 }}}.",
+                "label": "Transformation pattern",
+                "name": "transformationPattern",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "0.0",
+                "description": "Minimum value to convert the MQTT state to a percentage",
+                "label": "Minimum value",
+                "name": "min",
+                "required": false,
+                "type": "DECIMAL",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "100.0",
+                "description": "Maximum value to convert the MQTT state to a percentage",
+                "label": "Maximum value",
+                "name": "max",
+                "required": false,
+                "type": "DECIMAL",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "10.0",
+                "description": "The step value is used if the value channel is bound to a Dimmer item and an increase/decrease is issued",
+                "label": "Step value",
+                "name": "step",
+                "required": false,
+                "type": "DECIMAL",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "Set to true if the MQTT topic expects a float/double decimal instead of an integer value",
+                "label": "Is Decimal?",
+                "name": "isfloat",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:voice",
+        "parameters": [
+            {
+                "description": "The default text-to-speech service to use if no other is specified.",
+                "label": "Default Text-to-Speech",
+                "name": "defaultTTS",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The default speech-to-text service to use if no other is specified.",
+                "label": "Default Speech-to-Text",
+                "name": "defaultSTT",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The default voice to use if no specific TTS service or voice is specified.",
+                "label": "Default Voice",
+                "name": "defaultVoice",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The default human language interpreter to use if no other is specified.",
+                "label": "Default Human Language Interpreter",
+                "name": "defaultHLI",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The default keyword spotting service to use if no other is specified.",
+                "label": "Default Keyword Spotter",
+                "name": "defaultKS",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The magic word to spot before initiating a dialog.",
+                "label": "Magic Word",
+                "name": "keyword",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "context": "item",
+                "description": "If provided, the item will be switched on during the period when the dialog processor has spotted the keyword and is listening for commands.",
+                "label": "Listening switch",
+                "name": "listeningItem",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": [
+                    {
+                        "value": "Switch",
+                        "name": "type"
+                    }
+                ]
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "channel-type:mqtt:EnumSwitch",
+        "parameters": [
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will subscribe to, to receive the state. This can be left empty, the thing will be state-less then.",
+                "label": "MQTT state topic",
+                "name": "stateTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will send a command to.",
+                "label": "MQTT command topic",
+                "name": "commandTopic",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "Any supported transformation can be used. An example for a received JSON from a MQTT state topic would be a pattern of JSONPATH:$.device.status.temperature for a json {device: {status: { temperature: 23.2 }}}.",
+                "label": "Transformation pattern",
+                "name": "transformationPattern",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "ON,DIMMED,OFF",
+                "description": "List all valid states. Separate multiple states with commas. An example for a light bulb state set: ON,DIMMED,OFF",
+                "label": "Allowed states",
+                "name": "allowedStates",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:audio",
+        "parameters": [
+            {
+                "description": "The default audio source to use if no other is specified.",
+                "label": "Default Source",
+                "name": "defaultSource",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The default audio sink to use if no other is specified.",
+                "label": "Default Sink",
+                "name": "defaultSink",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "metadata:autoupdate",
+        "parameters": [
+            {
+                "description": "Auto Update",
+                "name": "value",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Enforce an auto update",
+                        "value": "true"
+                    },
+                    {
+                        "label": "Veto an auto update",
+                        "value": "false"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:json_storage",
+        "parameters": [
+            {
+                "defaultValue": "5",
+                "description": "Sets the number of backup files to keep.",
+                "label": "Backup files",
+                "name": "backup_files",
+                "required": false,
+                "type": "INTEGER",
+                "min": 0,
+                "max": 100,
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "500",
+                "description": "Sets the time to wait before writing changes to disk. This can reduce the number of writes when many changes are being introduced within a short period. Time is defined in milliseconds.",
+                "label": "Write delay",
+                "name": "write_delay",
+                "required": false,
+                "type": "INTEGER",
+                "min": 0,
+                "max": 60000,
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "30000",
+                "description": "Sets the maximum period the service will wait to write data to disk in the event that many changes are happening continually.",
+                "label": "Maximum write delay",
+                "name": "max_defer_delay",
+                "required": false,
+                "type": "INTEGER",
+                "min": 1000,
+                "max": 60000,
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "ui:habpanel",
+        "parameters": [
+            {
+                "context": "script",
+                "description": "JSON object containing the registry of panel configurations. Normally only modified with the embedded designer, edit by hand at your own risk!",
+                "label": "Panel registry JSON",
+                "name": "panelsRegistry",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "Edit mode is unavailable in the UI when enabled. Keeping the configuration locked and unlocking only when needed helps prevent accidental changes.",
+                "label": "Lock editing",
+                "name": "lockEditing",
+                "required": true,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "The name of the existing panel configuration to switch to initially when accessing HABPanel with no prior local configuration.",
+                "label": "Initial panel configuration",
+                "name": "initialPanelConfig",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:addons",
+        "parameters": [
+            {
+                "defaultValue": "true",
+                "description": "Defines whether openHAB should access the remote repository for add-on installation.",
+                "label": "Access Remote Repository",
+                "name": "remote",
+                "required": true,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "Also allows the installation of 1.x bindings for which there is already a 2.x version available (requires remote repo access!).",
+                "label": "Include Legacy 1.x Bindings",
+                "name": "legacy",
+                "required": true,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "profile:system:offset",
+        "parameters": [
+            {
+                "description": "Offset (plain number or number with unit) to be applied on the state towards the item. The negative offset will be applied in the reverse direction.",
+                "label": "Offset",
+                "name": "offset",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "io:hueemulation",
+        "parameters": [
+            {
+                "defaultValue": "false",
+                "description": "Pairing must be enabled to connect a new device. Once a device has been added, pairing should be disabled.",
+                "label": "Enable Device Pairing",
+                "name": "pairingEnabled",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Pairing Enabled",
+                        "value": "true"
+                    },
+                    {
+                        "label": "Pairing Disabled",
+                        "value": "false"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "description": "If your host has multiple IP addresses you may specify the IP you would like to advertise in the UPNP discovery process. You may safely leave this empty on most systems.",
+                "label": "Optional discovery address",
+                "name": "discoveryIp",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "Some Hue applications require a different port (80) then what openHAB runs on by default (8080).  This option will only advertise a different port then what we are listening on.  Useful if you have an iptables rule redirect traffic from this port to the openHAB port.",
+                "label": "Optional discovery web port",
+                "name": "discoveryHttpPort",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "mqtt:mqttembeddedbroker",
+        "parameters": [
+            {
+                "defaultValue": "",
+                "description": "A custom broker connection port. Leave empty to use the default MQTT ports 1883 and 8883 (SSL) for secure or non-secure connections.",
+                "label": "Embedded broker port",
+                "name": "port",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "If set, hosts a secure SSL connection on port 8883 or otherwise a non secure connection on port 1883 (if not overwritten by the port parameter)",
+                "label": "Secure connection?",
+                "name": "secure",
+                "required": true,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "Connections need to provide this username to access the broker.",
+                "label": "Embedded broker username",
+                "name": "username",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "Connections need to provide this password to access the broker. Should only be used if it is a secure connection, because the password is transferred plain over the wire.",
+                "label": "Embedded broker password",
+                "name": "password",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "mqttembedded.bin",
+                "description": "An optional persistence file. Retained messages are stored in this file. Can be empty to not store anything. If it starts with \"/\" on Linux/MacOS or with a drive letter and colon (eg \"c:/\") it will be treated as an absolute path. Be careful to select a path that you have write access to.",
+                "label": "Persistence file",
+                "name": "persistenceFile",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "thing-type:mqtt:broker",
+        "parameters": [
+            {
+                "context": "network-address",
+                "description": "The IP/Hostname of the MQTT broker",
+                "label": "Broker Hostname/IP",
+                "name": "host",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "context": "network-address",
+                "description": "The port is optional, if none is provided, the typical ports 1883 and 8883 (SSL) are used.",
+                "label": "Broker Port",
+                "name": "port",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "Uses TLS/SSL to establish a secure connection to the broker. Can be \"OFF\",\"ON\",\"AUTO\". The AUTO setting prefers a secure connection but will fall-back to an insecure one. Default is ON.",
+                "label": "Secure connection",
+                "name": "secure",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Enabled",
+                        "value": "ON"
+                    },
+                    {
+                        "label": "Disabled",
+                        "value": "OFF"
+                    },
+                    {
+                        "label": "Automatic",
+                        "value": "AUTO"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "0",
+                "label": "Quality of Service",
+                "name": "qos",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "At most once (0)",
+                        "value": "0"
+                    },
+                    {
+                        "label": "At least once (1)",
+                        "value": "1"
+                    },
+                    {
+                        "label": "Exactly once (2)",
+                        "value": "2"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "description": "Use a fixed client ID. Defaults to empty which means a user ID is generated for this connection.",
+                "label": "Client ID",
+                "name": "clientid",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "true",
+                "description": "Retained messages are stored on the MQTT broker and other clients can retrieve the value at any time",
+                "label": "Retain messages",
+                "name": "retain",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "60000",
+                "description": "Reconnect time in ms. If a connection is lost, the binding will wait this time before it tries to reconnect.",
+                "label": "Reconnect time",
+                "name": "reconnect_time",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "60000",
+                "description": "Keep alive / heartbeat timer in ms. It can take up to this time to determine if a server connection is lost. A lower value may keep the broker unnecessarily busy for no or little additional value.",
+                "label": "Heartbeat",
+                "name": "keep_alive_time",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The last will message.",
+                "label": "Last will message",
+                "name": "lastwill_message",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "Defaults to empty and therefore disables the last will.",
+                "label": "Last will topic",
+                "name": "lastwill_topic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "0",
+                "description": "The quality of service parameter of the last will.",
+                "label": "Last will QoS",
+                "name": "lastwill_qos",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "At most once (0)",
+                        "value": "0"
+                    },
+                    {
+                        "label": "At least once (1)",
+                        "value": "1"
+                    },
+                    {
+                        "label": "Exactly once (2)",
+                        "value": "2"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "description": "The MQTT username",
+                "label": "Username",
+                "name": "username",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "context": "password",
+                "description": "The MQTT password",
+                "label": "Password",
+                "name": "password",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "true",
+                "description": "If this and SSL is set: After the next connection has been successfully established, the certificate is pinned. The connection will be refused if another certificate is used. Clear **certificate** to allow a new certificate for the next connection attempt. This option can increase security.",
+                "label": "Certificate pinning",
+                "name": "certificatepin",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "If **certificatepin** is set this hash is used to verify the connection. Clear to allow a new certificate pinning on the next connection attempt. If empty will be filled automatically by the next successful connection. An example input would be `SHA-256:83F9171E06A313118889F7D79302BD1B7A2042EE0CFD029ABF8DD06FFA6CD9D3`.",
+                "label": "Certificate hash",
+                "name": "certificate",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "true",
+                "description": "If this and SSL is set: After the next connection has been successfully established, the public key of the broker is pinned. The connection will be refused if another public key is used. Clear **publickey** to allow a new public key for the next connection attempt. This option can increase security.",
+                "label": "Public key pinning",
+                "name": "publickeypin",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "If **publickeypin** is set this hash is used to verify the connection. Clear to allow a new public key pinning on the next connection attempt. If empty will be filled automatically by the next successful connection. An example input would be `SHA-256:83F9171E06A313118889F7D79302BD1B7A2042EE0CFD029ABF8DD06FFA6CD9D3`",
+                "label": "Public Key Hash",
+                "name": "publickey",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "channel-type:mqtt:Color",
+        "parameters": [
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will subscribe to, to receive the state. This can be left empty, the thing will be state-less then.",
+                "label": "MQTT state topic",
+                "name": "stateTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will send a command to. This can be left empty",
+                "label": "MQTT command topic",
+                "name": "commandTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "Any supported transformation can be used. An example for a received JSON from a MQTT state topic would be a pattern of JSONPATH:$.device.status.temperature for a json {device: {status: { temperature: 23.2 }}}.",
+                "label": "Transformation pattern",
+                "name": "transformationPattern",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "The channel will send updates as RGB values and expects RGB values from the state topic.",
+                "label": "RGB instead of HSV",
+                "name": "rgb",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:i18n",
+        "parameters": [
+            {
+                "description": "\u003cp\u003eThe default language that should be used. If not specified, the system default locale is used.\u003c/p\u003e \u003cp\u003eThe ISO 639 alpha-2 or alpha-3 language code (if there is no alpha-2 one).\u003c/p\u003e \u003cp\u003eExample: \"en\" (English), \"de\" (German), \"ja\" (Japanese), \"kok\" (Konkani)\u003c/p\u003e",
+                "label": "Language",
+                "name": "language",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "\u003cp\u003eThe script that should be used.\u003c/p\u003e \u003cp\u003eISO 15924 alpha-4 script code.\u003c/p\u003e \u003cp\u003eExample: \"Latn\" (Latin), \"Cyrl\" (Cyrillic)\u003c/p\u003e",
+                "label": "Script",
+                "name": "script",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "\u003cp\u003eThe region that should be used.\u003c/p\u003e \u003cp\u003eISO 3166 alpha-2 country code or UN M.49 numeric-3 area code.\u003c/p\u003e \u003cp\u003eExample: \"US\" (United States), \"DE\" (Germany), \"FR\" (France), \"029\" (Caribbean)\u003c/p\u003e",
+                "label": "Country / Region",
+                "name": "region",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "\u003cp\u003eA variation of the locale.\u003c/p\u003e \u003cp\u003eAny arbitrary value used to indicate a variation of a Locale.\u003c/p\u003e \u003cp\u003eExample: \"polyton\" (Polytonic Greek), \"POSIX\"\u003c/p\u003e",
+                "label": "Variant",
+                "name": "variant",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "\u003cp\u003eA time zone can be set from the user interface.\u003c/p\u003e \u003cp\u003eThe underlying system\u0027s time zone is the default.\u003c/p\u003e \u003cp\u003eExample: Asia/Tokyo, Europe/Berlin\u003c/p\u003e",
+                "label": "Time Zone",
+                "name": "timezone",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "context": "location",
+                "description": "\u003cp\u003eThe location of this installation.\u003c/p\u003e \u003cp\u003eCoordinates as \u0026lt;latitude\u0026gt;,\u0026lt;longitude\u0026gt;[\u0026lt;altitude\u0026gt;]\u003c/p\u003e \u003cp\u003eExample: \"52.5200066,13.4049540\" (Berlin)\u003c/p\u003e",
+                "label": "Location",
+                "name": "location",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The measurement system is used for unit conversion.",
+                "label": "Measurement System",
+                "name": "measurementSystem",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Metric",
+                        "value": "SI"
+                    },
+                    {
+                        "label": "Imperial (US)",
+                        "value": "US"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:firmware-status-info-job",
+        "parameters": [
+            {
+                "description": "The period between successive firmware status info job execution.",
+                "label": "Period",
+                "name": "period",
+                "required": true,
+                "type": "INTEGER",
+                "min": 1,
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The time to delay the first firmware status info job execution.",
+                "label": "Delay",
+                "name": "delay",
+                "required": true,
+                "type": "INTEGER",
+                "min": 0,
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "The time unit of the firmware status info job execution.",
+                "label": "Time unit",
+                "name": "timeUnit",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Seconds",
+                        "value": "SECONDS"
+                    },
+                    {
+                        "label": "Minutes",
+                        "value": "MINUTES"
+                    },
+                    {
+                        "label": "Hours",
+                        "value": "HOURS"
+                    },
+                    {
+                        "label": "Days",
+                        "value": "DAYS"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:chart",
+        "parameters": [
+            {
+                "defaultValue": "240",
+                "description": "Defines the default height in pixels for the chart to build.",
+                "label": "Default Height",
+                "name": "defaultHeight",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "480",
+                "description": "Defines the default width in pixels for the chart to build.",
+                "label": "Default Width",
+                "name": "defaultWidth",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "1",
+                "description": "Defines the scale to apply to the requested chart height (0.5 to divide by 2 for example).",
+                "label": "Scale",
+                "name": "scale",
+                "required": false,
+                "type": "DECIMAL",
+                "min": 0,
+                "stepsize": 0.1,
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "Defines the maximum width in pixels for the chart to build.",
+                "label": "Maximum Width",
+                "name": "maxWidth",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:persistence",
+        "parameters": [
+            {
+                "description": "The persistence service to use if no other is specified.",
+                "label": "Default Service",
+                "name": "default",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "system:links",
+        "parameters": [
+            {
+                "defaultValue": "true",
+                "description": "\u003cp\u003eIn simple mode, links and their according items are automatically created for new Things.\u003c/p\u003e \u003cp\u003eIf the simple mode is turned off, the user has the full control about which items channels are linked to. Existing links will remain untouched.\u003c/p\u003e",
+                "label": "Simple Mode",
+                "name": "autoLinks",
+                "required": true,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "thing-type:mqtt:homeassistant",
+        "parameters": [
+            {
+                "description": "HomeAssistant Object ID",
+                "label": "Object ID",
+                "name": "objectid",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "HomeAssistant Node ID",
+                "label": "Node ID",
+                "name": "nodeid",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "HomeAssistant Device ID",
+                "label": "Device ID",
+                "name": "deviceid",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "MQTT base prefix",
+                "label": "MQTT base prefix",
+                "name": "basetopic",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "channel-type:mqtt:Number",
+        "parameters": [
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will subscribe to, to receive the state. This can be left empty, the thing will be state-less then.",
+                "label": "MQTT state topic",
+                "name": "stateTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will send a command to. This can be left empty",
+                "label": "MQTT command topic",
+                "name": "commandTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "Any supported transformation can be used. An example for a received JSON from a MQTT state topic would be a pattern of JSONPATH:$.device.status.temperature for a json {device: {status: { temperature: 23.2 }}}.",
+                "label": "Transformation pattern",
+                "name": "transformationPattern",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "10.0",
+                "description": "The step value is used if the value channel is bound to a Dimmer item and an increase/decrease is issued",
+                "label": "Step value",
+                "name": "step",
+                "required": false,
+                "type": "DECIMAL",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "false",
+                "description": "Set to true if the MQTT topic expects a float/double decimal instead of an integer value",
+                "label": "Is Decimal?",
+                "name": "isfloat",
+                "required": false,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "voice:rulehli",
+        "parameters": [
+            {
+                "context": "item",
+                "defaultValue": "VoiceCommand",
+                "description": "The string item to pass voice commands to.",
+                "label": "Voice Command Item",
+                "name": "item",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": [
+                    {
+                        "value": "String",
+                        "name": "type"
+                    }
+                ]
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "channel-type:mqtt:String",
+        "parameters": [
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will subscribe to, to receive the state. This can be left empty, the thing will be state-less then.",
+                "label": "MQTT state topic",
+                "name": "stateTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "An MQTT topic that this thing will send a command to. This can be left empty",
+                "label": "MQTT command topic",
+                "name": "commandTopic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "Any supported transformation can be used. An example for a received JSON from a MQTT state topic would be a pattern of JSONPATH:$.device.status.temperature for a json {device: {status: { temperature: 23.2 }}}.",
+                "label": "Transformation pattern",
+                "name": "transformationPattern",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "If your MQTT topic is limited to a set of one or more specific commands or specific states, define those states here. Separate multiple states with commas. An example for a light bulb state set: ON,DIMMED,OFF",
+                "label": "Allowed states",
+                "name": "allowedStates",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "misc:lsp",
+        "parameters": [
+            {
+                "defaultValue": "5007",
+                "description": "The port the language server listens to",
+                "label": "Port",
+                "name": "port",
+                "required": false,
+                "type": "INTEGER",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    },
+    {
+        "uri": "channel-type:mqtt:Contact",
+        "parameters": [
+            {
+                "description": "An MQTT topic that this thing will subscribe to, to receive the state.",
+                "label": "MQTT state topic",
+                "name": "stateTopic",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "",
+                "description": "Any supported transformation can be used. An example for a received JSON from a MQTT state topic would be a pattern of JSONPATH:$.device.status.temperature for a json {device: {status: { temperature: 23.2 }}}.",
+                "label": "Transformation pattern",
+                "name": "transformationPattern",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "0",
+                "description": "A number (like 1, 10) or a string (like \"open\") that is recognised as on state.",
+                "label": "Open value",
+                "name": "open",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "defaultValue": "1",
+                "description": "A number (like 0, -10) or a string (like \"close\") that is recognised as off state.",
+                "label": "Close value",
+                "name": "close",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": true,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ],
+        "parameterGroups": []
+    }
+]

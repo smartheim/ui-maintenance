@@ -21,7 +21,14 @@ export const OhContextHelp = {
   cachetime: 1440, // Ony day in minutes
   timestamp: timestamp(),
   refreshbutton: refreshButton(),
-  url: "",
+  backtohelpbuttonid: refreshButton((host) => { host.temporaryurl = ""; }),
+  helpurl: "",
+  temporaryurl: "",
+  url: {
+    get: ({ helpurl, temporaryurl }) => {
+      return temporaryurl.length ? temporaryurl : helpurl;
+    }
+  },
   htmlData: ({ url, cachetime, timestamp }) =>
     new Promise((resolve, reject) => (url == "") ? reject("No URL set") : resolve()) // condition check
       .then(() => fromCache(url, timestamp + cachetime * 60 * 1000, updateCache))

@@ -6,11 +6,55 @@
 </head>
 
 <body>
-  <partial src="itemsnav.html"></partial>
+  <link rel="stylesheet" href="css/config.css">
+  <partial src="maintenancenav.html"></partial>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="General openHAB configuration"></partial>
   <main>
-    <div>Lorem ipsum</div>
+    <div class="config">
+      <h4 title="org.openhab.addons">Add-on Management</h4>
+      <div class="elements">
+        <div class="element">
+          <toggle-check>Access remote repository</toggle-check>
+          <small class="form-text text-muted">
+            Defines whether openHAB should access the remote repository for add-on installation.
+          </small>
+        </div>
+      </div>
+      <div class="element">
+        <toggle-check>Include Legacy 1.x Binding</toggle-check>
+        <small class="form-text text-muted">
+          Defines whether openHAB should access the remote repository for add-on installation.
+        </small>
+      </div>
+    </div>
+    <div class="config">
+      <h4 title="org.eclipse.smarthome.audio">Audio</h4>
+      <div class="elements">
+        <div class="element">
+          <select class="custom-select">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          <small class="form-text text-muted">
+            The default audio source to use if no other is specified.
+          </small>
+        </div>
+        <div class="element">
+          <select class="custom-select">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          <small class="form-text text-muted">
+            The default audio sink to use if no other is specified.
+          </small>
+        </div>
+      </div>
+    </div>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="configuration"></partial>

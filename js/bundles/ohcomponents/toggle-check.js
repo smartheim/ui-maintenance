@@ -1,4 +1,4 @@
-import { html, define, dispatch, property } from './hybrids.js';
+import { html, define, dispatch } from './hybrids.js';
 
 export function changeState(host, event) {
   if (host.storekey != "") {

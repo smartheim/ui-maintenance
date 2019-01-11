@@ -1,0 +1,42 @@
+[
+    {
+        "status": {
+            "status": "UNINITIALIZED",
+            "statusDetail": "HANDLER_INITIALIZING_ERROR",
+            "description": "Getting handler \u0027timer.DayOfWeekCondition\u0027 for module \u00273\u0027 failed: \u0027days\u0027 parameter must be an array of strings.\n"
+        },
+        "triggers": [
+            {
+                "id": "1",
+                "label": "an item state changes",
+                "description": "This triggers the rule if an item state has changed.",
+                "configuration": {
+                    "itemName": "mqtt_topic_3edb5737_testnumber",
+                    "state": "1",
+                    "previousState": "0"
+                },
+                "type": "core.ItemStateChangeTrigger"
+            }
+        ],
+        "actions": [
+            {
+                "inputs": {},
+                "id": "2",
+                "label": "send a command",
+                "description": "Sends a command to a specified item.",
+                "configuration": {
+                    "itemName": "mqtt_topic_3edb5737_testtext",
+                    "command": "ON"
+                },
+                "type": "core.ItemCommandAction"
+            }
+        ],
+        "configuration": {},
+        "configDescriptions": [],
+        "uid": "dacfa98c-6a39-4889-8bcb-fa7aec69397e",
+        "name": "test",
+        "tags": [],
+        "visibility": "VISIBLE",
+        "description": "desc"
+    }
+]

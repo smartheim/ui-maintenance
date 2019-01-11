@@ -6,11 +6,28 @@
 </head>
 
 <body>
-  <partial src="itemsnav.html"></partial>
+  <link rel="stylesheet" href="css/config.css">
+  <partial src="maintenancenav.html"></partial>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Service configuration"></partial>
   <main>
-    <div>Lorem ipsum</div>
+    <div class="config">
+      <h4 title="org.openhab.addons">Whatever</h4>
+      <div class="elements">
+        <div class="element">
+          <toggle-check>Access remote repository</toggle-check>
+          <small class="form-text text-muted">
+            Defines whether openHAB should access the remote repository for add-on installation.
+          </small>
+        </div>
+      </div>
+      <div class="element">
+        <toggle-check>Include Legacy 1.x Binding</toggle-check>
+        <small class="form-text text-muted">
+          Defines whether openHAB should access the remote repository for add-on installation.
+        </small>
+      </div>
+    </div>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="service"></partial>

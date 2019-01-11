@@ -27,16 +27,9 @@ export * from './notifications'
 import "./serviceworker";
 import { nav } from "./asyncPageLoad";
 
-export const version = "w2";
+export * from './dirty'
 
-window.toggleContext = (event) => {
-  document.querySelector('body').classList.toggle('showcontext');
-  event.preventDefault();
-}
-window.toggleSidebar = (event) => {
-  document.querySelector('body').classList.toggle('showsidebar');
-  event.preventDefault();
-}
+export const version = "w2";
 
 function startupAfterDomChanged() {
   if (localStorage.getItem('skiphome') == "true") {

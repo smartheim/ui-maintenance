@@ -1,0 +1,52 @@
+[
+    {
+        "link": "http://192.168.1.8/rest/items/mqtt_topic_3edb5737_testswitch",
+        "state": "ON",
+        "editable": false,
+        "type": "Switch",
+        "name": "mqtt_topic_3edb5737_testswitch",
+        "label": "Test switch",
+        "tags": [],
+        "groupNames": []
+    },
+    {
+        "link": "http://192.168.1.8/rest/items/mqtt_topic_3edb5737_multistate",
+        "state": "ON",
+        "editable": false,
+        "type": "Switch",
+        "name": "mqtt_topic_3edb5737_multistate",
+        "label": "Multi State",
+        "tags": [],
+        "groupNames": []
+    },
+    {
+        "link": "http://192.168.1.8/rest/items/mqtt_topic_3edb5737_testnumber",
+        "state": "0",
+        "stateDescription": {
+            "pattern": "%.0f",
+            "readOnly": false,
+            "options": []
+        },
+        "editable": false,
+        "type": "Number",
+        "name": "mqtt_topic_3edb5737_testnumber",
+        "label": "Test number",
+        "tags": [],
+        "groupNames": []
+    },
+    {
+        "link": "http://192.168.1.8/rest/items/mqtt_topic_3edb5737_testtext",
+        "state": "",
+        "stateDescription": {
+            "pattern": "%s",
+            "readOnly": false,
+            "options": []
+        },
+        "editable": false,
+        "type": "String",
+        "name": "mqtt_topic_3edb5737_testtext",
+        "label": "Test Text",
+        "tags": [],
+        "groupNames": []
+    }
+]

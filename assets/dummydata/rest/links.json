@@ -1,0 +1,22 @@
+[
+    {
+        "channelUID": "mqtt:topic:3edb5737:testswitch",
+        "configuration": {},
+        "itemName": "mqtt_topic_3edb5737_testswitch"
+    },
+    {
+        "channelUID": "mqtt:topic:3edb5737:multistate",
+        "configuration": {},
+        "itemName": "mqtt_topic_3edb5737_multistate"
+    },
+    {
+        "channelUID": "mqtt:topic:3edb5737:testnumber",
+        "configuration": {},
+        "itemName": "mqtt_topic_3edb5737_testnumber"
+    },
+    {
+        "channelUID": "mqtt:topic:3edb5737:testtext",
+        "configuration": {},
+        "itemName": "mqtt_topic_3edb5737_testtext"
+    }
+]

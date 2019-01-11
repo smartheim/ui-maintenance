@@ -1,0 +1,1155 @@
+[
+    {
+        "outputs": [
+            {
+                "name": "event",
+                "type": "org.eclipse.smarthome.core.events.Event",
+                "tags": [],
+                "label": "Event",
+                "description": "the event of the channel trigger",
+                "reference": "channelEventTriggerId.event"
+            }
+        ],
+        "uid": "core.ChannelEventTrigger",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "a trigger channel fires",
+        "description": "React on events from a trigger channel of a thing.",
+        "configDescriptions": [
+            {
+                "context": "channel",
+                "description": "the id of the channel which should be observed for triggers",
+                "label": "Channel",
+                "name": "channelUID",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": [
+                    {
+                        "value": "TRIGGER",
+                        "name": "kind"
+                    }
+                ]
+            },
+            {
+                "description": "the event on the channel to react on",
+                "label": "Event",
+                "name": "event",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "outputs": [
+            {
+                "name": "event",
+                "type": "org.eclipse.smarthome.core.events.Event",
+                "tags": [],
+                "label": "Event",
+                "description": "The events which was sent.",
+                "reference": "event"
+            }
+        ],
+        "uid": "core.GenericEventTrigger",
+        "visibility": "HIDDEN",
+        "tags": [],
+        "label": "Basic Event Trigger",
+        "description": "Triggers Rules on Events",
+        "configDescriptions": [
+            {
+                "description": "This is the topic, the trigger will listen to: \u003e\u003esmarthome/*\u003c\u003c",
+                "label": "Topic",
+                "name": "eventTopic",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "This is the source of the event (eg. item name)",
+                "label": "Source",
+                "name": "eventSource",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "the event type, the trigger should listen to. Multiple types can be specified comma-separated",
+                "label": "Event Type",
+                "name": "eventTypes",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "outputs": [
+            {
+                "name": "newState",
+                "type": "state",
+                "tags": [],
+                "label": "New State",
+                "description": "the new item state"
+            },
+            {
+                "name": "oldState",
+                "type": "state",
+                "tags": [],
+                "label": "Old State",
+                "description": "the old item state"
+            },
+            {
+                "name": "event",
+                "type": "org.eclipse.smarthome.core.events.Event",
+                "tags": [],
+                "label": "Event",
+                "description": "The events which was sent.",
+                "reference": "event"
+            }
+        ],
+        "uid": "core.ItemStateChangeTrigger",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "an item state changes",
+        "description": "This triggers the rule if an item state has changed.",
+        "configDescriptions": [
+            {
+                "context": "item",
+                "description": "the name of the item",
+                "label": "Item",
+                "name": "itemName",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "the required previous state of the item",
+                "label": "Previous State",
+                "name": "previousState",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": false,
+                "options": [
+                    {
+                        "label": "ON",
+                        "value": "ON"
+                    },
+                    {
+                        "label": "OFF",
+                        "value": "OFF"
+                    },
+                    {
+                        "label": "OPEN",
+                        "value": "OPEN"
+                    },
+                    {
+                        "label": "CLOSED",
+                        "value": "CLOSED"
+                    },
+                    {
+                        "label": "UP",
+                        "value": "UP"
+                    },
+                    {
+                        "label": "DOWN",
+                        "value": "DOWN"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "description": "the state of the item",
+                "label": "State",
+                "name": "state",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": false,
+                "options": [
+                    {
+                        "label": "ON",
+                        "value": "ON"
+                    },
+                    {
+                        "label": "OFF",
+                        "value": "OFF"
+                    },
+                    {
+                        "label": "OPEN",
+                        "value": "OPEN"
+                    },
+                    {
+                        "label": "CLOSED",
+                        "value": "CLOSED"
+                    },
+                    {
+                        "label": "UP",
+                        "value": "UP"
+                    },
+                    {
+                        "label": "DOWN",
+                        "value": "DOWN"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "outputs": [
+            {
+                "name": "command",
+                "type": "command",
+                "tags": [],
+                "label": "Command",
+                "description": "the received command"
+            },
+            {
+                "name": "event",
+                "type": "org.eclipse.smarthome.core.events.Event",
+                "tags": [],
+                "label": "Event",
+                "description": "The events which was sent.",
+                "reference": "event"
+            }
+        ],
+        "uid": "core.ItemCommandTrigger",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "an item receives a command",
+        "description": "This triggers the rule if an item receives a command.",
+        "configDescriptions": [
+            {
+                "context": "item",
+                "description": "the name of the item",
+                "label": "Item",
+                "name": "itemName",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "the received command",
+                "label": "Command",
+                "name": "command",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": false,
+                "options": [
+                    {
+                        "label": "ON",
+                        "value": "ON"
+                    },
+                    {
+                        "label": "OFF",
+                        "value": "OFF"
+                    },
+                    {
+                        "label": "OPEN",
+                        "value": "OPEN"
+                    },
+                    {
+                        "label": "CLOSED",
+                        "value": "CLOSED"
+                    },
+                    {
+                        "label": "UP",
+                        "value": "UP"
+                    },
+                    {
+                        "label": "DOWN",
+                        "value": "DOWN"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "outputs": [
+            {
+                "name": "state",
+                "type": "state",
+                "tags": [],
+                "label": "State",
+                "description": "the item state"
+            },
+            {
+                "name": "event",
+                "type": "org.eclipse.smarthome.core.events.Event",
+                "tags": [],
+                "label": "Event",
+                "description": "The events which was sent.",
+                "reference": "event"
+            }
+        ],
+        "uid": "core.ItemStateUpdateTrigger",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "an item state is updated",
+        "description": "This triggers the rule if an item state is updated (even if it does not change).",
+        "configDescriptions": [
+            {
+                "context": "item",
+                "description": "the name of the item",
+                "label": "Item",
+                "name": "itemName",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "the state of the item",
+                "label": "State",
+                "name": "state",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": false,
+                "options": [
+                    {
+                        "label": "ON",
+                        "value": "ON"
+                    },
+                    {
+                        "label": "OFF",
+                        "value": "OFF"
+                    },
+                    {
+                        "label": "OPEN",
+                        "value": "OPEN"
+                    },
+                    {
+                        "label": "CLOSED",
+                        "value": "CLOSED"
+                    },
+                    {
+                        "label": "UP",
+                        "value": "UP"
+                    },
+                    {
+                        "label": "DOWN",
+                        "value": "DOWN"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "outputs": [
+            {
+                "name": "triggerOutput",
+                "type": "java.lang.String",
+                "tags": [],
+                "label": "TriggerOutput label",
+                "description": "Text from the trigger",
+                "reference": "consoleInput",
+                "defaultValue": "dtag"
+            }
+        ],
+        "uid": "jsr223.ScriptedTrigger",
+        "visibility": "EXPERT",
+        "tags": [],
+        "label": "Scripted trigger",
+        "description": "allows the execution of a method defined by a script",
+        "configDescriptions": []
+    },
+    {
+        "outputs": [],
+        "uid": "timer.GenericCronTrigger",
+        "visibility": "HIDDEN",
+        "tags": [],
+        "label": "Cron Trigger",
+        "description": "This triggers a rule based on a cron expression",
+        "configDescriptions": [
+            {
+                "description": "the cron expression",
+                "label": "cron expression",
+                "name": "cronExpression",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "outputs": [],
+        "uid": "timer.TimeOfDayTrigger",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "it is a fixed time of day",
+        "description": "Triggers at a specified time",
+        "configDescriptions": [
+            {
+                "context": "time",
+                "description": "the time (in hh:mm)",
+                "label": "Time",
+                "name": "time",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [
+            {
+                "name": "event",
+                "type": "org.eclipse.smarthome.core.events.Event",
+                "label": "Event",
+                "description": "The events which was sent.",
+                "required": true,
+                "tags": []
+            }
+        ],
+        "uid": "core.GenericEventCondition",
+        "visibility": "HIDDEN",
+        "tags": [],
+        "label": "Event Condition",
+        "description": "Condition for events",
+        "configDescriptions": [
+            {
+                "description": "topic should match",
+                "name": "topic",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "eventType should match",
+                "name": "eventType",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "source should match",
+                "name": "source",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "payload should match",
+                "name": "payload",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [
+            {
+                "name": "input",
+                "type": "java.lang.Object",
+                "label": "input which will be compared",
+                "description": "The input which will be compared.",
+                "required": true,
+                "tags": []
+            }
+        ],
+        "uid": "core.GenericCompareCondition",
+        "visibility": "HIDDEN",
+        "tags": [],
+        "label": "CompareCondition",
+        "description": "configurable compare condition",
+        "configDescriptions": [
+            {
+                "description": "property of the input type to be compared",
+                "label": "Input property",
+                "name": "inputproperty",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "the value to be compared with the input",
+                "label": "compare with",
+                "name": "right",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "the compare operator, allowed are \u003c,\u003e,\u003d,!\u003d,\u003e\u003d,\u003c\u003d matches",
+                "name": "operator",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "uid": "core.ItemStateCondition",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "an item has a given state",
+        "description": "Compares the item state with the given value",
+        "configDescriptions": [
+            {
+                "context": "item",
+                "description": "the name of the item",
+                "label": "Item",
+                "name": "itemName",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "the compare operator (one of \u003d,\u003c,\u003e,!\u003d,\u003e\u003d,\u003c\u003d)",
+                "label": "Operator",
+                "name": "operator",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "\u003d",
+                        "value": "\u003d"
+                    },
+                    {
+                        "label": "!\u003d",
+                        "value": "!\u003d"
+                    },
+                    {
+                        "label": "\u003e",
+                        "value": "\u003e"
+                    },
+                    {
+                        "label": "\u003e\u003d",
+                        "value": "\u003e\u003d"
+                    },
+                    {
+                        "label": "\u003c",
+                        "value": "\u003c"
+                    },
+                    {
+                        "label": "\u003c\u003d",
+                        "value": "\u003c\u003d"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "description": "the state to be compared with",
+                "label": "State",
+                "name": "state",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": false,
+                "options": [
+                    {
+                        "label": "ON",
+                        "value": "ON"
+                    },
+                    {
+                        "label": "OFF",
+                        "value": "OFF"
+                    },
+                    {
+                        "label": "OPEN",
+                        "value": "OPEN"
+                    },
+                    {
+                        "label": "CLOSED",
+                        "value": "CLOSED"
+                    },
+                    {
+                        "label": "UP",
+                        "value": "UP"
+                    },
+                    {
+                        "label": "DOWN",
+                        "value": "DOWN"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "uid": "script.ScriptCondition",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "a given script evaluates to true",
+        "description": "Allows the definition of a condition through a script.",
+        "configDescriptions": [
+            {
+                "description": "the scripting language used",
+                "name": "type",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Javascript",
+                        "value": "application/javascript"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "context": "script",
+                "description": "the script to execute",
+                "name": "script",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "uid": "jsr223.ScriptedCondition",
+        "visibility": "EXPERT",
+        "tags": [],
+        "label": "Scripted condition",
+        "description": "allows the definition of a condition by a script",
+        "configDescriptions": [
+            {
+                "description": "the identifier of the private method",
+                "name": "privId",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "uid": "timer.DayOfWeekCondition",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "it is a certain day of the week",
+        "description": "checks for the current day of the week",
+        "configDescriptions": [
+            {
+                "context": "dayOfWeek",
+                "description": "the days of the week when the rule should be active",
+                "label": "Days of the week",
+                "name": "days",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": true,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "outputs": [],
+        "uid": "core.ItemCommandAction",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "send a command",
+        "description": "Sends a command to a specified item.",
+        "configDescriptions": [
+            {
+                "context": "item",
+                "description": "the name of the item",
+                "label": "Item",
+                "name": "itemName",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "the command to be sent",
+                "label": "Command",
+                "name": "command",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": false,
+                "options": [
+                    {
+                        "label": "ON",
+                        "value": "ON"
+                    },
+                    {
+                        "label": "OFF",
+                        "value": "OFF"
+                    },
+                    {
+                        "label": "OPEN",
+                        "value": "OPEN"
+                    },
+                    {
+                        "label": "CLOSED",
+                        "value": "CLOSED"
+                    },
+                    {
+                        "label": "UP",
+                        "value": "UP"
+                    },
+                    {
+                        "label": "DOWN",
+                        "value": "DOWN"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "outputs": [],
+        "uid": "core.RuleEnablementAction",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "enables or disable rules",
+        "description": "Enables or disables a rule or a group of rules specified by their UIDs.",
+        "configDescriptions": [
+            {
+                "description": "\u0027true\u0027 enables all specified rules, \u0027false\u0027 disables them.",
+                "label": "Enable rules",
+                "name": "enable",
+                "required": true,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Enable",
+                        "value": "true"
+                    },
+                    {
+                        "label": "Disable",
+                        "value": "false"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "context": "rule",
+                "description": "Specifies the rules that should be enabled or disabled.",
+                "label": "Rules",
+                "name": "ruleUIDs",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": true,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "outputs": [],
+        "uid": "core.RunRuleAction",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "run rules",
+        "description": "runs/executes a rule or a group of rules specified by their UIDs.",
+        "configDescriptions": [
+            {
+                "context": "rule",
+                "description": "Specifies the target rule(s) that should be executed.",
+                "label": "Rules",
+                "name": "ruleUIDs",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": true,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "Specifies whether the conditions of the target rule(s) to be executed should be considered or not.",
+                "label": "Consider Conditions",
+                "name": "considerConditions",
+                "required": true,
+                "type": "BOOLEAN",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": "true"
+                    },
+                    {
+                        "label": "No",
+                        "value": "false"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "result",
+                "type": "java.lang.Object",
+                "tags": [],
+                "label": "result",
+                "description": "the script result"
+            }
+        ],
+        "uid": "script.ScriptAction",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "execute a given script",
+        "description": "Allows the execution of a user-defined script.",
+        "configDescriptions": [
+            {
+                "defaultValue": "application/javascript",
+                "description": "the scripting language used",
+                "name": "type",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Javascript",
+                        "value": "application/javascript"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "context": "script",
+                "description": "the script to execute",
+                "name": "script",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "result",
+                "type": "java.lang.Object",
+                "tags": [],
+                "label": "result",
+                "description": "the script result.",
+                "reference": ""
+            }
+        ],
+        "uid": "jsr223.ScriptedAction",
+        "visibility": "EXPERT",
+        "tags": [],
+        "label": "Scripted action",
+        "description": "allows the execution of a method defined by a script",
+        "configDescriptions": [
+            {
+                "description": "the identifier of the private method",
+                "name": "privId",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "outputs": [],
+        "uid": "media.PlayAction",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "play a sound",
+        "description": "Plays a sound file.",
+        "configDescriptions": [
+            {
+                "description": "the sound to play",
+                "label": "Sound",
+                "name": "sound",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "Doorbell",
+                        "value": "doorbell.mp3"
+                    },
+                    {
+                        "label": "Barking",
+                        "value": "barking.mp3"
+                    }
+                ],
+                "filterCriteria": []
+            },
+            {
+                "description": "the audio sink id",
+                "label": "Sink",
+                "name": "sink",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "System Speaker (with mp3 support)",
+                        "value": "enhancedjavasound"
+                    },
+                    {
+                        "label": "System Speaker",
+                        "value": "javasound"
+                    },
+                    {
+                        "label": "Web Audio",
+                        "value": "webaudio"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ]
+    },
+    {
+        "inputs": [],
+        "outputs": [],
+        "uid": "media.SayAction",
+        "visibility": "VISIBLE",
+        "tags": [],
+        "label": "say something",
+        "description": "Speaks a given text through a natural voice.",
+        "configDescriptions": [
+            {
+                "description": "the text to speak",
+                "label": "Text",
+                "name": "text",
+                "required": true,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [],
+                "filterCriteria": []
+            },
+            {
+                "description": "the audio sink id",
+                "label": "Sink",
+                "name": "sink",
+                "required": false,
+                "type": "TEXT",
+                "readOnly": false,
+                "multiple": false,
+                "advanced": false,
+                "verify": false,
+                "limitToOptions": true,
+                "options": [
+                    {
+                        "label": "System Speaker (with mp3 support)",
+                        "value": "enhancedjavasound"
+                    },
+                    {
+                        "label": "System Speaker",
+                        "value": "javasound"
+                    },
+                    {
+                        "label": "Web Audio",
+                        "value": "webaudio"
+                    }
+                ],
+                "filterCriteria": []
+            }
+        ]
+    }
+]

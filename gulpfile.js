@@ -11,21 +11,28 @@
  */
 'use strict';
 
+// Gulp + browser opening plugin + web server
 var gulp = require('gulp');
-var open = require('gulp-open'); // Gulp browser opening plugin
-var connect = require('gulp-connect'); // Gulp Web server runner plugin
+var open = require('gulp-open');
+var connect = require('gulp-connect');
+// Gulp utils
+var del = require('del');
+var rename = require('gulp-rename');
+const fs = require("fs");
+// Process html+sass+js
 var csso = require('./gulp/gulp-csso.js');
 var htmlPartial = require('./gulp/gulp-html-partial.js');
 var htmlmin = require('gulp-htmlmin');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify-es').default;
-var del = require('del');
 var csslint = require('gulp-csslint');
-var rename = require('gulp-rename');
-const resolveNodeModules = require('rollup-plugin-node-resolve');
-const rollupEach = require('gulp-rollup-each')
-const workboxBuild = require('workbox-build'); // service worker generating
-const fs = require("fs");
+// Server worker generator
+const workboxBuild = require('workbox-build');
+// Rollup (bundles js, includes npm dependencies, includes referenced style sheets)
+const rollupEach = require('gulp-rollup-each');
+const rollupPluginNodeModuleResolve = require('rollup-plugin-node-resolve');
+const rollupPluginCss = require('rollup-plugin-css-only');
+const rollupPluginReplace = require('rollup-plugin-replace');
 
 var config = {
     paths: {
@@ -35,9 +42,12 @@ var config = {
             scss: './scss/*.scss', // only consider top level files, others are included
             scss_watch: './scss/**/*.scss',
             js: ['js/**/*.js', '!js/bundles/**/*'],
-            js_bundles_entry: './js/bundles/**/index.js',
+            js_bundles_entry: ['./js/bundles/**/index.js'],
             js_bundles_watch: './js/bundles/**/*.js',
-            assets: './assets/**/*'
+            assets: [
+                './assets/**/*',
+                './node_modules/monaco-editor/min/**/*'
+            ]
         },
         partials: './partials/',
         dist: './dist',
@@ -103,17 +113,23 @@ const compileBundles = () =>
     gulp.src(config.paths.src.js_bundles_entry)
         .pipe(rollupEach({
             plugins: [
-                resolveNodeModules({ browser: true }),
-                require('rollup-plugin-replace')({
-                    'process.env.NODE_ENV': '"development"' // production
-                })
+                rollupPluginNodeModuleResolve({ browser: true }),
+                rollupPluginCss({}),
+                rollupPluginReplace({ 'process.env.NODE_ENV': '"development"' }) // // production
             ]
         }, { format: "esm" }, require('rollup')))
-        .pipe(rename(path => { // Input is: js/bundles/{bundle-name}/index.js. Output is: js/{bundle-name}.js
-            path.basename = path.dirname; path.dirname = '';
+        .pipe(rename(path => {
+            // Input is: js/bundles/{bundle-name}/index.js. Output is: js/{bundle-name}.js
+            if (path.dirname != ".") {
+                path.basename = path.dirname;
+                path.dirname = '';
+            } else {
+                // Input is: node_modules/monaco-editor/esm/vs/language/json/json.worker.js. Output is: json.worker.js
+                path.dirname = '';
+            }
             return path;
         }))
-//        .pipe(uglify())
+        //        .pipe(uglify())
         .pipe(gulp.dest(config.paths.distjs)).pipe(connect.reload());
 compileBundles.description = "Creating bundles"
 

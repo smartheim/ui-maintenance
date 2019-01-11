@@ -1,0 +1,49 @@
+[
+    {
+        "uid": "system:offset",
+        "label": "Offset",
+        "kind": "STATE",
+        "supportedItemTypes": [
+            "Number"
+        ]
+    },
+    {
+        "uid": "system:follow",
+        "label": "Follow",
+        "kind": "STATE",
+        "supportedItemTypes": []
+    },
+    {
+        "uid": "system:rawbutton-toggle-switch",
+        "label": "Raw Button Toggle",
+        "kind": "TRIGGER",
+        "supportedItemTypes": [
+            "Switch",
+            "Dimmer",
+            "Color"
+        ]
+    },
+    {
+        "uid": "system:rawrocker-to-dimmer",
+        "label": "Raw Rocker To Dimmer",
+        "kind": "TRIGGER",
+        "supportedItemTypes": [
+            "Dimmer"
+        ]
+    },
+    {
+        "uid": "system:rawrocker-to-on-off",
+        "label": "Raw Rocker To On Off",
+        "kind": "TRIGGER",
+        "supportedItemTypes": [
+            "Switch",
+            "Dimmer"
+        ]
+    },
+    {
+        "uid": "system:default",
+        "label": "Default",
+        "kind": "STATE",
+        "supportedItemTypes": []
+    }
+]

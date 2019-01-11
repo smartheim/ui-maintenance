@@ -84,7 +84,7 @@
 }
 
 @media (max-width: get-breakpoints("md")) {
-    body>nav {
+    body>nav, body>nav.sidebar {
         position: absolute;
         background-color: lightgray;
         box-shadow: 0 0 10px rgba(26, 26, 26, 0.25);

@@ -6,20 +6,20 @@ import { html } from "./hybrids.js";
  * 
  * No arguments.
  */
-export function refreshButton () {
+export function refreshButton(listener = (host)=>{host.timestamp = 0;}) {
     return {
         set: (host, value) => { },
-            connect: (host, key) => {
-                var e = document.getElementById(host.getAttribute(key));
-                const clickListener = (event) => {
-                    host.timestamp = 0;
-                    event.preventDefault();
-                };
-                if (e) e.addEventListener("click", clickListener);
-                return () => {
-                    if (e) e.removeEventListener("click", clickListener);
-                }
+        connect: (host, key) => {
+            var e = document.getElementById(host.getAttribute(key));
+            const clickListener = (event) => {
+                event.preventDefault();
+                listener(host);
+            };
+            if (e) e.addEventListener("click", clickListener);
+            return () => {
+                if (e) e.removeEventListener("click", clickListener);
             }
+        }
     }
 };
 
@@ -62,6 +62,6 @@ export function fromCache(url, cacheTime, updateCache, updateArguments) {
             localStorage.setItem(url, parsedHtml);
             localStorage.setItem("timestamp_" + url, Date.now());
             setTimeout(() => accept(html`<div style="padding:inherit;margin:inherit;max-width:inherit" innerHTML="${parsedHtml}"></div>`), 1);
-        }).catch(e=>reject(e));
+        }).catch(e => reject(e));
     });
 }

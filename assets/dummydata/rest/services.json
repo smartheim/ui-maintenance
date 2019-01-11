@@ -1,0 +1,121 @@
+[
+    {
+        "id": "org.openhab.habpanel",
+        "label": "HABPanel",
+        "category": "ui",
+        "configDescriptionURI": "ui:habpanel",
+        "multiple": false
+    },
+    {
+        "id": "org.openhab.addons",
+        "label": "Add-on Management",
+        "category": "system",
+        "configDescriptionURI": "system:addons",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.core.i18nprovider",
+        "label": "Regional Settings",
+        "category": "system",
+        "configDescriptionURI": "system:i18n",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.network",
+        "label": "Network Settings",
+        "category": "system",
+        "configDescriptionURI": "system:network",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.audio",
+        "label": "Audio",
+        "category": "system",
+        "configDescriptionURI": "system:audio",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.persistence",
+        "label": "Persistence",
+        "category": "system",
+        "configDescriptionURI": "system:persistence",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.voice",
+        "label": "Voice",
+        "category": "system",
+        "configDescriptionURI": "system:voice",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.rulehli",
+        "label": "Rule Voice Interpreter",
+        "category": "voice",
+        "configDescriptionURI": "voice:rulehli",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.lsp",
+        "label": "Language Server (LSP)",
+        "category": "misc",
+        "configDescriptionURI": "misc:lsp",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.storage.json",
+        "label": "Json Storage",
+        "category": "system",
+        "configDescriptionURI": "system:json_storage",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.inbox",
+        "label": "Inbox",
+        "category": "system",
+        "configDescriptionURI": "system:inbox",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.links",
+        "label": "Item Linking",
+        "category": "system",
+        "configDescriptionURI": "system:links",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.chart",
+        "label": "Charts",
+        "category": "system",
+        "configDescriptionURI": "system:chart",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.basicui",
+        "label": "Basic UI",
+        "category": "ui",
+        "configDescriptionURI": "ui:basic",
+        "multiple": false
+    },
+    {
+        "id": "org.openhab.hueemulation",
+        "label": "Hue Emulation",
+        "category": "io",
+        "configDescriptionURI": "io:hueemulation",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.mqttembeddedbroker",
+        "label": "MQTT Embedded Broker",
+        "category": "MQTT",
+        "configDescriptionURI": "mqtt:mqttembeddedbroker",
+        "multiple": false
+    },
+    {
+        "id": "org.eclipse.smarthome.mqttbroker",
+        "label": "MQTT system broker connection",
+        "category": "MQTT",
+        "configDescriptionURI": "mqtt:systemBrokerConnectionInstance",
+        "multiple": true
+    }
+]
