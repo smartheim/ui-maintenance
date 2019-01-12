@@ -33,6 +33,10 @@ const rollupEach = require('gulp-rollup-each');
 const rollupPluginNodeModuleResolve = require('rollup-plugin-node-resolve');
 const rollupPluginCss = require('rollup-plugin-css-only');
 const rollupPluginReplace = require('rollup-plugin-replace');
+// Rete requires some more plugins
+const rollupPluginFlow = require('rollup-plugin-flow'); // This Rollup plugin will remove Flow type annotations during bundling using flow-remove-types.
+const rollupPluginSass = require('rollup-plugin-sass'); // Rete is using sass imports
+const rollupPluginCommonjs = require('rollup-plugin-commonjs');
 
 var config = {
     paths: {
@@ -114,6 +118,9 @@ const compileBundles = () =>
         .pipe(rollupEach({
             plugins: [
                 rollupPluginNodeModuleResolve({ browser: true }),
+//                rollupPluginFlow({all: true}), // Rete is using flow type annotations
+//                rollupPluginCommonjs({}),
+//                rollupPluginSass({}),
                 rollupPluginCss({}),
                 rollupPluginReplace({ 'process.env.NODE_ENV': '"development"' }) // // production
             ]

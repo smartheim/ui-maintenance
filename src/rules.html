@@ -17,33 +17,45 @@
   <main>
       <div class="mt-4"><ui-filter placeholder="Filter..."></ui-filter></div>
     
-    <div id="rulesapp">
-
-    </div>
-    <template id="node-template">
-      <g class="node" :transform="transform">
-        <rect x="0" y="0" height="50" width="100"></rect>
-        <text x="5" y="15">{{node.label}}</text>
-        <text x="5" y="30">treePos: [{{node.level}}][{{node.index}}]</text>
-        <text x="5" y="45">weight: {{node.weight}}</text>
-      </g>
-    </template>
-
-    <template id="link-template">
-      <path :id="link.id" class="link" :d="path">
-    </template>
-
-    <template id="container-template">
-        <svg :width="service.svgWidth" :height="service.svgHeight + 10">
-          <link-template v-for="link in getAllLinks(service.data)" :key="link.id" :link="link"></link-template>
-          <node-template v-for="node in getAllNodes(service.data)" :key="node.id" :node="node"></node-template>
-        </svg>
-    </template>
-
+      <div id="listcontainer" class="grid">
+          <div class="addonitem">
+            <div class="body">
+              <div class="title"><span>My first rule</span>
+              </div>
+              <div class="description">Will do super important stuff. Click me now.</div>
+              <div class="btn-group" role="group">
+                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
+                <a href="rule.html" class="btn btn-secondary"><i class="fas fa-cog"></i> <span>Configure</span></a>
+                <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run</span> <span class="badge badge-light">Idle</span></a>
+              </div>
+            </div>
+            <div class="footer">
+              <small>Run counter: 18</small>
+            </div>
+          </div>
+    
+          <div class="addonitem">
+            <div class="body">
+              <div class="title"><span>Another rule</span>
+              </div>
+              <div class="description">
+                Very important rule for sensors and stuff.
+              </div>
+              <div class="btn-group" role="group">
+                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
+                <a href="rule.html" class="btn btn-secondary"><i class="fas fa-cog"></i> <span>Configure</span></a>
+                <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run</span> <span class="badge badge-light">Idle</span></a>
+              </div>
+            </div>
+            <div class="footer">
+                <small>Run counter: 2</small>
+            </div>
+          </div>
+        </div>
+      </div>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="rules"></partial>
-  <script type="module" src="js/rules.js" async></script>
 </body>
 
 </html>

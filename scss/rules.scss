@@ -1,18 +1,247 @@
-.link {
+@import "partials/variables";
+$bg-color: #ccc;
+$node-color-selected: #ffd92c;
+$group-color: rgba(15, 80, 255, 0.2);
+$group-handler-size: 40px;
+$group-handler-offset: -10px;
+$socket-size: 24px;
+$socket-margin: 6px;
+$bg-size: 32;
+$node-border: 0;
+$node-width: $bg-size*6-2*$node-border;
+$node-height: $bg-size*3-2*$node-border;
+
+#rulesapp {
+    margin: 0;
+    &>div {
+        height: 100%;
+    }
+}
+
+.rete-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    &.default {
+        background-size: $bg-size*1px $bg-size*1px;
+        background-image: linear-gradient(to right, $bg-color 1px, transparent 1px), linear-gradient(to bottom, $bg-color 1px, transparent 1px);
+    }
+}
+
+.connection {
+    overflow: visible !important;
+}
+
+.connection .main-path {
     fill: none;
-    stroke: #ccc;
-    stroke-width: 1px;
+    stroke-width: 5px;
+    stroke: lighten(theme-color("info"), 10%);
+}
+
+.socket {
+    background: theme-color("orange");
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: $socket-size/2.0;
+    width: $socket-size;
+    height: $socket-size;
+    margin: $socket-margin;
+    vertical-align: middle;
+    z-index: 2;
+    box-sizing: border-box;
+    &:hover {
+        border-width: 4px
+    }
+    &.multiple {
+        border-color: yellow
+    }
+    &.output {
+        margin-right: - $socket-size / 2
+    }
+    &.input {
+        margin-left: - $socket-size / 2
+    }
 }
 
 .node {
+    background: theme-color("info");
+    border: $node-border*1px solid #4e58bf;
+    border-radius: 10px;
+    cursor: pointer;
+    min-width: $node-width * 1px;
+    min-height: $node-height * 1px;
+    height: auto;
+    margin-bottom: 6px;
+    box-sizing: content-box;
+    position: relative;
+    user-select: none;
     &:hover {
-        cursor: pointer;
-        rect {
-            fill: #49ACEE;
+        background: lighten(theme-color("info"), 4%);
+    }
+    &.selected {
+        background: $node-color-selected;
+        border-color: #e3c000;
+    }
+    .title {
+        color: white;
+        font-family: sans-serif;
+        font-size: 18px;
+        padding: 8px;
+    }
+    .output {
+        text-align: right;
+    }
+    .input {
+        text-align: left;
+    }
+    .input-title,
+    .output-title {
+        vertical-align: middle;
+        color: white;
+        display: inline-block;
+        font-family: sans-serif;
+        font-size: 14px;
+        margin: 6px;
+        line-height: 24px;
+    }
+    .input-control {
+        z-index: 1;
+        width: calc(100% - #{$socket-size + 2*$socket-margin});
+        vertical-align: middle;
+        display: inline-block;
+    }
+    .control {
+        padding: $socket-margin $socket-size/2 + $socket-margin;
+    }
+}
+
+main > .grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+main > .textual {
+    .addonitem{
+        display: none;
+    }
+}
+
+.selectionmode .addonitem.selected {
+    box-shadow: 0px 0px 15px 0px rgba(255,114,20,1);
+}
+
+.grid .addonitem {
+    width: 45%;
+    min-width: 420px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    .body {
+        flex: 1 1 auto;
+        padding: 1.25rem;
+        .title {
+            margin-bottom: .75rem;
+            font-size: 1.5rem;
+            margin-bottom: .5rem;
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.2;
+            color: inherit;
+
+            white-space: nowrap;
+            flex-wrap: nowrap;
+            display: flex;
+            align-items: center;
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                flex: 1;
+            }
+            small {
+                display: none;
+            }
+            select {
+                width: initial;
+            }
+        }
+        .description {
+            padding-bottom: 1rem;
         }
     }
-    rect {
-        fill: #DFF3FF;
-        stroke: #49ACEE;
+    .footer {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
+        padding: .75rem 1.25rem;
+        background-color: rgba(0, 0, 0, .03);
+        border-top: 1px solid rgba(0, 0, 0, .125);
+        small {
+            flex: 1;
+            color: #6c757d !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap !important;
+        }
     }
+}
+
+.list .addonitem {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
+    .body {
+        display: flex;
+        font-size: 20pt;
+        align-items: center;
+        flex-direction: row;
+        .title {
+            white-space: nowrap;
+            select {
+                display: none;
+            }
+        }
+        .description {
+            white-space: nowrap ;
+            color: #6c757d ;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-left: .5rem ;
+            margin-right: .5rem ;
+            font-size: 80%;
+            font-weight: 400;
+        }
+        a {
+            span {
+                display: none;
+            }
+        }
+    }
+    .footer {
+        display: none;
+    }
+}
+
+.addonitem.list:last-child {
+    margin-bottom: 0;
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+
+.addonitem.list:first-child {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
 }

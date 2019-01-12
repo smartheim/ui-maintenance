@@ -91,6 +91,7 @@ body {
             grid-column: 2 / span 2; // span 2 because no context help
             grid-row: 3;
             box-shadow: none;
+            overflow: hidden;
         }
         &>footer {
             grid-column: 2 / span 1;

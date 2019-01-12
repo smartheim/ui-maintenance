@@ -1,88 +1,30 @@
-import { treeService } from "./testdata";
-import { hasChildren } from "./utils";
-import { calculateFullTree } from "./position";
-import Vue from 'vue/dist/vue.esm.js';
-
-/*** COMPONENTS ***/
-var nodeTemplate = {
-    template: '#node-template',
-    props: ['node'],
-    computed: {
-        transform: function () {
-            var x = this.node.x - 50;
-            var y = this.node.y - 25;
-            return `translate(${x}, ${y})`;
-        }
-    }
-};
-
-var linkTemplate = {
-    template: '#link-template',
-    props: ['link'],
-    computed: {
-        path: function () {
-            const treeService = this.$root.service;
-            const moveTo = 'M' + this.link.start.x + ',' + this.link.start.y;
-            const verticalFirst = 'V' + (this.link.end.y - (treeService.verticalSpacing / 2) - (treeService.componentHeight / 2));
-            const horizontal = 'H' + this.link.end.x;
-            const verticalSecond = 'V' + this.link.end.y;
-
-            const a = moveTo + verticalFirst + horizontal + verticalSecond;
-            return a;
-        }
-    }
-};
+import VueRenderPlugin from './renderer/index';
+import ReteArea from './area/index';
+import ConnectionPlugin from './connection/index';
+import { Rete } from "./rete";
+import { data } from "./demodata";
+import { KeydownComponent, EnterPressComponent, AlertComponent } from "./components";
 
 function start() {
-    if (!document.getElementById("rulesapp")) return;
-    new Vue({
-        el: '#rulesapp',
-        template: "#container-template",
-        data: {
-            service: treeService
-        },
-        created: function () {
-            calculateFullTree(treeService);
-        },
-        methods: {
-            getAllNodes: function () {
-                var nodes = [];
-                for (var level of this.service.data) {
-                    for (var node of level) {
-                        nodes.push(node);
-                    };
-                };
-                return nodes;
-            },
-            getAllLinks: function () {
-                var links = [];
-                for (var level of this.service.data) {
-                    for (var node of level) {
-                        if (!hasChildren(node)) continue;
-                        for (var child of node.children) {
-                            var childNode = this.service.data[child.level][child.index];
-                            links.push({
-                                id: 'link' + node.level + node.index + childNode.level + childNode.index,
-                                start: {
-                                    x: node.x,
-                                    y: node.y
-                                },
-                                end: {
-                                    x: childNode.x,
-                                    y: childNode.y
-                                }
-                            });
-                        };
+    var container = document.getElementById('rulesapp')
+    if (!container) return;
 
-                    };
-                };
-                return links;
-            }
-        },
-        components: {
-            'node-template': nodeTemplate,
-            'link-template': linkTemplate
-        }
+    var editor = new Rete.NodeEditor('tasksample@0.1.0', container);
+    editor.use(ConnectionPlugin, { curvature: 0.4 });
+    editor.use(VueRenderPlugin);
+    editor.use(ReteArea, { scaleExtent: true, snap: true, translateExtent: true, background:true });
+
+    var components = [new KeydownComponent, new EnterPressComponent, new AlertComponent];
+    components.map(c => {
+        editor.register(c);
+    });
+
+    editor.on('connectioncreate connectionremove nodecreate noderemove', () => {
+        if (editor.silent) return;
+    });
+
+    editor.fromJSON(data).then(() => {
+        editor.view.resize();
     });
 }
 

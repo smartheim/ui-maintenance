@@ -6,18 +6,60 @@
 </head>
 
 <body>
+  <link rel="stylesheet" href="css/rules.css" type="text/css" />
   <nav class="sidebar leftright">
     <partial src="rulesnav.html"></partial>
     <p>Rule components</p>
     <oh-rule-components></oh-rule-components>
+    <div class="node text-center"><div class="text-white">Demo action</div><div class="muted">A description</div></div>
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit rule"></partial>
   <main>
-    <div>Lorem ipsum</div>
+      <form class="m-4 mb-0">
+          <div class="form-group row">
+            <label for="scriptname" class="col-sm-2 col-form-label">Rule name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="name" id="scriptname" pattern=".{1,}" required placeholder="Your rule name goes here">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="filepath" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="filepath" id="filepath" pattern="[^\s]+" required placeholder="Rule description">
+            </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label"><abbr title="Reference this Rule via this identifier">UID</abbr></label>
+              <div class="col-sm-10">
+                <div class="form-control">3453-2345-2342-5423-6452-1235</div>
+              </div>
+            </div>
+        </form>
+    <template id="rulenode">
+      <div class="node" :class="classes">
+        <div class="title">{{node.name}}</div>
+        <!-- Outputs-->
+        <div class="output" v-for="output in outputs()" :key="output.key">
+          <div class="output-title">{{output.name}}</div>
+          <Socket v-socket:output="output" type="output" :socket="output.socket"></Socket>
+        </div>
+        <!-- Controls-->
+        <div class="control" v-for="control in controls()" v-control="control"></div>
+        <!-- Inputs-->
+        <div class="input" v-for="input in inputs()" :key="input.key">
+          <Socket v-socket:input="input" type="input" :socket="input.socket"></Socket>
+          <div class="input-title" v-show="!input.showControl()">{{input.name}}</div>
+          <div class="input-control" v-show="input.showControl()" v-control="input.control"></div>
+        </div>
+      </div>
+    </template>
+    <div id="rulesapp">
+    </div>
   </main>
   <footer></footer>
-  <partial src="contexthelp.html" help="rules"></partial>
+  <partial src="contexthelp.html" help="rule"></partial>
+  <script type="module" src="js/rules.js" async></script>
 </body>
 
 </html>

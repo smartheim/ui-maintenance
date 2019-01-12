@@ -17,6 +17,7 @@
 
 // https://github.com/oom-components/page-loader
 import Navigator from './page/navigator';
+import { checkLogin } from './logincheck'
 
 function prepareLoadedContent(event) {
     if (event.target) event.target.classList.remove("disabled");

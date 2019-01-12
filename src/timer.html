@@ -3,6 +3,7 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="timers.html" />
 </head>
 
 <body>
@@ -10,7 +11,30 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit a timer"></partial>
   <main>
-    <div>Lorem ipsum</div>
+    <nav-breadcrumb></nav-breadcrumb>
+    <form class="m-4 mb-0">
+      <div class="form-group row">
+        <label for="timername" class="col-sm-2 col-form-label">Timer label</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="timername" id="timername" pattern=".{1,}" required placeholder="Timer label">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="timerid" class="col-sm-2 col-form-label">Unique Timer ID</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="timerid" id="timerid" pattern="[^\s]+" required placeholder="Unique Timer ID">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="timertags" class="col-sm-2 col-form-label">Tags</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="timertags" id="timertags" pattern="[^\s]+" required placeholder="Comma separated Timer Tags">
+        </div>
+      </div>
+    </form>
+
+    <toggle-check>Delete after triggered</toggle-check>
+    <toggle-check value="true">Enabled</toggle-check>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="timers"></partial>
