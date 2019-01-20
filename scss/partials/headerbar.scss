@@ -42,10 +42,10 @@
         flex-wrap: wrap;
         flex: 1;
         justify-content: flex-end;
-        &>div:first-child {
+        div:first-child {
             margin-left: 0;
         }
-        &>div {
+        div {
             margin-left: 1.5rem;
         }
         a {
@@ -71,7 +71,7 @@
         }
         nav {
             padding-left: .5rem;
-            &>div {
+            div {
                 margin-left: 1rem;
             }
         }

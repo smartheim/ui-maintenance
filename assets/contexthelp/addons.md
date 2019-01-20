@@ -8,23 +8,8 @@ Apple HomeKit and so on.
 You can install add-ons from:
 
 * the official repository
-* from the Eclipse Marketplace (see below),
-* directly from the repository of a developer, via a link or a `.jar` file.
-
-## The Eclipse Marketplace
-
-You need to install the [Eclipse Marketplace](#filter=org.eclipse.marketplace) add-on first.
-Then you have access to all Marketplace add-ons.
-
-The Eclipse Marketplace mostly contains closed-source
-add-ons, where the openHAB developers have no access to.
-
-Install those add-ons at your own risk and only from trusted
-parties. **They can potentially contain malicous code or break your openHAB installation.**
-
-Eclipse Marketplace add-ons are automatically deinstalled
-on a version upgrade, to not run the risk of instability
-for the openHAB core. (We are sorry for this inconvenience.)
+* from the Eclipse Marketplace,
+* directly from the repository of a developer, via a `.jar` file.
 
 ## Terminology
 
@@ -44,7 +29,7 @@ Each binding has a maintenance status:
 
 * **Stable**: A stable add-on is maintained by openHAB developers and installed from the official repository. Add-ons in this category are adapted to breaking changes in openHAB.
 * **Snapshot**: A snapshot add-on is maintained by openHAB developers and installed from the official snapshot repository. It is not guaranteed that it works with your current openHAB version, if openHAB is not also a snapshot version. A snapshot Add-on has all the latest fixes, but might also contain breaking changes.
-* **Unmaintained**: An unmainted add-on did not receive an update (yet) for your current openHAB version.
+* **Unmaintained**: An unmainted add-on did not receive an update (yet) for your current openHAB version. That usually happens with manually installed `.jar` files at some point.
 * **Beta**: If you have installed an add-on from the marketplace or directly from a developer, and the version is higher than the current openHAB version, it has this status.
 
 ## Updates

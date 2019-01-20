@@ -58,8 +58,10 @@ Such an "oh-binding-doc" custom component for example would load and display the
   all evergreen-browsers (Chrome, Firefox, Samsung Internet, Opera, Safari, Edge).
   No framework is required and at the same time every framework is compatible.
 * Static Html pages (/index.html, /items.html, /things.html) allow to only load the
-  exact subset of necessary libraries and style sheets per page
-  and reduces memory consumption and first-time load impression.
+  exact subset of necessary libraries and style sheets per page.
+  Memory consumption is reduced, because of a small DOM. This is especially
+  useful, because the VS-Code editor for example weights 7 MB, and is only loaded
+  on pages that require them.
 
 ### Page layout and page changing
 
@@ -68,10 +70,10 @@ be similar on all pages. Have a look at `src/newpage_template.html` for a commen
 html layout that need to be conformed to.
 
 The advantage of SPAs are that the shell of the application stays, so there is no
-flickering while changing to another subpage. This is also realised in this version as a
-progressive enhancement. Have a look at `js/bundles/app/index.js` where you find
-the @oom/page-loader library to be loaded and setup to intercept clicks and
-perform page changes via only replacing parts of the current shown page.
+flickering while changing to another subpage.
+This is realised in this project as a progressive enhancement, by adding
+the custom component `<nav-ajax-page-load></nav-ajax-page-load>` to the page.
+Clicks are intercepted and only parts of the current shown page are replaced.
 
 ### Static pages 
 
@@ -120,10 +122,6 @@ Webcomponents for
 
 are available in `js/bundles/ohcomponents/*.js` and can be used in other projects as well.
 
-Those components are developed with [hybrid.js](https://github.com/hybridsjs/hybrids),
-which allows declarative definitions of Webcomponents. This adds 4KB, but saves with each
-new component, because a pure Web Component requires quite a bit of repetitive boilerplate.
-
 ### Icons / Fonts / Styling
 
 See [Styling Readme](scss/readme.md).
@@ -131,6 +129,13 @@ See [Styling Readme](scss/readme.md).
 ### Javascript
 
 See [Javascript Readme](js/readme.md).
+
+#### External libraries used
+
+* Date/Time picker: https://flatpickr.js.org/
+* Ajax page reload: https://github.com/oom-components/page-loader
+* Charts: https://www.chartjs.org
+* Web components, funtional: [hybrid.js](https://github.com/hybridsjs/hybrids)
 
 ## Missing openHAB functionality
 
@@ -159,6 +164,11 @@ Missing core functionality:
   - Average and longtime resource observe service fragment with warnings.
   - log feed: The last x log lines and link to Logtail if existing
   - openHabian fragment: Update/package status
+
+## Pitfals
+
+* Vue v-model does not work with custom components: https://github.com/vuejs/vue/issues/7830
+* The incremental bundle watch/build sometimes fails on file change. Just change the file once more.
 
 Cheers,
 David Graeff

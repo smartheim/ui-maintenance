@@ -1,0 +1,51 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/config.css">
+  <partial src="maintenancenav.html"></partial>
+  <partial src="mainnav.html"></partial>
+  <partial src="pagetitleheader.html" title="Service configuration"></partial>
+  <main>
+    <div class="mt-4 bs-callout bs-callout-info">
+      The backup service is responsible for cloning the current state,
+      and packaging it to a compressed file. That file is either moved to
+      a local destination or pushed to a remote / cloud service.
+    </div>
+
+    <oh-github-issues class="mt-4 bs-callout bs-callout-danger" title="There are known issues with this service:"
+    url="https://api.github.com/repos/openhab/openhab2-addons/issues" filter="milight"></oh-github-issues>
+
+    <div class="config">
+      <h4 title="org.openhab.addons">Demo config category</h4>
+      <div class="elements">
+        <div class="element">
+          <ui-switch label="Access remote repository"></ui-switch>
+          <small class="form-text text-muted">
+            Defines whether openHAB should access the remote repository for add-on installation.
+          </small>
+        </div>
+      </div>
+      <div class="element">
+        <ui-switch label="Include Legacy 1.x Binding"></ui-switch>
+        <small class="form-text text-muted">
+          Defines whether openHAB should access the remote repository for add-on installation.
+        </small>
+      </div>
+      <div class="btn-group btnbar" role="group">
+        <a href="#" class="btn btn-secondary"><i class="fas fa-align-justify"></i> Show log</a>
+        <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+      </div>
+    </div>
+  </main>
+  <footer class="p-4">
+    The service is currently <i class="badge badge-success">Running</i>
+  </footer>
+  <partial src="contexthelp.html" help="service"></partial>
+</body>
+
+</html>

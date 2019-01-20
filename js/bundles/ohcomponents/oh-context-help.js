@@ -1,41 +1,86 @@
-import { html, define, render } from "./hybrids.js";
+import { fetchWithTimeout } from '../../common/fetch';
 import { Marked } from "./marked/index.mjs";
-import { fetchWithTimeout } from '../../common/fetch'
-import { timestamp, fromCache, refreshButton } from "./factory-timestamp";
-import loading from "./loading-template";
-
 const marked = new Marked();
 
 /**
- * Retrieves a fresh value for the cache
- * @param {String} url Url
- * @returns {Promise} Promise with parsed html
+ * This element renders a list the context help on the right pane.
+ * 
+ * Attributes:
+ * - "url": For example "https://api.github.com/repos/openhab/openhab2-addons/issues".
+ * - "loading": The loading html text
+ * - "error": The error html text
+ * - "nothome": read-only. Will be set, when the url is overwritten by "content"
+ * 
+ * Methods:
+ * - checkCacheAndLoad(): Reloads data.
+ * - reset(): Reset cache and reload.
+ * - load(): Load a specific url
+ * 
+ * Properties:
+ * - contenturl: Content that temporarly overwrittes the current url 
  */
-function updateCache(url) {
-  return fetchWithTimeout(url)
-    .then(response => response.text())
-    .then(str => marked.parse(str));
+class OhContextHelp extends HTMLElement {
+  constructor() {
+    super();
+    if (!this.style.display || this.style.display.length == 0)
+      this.style.display = "block";
+    this.attributeChangedCallback();
+  }
+  static get observedAttributes() {
+    return ['url', 'cachetime'];
+  }
+  set contenturl(val) {
+    this.innerHTML = this.loading;
+    this.checkCacheAndLoad(val);
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    this.loading = this.getAttribute("loading") || "Loading... ";
+    this.error = this.getAttribute("error") || "Failed to fetch! ";
+    this.cachetime = this.getAttribute("cachetime") || 1440; // One day in minutes
+    this.url = this.getAttribute("url");
+    this.checkCacheAndLoad(this.url);
+  }
+  checkCacheAndLoad(contenturl=null) {
+    if (!contenturl) contenturl = this.url;
+    if (!contenturl) {
+      this.innerHTML = "No url given!";
+      return;
+    }
+    var cacheTimestamp = localStorage.getItem("timestamp_" + contenturl);
+    var cachedData = cacheTimestamp ? localStorage.getItem(contenturl) : null;
+    if (cachedData && (cacheTimestamp + this.cachetime * 60 * 1000 > Date.now())) {
+      this.renderData(cachedData, contenturl);
+    } else {
+      this.reset(contenturl);
+    }
+  }
+  reset(contenturl = null) {
+    if (!contenturl) contenturl = this.url;
+    localStorage.removeItem("timestamp_" + contenturl);
+    this.innerHTML = this.loading;
+    this.load(contenturl);
+  }
+  load(contenturl) {
+    fetchWithTimeout(contenturl)
+      .then(response => response.text())
+      .then(str => contenturl.includes(".md") ? marked.parse(str) : str)
+      .then(html => {
+        localStorage.setItem(contenturl, html);
+        localStorage.setItem("timestamp_" + contenturl, Date.now());
+        this.renderData(html, contenturl);
+      }).catch(e => {
+        this.innerHTML = this.error + e;
+      })
+  }
+  renderData(data, contenturl) {
+    this.innerHTML = data;
+    if (contenturl != this.url) {
+      // this.dispatchEvent(new CustomEvent("contextchanged", { detail: data }));
+      this.setAttribute("nothome", "");
+    } else {
+      this.removeAttribute('nothome');
+    }
+  }
 }
 
-export const OhContextHelp = {
-  cachetime: 1440, // Ony day in minutes
-  timestamp: timestamp(),
-  refreshbutton: refreshButton(),
-  backtohelpbuttonid: refreshButton((host) => { host.temporaryurl = ""; }),
-  helpurl: "",
-  temporaryurl: "",
-  url: {
-    get: ({ helpurl, temporaryurl }) => {
-      return temporaryurl.length ? temporaryurl : helpurl;
-    }
-  },
-  htmlData: ({ url, cachetime, timestamp }) =>
-    new Promise((resolve, reject) => (url == "") ? reject("No URL set") : resolve()) // condition check
-      .then(() => fromCache(url, timestamp + cachetime * 60 * 1000, updateCache))
-      .catch(e => {
-        return html`<div style="padding:inherit;margin:inherit;max-width:inherit">${e}. Url: ${url}</div>`;
-      }),
-  render: render(({ htmlData }) => html`${html.resolve(htmlData, loading(), 200)}`, { shadowRoot: false })
-};
-
-define('oh-context-help', OhContextHelp);
+customElements.define('oh-context-help', OhContextHelp);

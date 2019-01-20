@@ -4,8 +4,11 @@
             <path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
         </svg>
     </a>
-    <a class="home" href="index.html"><div alt="openHAB" class="logo"></div></a>
-    <nav class="autoactive">
+    <a class="home" href="index.html">
+        <div alt="openHAB" class="logo"></div>
+    </a>
+    <nav>
+        <ui-nav-auto-link></ui-nav-auto-link>
         <div><a href="maintenance.html">Maintenance</a></div>
         <div><a href="addons.html">Add-ons</a></div>
         <div><a href="inbox.html">Inbox <span class="badge badge-pill badge-orange">0</span></a></div>
@@ -15,4 +18,23 @@
         <div><a href="rules.html">Rules</a></div>
     </nav>
 </header>
+
+<nav-ajax-page-load></nav-ajax-page-load>
+
 <div id="alert-area" class="alert-area"></div>
+
+<template id="alert-template">
+    <div class="alert-box">
+        <div class="alert-content">
+            <slot></slot>
+        </div>
+        <a class="alert-close no-loader" data-close href="#"></a>
+    </div>
+</template>
+
+<ui-notification persistent>
+    <div>
+        This is a design study.<br>
+        <a href="about.html" data-close>About version w3</a>
+    </div>
+</ui-notification>

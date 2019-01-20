@@ -6,36 +6,49 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/rules.css" type="text/css" />
+  <link rel="stylesheet" href="css/rule.css" type="text/css" />
   <nav class="sidebar leftright">
     <partial src="rulesnav.html"></partial>
     <p>Rule components</p>
-    <oh-rule-components></oh-rule-components>
-    <div class="node text-center"><div class="text-white">Demo action</div><div class="muted">A description</div></div>
+    <oh-rule-components dragtarget="rulesapp">
+      <div class="card node text-white m-2" draggable="true">
+        <div class="card-header">Demo action</div>
+        <div class="card-body">
+          <p class="card-text">A description</p>
+        </div>
+      </div>
+    </oh-rule-components>
   </nav>
+
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit rule"></partial>
+
   <main>
-      <form class="m-4 mb-0">
-          <div class="form-group row">
-            <label for="scriptname" class="col-sm-2 col-form-label">Rule name</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" name="name" id="scriptname" pattern=".{1,}" required placeholder="Your rule name goes here">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="filepath" class="col-sm-2 col-form-label">Description</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" name="filepath" id="filepath" pattern="[^\s]+" required placeholder="Rule description">
-            </div>
-          </div>
-          <div class="form-group row">
-              <label class="col-sm-2 col-form-label"><abbr title="Reference this Rule via this identifier">UID</abbr></label>
-              <div class="col-sm-10">
-                <div class="form-control">3453-2345-2342-5423-6452-1235</div>
-              </div>
-            </div>
-        </form>
+    <form class="m-4 mb-0">
+      <div class="form-group row">
+        <label for="scriptname" class="col-sm-2 col-form-label">Rule name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="name" id="scriptname" pattern=".{1,}" required placeholder="Your rule name goes here">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="filepath" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="filepath" id="filepath" pattern="[^\s]+" required placeholder="Rule description">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label"><abbr title="Reference this Rule via this identifier">UID</abbr></label>
+        <div class="col-sm-10">
+          <div class="form-control">3453-2345-2342-5423-6452-1235</div>
+        </div>
+      </div>
+    </form>
+    <div class="btn-group btnbar mb-4" role="group">
+      <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
+      <a href="#" class="btn btn-primary"><i class="fas fa-save"></i> Save</a>
+      <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run</span> <span class="badge badge-light">Idle</span></a>
+    </div>
     <template id="rulenode">
       <div class="node" :class="classes">
         <div class="title">{{node.name}}</div>
@@ -54,12 +67,12 @@
         </div>
       </div>
     </template>
-    <div id="rulesapp">
-    </div>
+    <oh-rule-editor rule-node-template="rulenode"></oh-rule-editor>
   </main>
+
   <footer></footer>
   <partial src="contexthelp.html" help="rule"></partial>
-  <script type="module" src="js/rules.js" async></script>
+  <script type="module" src="js/rule.js" async></script>
 </body>
 
 </html>

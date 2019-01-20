@@ -6,11 +6,69 @@
 </head>
 
 <body>
-    <partial src="addonsnav.html"></partial>
-    <partial src="mainnav.html"></partial>
+  <link rel="stylesheet" href="css/addons.css" type="text/css" />
+  <partial src="addonsnav.html"></partial>
+  <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Install new Add-ons"></partial>
   <main>
-    <div>Lorem ipsum</div>
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
+      <a href="#" class="btn btn-success ml-3">
+        <i class="fas fa-check"></i> <span>Install <span class="badge badge-light selectcounter">0</span></span>
+      </a>
+    </ui-filter>
+
+    <div id="listcontainer" class="grid">
+      <div class="listitem">
+        <div class="body">
+          <div class="title"><span>MQTT binding</span> <small>2.4</small>
+            <select class="ml-2 custom-select form-control-sm">
+              <option>Version 2.4 (Stable)</option>
+              <option>Version 2.5 (Snapshot)</option>
+            </select>
+          </div>
+          <section class="description">
+            Create broker connections, connect Things/Channels to MQTT Topics. <small>&ndash; By Author1, Author2</small>
+          </section>
+          <section class="actions">
+            <span class="btn-group" role="group">
+              <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Install</span></a>
+            </span>
+            <span class="btn-group" role="group">
+              <oh-doc-link href="https://raw.githubusercontent.com/eclipse/smarthome/master/extensions/binding/org.eclipse.smarthome.binding.mqtt/README.md"
+                class="btn btn-info"><i class="fas fa-book"></i> <span>Documentation</span></oh-doc-link>
+              <oh-doc-link href="https://raw.githubusercontent.com/eclipse/smarthome/master/extensions/binding/org.eclipse.smarthome.binding.mqtt/changelog.md"
+                class="btn btn-secondary"><i class="fas fa-file-alt"></i> <span>Changelog</span></oh-doc-link>
+            </span>
+          </section>
+        </div>
+      </div>
+
+      <div class="listitem">
+        <div class="body">
+          <div class="title"><span>Network binding</span> <small>2.4</small>
+            <select class="ml-2 custom-select form-control-sm">
+              <option>Version 2.4 (Stable)</option>
+              <option>Version 2.5 (Snapshot)</option>
+            </select>
+          </div>
+          <section class="description" title="Watches network devices by using periodic pings and other means.">
+            Watches network devices by using periodic pings and other means. <small>&ndash; By Author1, Author2</small>
+          </section>
+          <section class="actions">
+            <span class="btn-group" role="group">
+              <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Install</span></a>
+            </span>
+            <span class="btn-group" role="group">
+              <oh-doc-link href="https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab.binding.network/README.md"
+                class="btn btn-info" is="oh-doc-link"><i class="fas fa-book"></i> <span>Documentation</span></oh-doc-link>
+              <oh-doc-link href="https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab.binding.network/changelog.md"
+                class="btn btn-secondary" is="oh-doc-link"><i class="fas fa-file-alt"></i> <span>Changelog</span></oh-doc-link>
+            </span>
+          </section>
+        </div>
+      </div>
+    </div>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="addons_install"></partial>

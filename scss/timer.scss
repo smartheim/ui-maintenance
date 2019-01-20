@@ -1,0 +1,8 @@
+@import "partials/flatpickr";
+
+.hidden {
+    display: none;
+}
+#absolutedatetime:not(.hidden) ~ #cronexpression {
+    display: none;
+}

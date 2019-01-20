@@ -6,53 +6,95 @@
 </head>
 
 <body>
-    <link rel="stylesheet" href="css/rules.css" type="text/css" />
+  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <script type="module" src="js/rules.js"></script>
   <nav class="sidebar leftright">
     <partial src="rulesnav.html"></partial>
-    <p>Rule components</p>
-    <oh-rule-components></oh-rule-components>
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Manage, add, remove and modify your automation rules"></partial>
   <main>
-      <div class="mt-4"><ui-filter placeholder="Filter..."></ui-filter></div>
-    
-      <div id="listcontainer" class="grid">
-          <div class="addonitem">
-            <div class="body">
-              <div class="title"><span>My first rule</span>
-              </div>
-              <div class="description">Will do super important stuff. Click me now.</div>
-              <div class="btn-group" role="group">
-                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
-                <a href="rule.html" class="btn btn-secondary"><i class="fas fa-cog"></i> <span>Configure</span></a>
-                <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run</span> <span class="badge badge-light">Idle</span></a>
-              </div>
-            </div>
-            <div class="footer">
-              <small>Run counter: 18</small>
-            </div>
-          </div>
-    
-          <div class="addonitem">
-            <div class="body">
-              <div class="title"><span>Another rule</span>
-              </div>
-              <div class="description">
-                Very important rule for sensors and stuff.
-              </div>
-              <div class="btn-group" role="group">
-                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
-                <a href="rule.html" class="btn btn-secondary"><i class="fas fa-cog"></i> <span>Configure</span></a>
-                <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run</span> <span class="badge badge-light">Idle</span></a>
-              </div>
-            </div>
-            <div class="footer">
-                <small>Run counter: 2</small>
-            </div>
-          </div>
-        </div>
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
+      select="Selection mode">
+      <div class="btn-group ml-3" role="group">
+        <a href="#" class="btn btn-danger">
+          <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
+        </a>
+        <a href="#" class="btn btn-success ">
+          <i class="fas fa-check"></i> <span>Run <span class="badge badge-light selectcounter">0</span></span>
+        </a>
       </div>
+    </ui-filter>
+
+
+    <oh-vue-list-items id="rulesapp" template="listRulesTemplate" filtercriteria="name" onload="if (window.loadRules) loadRules(this)"></oh-vue-list-items>
+    <oh-vue-list-items id="scriptsapp" template="listScriptsTemplate" filtercriteria="name" onload="if (window.loadScripts) loadScripts(this)"></oh-vue-list-items>
+
+    <template id="listRulesTemplate">
+      <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+        <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
+          <div class="body ui-dropdown">
+            <div class="title">
+              <span class="secondLevelBtn" :title="item.name" onclick='this.parentNode.parentNode.classList.toggle("show");'>
+                {{item.name}}
+              </span>
+              <i :title="rulesStatusDetails(item)" :class="rulesStatusBadge(item)">{{rulesStatusinfo(item)}}</i>
+              <span class="actions btn-group">
+                <button class="btn btn-danger-hover" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+              </span>
+            </div>
+            <div class="secondlevel">
+                <div class="bg-danger text-white">{{rulesStatusmessage(item)}}</div>
+              <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
+              <span @click="copyClipboard($event, item.uid)">{{item.uid}}</span>
+              <div>Storage association: <input value="openhab"></div>
+            </div>
+            <section class="description">
+                {{item.description}}
+            </section>
+            <section class="actions">
+              <span class="btn-group" role="group">
+                <a :href="'rule.html?uid='+encodeURIComponent(item.uid)" class="btn btn-secondary"><i class="fas fa-cog"></i>
+                  <span>Configure</span></a>
+                <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run now</span></a>
+              </span>
+            </section>
+          </div>
+          <div class="footer small py-1"><span>Runs: {{item.runcounter}}</span></div>
+        </div>
+        <p v-if="pending">loading items...</p>
+        <p v-if="error">loading failed</p>
+        <oh-codeeditor v-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema" :content.prop="toTextual()"
+          @state="editorstateChanged"></oh-codeeditor>
+      </div>
+    </template>
+
+
+    <template id="listScriptsTemplate">
+        <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+          <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
+            <div class="body">
+              <div class="title">
+                <span :title="item.label">{{item.name}}</span>
+                <span class="actions btn-group">
+                  <button class="btn btn-danger-hover" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+                </span>
+              </div>
+              <section class="description">
+              </section>
+              <section class="actions">
+                <span class="btn-group" role="group">
+                  <a :href="'script.html?file='+encodeURIComponent(item.filename)" class="btn btn-secondary"><i class="fas fa-cog"></i>
+                    <span>Edit</span></a>
+                </span>
+              </section>
+            </div>
+          </div>
+          <p v-if="pending">loading items...</p>
+          <p v-if="error">loading failed</p>
+      </template>
+  
+    </div>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="rules"></partial>

@@ -6,26 +6,80 @@
 </head>
 
 <body>
+  <link rel="stylesheet" href="css/addons.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
       <li><a href="#">Start <b>full</b> discovery</a></li>
-      <li><a href="#">Add-on specific discovery</a></li>
       <li><a href="#" class="disabled" id="clearresults">Clear results</a></li>
+    </ul>
+    <p>Add-on specific discovery</p>
+    <ul>
+      <li><a href="#">Network binding</a></li>
+      <li><a href="#">MQTT binding</a></li>
     </ul>
     <p>Settings</p>
     <ul>
       <li>
-        <toggle-check class="ml-4" storekey="enabletest" title="">Auto approve</toggle-check>
+        <ui-switch class="ml-4" storekey="enabletest" title="Auto approve"></ui-switch>
+        <ui-switch class="ml-4" storekey="showhidden" title="Show hidden"></ui-switch>
       </li>
     </ul>
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Find all devices that are auto discoverable with your current set of add-ons."></partial>
   <main>
-    <div class="mt-4">
-      <ui-filter placeholder="Filter..."></ui-filter>
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
+      <div class="btn-group ml-3" role="group">
+        <a href="#" class="btn btn-info">
+          <i class="fas fa-eye-slash"></i> <span>Hide <span class="badge badge-light selectcounter">0</span></span>
+        </a>
+        <a href="#" class="btn btn-success">
+          <i class="fas fa-check"></i> <span>Accept <span class="badge badge-light selectcounter">0</span></span>
+        </a>
+      </div>
+    </ui-filter>
+
+    <div class="mt-4 alert alert-info">Discovery status for "Network binding": <span class="badge badge-success">Running</span></div>
+
+    <div id="listcontainer" class="grid">
+
+      <div class="listitem">
+        <div class="body">
+          <div class="title"><span>Homie Device "Lightsource"</span>
+          </div>
+          <div class="description"></div>
+          <section class="actions">
+          <div class="btn-group" role="group">
+            <a href="#" class="btn btn-info"><i class="fas fa-eye-slash"></i> <span>Hide</span></a>
+            <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Accept</span></a>
+          </div>
+          </section>
+        </div>
+        <div class="footer">
+          <small>MQTT binding</small>
+        </div>
+      </div>
+
+      <div class="listitem">
+        <div class="body">
+          <div class="title"><span>A ping device on 192.168.1.12:22</span>
+          </div>
+          <div class="description"></div>
+          <section class="actions">
+          <div class="btn-group" role="group">
+            <a href="#" class="btn btn-info"><i class="fas fa-eye-slash"></i> <span>Hide</span></a>
+            <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Accept</span></a>
+          </div>
+        </section>
+        </div>
+        <div class="footer">
+          <small>Network binding</small>
+        </div>
+      </div>
+
     </div>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="inbox"></partial>

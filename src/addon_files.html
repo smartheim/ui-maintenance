@@ -6,11 +6,55 @@
 </head>
 
 <body>
-    <partial src="addonsnav.html"></partial>
-    <partial src="mainnav.html"></partial>
+  <link rel="stylesheet" href="css/addons.css" type="text/css" />
+  <partial src="addonsnav.html"></partial>
+  <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add-ons: Install jar files manually"></partial>
   <main>
-    <div>Lorem ipsum</div>
+    <ui-filter class="mt-4" placeholder="Filter..." mode="list" select="Selection mode">
+      <div class="btn-group ml-3" role="group">
+        <a href="#" class="btn btn-danger">
+          <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
+        </a>
+      </div>
+    </ui-filter>
+
+    <div class="alert alert-info mb-0 mt-4">Using an external <code>.jar</code> file can be a security risk!</span></div>
+
+    <ui-drop-zone class="mt-4" style="--padding: 30px 20px;background-color:#c8dadf;outline-color: #92b0b3">
+        <div slot="label"><i class="fas fa-file-upload"></i> <strong>Choose a file</strong> or drag it here.</div>
+        <div slot="uploading">Uploading&hellip;</div>
+        <div slot="success">Done!</div>
+        <div slot="error">Error!</div>
+    </ui-drop-zone>
+
+
+    <div id="listcontainer" class="list">
+      <div class="listitem">
+        <div class="body">
+          <div class="title"><span>org.openhab.binding.network-2.5-SNAPSHOT.jar</span></div>
+          <section class="description muted small">25.01.2019</section>
+          <section class="actions">
+            <span class="btn-group" role="group">
+              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
+            </span>
+          </section>
+        </div>
+      </div>
+
+      <div class="listitem">
+        <div class="body">
+          <div class="title"><span>org.openhab.binding.mqtt-2.5-SNAPSHOT.jar</span></div>
+          <section class="description muted small">25.01.2019</section>
+          <section class="actions">
+            <span class="btn-group" role="group">
+              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
+            </span>
+          </section>
+        </div>
+      </div>
+    </div>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="addons_files"></partial>

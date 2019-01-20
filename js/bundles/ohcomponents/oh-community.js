@@ -1,7 +1,7 @@
-import { html, define, render } from './hybrids.js';
+import { html, define, render } from './utils/hybrids.js';
 import { fetchWithTimeout } from '../../common/fetch'
-import { timestamp, fromCache, refreshButton } from "./factory-timestamp";
-import loading from "./loading-template";
+import { timestamp, fromCache, refreshButton } from "./utils/factory-timestamp";
+import loading from "./utils/loading-template";
 
 /**
  * Retrieves a fresh value for the cache
@@ -9,7 +9,7 @@ import loading from "./loading-template";
  * @returns {Promise} Promise with parsed html
  */
 function updateCache(url, args) {
-  return fetchWithTimeout(url,10000)
+  return fetchWithTimeout(url, 10000)
     .then(response => response.json())
     .then(jsonData => {
       var d = "<ul>";
@@ -24,7 +24,7 @@ function updateCache(url, args) {
     });
 }
 
-export const OhCommunityTopics = {
+const OhCommunityTopics = {
   cachetime: 1440, // One day
   timestamp: timestamp(),
   refreshbutton: refreshButton(),
@@ -39,7 +39,7 @@ export const OhCommunityTopics = {
   },
   htmlData: ({ url, cachetime, timestamp, limit, topics }) =>
     new Promise((resolve, reject) => (topics == "") ? reject("No topics set") : resolve()) // condition check
-      .then(() => fromCache(url, timestamp + cachetime * 60 * 1000, updateCache, {limit:limit}))
+      .then(() => fromCache(url, timestamp + cachetime * 60 * 1000, updateCache, { limit: limit }))
       .catch(e => {
         return html`<div style="padding:inherit;margin:inherit;max-width:inherit">${e}. Url: ${url}</div>`;
       }),

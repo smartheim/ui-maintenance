@@ -1,13 +1,13 @@
 /* The openHAB Theme is orange flavoured. Use the two below defined colors. */
 
 $theme-colors: ( "orange": #ff7214, "primary": #ff7214, "info": #f0ad4e);
-$container-max-widths: (xxl: 1600px); // Add a "very large screen width"
+$container-max-widths: (xxl: 1500px); // Add a "very large screen width"
 html {
     --background-large-screen: #ececec;
 }
 
-@import "../node_modules/bootstrap/scss/_functions.scss";
-@import "../node_modules/bootstrap/scss/_variables.scss";
+@import "../../node_modules/bootstrap/scss/_functions.scss";
+@import "../../node_modules/bootstrap/scss/_variables.scss";
 /**
  * About responsiveness. The bootstrap break points are used.
  *   sm: 540px,

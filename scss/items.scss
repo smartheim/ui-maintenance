@@ -1,0 +1,224 @@
+@import "partials/variables";
+.span2 {
+    grid-area: span 1 / span 2;
+}
+.span3 {
+    grid-area: span 1 / span 3;
+}
+.span4 {
+    grid-area: span 1 / span 4;
+}
+#listcontainer {
+    &.grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    &.textual {
+        flex: 1;
+        display: flex;
+        .listitem {
+            display: none;
+        }
+        oh-codeeditor {
+            display: block;
+            width: 100%;
+        }
+    }
+    &.selectionmode .listitem.selected {
+        box-shadow: 0px 0px 15px 0px theme-color("orange");
+    }
+    .listitem.storingmode {
+        pointer-events: none;
+        opacity: 0.5;
+        filter: grayscale(50%);
+    }
+    &.grid .listitem {
+        margin-right: 10px;
+        flex-basis: calc(50% - 10px);
+        min-width: 420px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, .125);
+        border-radius: .25rem;
+        margin-bottom: 1.5rem;
+        &.haschanges {
+            background-color: rgb(255, 214, 214);
+            .itemstate,
+            .actions {
+                display: none;
+            }
+            .actions.unsaved {
+                display: flex;
+            }
+        }
+        &:not(.haschanges) {
+            .actions.unsaved {
+                display: none;
+            }
+        }
+        .ui-dropdown .secondLevelBtn {
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            &::before {
+                content: '⯈';
+                display: inline-block;
+                min-width: 20px;
+                transition: all 0.5s;
+                transform: rotate(0deg);
+            }
+        }
+        .ui-dropdown.show {
+            .secondLevelBtn::before {
+                transform: rotate(90deg);
+            }
+            .secondlevel {
+                opacity: 1;
+                z-index: 1;
+                transform: translateY(0px);
+            }
+        }
+        .body {
+            flex: 1 1 auto;
+            flex-direction: column;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            .secondlevel {
+                height: calc(100% - 60px);
+                top: 45px;
+                width: calc(100% - 30px);
+                background-color: #fff;
+                position: absolute;
+                z-index: -1;
+                transition: all 0.5s;
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            &>.title {
+                font-size: 1.5rem;
+                font-family: inherit;
+                font-weight: 500;
+                line-height: 1.2;
+                color: inherit;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                flex-wrap: nowrap;
+                display: flex;
+                align-items: center;
+                &>i {
+                    // i is used for status badges
+                    font-size: 0.7rem;
+                }
+                span:nth-child(1) {
+                    // Show the title streched
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    flex: 1;
+                }
+                .actions {
+                    margin-left: 10px;
+                    white-space: nowrap;
+                }
+            }
+            &>.description.grid {
+                padding-top: 1rem;
+                display: grid;
+                grid-gap: 5px;
+                grid-template-columns: min-content 1fr min-content 1fr;
+                align-content: center;
+                justify-content: center;
+                .keyname {
+                    font-weight: bolder;
+                }
+                .category {
+                    border: none;
+                    border-bottom: 1px solid rgba(0, 0, 0, .125);
+                    width: 120px;
+                }
+            }
+            &>.description:not(&>.description.grid) {
+                padding-top: 1rem;
+
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                &>span:nth-child(1) {
+                    flex: 1;
+                }
+            }
+            &>.actions {
+                padding-top: 1rem;
+            }
+        }
+        .footer {
+            display: flex;
+            align-items: center;
+            border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
+            padding: 0px 5px;
+            background-color: rgba(0, 0, 0, .03);
+            border-top: 1px solid rgba(0, 0, 0, .125);
+        }
+    }
+    &.list .listitem {
+        position: relative;
+        display: block;
+        padding: .75rem 1.25rem;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, .125);
+        .body {
+            display: flex;
+            font-size: 20pt;
+            align-items: center;
+            flex-direction: row;
+            .title {
+                width: 100%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                span:first-child {
+                    flex: 1;
+                }
+                &>*:not(:last-child) {
+                    margin-right: 10px;
+                }
+            }
+            .actions.unsaved,
+            &>.secondlevel,
+            &>.description,
+            &>.itemname,
+            &>.actions {
+                display: none;
+            }
+        }
+        .footer {
+            display: none;
+        }
+    }
+    .listitem.list:last-child {
+        margin-bottom: 0;
+        border-bottom-right-radius: .25rem;
+        border-bottom-left-radius: .25rem;
+    }
+    .listitem.list:first-child {
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+    }
+}
+
+oh-vue-list-items {
+    display: flex;
+    flex-direction: column;
+}

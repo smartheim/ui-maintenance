@@ -1,11 +1,4 @@
-/* Fonts */
-
-$fa-font-path: "../fonts";
-@import "../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@import "../node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
-@import "../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
-@import "fonts/font-robotic";
-
+@import "partials/fonts.scss";
 section.header {
     background-image: url("../img/pattern_opacity.png");
 }

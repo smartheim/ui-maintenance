@@ -1,11 +1,32 @@
-import { html, define, render } from "./hybrids.js";
+import { html, define, render } from "./utils/hybrids.js";
 import { Marked } from "./marked/index.mjs";
 import { fetchWithTimeout } from '../../common/fetch'
-import { timestamp, fromCache, refreshButton } from "./factory-timestamp";
-import loading from "./loading-template";
+import { timestamp, fromCache, refreshButton } from "./utils/factory-timestamp";
+import loading from "./utils/loading-template";
 
 const marked = new Marked();
 var renderer = new marked.Renderer();
+
+const OhChangelog = {
+  cacheTimeMinutes: 1440, // Ony day
+  url: "https://api.github.com/repos/openhab/openhab-distro/releases/latest",
+  timestamp: timestamp(),
+  refreshbutton: refreshButton(),
+  tocid: "",
+  htmlData: ({ url, cachetime, timestamp, tocid }) =>
+    new Promise((resolve, reject) => (url == "") ? reject("No URL set") : resolve(renderer.toc = [])) // condition check
+      .then(() => fromCache(url, timestamp + cachetime * 60 * 1000, updateCache))
+      .then(html => {
+        var e = document.getElementById(tocid);
+        if (e) e.innerHTML = localStorage.getItem("toc_" + url);
+        console.log("header found: ", e, tocid);
+        return html;
+      })
+      .catch(e => {
+        return html`<div style="padding:inherit;margin:inherit;max-width:inherit">${e}. Url: ${url}</div>`;
+      }),
+  render: render(({ htmlData }) => html`${html.resolve(htmlData, loading(), 0)}`, { shadowRoot: false })
+};
 
 /**
  * To get the TOC, we need to listen to the renderer.heading method
@@ -44,51 +65,25 @@ function updateCache(url, args) {
       str += "";
 
       if (renderer.toc && renderer.toc.length) {
-        var tocstr = "<ul>";
+        var tocstr = "";
         for (var t of renderer.toc) {
           if (t.level > 4)
             continue;
-          tocstr += "<li>";
           if (t.level == 3) {
-            tocstr += "<ul class='level-3'><li>";
-          }
+            tocstr += "<li class='level3'>";
+          } else
           if (t.level == 4) {
-            tocstr += "<ul class='level-3'><li>";
-          }
+            tocstr += "<li class='level4'>";
+          } else
+            tocstr += "<li>";
+
           tocstr += "<a href=\"#" + t.slug + "\">" + t.title + "</a>";
-          if (t.level == 3) {
-            tocstr += "</li></ul>";
-          }
-          if (t.level == 4) {
-            tocstr += "</li></ul>";
-          }
           tocstr += "</li>";
         }
-        localStorage.setItem("toc_" + url, tocstr + "</ul>");
+        localStorage.setItem("toc_" + url, tocstr);
       }
       return Promise.resolve(str);
     });
 }
-
-export const OhChangelog = {
-  cacheTimeMinutes: 1440, // Ony day
-  url: "https://api.github.com/repos/openhab/openhab-distro/releases/latest",
-  timestamp: timestamp(),
-  refreshbutton: refreshButton(),
-  tocid: "",
-  htmlData: ({ url, cachetime, timestamp, tocid }) =>
-    new Promise((resolve, reject) => (url == "") ? reject("No URL set") : resolve(renderer.toc = [])) // condition check
-      .then(() => fromCache(url, timestamp + cachetime * 60 * 1000, updateCache))
-      .then(html => {
-        var e = document.getElementById(tocid);
-        if (e) e.innerHTML = localStorage.getItem("toc_" + url);
-        console.log("header found: ", e, tocid);
-        return html;
-      })
-      .catch(e => {
-        return html`<div style="padding:inherit;margin:inherit;max-width:inherit">${e}. Url: ${url}</div>`;
-      }),
-  render: render(({ htmlData }) => html`${html.resolve(htmlData, loading(), 0)}`, { shadowRoot: false })
-};
 
 define('oh-changelog', OhChangelog);

@@ -15,19 +15,24 @@
       <h4 title="org.openhab.addons">Add-on Management</h4>
       <div class="elements">
         <div class="element">
-          <toggle-check>Access remote repository</toggle-check>
+          <ui-switch label="Access remote repository"></ui-switch>
           <small class="form-text text-muted">
             Defines whether openHAB should access the remote repository for add-on installation.
           </small>
         </div>
       </div>
       <div class="element">
-        <toggle-check>Include Legacy 1.x Binding</toggle-check>
+        <ui-switch label="Include Legacy 1.x Binding"></ui-switch>
         <small class="form-text text-muted">
           Defines whether openHAB should access the remote repository for add-on installation.
         </small>
       </div>
+      <div class="btn-group btnbar" role="group">
+        <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+      </div>
+      <hr>
     </div>
+
     <div class="config">
       <h4 title="org.eclipse.smarthome.audio">Audio</h4>
       <div class="elements">
@@ -54,6 +59,9 @@
           </small>
         </div>
       </div>
+      <div class="btn-group btnbar" role="group">
+          <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+        </div>
     </div>
   </main>
   <footer></footer>

@@ -1,39 +1,37 @@
 <small>You know what an openHAB **Thing** is, right?</small>
 <small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
 
-Find all your configured *Things* listed here.
+Find your *Things* listed here.
+Also have a look at the [Inbox](inbox.html) for discovered and ready-to-use, configured *Things*.
 
-You can manually add new *Things*, if you click on "Add Thing* to your left.
-A manual *Thing* requires configuration.
-Most of the time, you want to embrace ready configured *Things* from the discovery
-[Inbox](inbox.html) though.
+Click the *Things* name to show or modify the storage association (e.g. filename),
+see the <abbr title="The ID is used by Rules and Scripts">unique ID</abbr>, and change
+the icon category.
 
 ## Textual mode
 
-Filter your list to only show wanted *Things* &rarr; click on the "text view mode" icon.
-Batch edit your *Things* in a textual representation while using
+Batch edit your data while using copy &amp; paste, regex find &amp; replace syntax highlighting, and auto-suggestions.
 
-* copy &amp; paste and
-* regex find &amp; replace.
+<p>
+<details>
+<summary>The format is <a target="_blank" href="https://en.wikipedia.org/wiki/YAML">YAML</a>.</summary>
+Synopsis:
 
-<mark>Save</mark>: Each textual represented *Thing* will
-be applied to openHAB in order of appearence.
-Removed *Thing* lines result in removed *Things*.
-Syntax errors and conflicts are reported per line,
-but do not affect other *Things* in the same document.
+* Whitespace indentation denotes the structure.
+* Comments begin with the number sign (#).
+* List members are denoted by a leading hyphen (-) with one member per line.
+* Express associative data in the form "key: value".
+</details>
+</p>
 
 <mark>Please note</mark>: The textual mode is powerful.
-If you clear the entire text field and hit save:
-Everything is gone. Act responsible!
+Hit save with an emptied text field and everything is gone. Act responsible!
 
-## Backup
+## Storage
 
-Your *Things* are automatically backup'd by openHAB. But you can also 
-grab a manual copy when you click on "Export Things to files" in the left navigation menu.
+openHAB internally stores your data a little different than what you see 
+here in the textual mode representation. The [backup service](maintenance.html) however
+will create files that match this format and imports same-like files again.
 
-Click "Import Things from files" to import again:
-
-1. Current *Things* with the same "Thing ID" are overwritten
-2. An import file cannot remove *Things*.
-
-The import/export path is configured in the [Maintenance](maintenance.html) section.
+Change the storage association to store the data item into a different
+file.

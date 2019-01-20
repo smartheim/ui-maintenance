@@ -29,6 +29,7 @@ var csslint = require('gulp-csslint');
 // Server worker generator
 const workboxBuild = require('workbox-build');
 // Rollup (bundles js, includes npm dependencies, includes referenced style sheets)
+const rollup = require('gulp-better-rollup');
 const rollupEach = require('gulp-rollup-each');
 const rollupPluginNodeModuleResolve = require('rollup-plugin-node-resolve');
 const rollupPluginCss = require('rollup-plugin-css-only');
@@ -46,11 +47,10 @@ var config = {
             scss: './scss/*.scss', // only consider top level files, others are included
             scss_watch: './scss/**/*.scss',
             js: ['js/**/*.js', '!js/bundles/**/*'],
-            js_bundles_entry: ['./js/bundles/**/index.js'],
-            js_bundles_watch: './js/bundles/**/*.js',
+            js_bundles_entry: ['./js/bundles/*/index.js'],
+            js_bundles_watch: './js/bundles/**/*',
             assets: [
                 './assets/**/*',
-                './node_modules/monaco-editor/min/**/*'
             ]
         },
         partials: './partials/',
@@ -58,6 +58,7 @@ var config = {
         distjs: './dist/js',
         destsw: './dist/sw.js',
     },
+    external_js: ['./vue.js','./chart.js','./uicomponents.js','./ohcomponents.js'],
     localServer: {
         port: 8001,
         url: 'http://localhost:8001/',
@@ -76,7 +77,7 @@ const copyHtml = () =>
         .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
         .pipe(gulp.dest(config.paths.dist))
         .pipe(connect.reload());
-copyHtml.description = "Copying html files"
+copyHtml.displayName = "Copying html files"
 
 const generateServiceWorker = () =>
     workboxBuild.generateSW({ globDirectory: config.paths.dist, globPatterns: ['**\/*.{html,js,css}'], swDest: config.paths.destsw })
@@ -103,24 +104,25 @@ const compileStyles = () =>
         .pipe(csso({ comments: false })) // Minify the file
         .pipe(gulp.dest(config.paths.dist + '/css'))
         .pipe(connect.reload());
-compileStyles.description = "Generating css from scss"
+compileStyles.displayName = "Generating css from scss"
 
 const copyAssets = () =>
     gulp.src(config.paths.src.assets).pipe(gulp.dest(config.paths.dist)).pipe(connect.reload());
-copyAssets.description = "Copy assets"
+copyAssets.displayName = "Copy assets"
 
 const minifyUnbundledScripts = () =>
     gulp.src(config.paths.src.js).pipe(uglify()).pipe(gulp.dest(config.paths.distjs)).pipe(connect.reload());
-minifyUnbundledScripts.description = "Minify unbundled scripts"
+minifyUnbundledScripts.displayName = "Minify unbundled scripts"
 
-const compileBundles = () =>
-    gulp.src(config.paths.src.js_bundles_entry)
-        .pipe(rollupEach({
+
+
+const compileBundle = (dir, _rollup, modulename) =>
+    gulp.src(dir)
+        .pipe(_rollup({
+            external: config.external_js,
             plugins: [
                 rollupPluginNodeModuleResolve({ browser: true }),
-//                rollupPluginFlow({all: true}), // Rete is using flow type annotations
-//                rollupPluginCommonjs({}),
-//                rollupPluginSass({}),
+                rollupPluginSass({ output: false, insert: false, options: { includePaths: [".", "./scss"] } }),
                 rollupPluginCss({}),
                 rollupPluginReplace({ 'process.env.NODE_ENV': '"development"' }) // // production
             ]
@@ -130,15 +132,20 @@ const compileBundles = () =>
             if (path.dirname != ".") {
                 path.basename = path.dirname;
                 path.dirname = '';
+            } else if (path.basename==="index") {
+                path.basename = modulename;
             } else {
                 // Input is: node_modules/monaco-editor/esm/vs/language/json/json.worker.js. Output is: json.worker.js
                 path.dirname = '';
             }
+            console.log('Build: '+path.basename);
             return path;
         }))
         //        .pipe(uglify())
         .pipe(gulp.dest(config.paths.distjs)).pipe(connect.reload());
-compileBundles.description = "Creating bundles"
+
+const compileBundles = () => compileBundle(config.paths.src.js_bundles_entry, rollupEach);
+compileBundles.displayName = "Creating js bundles"
 
 const startLocalWebserver = () => connect.server(
     {
@@ -149,28 +156,36 @@ const startLocalWebserver = () => connect.server(
 startLocalWebserver.description = "Starting live reload webserver"
 
 const openPageInBrowser = () => gulp.src('dist/index.html').pipe(open({ uri: config.localServer.url }));
-openPageInBrowser.description = "Opening page"
+openPageInBrowser.displayName = "Opening page in browser"
 
 const clean = () => del([config.paths.dist]);
-clean.description = "Cleaning"
+clean.displayName = "Cleaning dist/"
 
 const watchTask = () => { // Watch the file system and reload the website automatically
     gulp.watch(config.paths.src.html_watch, copyHtml);
     gulp.watch(config.paths.src.scss_watch, compileStyles);
     gulp.watch(config.paths.src.js, minifyUnbundledScripts);
-    gulp.watch(config.paths.src.js_bundles_watch, compileBundles);
     gulp.watch(config.paths.src.assets, copyAssets);
+    var filename = ""; // Only rebuild the bundle where a file changed
+    const rebuildOneBundle = (callback) => {
+        var bundlename = filename.match(/bundles\/(.*)\//);
+        filename = "";
+        if (!bundlename || bundlename.length!=2) {
+            callback();
+            return;
+        }
+        return compileBundle(`./js/bundles/${bundlename[1]}/index.js`, rollup, bundlename[1]);
+    };
+    gulp.watch(config.paths.src.js_bundles_watch, rebuildOneBundle).on("change", (file) => filename = file);
 }
-watchTask.description = "Start watching files"
+watchTask.displayName = "Start watching files"
 
 const lint = gulp.parallel(lintStyles, lintStylesCss)
-lint.description = 'lint all source'
+lint.displayName = 'Lint all source'
 
 const compile = gulp.series(clean, gulp.parallel(copyHtml, minifyUnbundledScripts, compileBundles, copyAssets, compileStyles), generateServiceWorker)
-compile.description = 'Compile'
 
 const serve = gulp.series(compile, gulp.parallel(watchTask, startLocalWebserver))
-serve.description = 'serve compiled source on local server at port 3000'
 
 gulp.task('build', compile);
 gulp.task('serveonly', serve);

@@ -1,10 +1,20 @@
 import { fetchWithTimeout } from '../../common/fetch';
 
+/**
+ * This element renders a list of links (ul->li->a)
+ * with available script snippets from, that it fetches
+ * from "scriptsnippets/index.json". That file is expected
+ * to be a json list with {name,file} entries.
+ * 
+ * A click on a link will dispatch a "loadscript" event
+ * with these "details": {filename}.
+ */
 class OhScriptSnippets extends HTMLElement {
   constructor() {
     super();
     // const shadow = this.attachShadow({ mode: 'open' });
     const ul = document.createElement('ul');
+    this.target = this.hasAttribute("target") ? this.getAttribute("target") : null;
 
     fetchWithTimeout("scriptsnippets/index.json")
       .then(response => response.json())
@@ -16,8 +26,10 @@ class OhScriptSnippets extends HTMLElement {
           a.innerHTML = entry.name;
           a.href = "#";
           a.addEventListener("click", () => {
-            document.dispatchEvent(new CustomEvent("loadscript", { detail: {filename: "scriptsnippets/" + entry.file} }));
-            console.log("script snippets load file", entry.file);
+            var targetEl = null;
+            if (this.target) targetEl = document.getElementById(this.target);
+            if (!targetEl) return;
+            targetEl.scriptfile = "scriptsnippets/" + entry.file;
           });
           li.appendChild(a);
           ul.appendChild(li);

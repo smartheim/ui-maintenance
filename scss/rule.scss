@@ -1,0 +1,139 @@
+@import "partials/variables";
+@import "partials/listgridmode";
+$bg-color: #ccc;
+$node-color-selected: #ffd92c;
+$group-color: rgba(15, 80, 255, 0.2);
+$group-handler-size: 40px;
+$group-handler-offset: -10px;
+$socket-size: 24px;
+$socket-margin: 6px;
+$bg-size: 32;
+$node-border: 0;
+$node-width: $bg-size*6-2*$node-border;
+$node-height: $bg-size*3-2*$node-border;
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+#rulesapp {
+    margin: 0;
+    position: relative;
+    height: 100%;
+    flex: 1;
+    height: 100% !important;
+    overflow: auto!important;
+    &>div {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.rete-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    &.default {
+        background-size: $bg-size*1px $bg-size*1px;
+        background-image: linear-gradient(to right, $bg-color 1px, transparent 1px), linear-gradient(to bottom, $bg-color 1px, transparent 1px);
+    }
+}
+
+.connection {
+    overflow: visible !important;
+}
+
+.connection .main-path {
+    fill: none;
+    stroke-width: 5px;
+    stroke: lighten(theme-color("info"), 10%);
+}
+
+.socket {
+    background: theme-color("orange");
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: $socket-size/2.0;
+    width: $socket-size;
+    height: $socket-size;
+    margin: $socket-margin;
+    vertical-align: middle;
+    z-index: 2;
+    box-sizing: border-box;
+    &:hover {
+        border-width: 4px
+    }
+    &.multiple {
+        border-color: yellow
+    }
+    &.output {
+        margin-right: - $socket-size / 2
+    }
+    &.input {
+        margin-left: - $socket-size / 2
+    }
+}
+
+.node {
+    background: theme-color("info");
+    border: $node-border*1px solid #4e58bf;
+    border-radius: 10px;
+    cursor: pointer;
+    min-width: $node-width * 1px;
+    min-height: $node-height * 1px;
+    height: auto;
+    margin-bottom: 6px;
+    box-sizing: content-box;
+    position: relative;
+    user-select: none;
+    &:hover {
+        background: lighten(theme-color("info"), 4%);
+    }
+    &.selected {
+        background: $node-color-selected;
+        border-color: #e3c000;
+    }
+    .title {
+        color: white;
+        font-family: sans-serif;
+        font-size: 18px;
+        padding: 8px;
+    }
+    .output {
+        text-align: right;
+    }
+    .input {
+        text-align: left;
+    }
+    .input-title,
+    .output-title {
+        vertical-align: middle;
+        color: white;
+        display: inline-block;
+        font-family: sans-serif;
+        font-size: 14px;
+        margin: 6px;
+        line-height: 24px;
+    }
+    .input-control {
+        z-index: 1;
+        width: calc(100% - #{$socket-size + 2*$socket-margin});
+        vertical-align: middle;
+        display: inline-block;
+    }
+    .control {
+        padding: $socket-margin $socket-size/2 + $socket-margin;
+    }
+}
+
+oh-rule-components {
+    flex: 1;
+    overflow-y: auto;
+}
+
+nav.sidebar {
+    display: flex;
+    flex-direction: column;
+}

@@ -2,8 +2,8 @@
 body {
     display: grid;
     grid-template-columns: [nav] 1fr [main] get-breakpoints("lg") [aside] 1fr [end];
-    grid-template-rows: min-content min-content 1fr auto;
-    min-height: 100%;
+    grid-template-rows: min-content min-content 1fr min-content;
+    min-height: 100vh;
     &>nav {
         grid-column: 1;
         grid-row: 3 / span 2;
@@ -40,6 +40,7 @@ body {
     &>footer {
         grid-column: 2;
         grid-row: 4;
+        min-height: 20px;
     }
 }
 
@@ -49,31 +50,8 @@ body {
     }
 }
 
-@media (max-width: get-breakpoints("xxl")) {
+@media (max-width: get-breakpoints("lg")) {
     body {
-        display: grid;
-        grid-template-columns: [nav] 1fr [main] get-breakpoints("md") [aside] 1fr [end];
-    }
-}
-
-@media (max-width: get-breakpoints("xl")) {
-    body {
-        display: grid;
-        grid-template-columns: [nav] min-content [main] auto [aside] auto [end];
-        &>header {
-            grid-column: 1 / span 3;
-            grid-row: 1;
-        }
-        &>section.header {
-            grid-column: 1 / span 3;
-            grid-row: 2;
-            box-shadow: none;
-        }
-        &>nav {
-            grid-column: 1 / span 1;
-            grid-row: 3 / span 2;
-            justify-self: start;
-        }
         &>aside {
             // grid-column: 3 / span 1;
             // grid-row: 3 / span 2;
@@ -90,8 +68,38 @@ body {
         &>main {
             grid-column: 2 / span 2; // span 2 because no context help
             grid-row: 3;
+        }
+    }
+}
+
+@media (max-width: get-breakpoints("xxl")) {
+    body {
+        display: grid;
+        grid-template-columns: [nav] min-content [main] auto [aside] min-content [end];
+        &>header {
+            grid-column: 1 / span 3;
+            grid-row: 1;
+        }
+        &>section.header {
+            grid-column: 1 / span 3;
+            grid-row: 2;
+            box-shadow: none;
+        }
+        &>nav {
+            grid-column: 1 / span 1;
+            grid-row: 3 / span 2;
+            justify-self: start;
+        }
+        &>aside {
+            grid-column: 3 / span 1;
+            grid-row: 3;
+        }
+        &>main {
+            grid-column: 2 / span 1;
+            grid-row: 3;
             box-shadow: none;
             overflow: hidden;
+            max-width: get-breakpoints("lg");
         }
         &>footer {
             grid-column: 2 / span 1;

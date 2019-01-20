@@ -11,17 +11,14 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Install official, marketplace and manuall addons and configure them"></partial>
   <main>
-    <div class="mt-4">
-      <ui-filter placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation" select="Selection mode"
-        selectpeerid="selectionbar">
-      </ui-filter>
-      <div id="selectionbar" class="invisible"><span class="text-info">Click on an item to select it. Perform on all:</span>
-        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Uninstall</span></a>
-      </div>
-    </div>
-    
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
+      <a href="#" class="btn btn-danger ml-3">
+        <i class="fas fa-trash"></i> <span>Uninstall <span class="badge badge-light selectcounter">0</span></span>
+      </a>
+    </ui-filter>
+
     <div id="listcontainer" class="grid">
-      <div class="addonitem">
+      <div class="listitem">
         <div class="body">
           <div class="title"><span>MQTT binding</span> <small>2.4</small>
             <select class="ml-2 custom-select form-control-sm">
@@ -29,13 +26,19 @@
               <option>Version 2.5 (Snapshot)</option>
             </select>
           </div>
-          <div class="description">Create broker connections, connect Things/Channels to MQTT Topics.</div>
-          <div class="btn-group" role="group" aria-label="Change view mode">
-            <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Uninstall</span></a>
-            <a href="https://raw.githubusercontent.com/eclipse/smarthome/master/extensions/binding/org.eclipse.smarthome.binding.mqtt/README.md"
-            class="btn btn-secondary" is="oh-doc-link"><i class="fas fa-book"></i> <span>Documentation</span></a>
-            <a href="binding_config.html" class="btn btn-secondary"><i class="fas fa-cog"></i> <span>Configure</span></a>
-          </div>
+          <section class="description">Create broker connections, connect Things/Channels to MQTT Topics.</section>
+          <section class="actions">
+            <span class="btn-group" role="group">
+              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Uninstall</span></a>
+              <a href="binding_config.html" class="btn btn-secondary"><i class="fas fa-cog"></i> <span>Configure</span></a>
+            </span>
+            <span class="btn-group" role="group">
+              <oh-doc-link>
+                <a href="#" data-href="https://raw.githubusercontent.com/eclipse/smarthome/master/extensions/binding/org.eclipse.smarthome.binding.mqtt/README.md"
+                  class="btn btn-secondary"><i class="fas fa-book"></i> <span>Documentation</span></a>
+              </oh-doc-link>
+            </span>
+          </section>
         </div>
         <div class="footer">
           <small>Authors: Author1, Author2</small>
@@ -44,7 +47,7 @@
         </div>
       </div>
 
-      <div class="addonitem">
+      <div class="listitem">
         <div class="body">
           <div class="title"><span>Network binding</span> <small>2.4</small>
             <select class="ml-2 custom-select form-control-sm">
@@ -52,15 +55,21 @@
               <option>Version 2.5 (Snapshot)</option>
             </select>
           </div>
-          <div class="description" title="Watches network devices by using periodic pings and other means.">
+          <section class="description" title="Watches network devices by using periodic pings and other means.">
             Watches network devices by using periodic pings and other means.
-          </div>
-          <div class="btn-group" role="group" aria-label="Change view mode">
-            <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Uninstall</span></a>
-            <a href="https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab.binding.network/README.md" class="btn btn-secondary" is="oh-doc-link"><i
-                class="fas fa-book"></i> <span>Documentation</span></a>
-            <a href="binding_config.html" class="btn btn-secondary"><i class="fas fa-cog"></i> <span>Configure</span></a>
-          </div>
+          </section>
+          <section class="actions">
+            <span class="btn-group" role="group">
+              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Uninstall</span></a>
+              <a href="binding_config.html" class="btn btn-secondary"><i class="fas fa-cog"></i> <span>Configure</span></a>
+            </span>
+            <span class="btn-group" role="group">
+              <oh-doc-link>
+                <a href="#" data-href="https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab.binding.network/README.md"
+                  class="btn btn-secondary"><i class="fas fa-book"></i> <span>Documentation</span></a>
+              </oh-doc-link>
+            </span>
+          </section>
         </div>
         <div class="footer">
           <small>Authors: Author1, Author2</small>

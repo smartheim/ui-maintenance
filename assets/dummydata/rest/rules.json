@@ -37,6 +37,41 @@
         "name": "test",
         "tags": [],
         "visibility": "VISIBLE",
-        "description": "desc"
+        "description": "MQTT eventbus",
+        "runcounter": 0
+    },
+    {
+        "status": {
+            "status": "IDLE",
+            "statusDetail": "",
+            "description": ""
+        },
+        "triggers": [],
+        "actions": [],
+        "configuration": {},
+        "configDescriptions": [],
+        "uid": "dacfa98c-6a39-4889-8bcb-fa7aec69397e",
+        "name": "My first rule",
+        "tags": [],
+        "visibility": "VISIBLE",
+        "description": "Will do super important stuff. Click me now.",
+        "runcounter": 18
+    },
+    {
+        "status": {
+            "status": "IDLE",
+            "statusDetail": "",
+            "description": ""
+        },
+        "triggers": [],
+        "actions": [],
+        "configuration": {},
+        "configDescriptions": [],
+        "uid": "dacfa98c-6a39-4889-8bcb-fa7aec69397e",
+        "name": "Another rule",
+        "tags": [],
+        "visibility": "VISIBLE",
+        "description": "Very important rule for sensors and stuff.",
+        "runcounter": 2
     }
 ]

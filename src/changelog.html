@@ -1,44 +1,22 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <link rel="icon" href="img/favicon.ico">
-  <link rel="stylesheet" href="css/main.css" type="text/css" />
-  <link rel="stylesheet" href="css/main_async.css" type="text/css" async />
-  <script type="module" src="js/app.js" async></script>
-  <script type="module" src="js/ohcomponents.js" async></script>
+  <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="index.html" />
 </head>
 
 <body>
-  <style>
-    .sidebar ul {
-      font-weight: bold;
-    }
-
-    .sidebar ul.level-3,
-    .sidebar ul.level-4 {
-      font-weight: normal;
-      font-size: smaller;
-    }
-
-    .main oh-changelog {
-      max-width: 700px;
-    }
-  </style>
-
   <nav class="sidebar hover leftright">
-    <div class="sidebar-group">
-      <p>Table of content</p>
-      <div id="toc"></div>
-    </div>
+    <h4>Table of content</h4>
+    <ul id="toc"></ul>
   </nav>
   <partial src="mainnav.html"></partial>
   <section class="header">
     <h4>What has changed <a href="#" id="refreshTopics"><i class="fas fa-sync-alt text-white"></i></a></h4>
   </section>
   <main>
+    <nav-breadcrumb></nav-breadcrumb>
     <oh-changelog refreshbutton="refreshTopics" tocid="toc"></oh-changelog>
   </main>
   <footer></footer>

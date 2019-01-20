@@ -6,26 +6,285 @@
 </head>
 
 <body>
-  <partial src="itemsnav.html"></partial>
+  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <script type="module" src="js/items.js"></script>
+  <nav class="sidebar leftright">
+    <h4>Actions</h4>
+    <ul>
+      <li><a href="#">Add Item</a></li>
+    </ul>
+    <p>Predefined filters</p>
+    <ul>
+      <li><a href="#type=switch">Show switches</a></li>
+      <li><a href="#type=dimmer">Show dimmers</a></li>
+      <li><a href="#type=number">Show numbers</a></li>
+      <li><a href="#type=text">Show texts</a></li>
+      <li><a href="#type=rollershutter">Show rollershutters</a></li>
+    </ul>
+  </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add &amp; remove Items. Change tags, titles and Group affiliations"></partial>
   <main>
-    <div class="mt-4"><ui-filter placeholder="Filter..."></ui-filter></div>
-    <div id="itemsapp"></div>
-    <template id="postTemplate">
-      <div>
-        <ul>
-          <li v-for="post in posts">{{post.title}}:<div>{{post.body}}</div>
-          </li>
-        </ul>
-        <p v-if="pending.posts">loading posts...</p>
-        <p v-if="error.posts">loading failed</p>
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
+      select="Selection mode">
+      <a href="#" class="btn btn-danger ml-3">
+        <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
+      </a>
+    </ui-filter>
+
+    <oh-vue-list-items id="itemlist" template="listItemsTemplate" filtercriteria="label" onload="if (window.loadItems) loadItems(this)"></oh-vue-list-items>
+
+    <template id="listItemsTemplate">
+      <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+        <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
+          <div class="body ui-dropdown">
+            <div class="title">
+              <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>{{item.label}}
+              </span>
+              <i class="badge badge-info itemstate" title="Item state">{{item.state}}</i>
+              <span class="actions unsaved btn-group">
+                <button class="btn btn-success" title="Save changes" @click="save(item)"><i class="fas fa-save"></i></button>
+                <button class="btn btn-danger" title="Discard changes" @click="discard(item)"><i class="fas fa-undo"></i></button>
+              </span>
+              <span class="actions btn-group">
+                <button class="btn btn-danger-hover" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+              </span>
+            </div>
+            <div class="secondlevel">
+              <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
+              <span @click="copyClipboard($event, item.name)">{{item.name}}</span>
+              <div>Storage association: <input value="openhab"></div>
+              <div><ui-switch label="Group item" title="Item to nest other items / collect them in groups"></ui-switch></div>
+            </div>
+            <section class="description grid">
+              <div class="keyname">Type:</div>
+              <ui-dropdown btnclass="btn btn-primary-underline btn-sm" icons="itemtypes" class="itemtype" :options.prop="itemtypes"
+                :value.prop="item.type" @input="item.type = $event.target.value;changed(item)"></ui-dropdown>
+              <div class="keyname">Icon:</div>
+              <input list="itemCategories" type="text" class="category" @input="changed(item)" v-model="item.category"></input>
+              <details class="keyname span4"><summary>Groups</summary>
+              <ui-tags class="pt-2" :value.prop="item.groupNames" @input="item.groupNames = $event.target.value;changed(item)"></ui-tags>
+            </details>
+            </section>
+          </div>
+          <div class="footer small" style="padding-top:5px">
+            <abbr style="margin-bottom: 5px;margin-right:10px" title="Tags are used for Rules and Scripts, but also for exposing Items to Amazon Alexa, Google Home and so on">Tags:</abbr>
+            <ui-tags suggestions="Switchable,Lighting,ColorLighting" :value.prop="item.tags" @input="item.tags = $event.target.value;changed(item)"></ui-tags>
+          </div>
+        </div>
+        <p v-if="pending">loading items...</p>
+        <p v-if="error">loading failed</p>
+        <oh-codeeditor v-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema" :content.prop="toTextual()"
+          @state="editorstateChanged"></oh-codeeditor>
       </div>
     </template>
+
+
+    <datalist id="itemCategories">
+        <option value="attic">
+        <option value="bath">
+        <option value="bedroom">
+        <option value="cellar">
+        <option value="corridor">
+        <option value="firstfloor">
+        <option value="garage">
+        <option value="garden">
+        <option value="groundfloor">
+        <option value="kitchen">
+        <option value="office">
+        <option value="terrace">
+        <option value="battery">
+        <option value="blinds">
+        <option value="camera">
+        <option value="door">
+        <option value="frontdoor">
+        <option value="garagedoor">
+        <option value="lawnmower">
+        <option value="lightbulb">
+        <option value="lock">
+        <option value="poweroutlet">
+        <option value="projector">
+        <option value="receiver">
+        <option value="screen">
+        <option value="siren">
+        <option value="wallswitch">
+        <option value="whitegood">
+        <option value="window">
+        <option value="colorpicker">
+        <option value="group">
+        <option value="rollershutter">
+        <option value="slider">
+        <option value="switch">
+        <option value="text">
+        <option value="humidity">
+        <option value="moon">
+        <option value="rain">
+        <option value="snow">
+        <option value="sun">
+        <option value="sun_clouds">
+        <option value="temperature">
+        <option value="wind">
+        <option value="batterylevel">
+        <option value="carbondioxide">
+        <option value="colorlight">
+        <option value="energy">
+        <option value="fire">
+        <option value="flow">
+        <option value="gas">
+        <option value="light">
+        <option value="lowbattery">
+        <option value="motion">
+        <option value="oil">
+        <option value="pressure">
+        <option value="price">
+        <option value="qualityofservice">
+        <option value="smoke">
+        <option value="soundvolume">
+        <option value="temperature">
+        <option value="time">
+        <option value="water">
+        <option value="heating">
+        <option value="mediacontrol">
+        <option value="movecontrol">
+        <option value="zoom">
+        <option value="alarm">
+        <option value="party">
+        <option value="presence">
+        <option value="vacation">
+        <option value="baby_1">
+        <option value="baby_2">
+        <option value="baby_3">
+        <option value="baby_4">
+        <option value="baby_5">
+        <option value="baby_6">
+        <option value="bedroom_blue">
+        <option value="bedroom_orange">
+        <option value="bedroom_red">
+        <option value="bluetooth">
+        <option value="boy_1">
+        <option value="boy_2">
+        <option value="boy_3">
+        <option value="boy_4">
+        <option value="boy_5">
+        <option value="boy_6">
+        <option value="calendar">
+        <option value="chart">
+        <option value="cinema">
+        <option value="cinemascreen">
+        <option value="cistern">
+        <option value="climate">
+        <option value="colorwheel">
+        <option value="contact">
+        <option value="dryer">
+        <option value="error">
+        <option value="fan">
+        <option value="fan_box">
+        <option value="fan_ceiling">
+        <option value="faucet">
+        <option value="flowpipe">
+        <option value="garage_detached">
+        <option value="garage_detached_selected">
+        <option value="girl_1">
+        <option value="girl_2">
+        <option value="girl_3">
+        <option value="girl_4">
+        <option value="girl_5">
+        <option value="girl_6">
+        <option value="greenhouse">
+        <option value="house">
+        <option value="incline">
+        <option value="keyring">
+        <option value="line">
+        <option value="man_1">
+        <option value="man_2">
+        <option value="man_3">
+        <option value="man_4">
+        <option value="man_5">
+        <option value="man_6">
+        <option value="microphone">
+        <option value="network">
+        <option value="niveau">
+        <option value="none">
+        <option value="outdoorlight">
+        <option value="pantry">
+        <option value="parents_1_1">
+        <option value="parents_1_2">
+        <option value="parents_1_3">
+        <option value="parents_1_4">
+        <option value="parents_1_5">
+        <option value="parents_1_6">
+        <option value="parents_2_1">
+        <option value="parents_2_2">
+        <option value="parents_2_3">
+        <option value="parents_2_4">
+        <option value="parents_2_5">
+        <option value="parents_2_6">
+        <option value="parents_3_1">
+        <option value="parents_3_2">
+        <option value="parents_3_3">
+        <option value="parents_3_4">
+        <option value="parents_3_5">
+        <option value="parents_3_6">
+        <option value="parents_4_1">
+        <option value="parents_4_2">
+        <option value="parents_4_3">
+        <option value="parents_4_4">
+        <option value="parents_4_5">
+        <option value="parents_4_6">
+        <option value="parents_5_1">
+        <option value="parents_5_2">
+        <option value="parents_5_3">
+        <option value="parents_5_4">
+        <option value="parents_5_5">
+        <option value="parents_5_6">
+        <option value="parents_6_1">
+        <option value="parents_6_2">
+        <option value="parents_6_3">
+        <option value="parents_6_4">
+        <option value="parents_6_5">
+        <option value="parents_6_6">
+        <option value="pie">
+        <option value="piggybank">
+        <option value="player">
+        <option value="poweroutlet_au">
+        <option value="poweroutlet_eu">
+        <option value="poweroutlet_uk">
+        <option value="poweroutlet_us">
+        <option value="pump">
+        <option value="radiator">
+        <option value="recorder">
+        <option value="returnpipe">
+        <option value="rgb">
+        <option value="settings">
+        <option value="sewerage">
+        <option value="shield">
+        <option value="smiley">
+        <option value="sofa">
+        <option value="softener">
+        <option value="solarplant">
+        <option value="soundvolume_mute">
+        <option value="status">
+        <option value="suitcase">
+        <option value="sunrise">
+        <option value="sunset">
+        <option value="temperature_cold">
+        <option value="temperature_hot">
+        <option value="toilet">
+        <option value="video">
+        <option value="wardrobe">
+        <option value="washingmachine">
+        <option value="washingmachine_2">
+        <option value="woman_1">
+        <option value="woman_2">
+        <option value="woman_3">
+        <option value="woman_4">
+        <option value="woman_5">
+        <option value="woman_6">
+      </datalist>
+  
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="items"></partial>
-  <script type="module" src="js/items.js" async></script>
 </body>
 
 </html>

@@ -1,3 +1,26 @@
 main {
     padding-top: 10px;
 }
+
+section.bundles {
+    .maxheight {
+        overflow: auto;
+        max-height: 500px;
+    }
+    div:nth-child(1) {
+        align-items: center;
+    }
+}
+
+.main oh-changelog {
+    max-width: 700px;
+}
+
+.graphs {
+    display: flex;
+    justify-content: space-between;
+    ui-time-graph {
+        width: 30%;
+        height: 300px;
+    }
+}

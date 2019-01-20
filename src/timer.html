@@ -7,16 +7,24 @@
 </head>
 
 <body>
-  <partial src="timersnav.html"></partial>
+  <link rel="stylesheet" href="css/timer.css" type="text/css" />
+  <nav></nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit a timer"></partial>
   <main>
     <nav-breadcrumb></nav-breadcrumb>
-    <form class="m-4 mb-0">
+    <form class="mb-4" action="#">
+      <div class="form-group row">
+        <div class="col-sm-10" style="display:flex">
+          <ui-switch name="enabled" checked="true" label="Enabled" title="Create timers here in this interface, but enable/disable them in Rules for example"></ui-switch>
+          <ui-switch class="ml-2" name="expose" checked="true" label="Expose to Apps" title="A non-exposed timer is called a private timer. All dynamically created timers are private by default"></ui-switch>
+        </div>
+      </div>
       <div class="form-group row">
         <label for="timername" class="col-sm-2 col-form-label">Timer label</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="timername" id="timername" pattern=".{1,}" required placeholder="Timer label">
+          <input autofocus type="text" class="form-control" name="timername" id="timername" pattern=".{1,}" required
+            placeholder="Timer label">
         </div>
       </div>
       <div class="form-group row">
@@ -28,16 +36,52 @@
       <div class="form-group row">
         <label for="timertags" class="col-sm-2 col-form-label">Tags</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="timertags" id="timertags" pattern="[^\s]+" required placeholder="Comma separated Timer Tags">
+          <ui-tags class="form-control" name="timertags" id="timertags"></ui-tags>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Timeout</label>
+        <div class="col-sm-10">
+          <ui-switch class="col-form-label" name="removeafter" label="Delete after triggered" title="Most useful for dynamically created timers"></ui-switch>
+          <ui-switch class="col-form-label" name="triggertype" showid="triggeritemcommand" label="Trigger item command"
+            title="Instead of just triggering, useful for Rules and Scripts, you can also issue an item command directly"></ui-switch>
+          <div id="triggeritemcommand" class="hidden">
+            <ui-dropdown name="triggereditem" options="Item1,Item2,Item3" value="Item1"></ui-dropdown>
+            <input name="itemcommand" list="itemCommands">
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">When</label>
+        <div class="col-sm-10">
+          <ui-switch showid="absolutedatetime" class="col-form-label" name="absolute" label="Trigger at an absolute date/time"
+            title="The alternative is a recurring timer"></ui-switch>
+          <div id="absolutedatetime" class="hidden">
+            Date/Time (click): <ui-time-picker enable-time></ui-time-picker>
+          </div>
+          <div id="cronexpression">
+            Cron expression: <input name="cronexpression" value="* * * * *">
+          </div>
         </div>
       </div>
     </form>
 
-    <toggle-check>Delete after triggered</toggle-check>
-    <toggle-check value="true">Enabled</toggle-check>
+    <datalist id="itemCommands">
+      <option value="ON">
+      <option value="OFF">
+      <option value="UP">
+      <option value="DOWN">
+      <option value="OPEN">
+      <option value="CLOSED">
+      <option value="STOP">
+      <option value="PLAY">
+      <option value="0">
+      <option value="100">
+    </datalist>
   </main>
   <footer></footer>
-  <partial src="contexthelp.html" help="timers"></partial>
+  <partial src="contexthelp.html" help="timer"></partial>
+  <script type="module" src="js/timer.js" async></script>
 </body>
 
 </html>

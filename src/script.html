@@ -10,17 +10,11 @@
   <link rel="stylesheet" href="css/textview.css">
   <nav class="sidebar leftright">
     <partial src="rulesnav.html"></partial>
-    <p>Script files</p>
-    <ul class="autoactive exact">
-      <li><a data-no-reload="nav" href="script.html#file=My startup script">My startup script</a></li>
-      <li><a data-no-reload="nav" href="script.html#file=Awesomeness in one file">Awesomeness in one file</a></li>
-      <li><a data-no-reload="nav" href="script.html#file=Push to MQTT">Push to MQTT</a></li>
-    </ul>
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit a Script"></partial>
   <main>
-    <form class="m-4 mb-0">
+    <form class="mt-4 mb-0">
       <div class="form-group row">
         <label for="scriptname" class="col-sm-2 col-form-label">Script name</label>
         <div class="col-sm-10">
@@ -34,12 +28,16 @@
         </div>
       </div>
     </form>
-    <div><a href="#" class="btn btn-primary float-right">Save</a></div>
-    <div class="m-4" id="editorwindow">Loading editor...</div>
+    <div class="btn-group btnbar" role="group">
+      <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
+      <a href="#" class="btn btn-primary"><i class="fas fa-save"></i> Save</a>
+      <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run</span> <span class="badge badge-light">Idle</span></a>
+    </div>
+    <div class="bs-callout bs-callout-warning my-4">Could not connect to openHAB <abbr title="Language Server Protocol: Used for suggestions and auto-completion.">LSP</abbr>!</div>
+    <oh-codeeditor scriptfile="scriptsnippets/template.js" classes="m-4" id="editorwindow"></oh-codeeditor>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="script"></partial>
-  <script type="module" src="js/script.js" async></script>
 </body>
 
 </html>

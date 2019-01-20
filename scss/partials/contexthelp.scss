@@ -41,37 +41,26 @@ section.header {
 aside.contexthelp {
     min-width: 300px;
     max-width: 400px;
-    transition: transform 1s, opacity 1s;
     oh-context-help {
-        div {
-            background-color: white;
-            max-height: calc(100vh - 120px);
-            overflow-y: auto;
-            scrollbar-color: rebeccapurple green;
-            scrollbar-width: thin;
-            &>* {
-                margin-left: 20px;
-                margin-right: 20px;
-            }
-            &::-webkit-scrollbar-track {
-                box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-                background-color: #F5F5F5;
-            }
-            &::-webkit-scrollbar {
-                width: 12px;
-                background-color: #F5F5F5;
-            }
-            &::-webkit-scrollbar-thumb {
-                box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-                background-color: #555;
-            }
+        padding: 20px;
+        background-color: white;
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
+        scrollbar-color: rebeccapurple green;
+        scrollbar-width: thin;
+        &::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #F5F5F5;
+        }
+        &::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5;
+        }
+        &::-webkit-scrollbar-thumb {
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+            background-color: #555;
         }
     }
-}
-
-body:not(.showcontext) aside.contexthelp {
-    opacity: 0;
-    transform: translateX(-20px);
 }
 
 a.helpbtn i.fa-question {
@@ -101,9 +90,40 @@ a.helpbtn2 {
     text-align: right;
 }
 
+@media (min-width: get-breakpoints("xxl")) {
+    body:not(.showcontext) aside.contexthelp {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    aside.contexthelp {
+        opacity: 1;
+        transform: translateX(0px);
+        transition: opacity 1s, transform 1s;
+    }
+}
+
+@media (max-width: get-breakpoints("xxl")) {
+    .showcontext>aside {
+        margin-top: 20px;
+        margin-right: 20px;
+    }
+    body:not(.showcontext) aside.contexthelp {
+        display: none;
+    }
+    aside.contexthelp {
+        animation: swinginxr 1s;
+    }
+}
+
+body:before {
+    content: " ";
+    position: absolute;
+    transition: background-color 1s;
+}
+
 // The context help (aside block) collapses to an absolute "modal window", that
 // is hidden by default. The background is dimmed, if shown.
-@media (max-width: get-breakpoints("xl")) {
+@media (max-width: get-breakpoints("lg")) {
     body.showcontext:before {
         z-index: 10;
         background-color: rgba(22, 22, 22, 0.335);
@@ -115,6 +135,7 @@ a.helpbtn2 {
         content: " ";
     }
     .showcontext>aside {
+        animation: fadein 1s;
         display: block;
         background-color: white;
     }

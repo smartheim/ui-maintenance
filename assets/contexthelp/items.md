@@ -3,34 +3,40 @@
 
 Find all your configured *Items* listed here.
 
-You can manually add a new *Item*, if you click on "Add Item" to your left.
+Click the *Items* name to show or modify the storage association (e.g. filename),
+see the <abbr title="The ID is used by Rules and Scripts">unique ID</abbr>, and change
+the icon category.
+
+## Icons
+
+An *Item* can have an icon assigned that is used for presentation in some user interfaces.
+For all available icons have a look at
+[the classic icon theme](https://www.openhab.org/docs/configuration/iconsets/classic/).
 
 ## Textual mode
 
-Filter your list to only show wanted *Items* &rarr; click on the "text view mode" icon.
-Batch edit your *Items* in a textual representation while using
+Batch edit your data while using copy &amp; paste, regex find &amp; replace syntax highlighting, and auto-suggestions.
 
-* copy &amp; paste and
-* regex find &amp; replace.
+<p>
+<details>
+<summary>The format is <a target="_blank" href="https://en.wikipedia.org/wiki/YAML">YAML</a>.</summary>
+Synopsis:
 
-<mark>Save</mark>: Each textual represented *Item* will
-be applied to openHAB in order of appearence.
-Removed *Item* lines result in removed *Items*.
-Syntax errors and conflicts are reported per line,
-but do not affect other *Items* in the same document.
+* Whitespace indentation denotes the structure.
+* Comments begin with the number sign (#).
+* List members are denoted by a leading hyphen (-) with one member per line.
+* Express associative data in the form "key: value".
+</details>
+</p>
 
 <mark>Please note</mark>: The textual mode is powerful.
-If you clear the entire text field and hit save:
-Everything is gone. Act responsible!
+Hit save with an emptied text field and everything is gone. Act responsible!
 
-## Backup
+## Storage
 
-Your *Items* are automatically backup'd by openHAB. But you can also 
-grab a manual copy when you click on "Export Items to files" in the left navigation menu.
+openHAB internally stores your data a little different than what you see 
+here in the textual mode representation. The [backup service](maintenance.html) however
+will create files that match this format and imports same-like files again.
 
-Click "Import Items from files" to import again:
-
-1. Current *Items* with the same "Item ID" are overwritten
-2. An import file cannot remove *Items*.
-
-The import/export path is configured in the [Maintenance](maintenance.html) section.
+Change the storage association to store the data item into a different
+file.
