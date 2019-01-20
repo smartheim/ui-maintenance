@@ -16,20 +16,6 @@ main {
     flex-direction: column;
 }
 
-#rulesapp {
-    margin: 0;
-    position: relative;
-    height: 100%;
-    flex: 1;
-    height: 100% !important;
-    overflow: auto!important;
-    &>div {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-    }
-}
-
 .rete-background {
     position: absolute;
     width: 100%;
@@ -131,6 +117,20 @@ main {
 oh-rule-components {
     flex: 1;
     overflow-y: auto;
+}
+
+oh-rule-editor {
+    margin: 0;
+    position: relative;
+    height: 100%;
+    flex: 1;
+    height: 100% !important;
+    overflow: auto!important;
+    &>div {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
 }
 
 nav.sidebar {
