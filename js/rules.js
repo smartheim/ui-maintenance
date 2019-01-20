@@ -95,38 +95,12 @@ const schema = {
             item: {
                 type: "object",
                 description: "An openHAB thing",
-                required: ["UID", "thingTypeUID", "label"],
+                required: ["uid", "name"],
                 properties: {
                     link: { type: "string", description: "Internal URI information for openHAB REST clients" },
                     editable: { type: "boolean", description: "Items defined via old .item files are not editable" },
-                    UID: { type: "string", description: "A unique ID for this thing", minLength: 2 },
-                    label: { type: "string", description: "A friendly name", minLength: 2 },
-                    tags: { type: "array", "uniqueItems": true, description: "Tags of this item" },
-                    // config: { // reference the second schema.. demo
-                    //     $ref: 'http://myserver/bar-schema.json', 
-                    // },
-                }
-            }
-        }
-    },
-}
-
-const scriptSchema = {
-    uri: 'http://openhab.org/schema/scriptfiles-schema.json',
-    fileMatch: ["http://openhab.org/schema/scriptfiles-schema.json"],
-    schema: {
-        type: 'array',
-        items: { "$ref": "#/definitions/item" },
-        definitions: {
-            item: {
-                type: "object",
-                description: "An openHAB thing",
-                required: ["UID", "thingTypeUID", "label"],
-                properties: {
-                    link: { type: "string", description: "Internal URI information for openHAB REST clients" },
-                    editable: { type: "boolean", description: "Items defined via old .item files are not editable" },
-                    UID: { type: "string", description: "A unique ID for this thing", minLength: 2 },
-                    label: { type: "string", description: "A friendly name", minLength: 2 },
+                    uid: { type: "string", description: "A unique ID for this thing", minLength: 2 },
+                    name: { type: "string", description: "A friendly name", minLength: 2 },
                     tags: { type: "array", "uniqueItems": true, description: "Tags of this item" },
                     // config: { // reference the second schema.. demo
                     //     $ref: 'http://myserver/bar-schema.json', 
@@ -157,12 +131,12 @@ const RulesMixin = {
 var calledOnce = false;
 window.loadRules = function (vueList) {
     calledOnce = true;
-    vueList.start([RulesMixin], 'http://openhab.org/schema/rules-schema.json', schema, ["link","editable","status"]);
+    vueList.start([RulesMixin], 'http://openhab.org/schema/rules-schema.json', schema, ["link","editable","status","runcounter"]);
     vueList.items = demoItems;
 };
 
 window.loadScripts = function (vueList) {
-    vueList.start([], 'http://openhab.org/schema/scriptfiles-schema.json', scriptSchema, ["link","editable"]);
+    vueList.start([], null, null, ["link","editable"]);
     vueList.items = demoScripts;
 };
 
