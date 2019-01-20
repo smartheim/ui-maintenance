@@ -57,10 +57,10 @@
           <ui-switch showid="absolutedatetime" class="col-form-label" name="absolute" label="Trigger at an absolute date/time"
             title="The alternative is a recurring timer"></ui-switch>
           <div id="absolutedatetime" class="hidden">
-            Date/Time (click): <ui-time-picker enable-time></ui-time-picker>
+            Date/Time (click): <ui-time-picker enable-time inline name="datetime"></ui-time-picker>
           </div>
-          <div id="cronexpression">
-            Cron expression: <input name="cronexpression" value="* * * * *">
+          <div id="cronexpression" class="mt-2">
+            Cron expression: <ui-cron-expression></ui-cron-expression>
           </div>
         </div>
       </div>

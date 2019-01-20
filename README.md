@@ -122,6 +122,12 @@ Webcomponents for
 
 are available in `js/bundles/ohcomponents/*.js` and can be used in other projects as well.
 
+The html dom API is a bit clumsy to be honest.
+I have used [lit-html](https://lit-html.polymer-project.org/guide/writing-templates) in
+some more complex components as renderer. It has a very similar syntax to the vue renderer.
+
+I have also used Hybrid-js initially, but I'm going to replace those components with lit-html ones.
+
 ### Icons / Fonts / Styling
 
 See [Styling Readme](scss/readme.md).
@@ -146,7 +152,7 @@ Missing services:
 * Backup service: Configure a local or cloud backup destination and intervals.
 * SSL certificate management service: Add/Remove trusted (D)TLS certificates for peer devices and setup own certificate.
 * Rules/scripts files REST service: Alter files on disk via the REST API.
-* Issue Import/Export for Things/Item files. Requires "storage" association and "note" field for AbstractThing and AbstractItem.
+* "storage" association for Things/Items/Rules/Timers
 * Manual Addons managment: Manual Jar upload, download, (de)activate via the REST API.
 * Average and longtime resource observe service:
   Detects thread abuse and memory leaks for long time stability

@@ -28,7 +28,7 @@ class NavAjaxPageLoad extends HTMLElement {
                 .then(page => page.replaceStyles("body"))
                 .then(page => this.checkReload(event.target, "aside") ? page.replaceContent('aside') : page)
                 .then(page => this.checkReload(event.target, "nav") ? page.replaceContent('body>nav') : page)
-                .then(page => page.replaceContent('footer').replaceContent('section.header').replaceNavReferences())
+                .then(page => page.replaceNavReferences().replaceContent('footer').replaceContent('section.header'))
                 .then(page => page.replaceContent('main'))
                 .then(page => page.replaceScripts("body"))
                 .then(() => this.prepareLoadedContent(event))

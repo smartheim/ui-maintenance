@@ -1,8 +1,22 @@
 @import "partials/flatpickr";
 
+#absolutedatetime, #cronexpression {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    padding: 1.25rem;
+}
+
 .hidden {
-    display: none;
+    pointer-events: none;
+    opacity: 0.5;
+}
+#absolutedatetime:not(.hidden) {
+    border-color: #ff7214!important;
+}
+#absolutedatetime.hidden ~ #cronexpression {
+    border-color: #ff7214!important;
 }
 #absolutedatetime:not(.hidden) ~ #cronexpression {
-    display: none;
+    pointer-events: none;
+    opacity: 0.5;
 }
