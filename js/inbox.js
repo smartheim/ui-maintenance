@@ -36,6 +36,67 @@ const demoItems = [
     }
 ];
 
+
+const demoThingTypes = [
+    {
+        "UID": "mqtt:topic",
+        "label": "Generic MQTT Thing",
+        "description": "Add different types of channels, linked to MQTT topics, to this Thing",
+        "listed": true,
+        "supportedBridgeTypeUIDs": [
+            "mqtt:broker",
+            "mqtt:systemBroker"
+        ],
+        "bridge": false
+    },
+    {
+        "UID": "mqtt:homeassistant",
+        "label": "A HomeAssistant MQTT Component",
+        "description": "This thing represents a HomeAssistant MQTT Component",
+        "listed": true,
+        "supportedBridgeTypeUIDs": [
+            "mqtt:broker",
+            "mqtt:systemBroker"
+        ],
+        "bridge": false
+    },
+    {
+        "UID": "mqtt:homie300",
+        "label": "A Homie (version 3.x) device",
+        "description": "This thing represents a MQTT Homie device",
+        "listed": true,
+        "supportedBridgeTypeUIDs": [
+            "mqtt:broker",
+            "mqtt:systemBroker"
+        ],
+        "bridge": false
+    },
+    {
+        "UID": "mqtt:broker",
+        "label": "MQTT Broker",
+        "description": "A connection to a MQTT broker",
+        "listed": true,
+        "supportedBridgeTypeUIDs": [],
+        "bridge": true
+    },
+    {
+        "UID": "mqtt:systemBroker",
+        "label": "System MQTT Broker",
+        "description": "A system configured and therefore read-only broker connection. Properties are reflecting the configuration and internal connection status.",
+        "listed": true,
+        "supportedBridgeTypeUIDs": [],
+        "bridge": true
+    },
+    {
+        "UID": "network:broker",
+        "label": "A network ping device",
+        "description": "Pings a network device periodically",
+        "listed": true,
+        "supportedBridgeTypeUIDs": [],
+        "bridge": true
+    }
+];
+
 const demoBindings = [
     {
         "author": "David Graeff",
@@ -61,6 +122,13 @@ const InboxMixin = {
             }
             return "Binding not found";
         },
+        description(item) {
+            for (const thingType of demoThingTypes) {
+                if (thingType.UID == item.thingTypeUID)
+                return thingType.description;
+            }
+            return "No Thing description available";
+        }
     }
 }
 
