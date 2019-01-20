@@ -6,7 +6,8 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/addons.css" type="text/css" />
+  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <script type="module" src="js/inbox.js"></script>
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -42,43 +43,28 @@
 
     <div class="mt-4 alert alert-info">Discovery status for "Network binding": <span class="badge badge-success">Running</span></div>
 
-    <div id="listcontainer" class="grid">
+    <oh-vue-list-items id="inboxapp" class="listwithouteditor" template="listInboxTemplate" filtercriteria="name"
+      onload="if (window.loadInbox) loadInbox(this)"></oh-vue-list-items>
 
-      <div class="listitem">
-        <div class="body">
-          <div class="title"><span>Homie Device "Lightsource"</span>
+    <template id="listInboxTemplate">
+      <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+        <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
+          <div class="body">
+            <div class="title">
+              <span :title="item.label">{{item.label}}</span>
+              <span class="actions btn-group">
+                  <a href="#" class="btn btn-info" title="Hide"><i class="fas fa-eye-slash"></i></a>
+                  <a href="#" class="btn btn-success" title="Accept"><i class="fas fa-check"></i></a>
+                </span>
+            </div>
           </div>
-          <div class="description"></div>
-          <section class="actions">
-          <div class="btn-group" role="group">
-            <a href="#" class="btn btn-info"><i class="fas fa-eye-slash"></i> <span>Hide</span></a>
-            <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Accept</span></a>
+          <div class="footer small py-1 px-3">
+            {{binding(item)}}
           </div>
-          </section>
         </div>
-        <div class="footer">
-          <small>MQTT binding</small>
-        </div>
-      </div>
-
-      <div class="listitem">
-        <div class="body">
-          <div class="title"><span>A ping device on 192.168.1.12:22</span>
-          </div>
-          <div class="description"></div>
-          <section class="actions">
-          <div class="btn-group" role="group">
-            <a href="#" class="btn btn-info"><i class="fas fa-eye-slash"></i> <span>Hide</span></a>
-            <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Accept</span></a>
-          </div>
-        </section>
-        </div>
-        <div class="footer">
-          <small>Network binding</small>
-        </div>
-      </div>
-
-    </div>
+        <p v-if="pending">loading items...</p>
+        <p v-if="error">loading failed</p>
+    </template>
 
   </main>
   <footer></footer>

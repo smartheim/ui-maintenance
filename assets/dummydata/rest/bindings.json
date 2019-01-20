@@ -4,5 +4,11 @@
         "description": "Link MQTT topics to things",
         "id": "mqtt",
         "name": "MQTT Thing Binding"
+    },
+    {
+        "author": "David Graeff",
+        "description": "Ping network devices",
+        "id": "network",
+        "name": "Network Binding"
     }
 ]

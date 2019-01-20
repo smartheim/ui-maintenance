@@ -12,9 +12,20 @@
     },
     {
         "flag": "NEW",
-        "label": "MQTT Broker",
+        "label": "Homie Device 'Lightsource'",
         "properties": {
             "host": "192.168.1.8",
+            "port": 1883.0
+        },
+        "representationProperty": "host",
+        "thingUID": "mqtt:broker:192_168_1_8_1883",
+        "thingTypeUID": "mqtt:broker"
+    },
+    {
+        "flag": "NEW",
+        "label": "A ping device on 192.168.1.12:22",
+        "properties": {
+            "host": "192.168.1.12",
             "port": 1883.0
         },
         "representationProperty": "host",

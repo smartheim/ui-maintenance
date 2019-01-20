@@ -26,8 +26,8 @@
       </div>
     </ui-filter>
 
-
-    <oh-vue-list-items id="scriptsapp" class="listwithouteditor" template="listScriptsTemplate" filtercriteria="name" onload="if (window.loadScripts) loadScripts(this)"></oh-vue-list-items>
+    <oh-vue-list-items id="scriptsapp" class="listwithouteditor" template="listScriptsTemplate" filtercriteria="name"
+      onload="if (window.loadScripts) loadScripts(this)"></oh-vue-list-items>
     <oh-vue-list-items id="rulesapp" template="listRulesTemplate" filtercriteria="name" onload="if (window.loadRules) loadRules(this)"></oh-vue-list-items>
 
     <template id="listRulesTemplate">
@@ -44,13 +44,13 @@
               </span>
             </div>
             <div class="secondlevel">
-                <div class="bg-danger text-white">{{rulesStatusmessage(item)}}</div>
+              <div class="bg-danger text-white">{{rulesStatusmessage(item)}}</div>
               <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
               <span @click="copyClipboard($event, item.uid)">{{item.uid}}</span>
               <div>Storage association: <input value="openhab"></div>
             </div>
             <section class="description">
-                {{item.description}}
+              {{item.description}}
             </section>
             <section class="actions">
               <span class="btn-group" role="group">
@@ -60,7 +60,7 @@
               </span>
             </section>
           </div>
-          <div class="footer small py-1"><span>Runs: {{item.runcounter}}</span></div>
+          <div class="footer small py-1 px-3"><span>Runs: {{item.runcounter}}</span></div>
         </div>
         <p v-if="pending">loading items...</p>
         <p v-if="error">loading failed</p>
@@ -69,32 +69,30 @@
       </div>
     </template>
 
-
     <template id="listScriptsTemplate">
-        <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-          <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
-            <div class="body">
-              <div class="title">
-                <span :title="item.label">{{item.name}}</span>
-                <span class="actions btn-group">
-                  <button class="btn btn-danger-hover" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
-                </span>
-              </div>
-              <section class="description">
-              </section>
-              <section class="actions">
-                <span class="btn-group" role="group">
-                  <a :href="'script.html?file='+encodeURIComponent(item.filename)" class="btn btn-secondary"><i class="fas fa-cog"></i>
-                    <span>Edit</span></a>
-                </span>
-              </section>
+      <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+        <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
+          <div class="body">
+            <div class="title">
+              <span :title="item.label">{{item.name}}</span>
+              <span class="actions btn-group">
+                <button class="btn btn-danger-hover" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+              </span>
             </div>
+            <section class="description">
+            </section>
+            <section class="actions">
+              <span class="btn-group" role="group">
+                <a :href="'script.html?file='+encodeURIComponent(item.filename)" class="btn btn-secondary"><i class="fas fa-cog"></i>
+                  <span>Edit</span></a>
+              </span>
+            </section>
           </div>
-          <p v-if="pending">loading items...</p>
-          <p v-if="error">loading failed</p>
-      </template>
-  
-    </div>
+        </div>
+        <p v-if="pending">loading items...</p>
+        <p v-if="error">loading failed</p>
+    </template>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="rules"></partial>
