@@ -2,12 +2,15 @@
 .span2 {
     grid-area: span 1 / span 2;
 }
+
 .span3 {
     grid-area: span 1 / span 3;
 }
+
 .span4 {
     grid-area: span 1 / span 4;
 }
+
 #listcontainer {
     &.grid {
         display: flex;
@@ -147,7 +150,6 @@
             }
             &>.description:not(&>.description.grid) {
                 padding-top: 1rem;
-
                 flex: 1;
                 display: flex;
                 flex-direction: column;
@@ -221,4 +223,13 @@
 oh-vue-list-items {
     display: flex;
     flex-direction: column;
+}
+
+// A list that doesn't support editors is hidden in textual-mode
+.listwithouteditor #listcontainer.textual {
+    display: none;
+}
+oh-vue-list-items:not(.listwithouteditor) {
+    flex: 1;
+    min-width: 500px;
 }

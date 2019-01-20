@@ -27,8 +27,8 @@
     </ui-filter>
 
 
+    <oh-vue-list-items id="scriptsapp" class="listwithouteditor" template="listScriptsTemplate" filtercriteria="name" onload="if (window.loadScripts) loadScripts(this)"></oh-vue-list-items>
     <oh-vue-list-items id="rulesapp" template="listRulesTemplate" filtercriteria="name" onload="if (window.loadRules) loadRules(this)"></oh-vue-list-items>
-    <oh-vue-list-items id="scriptsapp" template="listScriptsTemplate" filtercriteria="name" onload="if (window.loadScripts) loadScripts(this)"></oh-vue-list-items>
 
     <template id="listRulesTemplate">
       <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
