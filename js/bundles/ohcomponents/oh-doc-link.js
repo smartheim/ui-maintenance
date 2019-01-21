@@ -33,6 +33,7 @@ class OhDocLink extends HTMLElement {
     this.target = this.hasAttribute("target") ? this.getAttribute("target") : "oh-context-help";
     this.toggle = this.hasAttribute("toggle");
     this.reload = this.hasAttribute("reload");
+    this.show = this.hasAttribute("show");
     this.home = this.hasAttribute("home");
   }
   connectedCallback() {
