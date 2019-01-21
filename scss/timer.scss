@@ -1,22 +1,32 @@
 @import "partials/flatpickr";
-
-#absolutedatetime, #cronexpression {
-    border: 1px solid rgba(0,0,0,.125);
+#cronexpression,
+#absolutedatetime {
+    border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem;
     padding: 1.25rem;
 }
 
-.hidden {
+#cronexpression:not(.hidden) {
     pointer-events: none;
     opacity: 0.5;
+    &~#absolutedatetime {
+        border-color: #ff7214 !important;
+    }
 }
-#absolutedatetime:not(.hidden) {
-    border-color: #ff7214!important;
+
+#cronexpression.hidden {
+    border-color: #ff7214 !important;
+    &~#absolutedatetime {
+        pointer-events: none;
+        opacity: 0.5;
+    }
 }
-#absolutedatetime.hidden ~ #cronexpression {
-    border-color: #ff7214!important;
+
+label {
+    margin-bottom: 0;
 }
-#absolutedatetime:not(.hidden) ~ #cronexpression {
-    pointer-events: none;
-    opacity: 0.5;
+
+.tab-content>section>* {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

@@ -6,6 +6,7 @@ import { fetchWithTimeout } from '../../common/fetch';
  * Attributes:
  * - "url": For example "https://api.github.com/repos/openhab/openhab2-addons/issues".
  * - "filter": "deconz"
+ * - "cachetime": A cache time in minutes. Default is one day.
  * - "hasissues": read-only. Will be set, when there are issues found for the given filter.
  *                Use this in css selectors to show/hide etc.
  * 
@@ -59,7 +60,7 @@ class OhGithubIssues extends HTMLElement {
         this.renderData(json, this.filter);
       }).catch(e => {
         this.setAttribute("hasissues", "");
-        this.appendChild(document.createTextNode(this.error + e));
+        this.innerHTML = this.error + e;
       })
   }
   renderData(data, filter) {

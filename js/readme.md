@@ -10,7 +10,8 @@ The entry point file must be `index.js`.
 During the build, a single, tree-shaked, minified file is created under `js/your-bundle-name.js`.
 
 No transpiling is performed during the build, as **all** javascript capable browsers
-support ES6 modules by now. (This app is not targeting Internet Explorer).
+support ES6 modules and async/await by now. (This app is not targeting Internet Explorer).
+Use only JS features that are available for all evergreen browsers.
 
 Embed your js files into a webpage by either adding it to `partials/head.html` or
 by adding it to the `<body>` section of a page.

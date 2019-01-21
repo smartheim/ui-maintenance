@@ -120,13 +120,14 @@ Webcomponents for
 * github openHAB addons repository for documentation fetching
 * navigation components (breadcrumb, prev/next-buttons)
 
-are available in `js/bundles/ohcomponents/*.js` and can be used in other projects as well.
+are available in `js/bundles/ohcomponents/*.js` and `js/bundles/uicomponents/*.js`
+and can be used in other projects as well.
 
-The html dom API is a bit clumsy to be honest.
+The html dom API alone is a bit clumsy for more complex reactive components though.
 I have used [lit-html](https://lit-html.polymer-project.org/guide/writing-templates) in
-some more complex components as renderer. It has a very similar syntax to the vue renderer.
-
-I have also used Hybrid-js initially, but I'm going to replace those components with lit-html ones.
+some more complex components as renderer.
+It has a very similar syntax to the vue renderer, but is not as "reactive" as vue
+and therefore adds 1.7KB (tree shaking not even considered) to the ui-components bundle.
 
 ### Icons / Fonts / Styling
 
@@ -141,7 +142,7 @@ See [Javascript Readme](js/readme.md).
 * Date/Time picker: https://flatpickr.js.org/
 * Ajax page reload: https://github.com/oom-components/page-loader
 * Charts: https://www.chartjs.org
-* Web components, funtional: [hybrid.js](https://github.com/hybridsjs/hybrids)
+* Web components: [lit-html](https://lit-html.polymer-project.org/guide/writing-templates)
 
 ## Missing openHAB functionality
 

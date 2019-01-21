@@ -1,8 +1,10 @@
-import { html, define, render, dispatch } from "./utils/hybrids.js";
-import style from './ui-filterbar.scss';
+import { html, render } from 'lit-html';
 
 /**
  * A UI component with a filter bar and a button group "grid"/"list"/"textual".
+ * 
+ * This is not a shadow-dom component, but still allows children ("slots"). Those
+ * are shown when the selection mode is on.
  * 
  * Attributes:
  * - "placeholder": A placeholder for the filter bar
@@ -15,72 +17,111 @@ import style from './ui-filterbar.scss';
  * Events:
  * - "filter": The user clicked on the filter button or hit enter
  */
-const UiFilter = {
-  placeholder: "",
-  value: "",
-  mode: "grid",
-  grid: "",
-  list: "",
-  textual: "",
-  select: "",
-  selectmode: false,
-  render: render(({ placeholder, value, mode, grid, list, textual, selectmode, select }) => html`
-  <style>${style}</style>
-  <form onsubmit="${search}" name="filterform" class="filterform">
-    <button type="button" title="${select}" onclick="${selectChanged}" class="btn ${selectmode ? "btn-primary" : "btn-secondary"}">
-      <i class="fas fa-check-double"></i>
-    </button>
-    ${selectmode && html`<slot></slot>`}
-    <div class="input-group ml-3">
-      <input class="form-control py-2" type="search" name="filter" placeholder="${placeholder}" value="${value}" oninput="${searchI}">
-      <span class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" onclick="${searchBtn}">
-          <i class="fa fa-search"></i>
-        </button>
-      </span>
-    </div>
-    ${(grid.length > 0 || list.length > 0 || textual.length > 0) && html`
-    <div class="btn-group ml-3" role="group" aria-label="Change view mode">
-    ${grid.length > 0 && html`<button type="button" title="${grid}" data-mode="grid" onclick="${modeChange}"
-        class="btn ${mode == "grid" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-large"></i></button>`}
-    ${list.length > 0 && html`<button type="button" title="${list}" data-mode="list" onclick="${modeChange}"
-        class="btn ${mode == "list" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-list"></i></button>`}
-    ${textual.length > 0 && html`<button type="button" title="${textual}" data-mode="textual" onclick="${modeChange}"
-        class="btn ${mode == "textual" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-align-justify"></i></button>`}
-    </div>
-    `}
-  </form>
-  `, { shadowRoot: true })
-};
+class UiFilter extends HTMLElement {
+  constructor() {
+    super();
+    this.classList.add("ui-filterbar");
+  }
+  connectedCallback() {
+    if (this.hasAttribute("suggestions")) {
+      this.suggestionsDomID = Math.random().toString(36);
+      var suggestionsEl = document.createElement("datalist");
+      suggestionsEl.id = this.suggestionsDomID;
+      var items = this.getAttribute("suggestions").split(",");
+      for (var item of items) {
+        var openEL = document.createElement("option");
+        openEL.setAttribute("value", item);
+        suggestionsEl.appendChild(openEL);
+      }
+      document.body.appendChild(suggestionsEl);
+    }
+    this.placeholder = this.getAttribute("placeholder");
+    this.value = this.getAttribute("value") || "";
+    this.mode = this.getAttribute("mode") || "grid";
+    this.grid = this.getAttribute("grid");
+    this.list = this.getAttribute("list");
+    this.textual = this.getAttribute("textual");
+    this.select = this.getAttribute("select") || "Select";
+    this.selectmode = this.getAttribute("selectmode") || false;
 
-function searchI(host, event) {
-  event.preventDefault();
-  host.value = event.target.value;
-  dispatch(host, 'filter', { detail: { value: host.value, typing: true } });
-}
-function search(host, event) {
-  event.preventDefault();
-  var formData = new FormData(event.target);
-  host.value = formData.get("filter");
-  dispatch(host, 'filter', { detail: { value: host.value } });
-}
-function searchBtn(host, event) {
-  event.preventDefault();
-  formData = new FormData(event.target.parentNode.parentNode.parentNode);
-  host.value = formData.get("filter");
-  dispatch(host, 'filter', { detail: { value: host.value } });
+    // Non-shadow-dom but still slots magic - Part 1
+    var slotElements = [];
+    for (var node of this.childNodes) {
+      slotElements.push(node.cloneNode(true));
+    }
+    this.innerHTML = "";
+
+    render(html`
+        <form @submit="${this.search.bind(this)}" name="filterform" class="ui-filterbar">
+          <button type="button" title="${this.select}" @click="${this.selectChanged.bind(this)}" class="btn ${this.selectmode ? "btn-primary" : "btn-secondary"}">
+            <i class="fas fa-check-double"></i>
+          </button>
+          <div style="display:none" class="selectcomponents"></div>
+          <div class="input-group ml-3">
+            <input class="form-control py-2 filterinput" type="search" name="filter" placeholder="${this.placeholder}"
+              value="${this.value}" @input="${this.searchI.bind(this)}">
+            <span class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </span>
+          </div>
+          <div class="btn-group ml-3 viewmode" role="group" aria-label="Change view mode"></div></form>
+          `, this);
+
+    // Non-shadow-dom but still slots magic - Part 2
+    var slot = this.querySelector(".selectcomponents");
+    for (var el of slotElements) {
+      slot.appendChild(el);
+    }
+
+    // Don't show the mode button group of no modes allowed
+    if (!this.grid && !this.list && !this.textual) {
+      this.querySelector(".viewmode").style.display = "none";
+    } else
+      this.renderViewMode();
+  }
+  disconnectedCallback() {
+    if (this.suggestionsDomID) {
+      document.getElementById(this.suggestionsDomID).remove();
+      delete this.suggestionsDomID;
+    }
+  }
+
+  searchI(event) {
+    event.preventDefault();
+    this.value = event.target.value;
+    this.dispatchEvent(new CustomEvent('filter', { detail: { value: this.value, typing: true } }));
+  }
+  search(event) {
+    event.preventDefault();
+    var formData = new FormData(event.target);
+    this.value = formData.get("filter");
+    this.dispatchEvent(new CustomEvent('filter', { detail: { value: this.value } }));
+  }
+  modeChange(event) {
+    event.preventDefault();
+    this.mode = event.target.dataset.mode;
+    this.renderViewMode();
+    this.dispatchEvent(new CustomEvent('mode', { detail: { mode: this.mode } }));
+  }
+
+  selectChanged(event) {
+    event.preventDefault();
+    this.selectmode = !this.selectmode;
+    if (this.selectmode) this.querySelector(".selectcomponents").style.display = "block";
+    else this.querySelector(".selectcomponents").style.display = "none";
+    this.dispatchEvent(new CustomEvent('selectmode', { detail: { selectmode: this.selectmode } }));
+  }
+  renderViewMode() {
+    render(html`${this.grid.length == 0 ? '' : html`<button type="button" title="${this.grid}" data-mode="grid" @click="${this.modeChange.bind(this)}"
+              class="btn ${this.mode == "grid" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-large"></i></button>`}
+          ${this.list.length == 0 ? '' : html`<button type="button" title="${this.list}" data-mode="list" @click="${this.modeChange.bind(this)}"
+              class="btn ${this.mode == "list" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-list"></i></button>`}
+          ${this.textual.length == 0 ? '' : html`<button type="button" title="${this.textual}" data-mode="textual" @click="${this.modeChange.bind(this)}"
+              class="btn ${this.mode == "textual" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-align-justify"></i></button>`}
+              `, this.querySelector(".viewmode"));
+  }
 }
 
-function modeChange(host, event) {
-  event.preventDefault();
-  host.mode = event.target.dataset.mode;
-  dispatch(host, 'mode', { detail: { mode: host.mode } });
-}
-
-function selectChanged(host, event) {
-  event.preventDefault();
-  host.selectmode = !host.selectmode;
-  dispatch(host, 'selectmode', { detail: { selectmode: host.selectmode } });
-}
-
-define('ui-filter', UiFilter);
+customElements.define('ui-filter', UiFilter);

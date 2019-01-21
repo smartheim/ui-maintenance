@@ -6,8 +6,11 @@
 @import "partials/subnavigation";
 @import "partials/maingrid";
 @import "partials/contexthelp";
-@import "partials/ui-switch";
-@import "partials/ui-tags";
+
+@import "ui-components/ui-switch";
+@import "ui-components/ui-radio";
+@import "ui-components/ui-tags";
+@import "ui-components/ui-filterbar";
 // Bootstrap extensions
 @each $color,
 $value in $theme-colors {

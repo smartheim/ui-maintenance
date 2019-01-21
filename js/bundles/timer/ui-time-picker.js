@@ -18,7 +18,8 @@ class UiTimePicker extends HTMLElement {
         }
         var div = document.createElement("input");
         div.classList.add("mb-4")
-        div.setAttribute("name", this.getAttribute("name"));
+        if (this.hasAttribute("name")) div.setAttribute("name", this.getAttribute("name"));
+        if (this.hasAttribute("placeholder")) div.setAttribute("placeholder", this.getAttribute("placeholder"));
         this.removeAttribute("name");
         this.appendChild(div);
         FlatpickrInstance(div, options);

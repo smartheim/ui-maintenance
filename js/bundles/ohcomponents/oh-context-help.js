@@ -33,6 +33,9 @@ class OhContextHelp extends HTMLElement {
     this.innerHTML = this.loading;
     this.checkCacheAndLoad(val);
   }
+  get contenturl() {
+    return this.url;
+  }
   attributeChangedCallback(name, oldValue, newValue) {
     this.loading = this.getAttribute("loading") || "Loading... ";
     this.error = this.getAttribute("error") || "Failed to fetch! ";

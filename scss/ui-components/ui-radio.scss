@@ -1,0 +1,27 @@
+@import "partials/variables";
+input[type="radio"] {
+    display: none;
+}
+
+label i {
+    display: inline-block;
+    position: relative;
+    margin-right: 5px;
+    width: 1rem;
+    height: 1rem;
+    top: 1px;
+    border-radius: 50%;
+    background-color: theme-color("light");
+}
+
+label input[type="radio"]:checked+i {
+    background-color: theme-color("orange");
+    background-repeat: no-repeat;
+    background-position: 2px;
+    background-size: 80%;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+label input[type="radio"][disabled]+i:before {
+    opacity: .25;
+}

@@ -58,7 +58,7 @@ var config = {
         distjs: './dist/js',
         destsw: './dist/sw.js',
     },
-    external_js: ['./vue.js','./chart.js','./uicomponents.js','./ohcomponents.js'],
+    external_js: ['./vue.js','./chart.js','./uicomponents.js','./ohcomponents.js','./cronstrue.js'],
     localServer: {
         port: 8001,
         url: 'http://localhost:8001/',
@@ -120,8 +120,9 @@ const compileBundle = (dir, _rollup, modulename) =>
     gulp.src(dir)
         .pipe(_rollup({
             external: config.external_js,
+            cache: false,
             plugins: [
-                rollupPluginNodeModuleResolve({ browser: true }),
+                rollupPluginNodeModuleResolve({ browser: true, jsnext: true, modulesOnly: true }),
                 rollupPluginSass({ output: false, insert: false, options: { includePaths: [".", "./scss"] } }),
                 rollupPluginCss({}),
                 rollupPluginReplace({ 'process.env.NODE_ENV': '"development"' }) // // production
@@ -168,13 +169,15 @@ const watchTask = () => { // Watch the file system and reload the website automa
     gulp.watch(config.paths.src.assets, copyAssets);
     var filename = ""; // Only rebuild the bundle where a file changed
     const rebuildOneBundle = (callback) => {
-        var bundlename = filename.match(/bundles\/(.*)\//);
+        var bundlename = filename.match(/bundles\/(.*?)\//);
+        console.log("rebuildOneBundle", bundlename);
         filename = "";
         if (!bundlename || bundlename.length!=2) {
             callback();
             return;
         }
-        return compileBundle(`./js/bundles/${bundlename[1]}/index.js`, rollup, bundlename[1]);
+        var result = compileBundle(`./js/bundles/${bundlename[1]}/index.js`, rollup, bundlename[1]);
+        return result.on('error', e=>console.error("An error happened", e));
     };
     gulp.watch(config.paths.src.js_bundles_watch, rebuildOneBundle).on("change", (file) => filename = file);
 }
