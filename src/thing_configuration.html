@@ -1,0 +1,53 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="things.html" />
+</head>
+
+<body>
+    <link rel="stylesheet" href="css/config.css">
+  <nav></nav>
+  <partial src="mainnav.html"></partial>
+  <partial src="pagetitleheader.html" title="Thing Configuration"></partial>
+  <main>
+     <nav-breadcrumb parent="Thing list"></nav-breadcrumb>
+
+     <div class="bs-callout bs-callout-info">
+        This thing does this and that.
+      </div>
+  
+      <oh-github-issues class="my-4 bs-callout bs-callout-danger" title="There are known issues with this binding:"
+      url="https://api.github.com/repos/openhab/openhab2-addons/issues" filter="hue"></oh-github-issues>
+  
+      <form action="#">
+    
+          <div class="config">
+            <h4 title="org.openhab.addons">Configuration group</h4>
+            <div class="elements">
+              <div class="element">
+                <ui-switch title="Access remote repository"></ui-switch>
+                <small class="form-text text-muted">
+                  Defines whether openHAB should access the remote repository for add-on installation.
+                </small>
+              </div>
+              <div class="element">
+                <ui-switch title="Include Legacy 1.x Binding"></ui-switch>
+                <small class="form-text text-muted">
+                  Defines whether openHAB should access the remote repository for add-on installation.
+                </small>
+              </div>
+            </div>
+          </div>
+    
+          <div class="btn-group btnbar mt-4" role="group">
+            <button type="submit" href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</botton>
+          </div>
+        </form>
+  </main>
+  <footer></footer>
+  <partial src="contexthelp.html" help="thingconfig"></partial>
+</body>
+
+</html>

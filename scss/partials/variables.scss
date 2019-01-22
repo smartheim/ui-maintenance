@@ -1,7 +1,7 @@
 /* The openHAB Theme is orange flavoured. Use the two below defined colors. */
 
 $theme-colors: ( "orange": #ff7214, "primary": #ff7214, "info": #f0ad4e);
-$container-max-widths: (xxl: 1500px); // Add a "very large screen width"
+$container-max-widths: (xxl: 1500px, xxxl: 1700px); // Add a "very large screen width"
 html {
     --background-large-screen: #ececec;
 }

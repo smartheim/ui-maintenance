@@ -83,7 +83,7 @@ a.helpbtn i.fa-times {
     content: none;
 }
 
-a.helpbtn2 {
+.helpbtn2 {
     display: none;
     background-color: white;
     font-size: 20pt;
@@ -112,6 +112,9 @@ a.helpbtn2 {
     }
     aside.contexthelp {
         animation: swinginxr 1s;
+        oh-context-help {
+            max-height: calc(100vh - 240px);
+        }
     }
 }
 
@@ -123,23 +126,41 @@ body:before {
 
 // The context help (aside block) collapses to an absolute "modal window", that
 // is hidden by default. The background is dimmed, if shown.
-@media (max-width: get-breakpoints("lg")) {
-    body.showcontext:before {
-        z-index: 10;
-        background-color: rgba(22, 22, 22, 0.335);
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        content: " ";
-    }
-    .showcontext>aside {
-        animation: fadein 1s;
-        display: block;
-        background-color: white;
-    }
-    .showcontext a.helpbtn2 {
-        display: block;
+@media (max-width: get-breakpoints("xl")) {
+    body {
+        &.showcontext:before {
+            z-index: 10;
+            background-color: rgba(22, 22, 22, 0.335);
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            content: " ";
+        }
+        &.showcontext>aside {
+            animation: fadein 1s;
+            display: block;
+            background-color: white;
+        }
+        &.showcontext .helpbtn2 {
+            display: block;
+        }
+        &>aside {
+            // grid-column: 3 / span 1;
+            // grid-row: 3 / span 2;
+            position: absolute; // There is no space. Make it absolute
+            top: 20px;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 20;
+            display: none;
+            max-width: initial !important;
+            max-height: initial !important;
+        }
+        &>main {
+            grid-column: 2 / span 2; // span 2 because no context help
+        }
     }
 }

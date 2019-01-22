@@ -18,7 +18,6 @@
         justify-content: flex-start;
     }
     margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
     &.textual {
         flex: 1;
         display: flex;
@@ -40,8 +39,9 @@
     }
     &.grid .listitem {
         margin-right: 10px;
-        flex-basis: calc(50% - 10px);
-        min-width: 420px;
+        //flex-basis: calc(50% - 10px);
+        //min-width: 420px;
+        width: 355px;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -150,7 +150,6 @@
             }
             &>.description:not(&>.description.grid) {
                 padding-top: 1rem;
-                flex: 1;
                 display: flex;
                 flex-direction: column;
                 &>span:nth-child(1) {
@@ -158,7 +157,10 @@
                 }
             }
             &>.actions {
+                flex: 1;
                 padding-top: 1rem;
+                display: flex;
+                align-items: flex-end;
             }
         }
         .footer {
@@ -173,7 +175,7 @@
     &.list .listitem {
         position: relative;
         display: block;
-        padding: .75rem 1.25rem;
+        padding: .2rem 1.25rem;
         margin-bottom: -1px;
         background-color: #fff;
         border: 1px solid rgba(0, 0, 0, .125);
@@ -184,9 +186,6 @@
             flex-direction: row;
             .title {
                 width: 100%;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
@@ -232,4 +231,12 @@ oh-vue-list-items {
 oh-vue-list-items:not(.listwithouteditor) {
     flex: 1;
     min-width: 500px;
+}
+
+@media (max-width: get-breakpoints("xl")) {
+    #listcontainer {
+        &.grid .listitem {
+            min-width: 200px;
+        }
+    }
 }

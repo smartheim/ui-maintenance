@@ -34,19 +34,22 @@ class OhChangelog extends HTMLElement {
       });
       return "<h" + level + " id=\"" + slug + "\"><a href=\"#" + slug + "\" class=\"anchor\"></a>" + text + "</h" + level + ">";
     };
-
-    this.attributeChangedCallback();
   }
   static get observedAttributes() {
     return ['url','toctarget','cachetime'];
   }
+  connectedCallback() {
+    this.loading = this.getAttribute("loading") || "Loading... ";
+    this.error = this.getAttribute("error") || "Failed to fetch! ";
+    this.attributeChangedCallback();
+    this.initdone = true;
+    this.checkCacheAndLoad();
+  }
   attributeChangedCallback(name, oldValue, newValue) {
     this.url = this.hasAttribute("url") ? this.getAttribute("url") : "https://api.github.com/repos/openhab/openhab-distro/releases/latest";
     this.toctarget = this.hasAttribute("toctarget") ? this.getAttribute("toctarget") : null;
-    this.loading = this.getAttribute("loading") || "Loading... ";
-    this.error = this.getAttribute("error") || "Failed to fetch! ";
-    this.cachetime = this.getAttribute("cachetime") || 1440; // One day in minutes
-    this.checkCacheAndLoad();
+    this.cachetime = this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : 1440; // One day in minutes
+    if (this.initdone) this.checkCacheAndLoad();
   }
   checkCacheAndLoad() {
     if (!this.url) {

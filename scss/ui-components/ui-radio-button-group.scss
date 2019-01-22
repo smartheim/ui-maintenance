@@ -1,0 +1,42 @@
+
+.radio-button-group {
+    display: flex;
+    padding: 10px 0;
+    label {
+        position: relative;
+        margin: 0;
+        margin-right: -2px;
+        cursor: pointer;
+        input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            opacity: 0;
+        }
+        span {
+            color: #fff;
+            padding: 5px 20px;
+            cursor: pointer;
+            border: 1px solid theme-color-level("secondary", 2);
+            margin: 0;
+            background-color: theme-color("secondary");
+        }
+        input:checked+span {
+            border: 1px solid theme-color-level("primary", 2);
+            background-color: theme-color("primary");
+        }
+        input:hover+span {
+            border: 1px solid theme-color-level("info", 2);
+            background-color: theme-color-level("info", 0);
+        }
+    }
+    label:first-of-type span {
+        border-radius: .7em 0 0 .7em;
+    }
+    label:last-of-type span {
+        border-radius: 0 .7em .7em 0;
+    }
+}

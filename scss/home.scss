@@ -11,8 +11,10 @@ main {
     }
 }
 
-body>main {
-    grid-row: 2!important;
+body {
+    &>main,&>aside {
+        grid-row: 2!important;
+    }
 }
 
 header .logo {
@@ -24,6 +26,7 @@ aside {
     animation: swinginxr 1s ease-in-out 1s 1 normal forwards;
     max-width: 300px;
     min-width: 270px;
+    margin-right: 10px;
     h4 {
         padding: 10px;
         display: flex;
@@ -39,8 +42,8 @@ aside {
     }
 }
 
-@media (max-width: get-breakpoints("xxl")) {
-    aside {
-        flex: 0;
+@media (min-width: get-breakpoints("xxxl")) {
+    main {
+        padding: 0 100px;
     }
 }

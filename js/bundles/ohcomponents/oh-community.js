@@ -22,10 +22,19 @@ class OhCommunityTopics extends HTMLElement {
     super();
     if (!this.style.display || this.style.display.length == 0)
       this.style.display = "block";
-    this.attributeChangedCallback();
   }
   static get observedAttributes() {
     return ['url', 'cachetime'];
+  }
+  connectedCallback() {
+    this.loading = this.getAttribute("loading") || "Loading... ";
+    this.error = this.getAttribute("error") || "Failed to fetch! ";
+    this.limit = this.hasAttribute("limit") ? parseInt(this.getAttribute("limit")) : null;
+    this.topics = this.hasAttribute("topics") ? this.getAttribute("topics") : null;
+    this.order = this.hasAttribute("order") ? this.getAttribute("order") : "created";
+    this.attributeChangedCallback();
+    this.initdone = true;
+    this.checkCacheAndLoad();
   }
   set contenturl(val) {
     this.innerHTML = this.loading;
@@ -39,14 +48,9 @@ class OhCommunityTopics extends HTMLElement {
       return this.url + "/" + this.topics + ".json";
   }
   attributeChangedCallback(name, oldValue, newValue) {
-    this.loading = this.getAttribute("loading") || "Loading... ";
-    this.error = this.getAttribute("error") || "Failed to fetch! ";
-    this.cachetime = this.getAttribute("cachetime") || 1440; // One day in minutes
-    this.limit = this.hasAttribute("limit") ? parseInt(this.getAttribute("limit")) : null;
-    this.topics = this.hasAttribute("topics") ? this.getAttribute("topics") : null;
-    this.order = this.hasAttribute("order") ? this.getAttribute("order") : "created";
+    this.cachetime = this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : 1440; // One day in minutes
     this.url = this.hasAttribute("url") ? this.getAttribute("url") : "https://cors-anywhere.herokuapp.com/https://community.openhab.org";
-    this.checkCacheAndLoad();
+    if (this.initdone) this.checkCacheAndLoad();
   }
   checkCacheAndLoad() {
     if (!this.contenturl) {

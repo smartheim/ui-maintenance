@@ -40,9 +40,11 @@
               <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>
                 {{item.label}}
               </span>
-              <i :class="timerStatusBadge(item)">{{timerStatusinfo(item)}}</i>
               <span class="actions btn-group">
-                <button class="btn btn-danger-hover" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+                  <button class="btn btn-success-hover btn-sm">
+                    <i class="fas fa-check"></i> <span>Run <i :class="timerStatusBadge(item)">{{timerStatusinfo(item)}}</i></span>
+                  </button>
+                  <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
               </span>
             </div>
             <div class="secondlevel">
@@ -53,17 +55,11 @@
             <section class="description">
               {{timerDescription(item)}}
             </section>
-            <section class="actions">
-              <span class="btn-group" role="group">
-                <a :href="'timer.html?uid='+encodeURIComponent(item.UID)" class="btn btn-secondary"><i class="fas fa-cog"></i>
-                  <span>Configure</span></a>
-                <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run now</span></a>
-              </span>
-            </section>
           </div>
-          <div class="footer small py-1"><span>Runs: {{item.totalRuns}}</span><span v-if="item.remainingRuns">,
-              Remaining:
-              {{item.remainingRuns}}</span></div>
+          <div class="footer small py-1 px-3"><span>Runs: {{item.totalRuns}}</span><span v-if="item.remainingRuns">,
+              Remaining: {{item.remainingRuns}}</span>
+              <a class="ml-auto" :href="'timer.html?uid='+encodeURIComponent(item.UID)"><i class="fas fa-cog"></i> <span>Configure</span></a>
+            </div>
         </div>
         <p v-if="pending">loading items...</p>
         <p v-if="error">loading failed</p>

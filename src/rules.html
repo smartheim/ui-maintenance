@@ -38,9 +38,12 @@
               <span class="secondLevelBtn" :title="item.name" onclick='this.parentNode.parentNode.classList.toggle("show");'>
                 {{item.name}}
               </span>
-              <i :title="rulesStatusDetails(item)" :class="rulesStatusBadge(item)">{{rulesStatusinfo(item)}}</i>
               <span class="actions btn-group">
-                <button class="btn btn-danger-hover" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-success-hover btn-sm">
+                  <i class="fas fa-check"></i> <span>Run <i :title="rulesStatusDetails(item)" :class="rulesStatusBadge(item)">{{rulesStatusinfo(item)}}</i>
+                  </span>
+                </button>
+                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
               </span>
             </div>
             <div class="secondlevel">
@@ -52,15 +55,11 @@
             <section class="description">
               {{item.description}}
             </section>
-            <section class="actions">
-              <span class="btn-group" role="group">
-                <a :href="'rule.html?uid='+encodeURIComponent(item.uid)" class="btn btn-secondary"><i class="fas fa-cog"></i>
-                  <span>Configure</span></a>
-                <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run now</span></a>
-              </span>
-            </section>
           </div>
-          <div class="footer small py-1 px-3"><span>Runs: {{item.runcounter}}</span></div>
+          <div class="footer small py-1 px-3">
+            <span>Runs: {{item.runcounter}}</span>
+            <a class="ml-auto" :href="'rule.html?uid='+encodeURIComponent(item.uid)"><i class="fas fa-cog"></i> <span>Edit</span></a>
+          </div>
         </div>
         <p v-if="pending">loading items...</p>
         <p v-if="error">loading failed</p>
@@ -76,18 +75,16 @@
             <div class="title">
               <span :title="item.label">{{item.name}}</span>
               <span class="actions btn-group">
-                <button class="btn btn-danger-hover" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
               </span>
             </div>
             <section class="description">
-                Filename: <code>{{item.filename}}</code>
+              Filename: <code>{{item.filename}}</code>
             </section>
-            <section class="actions">
-              <span class="btn-group" role="group">
-                <a :href="'script.html?file='+encodeURIComponent(item.filename)" class="btn btn-secondary"><i class="fas fa-cog"></i>
-                  <span>Edit</span></a>
-              </span>
-            </section>
+          </div>
+          <div class="footer small py-1 px-3">
+            <a class="ml-auto" :href="'script.html?file='+encodeURIComponent(item.filename)"><i class="fas fa-cog"></i>
+              <span>Edit</span></a>
           </div>
         </div>
         <p v-if="pending">loading items...</p>

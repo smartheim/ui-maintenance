@@ -11,6 +11,13 @@
   <partial src="mainnav.html"></partial>
   <section class="header d-none">
   </section>
+  <!--TODO:REMOVE-->
+  <ui-notification persistent>
+    <div>
+      This is a design study.<br>
+      <a href="about.html" data-close>About version w4</a>
+    </div>
+  </ui-notification>
   <main>
     <center><img src="img/openhab-logo.png" alt="openHAB" class="logo"></center>
 
@@ -37,7 +44,8 @@
             There is always something new to discover in a fresh openHAB release.
             But there is certainly also something that breaks.
           </p>
-          <div class="col-md-auto text-right"><a class="btn btn-primary-hover" href="changelog.html">Check the changelog</a></div>
+          <div class="col-md-auto text-right"><a class="btn btn-primary-hover" href="changelog.html">Check the
+              changelog</a></div>
         </div>
       </div>
     </div>
@@ -62,7 +70,9 @@
   </main>
   <footer></footer>
   <aside>
-    <h4><span>Latest announcements</span><oh-doc-link target="#latesttopics" reload><a href="#"><i class="fas fa-sync-alt"></i></a></oh-doc-link></h4>
+    <h4><span>Latest announcements</span>
+      <oh-doc-link target="#latesttopics" reload><a href="#"><i class="fas fa-sync-alt"></i></a></oh-doc-link>
+    </h4>
     <oh-community-topics id="latesttopics" class="sidebar hover" topics="c/announcements/l/latest" order="created"
       limit="10"></oh-community-topics>
   </aside>

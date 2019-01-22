@@ -24,10 +24,16 @@ class OhContextHelp extends HTMLElement {
     super();
     if (!this.style.display || this.style.display.length == 0)
       this.style.display = "block";
-    this.attributeChangedCallback();
   }
   static get observedAttributes() {
     return ['url', 'cachetime'];
+  }
+  connectedCallback() {
+    this.loading = this.getAttribute("loading") || "Loading... ";
+    this.error = this.getAttribute("error") || "Failed to fetch! ";
+    this.attributeChangedCallback();
+    this.initdone = true;
+    this.checkCacheAndLoad();
   }
   set contenturl(val) {
     this.innerHTML = this.loading;
@@ -37,11 +43,9 @@ class OhContextHelp extends HTMLElement {
     return this.url;
   }
   attributeChangedCallback(name, oldValue, newValue) {
-    this.loading = this.getAttribute("loading") || "Loading... ";
-    this.error = this.getAttribute("error") || "Failed to fetch! ";
-    this.cachetime = this.getAttribute("cachetime") || 1440; // One day in minutes
+    this.cachetime = this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : 1440; // One day in minutes
     this.url = this.getAttribute("url");
-    this.checkCacheAndLoad(this.url);
+    if (this.initdone) this.checkCacheAndLoad(this.url);
   }
   checkCacheAndLoad(contenturl=null) {
     if (!contenturl) contenturl = this.url;
