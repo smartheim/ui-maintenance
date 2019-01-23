@@ -12,8 +12,9 @@ Especially the help texts and introduction text, graphics and potential videos r
 
 1. Check this repository out
 2. Call `npm install`
-3. Call `npm run dev` to start a local webserver
-4. Enter the IP:Port of your openHAB installation in paperui-ng
+3. Call `npm run build`
+4. Call `npm run dev` to start a local webserver
+5. Enter the IP:Port of your openHAB installation in paperui-ng
 
 OR
 
