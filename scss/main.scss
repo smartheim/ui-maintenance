@@ -147,6 +147,7 @@ a:hover {
 a.disabled {
     color: gray;
     pointer-events: none;
+    opacity: 0.8;
 }
 
 .fadein {

@@ -61,7 +61,7 @@ class UiDropdown extends HTMLElement {
             </a>`
         );
         render(html`
-        <button class="${this.classes} dropdown-toggle" type="button" data-toggle="dropdown"
+        <button style="width:inherit" class="${this.classes} dropdown-toggle" type="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false" @click=${this.toggleShow.bind(this)}>
           ${this.value}
         </button>

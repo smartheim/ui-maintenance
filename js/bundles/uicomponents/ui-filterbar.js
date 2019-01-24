@@ -75,7 +75,7 @@ class UiFilter extends HTMLElement {
       slot.appendChild(el);
     }
 
-    // Don't show the mode button group of no modes allowed
+    // Don't show the mode button group if no mode changes allowed
     if (!this.grid && !this.list && !this.textual) {
       this.querySelector(".viewmode").style.display = "none";
     } else
@@ -114,11 +114,11 @@ class UiFilter extends HTMLElement {
     this.dispatchEvent(new CustomEvent('selectmode', { detail: { selectmode: this.selectmode } }));
   }
   renderViewMode() {
-    render(html`${this.grid.length == 0 ? '' : html`<button type="button" title="${this.grid}" data-mode="grid" @click="${this.modeChange.bind(this)}"
+    render(html`${!this.grid ? '' : html`<button type="button" title="${this.grid}" data-mode="grid" @click="${this.modeChange.bind(this)}"
               class="btn ${this.mode == "grid" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-large"></i></button>`}
-          ${this.list.length == 0 ? '' : html`<button type="button" title="${this.list}" data-mode="list" @click="${this.modeChange.bind(this)}"
+          ${!this.list ? '' : html`<button type="button" title="${this.list}" data-mode="list" @click="${this.modeChange.bind(this)}"
               class="btn ${this.mode == "list" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-list"></i></button>`}
-          ${this.textual.length == 0 ? '' : html`<button type="button" title="${this.textual}" data-mode="textual" @click="${this.modeChange.bind(this)}"
+          ${!this.textual ? '' : html`<button type="button" title="${this.textual}" data-mode="textual" @click="${this.modeChange.bind(this)}"
               class="btn ${this.mode == "textual" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-align-justify"></i></button>`}
               `, this.querySelector(".viewmode"));
   }

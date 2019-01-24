@@ -137,11 +137,12 @@ See [Styling Readme](scss/readme.md).
 
 See [Javascript Readme](js/readme.md).
 
-#### External libraries used
+#### Used external libraries
 
 * Date/Time picker: https://flatpickr.js.org/
 * Ajax page reload: https://github.com/oom-components/page-loader
 * Charts: https://www.chartjs.org
+* OpenStreetMaps: https://github.com/Leaflet/Leaflet
 * Web components: [lit-html](https://lit-html.polymer-project.org/guide/writing-templates)
 
 ## Missing openHAB functionality
@@ -150,32 +151,44 @@ This design study incorporates functionality, that is not yet implemented in ope
 
 Missing services:
 
-* Backup service: Configure a local or cloud backup destination and intervals.
+* Backup service: Configure a local or cloud backup destination and intervals. Allow import/export in yaml/json/xml.
 * SSL certificate management service: Add/Remove trusted (D)TLS certificates for peer devices and setup own certificate.
 * Rules/scripts files REST service: Alter files on disk via the REST API.
 * "storage" association for Things/Items/Rules/Timers
-* Manual Addons managment: Manual Jar upload, download, (de)activate via the REST API.
+* Manual Addons managment:
+  - List jars including some detailed information like bundle name+version
+  - Sha signature display
+  - Manual Jar upload
+  - Download
+  - (De)Activate via the REST API
 * Average and longtime resource observe service:
-  Detects thread abuse and memory leaks for long time stability
+  - Detects thread abuse and memory leaks for long time stability
+  - Issues warning notifications
+  - REST interface
 * OSGI bundles info/start/stop REST interface
+* Log provider service that allows to receive the uncut realtime feed via websocket connection
+* Platform information provider service: REST endpoints for maintenance page.
+  - openHabian: Update/package status, link to openhabian-cli web-service for further configuration.
+  - Generic windows/osx/linux: OS version, link to documentation.
 
 Missing core functionality:
 
+* Addon management REST interface extension:
+  - Easily add more maven sources
+  - Install a specific version of an Add-on
 * Notification infrastructure (including PUSH mobile notifications like HabBot)
 * Thing Handler actions: For example to have a "Start pairing" or "Firmware reset" action.
-* Timer/Alarm configuration:
-  - Add/edit/remove/list/activate/deactivate singleshot and reoccurring alarms to be used in scripts/rules.
-  - Behaviour/Expire timers for Profiles: To replace the OH1 expire binding
-* Maintenance fragment architecture: REST endpoints for framework maintenance. Example fragments are:
-  - System info: CPU, Memory, Threads, Disk space Usage
-  - Average and longtime resource observe service fragment with warnings.
-  - log feed: The last x log lines and link to Logtail if existing
-  - openHabian fragment: Update/package status
+* Services with advanced feedback status (like the backup service, the hue emulation service etc)
+  should implement a new interface. Rest endpoint extension to retrieve those extended stati.
+* Things/Items/Rules/Scheduled-Tasks need a storage association for the backup service.
+* Things/Items/Rules/Scheduled-Tasks need a generic "comment" field for the user to leave notes and annotations.
+* Timer/Alarm/Scheduler configuration:
+  - Rest interface
+  - Command an item on timeout (to replace the expire binding more easily)
 
 ## Pitfals
 
 * Vue v-model does not work with custom components: https://github.com/vuejs/vue/issues/7830
-* The incremental bundle watch/build sometimes fails on file change. Just change the file once more.
 
 Cheers,
 David Graeff

@@ -7,10 +7,15 @@ class NavBreadcrumb extends HTMLElement {
     this.title = this.hasAttribute("title") ? this.getAttribute("title") : null;
   }
   connectedCallback() {
+    var paramAsHash = this.hasAttribute("useParamAsHash") ? this.getAttribute("useParamAsHash") : null;
+    if (paramAsHash) {
+      paramAsHash = new URL(window.location).searchParams.get(paramAsHash);
+      if (!paramAsHash) paramAsHash = "";
+    }
     if (!this.parentLink) {
       var link = document.querySelector('link[rel="parent"]');
-      if (link) this.parentLink = link.href;
-      else this.parentLink = "#";
+      if (link) this.parentLink = link.href + "#" + paramAsHash;
+      else this.parentLink = "#" + paramAsHash;
     }
 
     if (this.title) {

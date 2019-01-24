@@ -11,7 +11,14 @@
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
-      <li><a href="#">Add Item</a></li>
+      <li><a href="#"><i class="fas fa-plus"></i> New Item</a></li>
+    </ul>
+    <p>Sort list</p>
+    <ul>
+      <li><a href="#sort=alphabetically">Alphabetically</a></li>
+      <li><a href="#sort=alphabetically_reverse">Alphabetically reversed</a></li>
+      <li><a href="#sort=changedate_desc">By change date (descending)</a></li>
+      <li><a href="#sort=changedate_asc">By change date (ascending)</a></li>
     </ul>
     <p>Predefined filters</p>
     <ul>
@@ -36,7 +43,7 @@
 
     <template id="listItemsTemplate">
       <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-        <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
+        <div class="listitem" v-for="item in filtered" :id="item.name" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
           <div class="body ui-dropdown">
             <div class="title">
               <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>{{item.label}}

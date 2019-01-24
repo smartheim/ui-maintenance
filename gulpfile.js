@@ -50,7 +50,7 @@ var config = {
             js_bundles_entry: ['./js/bundles/*/index.js'],
             js_bundles_watch: './js/bundles/**/*',
             assets: [
-                './assets/**/*',
+                './assets/**/*'
             ]
         },
         partials: './partials/',
@@ -107,7 +107,9 @@ const compileStyles = () =>
 compileStyles.displayName = "Generating css from scss"
 
 const copyAssets = () =>
-    gulp.src(config.paths.src.assets).pipe(gulp.dest(config.paths.dist)).pipe(connect.reload());
+    gulp.src(config.paths.src.assets)
+    .pipe(gulp.dest(config.paths.dist))
+    .pipe(connect.reload());
 copyAssets.displayName = "Copy assets"
 
 const minifyUnbundledScripts = () =>

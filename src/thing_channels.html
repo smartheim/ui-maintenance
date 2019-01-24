@@ -7,14 +7,112 @@
 </head>
 
 <body>
-    <link rel="stylesheet" href="css/items.css" type="text/css" />
   <script type="module" src="js/thingchannels.js"></script>
-  <nav></nav>
+  <nav class="sidebar leftright">
+    <h4>Actions</h4>
+    <ul>
+      <li><a href="#"><i class="fas fa-plus"></i> Add channel</a></li>
+      <li><a href="#"><i class="fas fa-redo"></i> Synchronize channels</a></li>
+      <li>
+        <hr>
+      </li>
+      <li><a href="#" class="disabled"><i class="fas fa-save"></i> Save changes</a></li>
+    </ul>
+  </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Thing Channels"></partial>
   <main>
-     <nav-breadcrumb parent="Thing list"></nav-breadcrumb>
-    <div>Generic MQTT Thing - Channels</div>
+    <nav-breadcrumb parent="Thing list" useParamAsHash="uid"></nav-breadcrumb>
+
+    <ui-filter placeholder="Filter..." select="Selection mode">
+      <div class="btn-group ml-3" role="group">
+        <a href="#" class="btn btn-info">
+          <i class="fas fa-eye-slash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
+        </a>
+        <a href="#" class="btn btn-success">
+          <i class="fas fa-check"></i> <span>Autolink <span class="badge badge-light selectcounter">0</span></span>
+        </a>
+      </div>
+    </ui-filter>
+
+    <oh-vue-list-items id="thingchannelsapp" class="mt-4" template="listThingChannelsTemplate" filtercriteria="name"
+      onload="if (window.loadThingChannels) loadThingChannels(this)"></oh-vue-list-items>
+
+    <style>
+      .newitem {
+        opacity: 0.5;
+      }
+
+      .newitem:hover {
+        opacity: 1;
+      }
+
+      .technicaldetails {
+        display: grid;
+        grid-template-columns: auto 1fr
+      }
+
+      .technicaldetails>b,
+      .technicaldetails>span {
+        position: relative;
+        display: block;
+        padding: .75rem 1.25rem;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, .125);
+        border-right: 0;
+        border-left: 0;
+      }
+    </style>
+    <template id="listThingChannelsTemplate">
+      <p v-if="pending">loading items...</p>
+      <p v-else-if="error">loading failed</p>
+      <div v-else>
+        <section v-for="item in filtered" :class="[{haschanges: item.changed_}]" class="mb-4">
+          <h4 contenteditable="true" style="display: inline-block;min-width: 80px;">Channel name</h4>
+          <a class="ml-2" href="#"><i class="fas fa-trash"></i></a>
+          <div class="ml-3">
+            <p>A channel description based on channel label and description field</p>
+            <details class="mb-2">
+              <summary>Technical details</summary>
+              <div class="ml-3 technicaldetails">
+                <b>UID</b> <span>bla</span>
+                <b>Channel Type</b> <span>bla</span>
+                <b>Item Type</b> <span>String</span>
+                <b>Kind</b> <span>Trigger/State</span>
+                <b>Item Tags</b> <span>tag1, tag2</span>
+              </div>
+            </details>
+            <details class="mb-2">
+              <summary>Configuration</summary>
+            </details>
+            <div style="float: left;transform: rotate(270deg);margin-top: 20px;">Links</div>
+            <table class="table table-hover" style="width: initial">
+                <colgroup>
+                  <col style="width: 300px">
+                </colgroup>
+              <tr>
+                <td>An item <small>(item id)</small></td>
+                <td><ui-dropdown title="Profile" options="Default, Follow" value="Default"></ui-dropdown></td>
+                <td><button class="btn btn-danger-hover btn-sm"><i class="fas fa-trash"></i> Remove</button></td>
+              </tr>
+
+              <tr>
+                <td class="newitem"><span>Add new link</span></td>
+                <td><ui-dropdown title="Profile" options="Default, Follow" value="Default"></ui-dropdown></td>
+                <td><button class="btn btn-success-hover btn-sm"><i class="fas fa-check"></i> Add</button></td>
+              </tr>
+
+            </table>
+          </div>
+        </section>
+        <div class="btn-group btnbar mb-2" role="group">
+          <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+        </div>
+      </div>
+    </template>
+
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="thingchannels"></partial>

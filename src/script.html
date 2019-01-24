@@ -3,17 +3,17 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="rules.html" />
 </head>
 
 <body>
   <link rel="stylesheet" data-name="vs/editor/editor.main" href="vs/editor/editor.main.css">
   <link rel="stylesheet" href="css/textview.css">
-  <nav class="sidebar leftright">
-    <partial src="rulesnav.html"></partial>
-  </nav>
+  <nav class="sidebar leftright"></nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit a Script"></partial>
   <main>
+    <nav-breadcrumb parent="Rule list" useParamAsHash="file"></nav-breadcrumb>
     <form class="mt-4 mb-0">
       <div class="form-group row">
         <label for="scriptname" class="col-sm-2 col-form-label">Script name</label>
@@ -33,7 +33,10 @@
       <a href="#" class="btn btn-primary"><i class="fas fa-save"></i> Save</a>
       <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run</span> <span class="badge badge-light">Idle</span></a>
     </div>
-    <div class="bs-callout bs-callout-warning my-4">Could not connect to openHAB <abbr title="Language Server Protocol: Used for suggestions and auto-completion.">LSP</abbr>!</div>
+    <div class="bs-callout bs-callout-warning my-4">
+      Could not connect to openHAB <abbr title="Language Server Protocol: Used for suggestions and auto-completion.">LSP</abbr>!
+      Auto-completion and context help has been disabled.
+    </div>
     <oh-codeeditor scriptfile="scriptsnippets/template.js" classes="m-4" id="editorwindow"></oh-codeeditor>
   </main>
   <footer></footer>

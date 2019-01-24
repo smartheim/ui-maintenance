@@ -3,7 +3,7 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
-  <link rel="parent" href="timers.html" />
+  <link rel="parent" href="schedules.html" />
 </head>
 
 <body>
@@ -12,7 +12,7 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit a timer"></partial>
   <main>
-    <nav-breadcrumb></nav-breadcrumb>
+    <nav-breadcrumb parent="Scheduler list" useParamAsHash="uid"></nav-breadcrumb>
     <form class="mb-4" action="#">
       <div class="form-group row">
         <div class="col-sm-10" style="display:flex">
@@ -265,7 +265,7 @@
     </datalist>
   </main>
   <footer></footer>
-  <partial src="contexthelp.html" help="timer"></partial>
+  <partial src="contexthelp.html" help="timedtask"></partial>
   <script type="module" src="js/timer.js" async></script>
 </body>
 

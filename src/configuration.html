@@ -7,11 +7,12 @@
 
 <body>
   <link rel="stylesheet" href="css/config.css">
+  <script type="module" src="js/uimaps.js"></script>
   <partial src="maintenancenav.html"></partial>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="General openHAB configuration"></partial>
   <main>
-    <div class="config">
+    <section class="config">
       <h4 title="org.openhab.addons">Add-on Management</h4>
       <div class="elements">
         <div class="element">
@@ -31,9 +32,9 @@
         <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
       </div>
       <hr>
-    </div>
+    </section>
 
-    <div class="config">
+    <section class="config">
       <h4 title="org.eclipse.smarthome.audio">Audio</h4>
       <div class="elements">
         <div class="element">
@@ -60,9 +61,47 @@
         </div>
       </div>
       <div class="btn-group btnbar" role="group">
-          <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+        <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+      </div>
+    </section>
+
+    <section class="config">
+      <h4 title="org.eclipse.smarthome.audio">Regional Settings</h4>
+      <div class="elements">
+        <div class="element">
+          <select class="custom-select">
+            <option selected>Language</option>
+            <option value="de">German</option>
+            <option value="en">English</option>
+            <option value="fr">French</option>
+          </select>
+          <small class="form-text text-muted">
+            The default language that should be used. If not specified, the system default locale is used.
+            The ISO 639 alpha-2 or alpha-3 language code (if there is no alpha-2 one).
+            Example: "en" (English), "de" (German), "ja" (Japanese), "kok" (Konkani)
+          </small>
         </div>
-    </div>
+        <div class="element">
+          <select class="custom-select">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          <small class="form-text text-muted">
+            The default audio sink to use if no other is specified.
+          </small>
+        </div>
+      </div>
+      <div class="elements">
+        <div class="element w-100">
+          <ui-maps></ui-maps>
+        </div>
+      </div>
+      <div class="btn-group btnbar" role="group">
+        <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+      </div>
+    </section>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="configuration"></partial>

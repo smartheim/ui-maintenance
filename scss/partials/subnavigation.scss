@@ -9,23 +9,29 @@
         margin: 0;
         list-style-type: none;
     }
-    a.active {
-        font-weight: bold;
-        color: theme-color("orange");
-        border-left-color: theme-color("orange");
-        text-decoration: none;
-    }
-    a {
-        display: inline-block;
+    &>ul>li>a:not(.disabled) {
         color: #2c3e50;
+    }
+    &>ul>li>a {
+        display: inline-block;
         border-right: .5rem solid transparent;
         border-left: .25rem solid transparent;
         padding: .35rem 1rem .35rem 1.25rem;
         line-height: 1.4;
         text-decoration: none;
-    }
-    a:hover {
-        color: theme-color("orange");
+        .active {
+            font-weight: bold;
+            color: theme-color("orange");
+            border-left-color: theme-color("orange");
+            text-decoration: none;
+        }
+        &:hover {
+            color: theme-color("orange");
+        }
+        &>i {
+            //margin-left: -1rem;
+            margin-right: 10px;
+        }
     }
     &>h4 {
         padding: 10px;
@@ -38,14 +44,15 @@
     .level3 {
         margin-left: 10px;
         font-weight: normal;
-    font-size: smaller;
+        font-size: smaller;
     }
     .level4 {
         margin-left: 20px;
         font-weight: normal;
-    font-size: smaller;
+        font-size: smaller;
     }
 }
+
 .sidebar.hover {
     a:hover {
         border-left-color: theme-color("orange");

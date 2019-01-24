@@ -1,5 +1,10 @@
-This thing can be configured by you.
+<small>You know what an openHAB **Thing** is, right?</small>
+<small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
 
-As soon as you hit
-"Save" the thing will receive the new configuration and will restart
+Some *Things* offer additional configuration, next to the name
+and location. A location is optional and in some user interfaces
+used to group *Things*.
+
+As soon as you hit "Save" the *Thing* will receive the new configuration and will restart
 itself.
+

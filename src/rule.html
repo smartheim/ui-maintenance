@@ -3,12 +3,12 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="rules.html" />
 </head>
 
 <body>
   <link rel="stylesheet" href="css/rule.css" type="text/css" />
   <nav class="sidebar leftright">
-    <partial src="rulesnav.html"></partial>
     <p>Rule components</p>
     <oh-rule-components dragtarget="rulesapp">
       <div class="card node text-white m-2" draggable="true">
@@ -24,6 +24,7 @@
   <partial src="pagetitleheader.html" title="Add / Edit rule"></partial>
 
   <main>
+    <nav-breadcrumb parent="Rule list" useParamAsHash="uid"></nav-breadcrumb>
     <form class="m-4 mb-0">
       <div class="form-group row">
         <label for="scriptname" class="col-sm-2 col-form-label">Rule name</label>

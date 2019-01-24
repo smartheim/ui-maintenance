@@ -9,7 +9,11 @@
   <link rel="stylesheet" href="css/items.css" type="text/css" />
   <script type="module" src="js/rules.js"></script>
   <nav class="sidebar leftright">
-    <partial src="rulesnav.html"></partial>
+    <h4>Actions</h4>
+    <ul class="exact">
+      <li><a href="rule.html"><i class="fas fa-plus"></i> New Rule</a></li>
+      <li><a href="script.html"><i class="fas fa-plus"></i> New Script</a></li>
+    </ul>
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Manage, add, remove and modify your automation rules"></partial>
@@ -32,7 +36,7 @@
 
     <template id="listRulesTemplate">
       <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-        <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
+        <div class="listitem" v-for="item in filtered" :id="item.uid" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
           <div class="body ui-dropdown">
             <div class="title">
               <span class="secondLevelBtn" :title="item.name" onclick='this.parentNode.parentNode.classList.toggle("show");'>
@@ -70,7 +74,7 @@
 
     <template id="listScriptsTemplate">
       <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-        <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
+        <div class="listitem" v-for="item in filtered" :id="item.filename" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
           <div class="body">
             <div class="title">
               <span :title="item.label">{{item.name}}</span>
