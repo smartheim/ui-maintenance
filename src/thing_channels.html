@@ -7,7 +7,6 @@
 </head>
 
 <body>
-  <script type="module" src="js/thingchannels.js"></script>
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -35,9 +34,6 @@
       </div>
     </ui-filter>
 
-    <oh-vue-list-items id="thingchannelsapp" class="mt-4" template="listThingChannelsTemplate" filtercriteria="name"
-      onload="if (window.loadThingChannels) loadThingChannels(this)"></oh-vue-list-items>
-
     <style>
       .newitem {
         opacity: 0.5;
@@ -63,55 +59,95 @@
         border-right: 0;
         border-left: 0;
       }
+
+      .linkeditems {
+        width: initial;
+      }
+
+      .linkeditems tr>td:nth-of-type(1) {
+        width: 300px;
+        vertical-align: middle;
+      }
+
+      .linkeditems tr>td:nth-of-type(2)>*,
+      .linkeditems tr>td:nth-of-type(3)>* {
+        width: 100%;
+      }
+
+      .listitem.storingmode {
+        pointer-events: none;
+        opacity: 0.5;
+        filter: grayscale(50%);
+      }
+
+      .listitem.haschanges h4 {
+        background-color: rgb(255, 214, 214);
+      }
     </style>
-    <template id="listThingChannelsTemplate">
-      <p v-if="pending">loading items...</p>
-      <p v-else-if="error">loading failed</p>
-      <div v-else>
-        <section v-for="item in filtered" :class="[{haschanges: item.changed_}]" class="mb-4">
-          <h4 contenteditable="true" style="display: inline-block;min-width: 80px;">Channel name</h4>
+
+    <oh-list-bind for="thingchannelslist" listhelper="thingchannels"></oh-list-bind>
+
+    <oh-vue-list id="thingchannelslist" filtercriteria="label">
+      <div slot="app"></div>
+
+      <template slot="list">
+        <partial src="listerror.html"></partial>
+        <div v-else id="listcontainer" @click="updateSelectCounter">
+          <oh-vue-listitem v-for="item in filtered" :key="item.id" :listitem="item"></oh-vue-listitem>
+          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
+              50 more &hellip;</button></div>
+          <div class="btn-group btnbar mb-2" role="group">
+            <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+          </div>
+        </div>
+      </template>
+
+      <template slot="item">
+        <section class="listitem mt-4" :id="item.id" :class="[{haschanges: changed},{storingmode: storing}]">
+          <h4 contenteditable="true" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</h4>
           <a class="ml-2" href="#"><i class="fas fa-trash"></i></a>
           <div class="ml-3">
-            <p>A channel description based on channel label and description field</p>
+            <p>{{description()}}</p>
             <details class="mb-2">
               <summary>Technical details</summary>
               <div class="ml-3 technicaldetails">
-                <b>UID</b> <span>bla</span>
-                <b>Channel Type</b> <span>bla</span>
-                <b>Item Type</b> <span>String</span>
-                <b>Kind</b> <span>Trigger/State</span>
-                <b>Item Tags</b> <span>tag1, tag2</span>
+                <b>UID</b> <span>{{item.uid}}</span>
+                <b>Channel Type</b> <span>{{item.channelTypeUID}}</span>
+                <b>Item Type</b> <span>{{item.itemType}}</span>
+                <b>Kind</b> <span>{{item.kind}}</span>
+                <b>Item Tags</b> <span v-for="tag in item.defaultTags">{{tag}} </span>
               </div>
             </details>
             <details class="mb-2">
               <summary>Configuration</summary>
             </details>
             <div style="float: left;transform: rotate(270deg);margin-top: 20px;">Links</div>
-            <table class="table table-hover" style="width: initial">
-                <colgroup>
-                  <col style="width: 300px">
-                </colgroup>
+            <table class="table table-hover linkeditems">
               <tr>
                 <td>An item <small>(item id)</small></td>
-                <td><ui-dropdown title="Profile" options="Default, Follow" value="Default"></ui-dropdown></td>
+                <td>
+                  <ui-dropdown title="Profile" options="Default: Default - No transformation or interaction, Follow: Follow - Channel applies the state of the selected item"
+                    value="Default"></ui-dropdown>
+                </td>
                 <td><button class="btn btn-danger-hover btn-sm"><i class="fas fa-trash"></i> Remove</button></td>
               </tr>
 
-              <tr>
-                <td class="newitem"><span>Add new link</span></td>
-                <td><ui-dropdown title="Profile" options="Default, Follow" value="Default"></ui-dropdown></td>
+              <tr class="newitem">
+                <td>
+                  <ui-dropdown label="Item" options="Item1:item1name,Item2:item2name" value="Add new link"></ui-dropdown>
+                </td>
+                <td>
+                  <ui-dropdown title="Profile" options="Default: No transformation or interaction, Follow: Channel applies the state of the selected item"
+                    value="Default"></ui-dropdown>
+                </td>
                 <td><button class="btn btn-success-hover btn-sm"><i class="fas fa-check"></i> Add</button></td>
               </tr>
 
             </table>
           </div>
         </section>
-        <div class="btn-group btnbar mb-2" role="group">
-          <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
-        </div>
-      </div>
-    </template>
-
+      </template>
+    </oh-vue-list>
 
   </main>
   <footer></footer>

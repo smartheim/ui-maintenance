@@ -31,8 +31,10 @@ class UiTabs extends HTMLElement {
     this.tabs[index].style.visibility = "visible";
   }
   connectedCallback() {
-    this.style.display="block";
-    this.shadowRoot.innerHTML = `<slot name="links"></slot><slot name="tabs"></slot>`;
+    if (this.hasAttribute("upsidedown"))
+      this.shadowRoot.innerHTML = `<style>:host{display:block}</style><slot name="tabs"></slot><slot name="links"></slot>`;
+    else
+      this.shadowRoot.innerHTML = `<style>:host{display:block}</style><slot name="links"></slot><slot name="tabs"></slot>`;
 
     let linkUl = this.shadowRoot.querySelector('slot[name="links"]').assignedNodes()[0];
     this.links = linkUl.querySelectorAll(".nav-link");
@@ -42,7 +44,7 @@ class UiTabs extends HTMLElement {
     }
 
     var tabSlot = this.shadowRoot.querySelector('slot[name="tabs"]').assignedNodes()[0];
-    tabSlot.style.display="grid";
+    tabSlot.style.display = "grid";
     this.tabs = tabSlot.children;
     for (var e of this.tabs) {
       e.style["grid-row-start"] = 1;

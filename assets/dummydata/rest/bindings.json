@@ -3,12 +3,14 @@
         "author": "David Graeff",
         "description": "Link MQTT topics to things",
         "id": "mqtt",
+        "version": "2.4.0",
         "name": "MQTT Thing Binding"
     },
     {
         "author": "David Graeff",
         "description": "Ping network devices",
         "id": "network",
+        "version": "2.4.0",
         "name": "Network Binding"
     }
 ]

@@ -22,6 +22,16 @@ class UiFilter extends HTMLElement {
     super();
     this.classList.add("ui-filterbar");
   }
+  static get observedAttributes() {
+    return ['value'];
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name == "value") {
+      this.value = this.getAttribute("value") || "";
+      this.input.value = this.value;
+      this.dispatchEvent(new CustomEvent('filter', { detail: { value: this.value, typing: true } }));
+    }
+  }
   connectedCallback() {
     if (this.hasAttribute("suggestions")) {
       this.suggestionsDomID = Math.random().toString(36);
@@ -68,6 +78,8 @@ class UiFilter extends HTMLElement {
           </div>
           <div class="btn-group ml-3 viewmode" role="group" aria-label="Change view mode"></div></form>
           `, this);
+
+    this.input = this.querySelector("input");
 
     // Non-shadow-dom but still slots magic - Part 2
     var slot = this.querySelector(".selectcomponents");

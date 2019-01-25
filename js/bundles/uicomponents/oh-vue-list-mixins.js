@@ -1,14 +1,20 @@
 import Yaml from '../../common/yaml/yaml';
 
 const UIFilterbarMixin = {
-    props: ['filtercriteria'],
     data: function () {
         return {
             selectedcounter: 0,
             viewmode: "list",
             selectmode: false,
-            filter: null
+            filtered: [],
+            hasMore: false,
         }
+    },
+    created: function () {
+        this.props = ['filtercriteria'];
+        this.filter = null;
+        this.customcriteria = null;
+        this.maxFilteredItems = 100;
     },
     mounted: function () {
         this.filterbar = document.querySelector("ui-filter");
@@ -36,21 +42,64 @@ const UIFilterbarMixin = {
             var classes = [this.viewmode];
             if (this.selectmode) classes.push("selectionmode");
             return classes;
-        },
-        filtered: function () {
-            if (!this.filter) return this.items;
-            return this.items.filter(item => {
-                var value = item[this.filtercriteria];
-                if (!value) return false;
-                return value.toLowerCase().match(this.filter);
-            });
         }
     },
     methods: {
+        showMore: function () {
+            this.maxFilteredItems += 50;
+            this.rebuildList();
+        },
         updateFilter: function (event) {
-            // Don't type-and-search if over 100 items in list
-            if (this.items.length > 100 && event.detail.typing) return;
-            this.filter = event.detail.value.toLowerCase();
+            var filter = event.detail.value.trim();
+            if (filter.length == 0)
+                this.filter = null;
+            else {
+                var parts = filter.split(":");
+                if (parts.length > 1) {
+                    this.customcriteria = parts[0];
+                    this.filter = parts[1].trim().toLowerCase();
+                } else {
+                    this.customcriteria = null;
+                    this.filter = filter.toLowerCase();
+                }
+            }
+
+            if (this.filterThrottleTimer) {
+                clearTimeout(this.filterThrottleTimer);
+            }
+            this.filterThrottleTimer = setTimeout(() => {
+                delete this.filterThrottleTimer;
+                this.rebuildList();
+            }, 80);
+        },
+        rebuildList: function () {
+            if (!this.filter) {
+                this.hasMore = this.items.length > this.maxFilteredItems;
+                this.filtered = this.items.slice(0, this.maxFilteredItems);
+                return;
+            }
+            const criteria = this.customcriteria ? this.customcriteria : this.filtercriteria;
+            var c = 0;
+            var filtered = [];
+            // Filter list. The criteria item property can be an array in which case we check
+            // if the filter string is within the array
+            for (var item of this.items) {
+                var value = item[criteria];
+                if (!value) continue;
+                if (Array.isArray(value)) {
+                    if (!value.some(element => element.toLowerCase().match(this.filter)))
+                        continue;
+                } else if (value instanceof Object) {
+                    if (!Object.keys(value).some(key => value[key].toLowerCase().match(this.filter)))
+                        continue;
+                } else if (!value.toLowerCase().match(this.filter))
+                    continue;
+                c += 1;
+                if (c > this.maxFilteredItems) break;
+                filtered.push(item);
+            }
+            this.hasMore = c >= this.maxFilteredItems;
+            this.filtered = filtered;
         },
         updateSelectMode: function (event) {
             this.selectmode = event.detail.selectmode;
@@ -83,7 +132,6 @@ const UIFilterbarMixin = {
 };
 
 const UIEditorMixin = {
-    props: ['modelschema', 'modeluri', 'runtimeKeys'],
     data: function () {
         return {
             editorstate: "original"
@@ -110,8 +158,8 @@ const UIEditorMixin = {
                 }
             }
             return {
-                raw: items, value: Yaml.stringify(items, 2, 2).replace(/-   /g, "- "),
-                language: 'yaml', modeluri: this.modeluri
+                raw: items, value: Yaml.dump(items, 10, 4).replace(/-     /g, "-\n    "),
+                language: 'yaml', modeluri: this.modelschema ? this.modelschema.uri : null
             };
         },
     }

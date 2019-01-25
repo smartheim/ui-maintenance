@@ -13,6 +13,13 @@ An *Item* can have an icon assigned that is used for presentation in some user i
 For all available icons have a look at
 [the classic icon theme](https://www.openhab.org/docs/configuration/iconsets/classic/).
 
+## Filter
+
+Filter items by tags, types or groups. Examples:
+* `groupNames`:`AwesomeGroup`
+* `tags`:`Lighting`
+* `type`:`Switch`
+
 ## Textual mode
 
 Batch edit your data while using copy &amp; paste, regex find &amp; replace syntax highlighting, and auto-suggestions.
@@ -32,7 +39,8 @@ Synopsis:
 <mark>Please note</mark>: The textual mode is powerful.
 Hit save with an emptied text field and everything is gone. Act responsible!
 
-## Storage
+<details>
+<summary>Storage</summary>
 
 openHAB internally stores your data a little different than what you see 
 here in the textual mode representation. The [backup service](maintenance.html) however
@@ -40,3 +48,4 @@ will create files that match this format and imports same-like files again.
 
 Change the storage association to store the data item into a different
 file.
+</details>

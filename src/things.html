@@ -7,7 +7,6 @@
 
 <body>
   <link rel="stylesheet" href="css/items.css" type="text/css" />
-  <script type="module" src="js/things.js"></script>
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -15,16 +14,16 @@
     </ul>
     <p>Sort list</p>
     <ul>
-      <li><a href="#sort=alphabetically">Alphabetically</a></li>
-      <li><a href="#sort=alphabetically_reverse">Alphabetically reversed</a></li>
-      <li><a href="#sort=changedate_desc">By change date (descending)</a></li>
-      <li><a href="#sort=changedate_asc">By change date (ascending)</a></li>
+      <li><a href="#sort=alphabetically"><i class="fas fa-sort-alpha-down"></i> By name</a></li>
+      <li><a href="#sort=alphabetically_reverse"><i class="fas fa-sort-alpha-up"></i> By name</a></li>
+      <li><a href="#sort=changedate_desc"><i class="fas fa-sort-amount-down"></i> By change date</a></li>
+      <li><a href="#sort=changedate_asc"><i class="fas fa-sort-amount-up"></i> By change date</a></li>
     </ul>
     <p>Predefined filters</p>
     <ul>
-      <li><a href="#status=online">All Online Things</a></li>
-      <li><a href="#status=offline">All Offline Things</a></li>
-      <li><a href="#status=offline&statusdetail=configuration_required">Configuration required</a></li>
+      <li><oh-change-filter target="ui-filter" filter="statusInfo:ONLINE">Online Things</oh-change-filter></li>
+      <li><oh-change-filter target="ui-filter" filter="statusInfo:OFFLINE">Offline Things</oh-change-filter></li>
+      <li><oh-change-filter target="ui-filter" filter="statusInfo:UNINITIALIZED">Configuration required</oh-change-filter></li>
     </ul>
   </nav>
   <partial src="mainnav.html"></partial>
@@ -37,53 +36,65 @@
       </a>
     </ui-filter>
 
-    <oh-vue-list-items id="thingsapp" template="listThingsTemplate" filtercriteria="label" onload="if (window.loadThings) loadThings(this)"></oh-vue-list-items>
+    <oh-list-bind for="thinglist" listhelper="things"></oh-list-bind>
 
-    <template id="listThingsTemplate">
-      <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-        <div class="listitem" v-for="item in filtered" :id="item.UID" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
+    <oh-vue-list id="thinglist" filtercriteria="label">
+      <div slot="app"></div>
+
+      <template slot="list">
+        <partial src="listerror.html"></partial>
+        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+          <oh-codeeditor v-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema"
+            :content.prop="toTextual()" @state="editorstateChanged"></oh-codeeditor>
+          <template v-else>
+            <oh-vue-listitem v-for="item in filtered" :key="item.UID" :listitem="item"></oh-vue-listitem>
+            <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
+                50 more &hellip;</button></div>
+          </template>
+        </div>
+      </template>
+
+      <template slot="item">
+        <section class="listitem" :id="item.UID" :class="[{haschanges: changed},{storingmode: storing}]">
           <div class="body ui-dropdown">
             <div class="title">
               <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>
                 {{item.label}}
               </span>
               <span class="actions unsaved btn-group">
-                <button class="btn btn-success" title="Save changes" @click="save(item)"><i class="fas fa-save"></i></button>
-                <button class="btn btn-danger" title="Discard changes" @click="discard(item)"><i class="fas fa-undo"></i></button>
+                <button class="btn btn-success" title="Save changes" @click="save()"><i class="fas fa-save"></i></button>
+                <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
               </span>
               <span class="actions btn-group">
                 <a title="Edit channels" :href="'thing_channels.html?uid='+encodeURIComponent(item.UID)" class="btn btn-secondary-hover btn-sm text-nowrap">
                   <i class="fas fa-sitemap"></i></a>
-                <a title="Edit configuration" :href="'thing_configuration.html?uid='+encodeURIComponent(item.UID)" class="btn btn-secondary-hover btn-sm text-nowrap">
+                <a title="Edit configuration" :href="'thing_configuration.html?uid='+encodeURIComponent(item.UID)"
+                  class="btn btn-secondary-hover btn-sm text-nowrap">
                   <i class="fas fa-cog"></i></a>
-                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
               </span>
             </div>
             <div class="secondlevel">
-              <div>{{statusmessage(item)}}</div>
+              <div>{{statusmessage()}}</div>
               <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
               <span @click="copyClipboard($event, item.UID)">{{item.UID}}</span>
               <div>Storage association: <input value="openhab"></div>
             </div>
             <section class="description">
-              <span>{{description(item)}}</span>
+              <span>{{description()}}</span>
             </section>
           </div>
           <div class="footer py-1 px-3">
-            <i :title="statusDetails(item)" :class="statusBadge(item)">{{statusinfo(item)}}</i>
+            <i :title="statusDetails()" :class="statusBadge()">{{statusinfo()}}</i>
             <oh-doc-link show class="btn btn-info-hover btn-sm text-nowrap ml-auto" href="thing_properties.fragment.html"
               :context.prop='item.properties'>
               <i class="fas fa-clipboard-list"></i> <span>Properties</span>
             </oh-doc-link>
-            <ui-dropdown :data-uid="item.UID" novalue value="Actions" :options.prop="getActions(item)" @input="triggerAction"></ui-dropdown>
+            <ui-dropdown :data-uid="item.UID" nostate novalue label="Actions" :options.prop="getActions()" @input="triggerAction"></ui-dropdown>
           </div>
-        </div>
-        <p v-if="pending">loading items...</p>
-        <p v-if="error">loading failed</p>
-        <oh-codeeditor v-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema" :content.prop="toTextual()"
-          @state="editorstateChanged"></oh-codeeditor>
-      </div>
-    </template>
+        </section>
+      </template>
+    </oh-vue-list>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="things"></partial>

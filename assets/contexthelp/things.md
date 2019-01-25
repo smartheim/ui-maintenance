@@ -27,7 +27,8 @@ Synopsis:
 <mark>Please note</mark>: The textual mode is powerful.
 Hit save with an emptied text field and everything is gone. Act responsible!
 
-## Storage
+<details>
+<summary>Storage</summary>
 
 openHAB internally stores your data a little different than what you see 
 here in the textual mode representation. The [backup service](maintenance.html) however
@@ -35,3 +36,4 @@ will create files that match this format and imports same-like files again.
 
 Change the storage association to store the data item into a different
 file.
+</details>

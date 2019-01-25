@@ -1,45 +1,14 @@
 // import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import * as cronstrue from './cronstrue.js';
+import * as cronstrue from '../cronstrue.js';
+import { fetchWithTimeout } from '../ohcomponents.js';
 
-const demoItems = [
-    {
-        "editable": true,
-        "label": "My wakeup timer",
-        "tags": ["Lighting"],
-        "totalRuns": 5,
-        "remainingRuns": null,
-        "cronExpression": "0 7 ? * MON-FRI",
-        "type":"cron",
-        "enabled": true,
-        "UID": "timer:3edb5737",
-        "lastrun": 1546950225013,
-    },
-    {
-        "editable": true,
-        "label": "Garden watering",
-        "tags": ["Lighting"],
-        "totalRuns": 17,
-        "remainingRuns": null,
-        "cronExpression": "0 30 10-13 ? * WED,FRI",
-        "type":"cron",
-        "enabled": true,
-        "UID": "timer:4263ds53",
-        "lastrun": 1546950225013,
-    },
-    {
-        "editable": true,
-        "label": "An absolut timer",
-        "tags": ["Lighting"],
-        "totalRuns": 0,
-        "remainingRuns": 1,
-        "datetime": "2008-09-15T15:53:00",
-        "type":"fixed",
-        "enabled": true,
-        "UID": "timer:4263ds53",
-        "lastrun": 1546950225013,
-    },
-];
-
+class StoreView {
+    async getall() {
+        return fetchWithTimeout("dummydata/rest/schedule.json").then(response => response.json());
+    }
+    dispose() {
+    }
+}
 
 const schema = {
     uri: 'http://openhab.org/schema/timer-schema.json',
@@ -73,22 +42,22 @@ const schema = {
     },
 }
 
-const TimerMixin = {
+const ScheduleMixin = {
     methods: {
-        timerStatusinfo: function (item) {
-            return (item.lastrun + 5000) > Date.now() ? "Running" : "Idle";
+        timerStatusinfo: function () {
+            return (this.item.lastrun + 5000) > Date.now() ? "Running" : "Idle";
         },
-        timerStatusBadge: function (item) {
-            return (item.lastrun + 5000) > Date.now() ? "badge badge-success" : "badge badge-light";
+        timerStatusBadge: function () {
+            return (this.item.lastrun + 5000) > Date.now() ? "badge badge-success" : "badge badge-light";
         },
-        timerDescription: function (item) {
-            if (item.type == "cron") {
+        timerDescription: function () {
+            if (this.item.type == "cron") {
                 try {
-                    return cronstrue.toString(item.cronExpression, { throwExceptionOnParseError: true, use24HourTimeFormat: true });
+                    return cronstrue.toString(this.item.cronExpression, { throwExceptionOnParseError: true, use24HourTimeFormat: true });
                 } catch (e) {
                     return "Cron expression parse error: "+e;
                 }
-            } else if (item.type == "fixed") {
+            } else if (this.item.type == "fixed") {
                 return new Date().toString();
             } else {
                 return "Unsupported timer type";
@@ -97,12 +66,7 @@ const TimerMixin = {
     }
 }
 
-window.loadTimers = function (vueList) {
-    calledOnce = true;
-    vueList.start([TimerMixin], 'http://openhab.org/schema/timer-schema.json', schema, ["link","editable","remainingRuns","totalRuns","lastrun"]);
-    vueList.items = demoItems;
-};
+const mixins = [ScheduleMixin];
+const runtimekeys = ["link","editable","remainingRuns","totalRuns","lastrun"];
 
-var calledOnce = false;
-var el = document.getElementById("timersapp");
-if (el && !calledOnce) loadTimers(el);
+export {mixins, schema, runtimekeys, StoreView};

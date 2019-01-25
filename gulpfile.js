@@ -46,7 +46,7 @@ var config = {
             html_watch: ['./src/**/*.html', './partials/**/*.html'],
             scss: './scss/*.scss', // only consider top level files, others are included
             scss_watch: './scss/**/*.scss',
-            js: ['js/**/*.js', '!js/bundles/**/*'],
+            js: ['js/**/*.js', '!js/bundles/**/*', '!js/common/**/*'],
             js_bundles_entry: ['./js/bundles/*/index.js'],
             js_bundles_watch: './js/bundles/**/*',
             assets: [

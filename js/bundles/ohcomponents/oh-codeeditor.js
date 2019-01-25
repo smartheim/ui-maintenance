@@ -87,6 +87,9 @@ class OhCodeEditor extends HTMLElement {
         }).then(() => {
             window.require = require;
             window.define = define;
+            if (!window.define) {
+                console.error("Failed to make the vs loader globally available");
+            }
             require.config = { paths: { 'vs': '.', baseUrl: '.' } };
         });
     }
@@ -95,7 +98,6 @@ class OhCodeEditor extends HTMLElement {
         if (this.yamlquickopen) return Promise.resolve("");
         return new Promise((resolve, reject) => {
             require(['vs/editor/contrib/quickOpen/quickOpen'], async quickOpen => {
-                console.log("monaco yaml quickOpen loaded");
                 const NEVER_CANCEL_TOKEN = {
                     isCancellationRequested: false,
                     onCancellationRequested: () => Event.NONE,
@@ -199,8 +201,8 @@ class OhCodeEditor extends HTMLElement {
     }
 
     startEditor() {
+        while (this.firstChild) { this.firstChild.remove(); }
         const el = this;
-        el.innerHTML = "";
         if (this.model) this.model.dispose();
         this.model = this.monaco.editor.createModel("", "javascript");
         this.editor = this.monaco.editor.create(el, this.model);

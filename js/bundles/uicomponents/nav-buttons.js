@@ -21,6 +21,8 @@ class NavButtons extends HTMLElement {
     this.nextEnabled = this.nextLink != "";
   }
   connectedCallback() {
+    while (this.firstChild) { this.firstChild.remove(); }
+
     this.innerHTML = `
     <a data-no-reload="nav" class="btn btn-primary col-2 mx-2 ${this.prevEnabled ? "" : "disabled"}" href="${this.prevLink}">Back</a>
     <a data-no-reload="nav" class="btn btn-primary col-2 mx-2 ${this.nextEnabled ? "" : "disabled"}" href="${this.nextLink}">Next</a>`;

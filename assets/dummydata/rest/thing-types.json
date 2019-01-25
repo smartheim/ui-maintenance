@@ -47,5 +47,13 @@
         "listed": true,
         "supportedBridgeTypeUIDs": [],
         "bridge": true
+    },
+    {
+        "UID": "network:pingdevice",
+        "label": "Pings network devices",
+        "description": "Pings network devices",
+        "listed": true,
+        "supportedBridgeTypeUIDs": [],
+        "bridge": true
     }
 ]

@@ -53,6 +53,7 @@ class OhChangelog extends HTMLElement {
   }
   checkCacheAndLoad() {
     if (!this.url) {
+      while (this.firstChild) { this.firstChild.remove(); }
       this.innerHTML = "No url given!";
       return;
     }
@@ -61,6 +62,7 @@ class OhChangelog extends HTMLElement {
     if (cachedData && (cacheTimestamp + this.cachetime * 60 * 1000 > Date.now())) {
       var e = this.toctarget ? document.querySelector(this.toctarget) : null;
       if (e) e.innerHTML = localStorage.getItem("toc_" + this.url);
+      while (this.firstChild) { this.firstChild.remove(); }
       this.innerHTML = cachedData;
     } else {
       this.reset();
@@ -70,6 +72,7 @@ class OhChangelog extends HTMLElement {
     this.toc = [];
     localStorage.removeItem("timestamp_" + this.url);
 
+    while (this.firstChild) { this.firstChild.remove(); }
     this.innerHTML = this.loading;
 
     fetchWithTimeout(this.url)
@@ -113,8 +116,10 @@ class OhChangelog extends HTMLElement {
       .then(data => {
         var e = document.querySelector(this.toctarget);
         if (e) e.innerHTML = data.toc;
+        while (this.firstChild) { this.firstChild.remove(); }
         this.innerHTML = data.main;
       }).catch(e => {
+        while (this.firstChild) { this.firstChild.remove(); }
         this.innerHTML = this.error + e;
       })
   }

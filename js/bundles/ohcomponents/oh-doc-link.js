@@ -41,6 +41,10 @@ class OhDocLink extends HTMLElement {
     const slot = this.shadowRoot.querySelector('slot');
     slot.addEventListener('slotchange', this.slotListenerBound);
   }
+  disconnectedCallback() {
+    const slot = this.shadowRoot.querySelector('slot');
+    slot.removeEventListener('slotchange', this.slotListenerBound);
+  }
 
   /**
    * As soon as the <slot> got a child, this is called.
@@ -73,7 +77,7 @@ class OhDocLink extends HTMLElement {
       console.warn("Did not find target element: ", this.target);
       return;
     }
-    
+
     if (this.href) {
       el.contextdata = this.context;
       if (el.contenturl)

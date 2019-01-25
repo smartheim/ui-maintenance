@@ -26,6 +26,8 @@ class NavBreadcrumb extends HTMLElement {
         this.title = document.title;
     }
 
+    while (this.firstChild) { this.firstChild.remove(); }
+
     this.innerHTML = `
       <a class="" href="${this.parentLink}">${this.parent}</a> →
       <a class="disabled" href="#">${this.title}</a>`;

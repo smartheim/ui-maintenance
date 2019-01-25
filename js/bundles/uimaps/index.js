@@ -20,7 +20,7 @@ class UiMaps extends HTMLElement {
         this.marker.bindPopup("<b>You are here</b>").openPopup();
         this.map.on("click", (e) => {
             this.marker.setLatLng(e.latlng);
-            this.dispatchEvent(new CustomEvent("click", {detail: e.latlng}));
+            this.dispatchEvent(new CustomEvent("change", {detail: e.latlng}));
         })
         this.tileLayer = new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'}).addTo(this.map);
     }

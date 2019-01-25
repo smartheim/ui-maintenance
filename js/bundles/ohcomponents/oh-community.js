@@ -37,6 +37,7 @@ class OhCommunityTopics extends HTMLElement {
     this.checkCacheAndLoad();
   }
   set contenturl(val) {
+    while (this.firstChild) { this.firstChild.remove(); }
     this.innerHTML = this.loading;
     this.checkCacheAndLoad(val);
   }
@@ -54,12 +55,14 @@ class OhCommunityTopics extends HTMLElement {
   }
   checkCacheAndLoad() {
     if (!this.contenturl) {
+      while (this.firstChild) { this.firstChild.remove(); }
       this.innerHTML = "No url given!";
       return;
     }
     var cacheTimestamp = localStorage.getItem("timestamp_" + this.contenturl);
     var cachedData = cacheTimestamp ? localStorage.getItem(this.contenturl) : null;
     if (cachedData && (cacheTimestamp + this.cachetime * 60 * 1000 > Date.now())) {
+      while (this.firstChild) { this.firstChild.remove(); }
       this.innerHTML = cachedData;
     } else {
       this.reset();
@@ -67,10 +70,12 @@ class OhCommunityTopics extends HTMLElement {
   }
   reset() {
     if (!this.contenturl) {
+      while (this.firstChild) { this.firstChild.remove(); }
       this.innerHTML = "No url given!";
       return;
     }
     localStorage.removeItem("timestamp_" + this.contenturl);
+    while (this.firstChild) { this.firstChild.remove(); }
     this.innerHTML = this.loading;
     this.load();
   }
@@ -92,8 +97,10 @@ class OhCommunityTopics extends HTMLElement {
       .then(html => {
         localStorage.setItem(url, html);
         localStorage.setItem("timestamp_" + url, Date.now());
+        while (this.firstChild) { this.firstChild.remove(); }
         this.innerHTML = html;
       }).catch(e => {
+        while (this.firstChild) { this.firstChild.remove(); }
         this.innerHTML = this.error + e;
         throw e;
       })

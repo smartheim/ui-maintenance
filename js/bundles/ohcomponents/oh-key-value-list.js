@@ -20,6 +20,8 @@ class OhThingProperties extends HTMLElement {
     }
 
     contextchanged(event) {
+        while (this.firstChild) { this.firstChild.remove(); }
+
         var json = event.detail ? event.detail : event.target.contextdata;
 
         if (!json || json == {}) {

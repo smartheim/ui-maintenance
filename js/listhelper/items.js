@@ -1,58 +1,13 @@
 // import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
+import { fetchWithTimeout } from '../ohcomponents.js';
 
-
-const demoItems = [
-    {
-        "link": "http://192.168.1.8/rest/items/mqtt_topic_3edb5737_testswitch",
-        "state": "ON",
-        "editable": false,
-        "type": "Switch",
-        "name": "mqtt_topic_3edb5737_testswitch",
-        "label": "Test switch",
-        "tags": [],
-        "groupNames": []
-    },
-    {
-        "link": "http://192.168.1.8/rest/items/mqtt_topic_3edb5737_multistate",
-        "state": "ON",
-        "editable": false,
-        "type": "Switch",
-        "name": "mqtt_topic_3edb5737_multistate",
-        "label": "Multi State",
-        "tags": [],
-        "groupNames": ["mainGroup"]
-    },
-    {
-        "link": "http://192.168.1.8/rest/items/mqtt_topic_3edb5737_testnumber",
-        "state": "0",
-        "stateDescription": {
-            "pattern": "%.0f",
-            "readOnly": false,
-            "options": []
-        },
-        "editable": false,
-        "type": "Number",
-        "name": "mqtt_topic_3edb5737_testnumber",
-        "label": "Test number",
-        "tags": [],
-        "groupNames": []
-    },
-    {
-        "link": "http://192.168.1.8/rest/items/mqtt_topic_3edb5737_testtext",
-        "state": "",
-        "stateDescription": {
-            "pattern": "%s",
-            "readOnly": false,
-            "options": []
-        },
-        "editable": false,
-        "type": "String",
-        "name": "mqtt_topic_3edb5737_testtext",
-        "label": "Test Text",
-        "tags": ["Lighting"],
-        "groupNames": []
+class StoreView {
+    async getall() {
+        return fetchWithTimeout("dummydata/rest/items.json").then(response => response.json());
     }
-];
+    dispose() {
+    }
+}
 
 const schema = {
     uri: 'http://openhab.org/schema/items-schema.json', // id of the item schema
@@ -104,27 +59,50 @@ const schema = {
 const ItemsMixin = {
     created: function () {
         this.itemtypes = {
-            "Color": "Color information",
-            "Contact": "Status of contacts, e.g. door/window contacts. Does not accept commands, only status updates.",
-            "DateTime": "Stores date and time",
-            "Dimmer": "Percentage value, typically used for dimmers",
-            "Image": "Binary data of an image",
-            "Location": "GPS coordinates",
-            "Number": "Values in number format",
-            "Player": "Allows control of players (e.g. audio players)",
-            "Rollershutter": "Roller shutter Item, typically used for blinds",
-            "String": "Stores texts",
-            "Switch": "Switch Item, used for anything that needs to be switched ON and OFF",
+            "Color": "<b>Color</b><br>Color information",
+            "Contact": "<b>Contact</b><br>Read-only status of contacts, e.g. door/window contacts.",
+            "DateTime": "<b>DateTime</b><br>Stores date and time",
+            "Dimmer": "<b>Dimmer</b><br>Percentage value, typically used for dimmers",
+            "Image": "<b>Image</b><br>Binary data of an image",
+            "Location": "<b>Location</b><br>GPS coordinates",
+            "Number": "<b>Number</b><br>Values in number format",
+            "Player": "<b>Player</b><br>Allows control of players (e.g. audio players)",
+            "Rollershutter": "<b>Rollershutter</b><br>Roller shutter Item, typically used for blinds",
+            "String": "<b>String</b><br>Stores texts",
+            "Switch": "<b>Switch</b><br>Used for anything that needs to be switched ON and OFF",
         }
     },
+    computed: {
+        itemtype: function() {
+            if (this.item.type=="Group") return (this.item.basetype ? this.item.basetype : "String");
+            return this.item.type;
+        },
+        isGroup: function() {
+            return this.item.type=="Group";
+        }
+    },
+    methods: {
+        setGroup: function(isGroup) {
+            console.log("setGroup");
+            if (isGroup) {
+                this.item.basetype = this.item.type;
+                this.item.type = "Group";
+            } else {
+                this.item.type = (this.item.basetype ? this.item.basetype : "String");
+            }
+        },
+        setType: function(type) {
+            if (this.item.type=="Group") {
+                this.item.basetype = type;
+            } else {
+                this.item.type = type;
+            }
+        }
+    }
 }
 
-window.loadItems = function (vueList) {
-    calledOnce = true;
-    vueList.start([ItemsMixin], 'http://openhab.org/schema/items-schema.json', schema, ["link", "editable", "state"]);
-    vueList.items = demoItems;
-};
+const mixins = [ItemsMixin];
 
-var calledOnce = false;
-var el = document.getElementById("itemlist");
-if (el && !calledOnce) loadItems(el);
+const runtimekeys = ["link", "editable", "state"];
+
+export {mixins, schema, runtimekeys, StoreView};

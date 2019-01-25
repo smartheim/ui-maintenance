@@ -1,0 +1,44 @@
+[
+    {
+        "editable": true,
+        "label": "My wakeup timer",
+        "tags": [
+            "Lighting"
+        ],
+        "totalRuns": 5,
+        "remainingRuns": null,
+        "cronExpression": "0 7 ? * MON-FRI",
+        "type": "cron",
+        "enabled": true,
+        "UID": "timer:3edb5737",
+        "lastrun": 1546950225013
+    },
+    {
+        "editable": true,
+        "label": "Garden watering",
+        "tags": [
+            "Lighting"
+        ],
+        "totalRuns": 17,
+        "remainingRuns": null,
+        "cronExpression": "0 30 10-13 ? * WED,FRI",
+        "type": "cron",
+        "enabled": true,
+        "UID": "timer:4263ds53",
+        "lastrun": 1546950225013
+    },
+    {
+        "editable": true,
+        "label": "An absolut timer",
+        "tags": [
+            "Lighting"
+        ],
+        "totalRuns": 0,
+        "remainingRuns": 1,
+        "datetime": "2008-09-15T15:53:00",
+        "type": "fixed",
+        "enabled": true,
+        "UID": "timer:4263ds54",
+        "lastrun": 1546950225013
+    }
+]

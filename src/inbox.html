@@ -7,7 +7,6 @@
 
 <body>
   <link rel="stylesheet" href="css/items.css" type="text/css" />
-  <script type="module" src="js/inbox.js"></script>
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -23,6 +22,8 @@
     <ul>
       <li>
         <ui-switch class="ml-4" storekey="enabletest" title="Auto approve"></ui-switch>
+      </li>
+      <li>
         <ui-switch class="ml-4" storekey="showhidden" title="Show hidden"></ui-switch>
       </li>
     </ul>
@@ -32,42 +33,53 @@
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
       <div class="btn-group ml-3" role="group">
-        <a href="#" class="btn btn-info">
+        <button class="btn btn-info">
           <i class="fas fa-eye-slash"></i> <span>Hide <span class="badge badge-light selectcounter">0</span></span>
-        </a>
-        <a href="#" class="btn btn-success">
+        </button>
+        <button class="btn btn-success">
           <i class="fas fa-check"></i> <span>Accept <span class="badge badge-light selectcounter">0</span></span>
-        </a>
+        </button>
       </div>
     </ui-filter>
 
     <div class="mt-4 alert alert-info">Discovery status for "Network binding": <span class="badge badge-success">Running</span></div>
 
-    <oh-vue-list-items id="inboxapp" class="listwithouteditor" template="listInboxTemplate" filtercriteria="name"
-      onload="if (window.loadInbox) loadInbox(this)"></oh-vue-list-items>
+    <oh-list-bind for="inboxlist" listhelper="inbox"></oh-list-bind>
 
-    <template id="listInboxTemplate">
-      <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-        <div class="listitem" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
-          <div class="body">
-            <div class="title">
-              <span :title="item.label">{{item.label}}</span>
-              <span class="actions btn-group">
-                  <a href="#" class="btn btn-info btn-sm" title="Hide"><i class="fas fa-eye-slash"></i></a>
-                  <a href="#" class="btn btn-success btn-sm" title="Accept"><i class="fas fa-check"></i></a>
-                </span>
-            </div>
-            <section class="description">
-                {{description(item)}}
-            </section>
-          </div>
-          <div class="footer small py-1 px-3">
-            {{binding(item)}}
-          </div>
+    <oh-vue-list id="inboxlist" filtercriteria="label" class="listwithouteditor">
+      <div slot="app"></div>
+
+      <template slot="list">
+        <partial src="listerror.html"></partial>
+        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+          <oh-vue-listitem v-for="item in filtered" :key="item.thingUID" :listitem="item"></oh-vue-listitem>
+          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
+              50 more &hellip;</button></div>
         </div>
-        <p v-if="pending">loading items...</p>
-        <p v-if="error">loading failed</p>
-    </template>
+      </template>
+
+      <template slot="item">
+        <transition name="fade">
+          <section class="listitem" :id="item.thingUID" :class="[{haschanges: changed},{storingmode: storing}]">
+            <div class="body">
+              <div class="title">
+                <span :title="item.label">{{item.label}}</span>
+                <span class="actions btn-group">
+                  <button class="btn btn-info btn-sm" title="Hide"><i class="fas fa-eye-slash"></i></button>
+                  <button class="btn btn-success btn-sm" title="Accept"><i class="fas fa-check"></i></button>
+                </span>
+              </div>
+              <section class="description">
+                {{description(item)}}
+              </section>
+            </div>
+            <div class="footer small py-1 px-3">
+              {{binding(item)}}
+            </div>
+          </section>
+        </transition>
+      </template>
+    </oh-vue-list>
 
   </main>
   <footer></footer>

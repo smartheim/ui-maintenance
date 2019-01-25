@@ -7,7 +7,6 @@
 
 <body>
   <link rel="stylesheet" href="css/items.css" type="text/css" />
-  <script type="module" src="js/timers.js"></script>
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -30,44 +29,57 @@
       </a>
     </ui-filter>
 
-    <oh-vue-list-items id="timersapp" template="listTimersTemplate" filtercriteria="label" onload="if (window.loadTimers) loadTimers(this)"></oh-vue-list-items>
+    <oh-list-bind for="schedulelist" listhelper="schedule"></oh-list-bind>
 
-    <template id="listTimersTemplate">
-      <p v-if="pending">loading items...</p>
-      <p v-else-if="error">loading failed</p>
-      <oh-codeeditor v-else-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema" :content.prop="toTextual()"
-        @state="editorstateChanged"></oh-codeeditor>
-      <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-        <div class="listitem" :id="item.UID" v-for="item in filtered" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
-          <div class="body ui-dropdown">
-            <div class="title">
-              <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>
-                {{item.label}}
-              </span>
-              <span class="actions btn-group">
-                <button class="btn btn-success-hover btn-sm">
-                  <i class="fas fa-check"></i> <span>Run <i :class="timerStatusBadge(item)">{{timerStatusinfo(item)}}</i></span>
-                </button>
-                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
-              </span>
-            </div>
-            <div class="secondlevel">
-              <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
-              <span @click="copyClipboard($event, item.UID)">{{item.UID}}</span>
-              <div>Storage association: <input value="openhab"></div>
-            </div>
-            <section class="description">
-              {{timerDescription(item)}}
-            </section>
-          </div>
-          <div class="footer small py-1 px-3"><span>Runs: {{item.totalRuns}}</span><span v-if="item.remainingRuns">,
-              Remaining: {{item.remainingRuns}}</span>
-            <a class="ml-auto" :href="'scheduledtask.html?uid='+encodeURIComponent(item.UID)"><i class="fas fa-cog"></i>
-              <span>Configure</span></a>
-          </div>
+    <oh-vue-list id="schedulelist" filtercriteria="label">
+      <div slot="app"></div>
+
+      <template slot="list">
+        <partial src="listerror.html"></partial>
+        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+          <oh-codeeditor v-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema"
+            :content.prop="toTextual()" @state="editorstateChanged"></oh-codeeditor>
+          <template v-else>
+            <oh-vue-listitem v-for="item in filtered" :key="item.UID" :listitem="item"></oh-vue-listitem>
+            <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
+                50 more &hellip;</button></div>
+          </template>
         </div>
-      </div>
-    </template>
+      </template>
+
+      <template slot="item">
+        <transition name="fade">
+          <section class="listitem" :id="item.UID" :class="[{haschanges: changed},{storingmode: storing}]">
+            <div class="body ui-dropdown">
+              <div class="title">
+                <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>
+                  {{item.label}}
+                </span>
+                <span class="actions btn-group">
+                  <button class="btn btn-success-hover btn-sm">
+                    <i class="fas fa-check"></i> <span>Run <i :class="timerStatusBadge(item)">{{timerStatusinfo(item)}}</i></span>
+                  </button>
+                  <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+                </span>
+              </div>
+              <div class="secondlevel">
+                <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
+                <span @click="copyClipboard($event, item.UID)">{{item.UID}}</span>
+                <div>Storage association: <input value="openhab"></div>
+              </div>
+              <section class="description">
+                {{timerDescription(item)}}
+              </section>
+            </div>
+            <div class="footer small py-1 px-3"><span>Runs: {{item.totalRuns}}</span><span v-if="item.remainingRuns">,
+                Remaining: {{item.remainingRuns}}</span>
+              <a class="ml-auto" :href="'scheduledtask.html?uid='+encodeURIComponent(item.UID)"><i class="fas fa-cog"></i>
+                <span>Configure</span></a>
+            </div>
+          </section>
+        </transition>
+      </template>
+    </oh-vue-list>
 
   </main>
   <footer></footer>

@@ -6,8 +6,8 @@
         "type": "Switch",
         "name": "mqtt_topic_3edb5737_testswitch",
         "label": "Test switch",
-        "tags": [],
-        "groupNames": []
+        "tags": ["Switchable"],
+        "groupNames": ["switches"]
     },
     {
         "link": "http://192.168.1.8/rest/items/mqtt_topic_3edb5737_multistate",
@@ -31,7 +31,7 @@
         "type": "Number",
         "name": "mqtt_topic_3edb5737_testnumber",
         "label": "Test number",
-        "tags": [],
+        "tags": ["Lighting"],
         "groupNames": []
     },
     {

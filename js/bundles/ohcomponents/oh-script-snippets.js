@@ -12,14 +12,15 @@ import { fetchWithTimeout } from '../../common/fetch';
 class OhScriptSnippets extends HTMLElement {
   constructor() {
     super();
-    // const shadow = this.attachShadow({ mode: 'open' });
+
+    while (this.firstChild) { this.firstChild.remove(); }
+
     const ul = document.createElement('ul');
     this.target = this.hasAttribute("target") ? this.getAttribute("target") : null;
 
     fetchWithTimeout("scriptsnippets/index.json")
       .then(response => response.json())
       .then(json => {
-        ul.innerText = '';
         for (const entry of json) {
           var li = document.createElement("li");
           var a = document.createElement("a");
@@ -41,7 +42,6 @@ class OhScriptSnippets extends HTMLElement {
         ul.appendChild(li);
       })
 
-    // shadow.appendChild(ul);
     this.appendChild(ul);
   }
 }

@@ -1,73 +1,107 @@
 import { html, render } from 'lit-html';
 
+/**
+ * A dropdown component.
+ * 
+ * Events:
+ * - "input": The value has changed
+ * 
+ * Attributes:
+ * - "novalue": Will not apply the selected entry as new value, only emits an input event
+ */
 class UiDropdown extends HTMLElement {
     constructor() {
         super();
-        this.options = {};
-        this.isShown = false;
+        this._options = {};
     }
     connectedCallback() {
-        if (!Object.keys(this.options).length && this.hasAttribute("options")) {
-            var items = this.getAttribute("options").split(",");
-            for (var item of items) this.options[item] = item;
-        }
-        this.icons = this.hasAttribute("icons") ? this.getAttribute("icons") : null;
         this.novalue = this.hasAttribute("novalue");
-        this.classes = this.hasAttribute("btnclass") ? this.getAttribute("btnclass") : "btn btn-primary-hover btn-sm";
-        this.bodyClickBound = () => this.close();
+        this.nostate = this.hasAttribute("nostate");
+        this.icons = this.hasAttribute("icons") ? this.getAttribute("icons") : null;
+        const classes = this.hasAttribute("btnclass") ? this.getAttribute("btnclass") : "btn btn-primary-hover btn-sm";
+        this.bodyClickBound = (e) => this.bodyClicked(e);
         this.addEventListener("click", e => e.stopPropagation());
         this.classList.add("dropdown");
-        this.attributeChangedCallback();
-        this.render();
+        if (!Object.keys(this._options).length && this.hasAttribute("options")) {
+            var items = this.getAttribute("options").split(",");
+            for (var item of items) {
+                const data = item.split(":");
+                if (data.length == 1) this._options[item] = item;
+                else this._options[data[0].trim()] = data[1].trim();
+            }
+        }
+        render(html`
+        <button class="${classes} dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false"
+            @click=${this.toggleShow.bind(this)}>
+          <span class="label"></span>
+        </button>
+        <div class="dropdown-menu"></div>`, this);
+        this.dropdownEl = this.querySelector(".dropdown-menu");
+        this.labelEl = this.querySelector(".label");
+        this.options = this._options; // will call the setter which renders the options
+        if (this.hasAttribute("label")) this.labelEl.innerHTML = this.getAttribute("label");
+        this.value = this.hasAttribute("value") ? this.getAttribute("value") : null; // calls the setter
     }
     static get observedAttributes() {
         return ['value'];
     }
     attributeChangedCallback(name, oldValue, newValue) {
-        this.value = this.hasAttribute("value") ? this.getAttribute("value") : this.value;
+        if (name == "value") this.value = this.getAttribute("value");
     }
     toggleShow() {
-        if (this.isShown) this.close(); else this.open();
+        if (this.dropdownEl.classList.contains("show")) this.close(); else this.open();
+    }
+    bodyClicked(e) {
+        this.closeTimer = setTimeout(() => this.close(), 50);
     }
     close() {
-        this.isShown = false;
-        document.body.removeEventListener("click", this.bodyClickBound);
-        this.render();
+        this.dropdownEl.classList.remove("show");
     }
     open() {
-        this.isShown = true;
-        document.body.addEventListener("click", this.bodyClickBound);
-        this.render();
+        if (this.closeTimer) { clearTimeout(this.closeTimer); delete this.closeTimer; }
+        document.body.addEventListener("click", this.bodyClickBound, { once: true, passive: true, capture: true });
+        this.dropdownEl.classList.add("show");
     }
-    select(key) {
-        this.close();
-
-        if (this.novalue) {
-            this.dispatchEvent(new CustomEvent("input", { detail: key }));
-            return;
+    set value(key) {
+        if (!this.novalue && this._options[key]) {
+            this.labelEl.innerHTML = this._options[key];
         }
-        this.value = key;
-        this.dispatchEvent(new Event("input"));
-        this.render();
+        this._value = key;
+        if (this.dropdownEl) {
+            // Change active marker
+            var selectedEl = this.dropdownEl.querySelector(".active");
+            if (selectedEl) selectedEl.classList.remove("active");
+            selectedEl = this.dropdownEl.querySelector("a[data-key='" + key + "']");
+            if (selectedEl) selectedEl.classList.add("active");
+        }
     }
-    render() {
-        const optionEls = Object.keys(this.options).map(key =>
-            html`<a @click=${(event) => this.select(event.target.dataset.key)}
-                class="dropdown-item ${this.value == key ? 'active' : ''}" href="#" data-key=${key}>
-                <div style="pointer-events: none">
-                    ${this.icons ? html`<img style="float:left;width:40px;max-height:40px;margin-right:10px;" src="img/${this.icons}/${key}.png">` : ''}
-                    ${key}<br><small>${this.options[key]}</small>
-                </div>
-            </a>`
-        );
-        render(html`
-        <button style="width:inherit" class="${this.classes} dropdown-toggle" type="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false" @click=${this.toggleShow.bind(this)}>
-          ${this.value}
-        </button>
-        <div class="dropdown-menu ${this.isShown ? 'show' : ''}">
-          ${optionEls}
-        </div>`, this);
+    get value() {
+        return this._value;
+    }
+    set options(newValue) {
+        this._options = newValue;
+        if (!this.dropdownEl) return;
+
+        this.dropdownEl.innerHTML = "";
+        for (var key of Object.keys(this._options)) {
+            const a = document.createElement("a");
+            a.href = "#";
+            a.classList.add("dropdown-item");
+            a.dataset.key = key;
+            a.addEventListener("click", (event) => this.select(event.target.dataset.key, event));
+            if (this.icons)
+                a.innerHTML = `<div><img src="img/${this.icons}/${key}.png">${this._options[key]}</div>`;
+            else
+                a.innerHTML = `<div>${this._options[key]}</div>`;
+            this.dropdownEl.appendChild(a);
+        }
+    }
+    select(key, event) {
+        if (event) event.preventDefault();
+        this.dropdownEl.classList.remove("show");
+        document.body.removeEventListener("click", this.bodyClickBound, { once: true, passive: true, capture: true });
+        if (!this.nostate) this.value = key;
+        this.dispatchEvent(new CustomEvent("input", { detail: key }));
     }
 }
 

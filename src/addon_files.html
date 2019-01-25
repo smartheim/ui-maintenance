@@ -7,7 +7,15 @@
 
 <body>
   <link rel="stylesheet" href="css/addons.css" type="text/css" />
-  <partial src="addonsnav.html"></partial>
+  <nav class="sidebar leftright">
+    <h4>Navigation</h4>
+    <ul>
+      <ui-nav-auto-link></ui-nav-auto-link>
+      <li><a data-no-reload="nav" href="bindings.html">Installed Add-ons</a></li>
+      <li><a data-no-reload="nav" href="addon_files.html">Manage file Add-ons</a></li>
+      <li><a href="addon_install.html">Install Add-ons</a></li>
+    </ul>
+  </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add-ons: Install jar files manually"></partial>
   <main>
@@ -22,38 +30,42 @@
     <div class="alert alert-info mb-0 mt-4">Using an external <code>.jar</code> file can be a security risk!</span></div>
 
     <ui-drop-zone class="mt-4" style="--padding: 30px 20px;background-color:#c8dadf;outline-color: #92b0b3">
-        <div slot="label"><i class="fas fa-file-upload"></i> <strong>Choose a file</strong> or drag it here.</div>
-        <div slot="uploading">Uploading&hellip;</div>
-        <div slot="success">Done!</div>
-        <div slot="error">Error!</div>
+      <div slot="label"><i class="fas fa-file-upload"></i> <strong>Choose a file</strong> or drag it here.</div>
+      <div slot="uploading">Uploading&hellip;</div>
+      <div slot="success">Done!</div>
+      <div slot="error">Error!</div>
     </ui-drop-zone>
 
+    <oh-list-bind for="addonsfilelist" listhelper="addon-files"></oh-list-bind>
 
-    <div id="listcontainer" class="list">
-      <div class="listitem">
-        <div class="body">
-          <div class="title"><span>org.openhab.binding.network-2.5-SNAPSHOT.jar</span></div>
-          <section class="description muted small">25.01.2019</section>
-          <section class="actions">
-            <span class="btn-group" role="group">
-              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
-            </span>
-          </section>
-        </div>
-      </div>
+    <oh-vue-list id="addonsfilelist" filtercriteria="label" class="listwithouteditor">
+      <div slot="app"></div>
 
-      <div class="listitem">
-        <div class="body">
-          <div class="title"><span>org.openhab.binding.mqtt-2.5-SNAPSHOT.jar</span></div>
-          <section class="description muted small">25.01.2019</section>
-          <section class="actions">
-            <span class="btn-group" role="group">
-              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
-            </span>
-          </section>
+      <template slot="list">
+        <partial src="listerror.html"></partial>
+        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+          <oh-vue-listitem v-for="item in filtered" :key="item.id" :listitem="item"></oh-vue-listitem>
+          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
+              50 more &hellip;</button></div>
         </div>
-      </div>
-    </div>
+      </template>
+
+      <template slot="item">
+        <transition name="fade">
+          <section class="listitem" :id="item.id" :class="[{haschanges: changed},{storingmode: storing}]">
+            <div class="body">
+              <div class="title"><span>{{item.filepath}}</span></div>
+              <section class="description muted small">{{getInstallDate()}}</section>
+              <section class="actions">
+                <span class="btn-group" role="group">
+                  <button class="btn btn-danger" @click="removeFileAddon()"><i class="fas fa-trash"></i> <span>Remove</span></button>
+                </span>
+              </section>
+            </div>
+          </section>
+        </transition>
+      </template>
+    </oh-vue-list>
 
   </main>
   <footer></footer>

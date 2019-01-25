@@ -7,7 +7,6 @@
 
 <body>
   <link rel="stylesheet" href="css/items.css" type="text/css" />
-  <script type="module" src="js/items.js"></script>
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -15,18 +14,28 @@
     </ul>
     <p>Sort list</p>
     <ul>
-      <li><a href="#sort=alphabetically">Alphabetically</a></li>
-      <li><a href="#sort=alphabetically_reverse">Alphabetically reversed</a></li>
-      <li><a href="#sort=changedate_desc">By change date (descending)</a></li>
-      <li><a href="#sort=changedate_asc">By change date (ascending)</a></li>
+      <li><a href="#sort=alphabetically"><i class="fas fa-sort-alpha-down"></i> By name</a></li>
+      <li><a href="#sort=alphabetically_reverse"><i class="fas fa-sort-alpha-up"></i> By name</a></li>
+      <li><a href="#sort=changedate_desc"><i class="fas fa-sort-amount-down"></i> By change date</a></li>
+      <li><a href="#sort=changedate_asc"><i class="fas fa-sort-amount-up"></i> By change date</a></li>
     </ul>
     <p>Predefined filters</p>
     <ul>
-      <li><a href="#type=switch">Show switches</a></li>
-      <li><a href="#type=dimmer">Show dimmers</a></li>
-      <li><a href="#type=number">Show numbers</a></li>
-      <li><a href="#type=text">Show texts</a></li>
-      <li><a href="#type=rollershutter">Show rollershutters</a></li>
+      <li>
+        <oh-change-filter target="ui-filter" filter="type:Switch">Show switches</oh-change-filter>
+      </li>
+      <li>
+        <oh-change-filter target="ui-filter" filter="type:Dimmer">Show dimmers</oh-change-filter>
+      </li>
+      <li>
+        <oh-change-filter target="ui-filter" filter="type:Number">Show numbers</oh-change-filter>
+      </li>
+      <li>
+        <oh-change-filter target="ui-filter" filter="type:String">Show texts</oh-change-filter>
+      </li>
+      <li>
+        <oh-change-filter target="ui-filter" filter="type:Rollershutter">Show rollershutters</oh-change-filter>
+      </li>
     </ul>
   </nav>
   <partial src="mainnav.html"></partial>
@@ -39,58 +48,88 @@
       </a>
     </ui-filter>
 
-    <oh-vue-list-items id="itemlist" template="listItemsTemplate" filtercriteria="label" onload="if (window.loadItems) loadItems(this)"></oh-vue-list-items>
+    <oh-list-bind for="itemlist" listhelper="items"></oh-list-bind>
 
-    <template id="listItemsTemplate">
-      <div id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-        <div class="listitem" v-for="item in filtered" :id="item.name" :class="[{haschanges: item.changed_},{storingmode: item.storing_}]">
-          <div class="body ui-dropdown">
-            <div class="title">
-              <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>{{item.label}}
-              </span>
-              <span class="actions unsaved btn-group">
-                <button class="btn btn-success" title="Save changes" @click="save(item)"><i class="fas fa-save"></i></button>
-                <button class="btn btn-danger" title="Discard changes" @click="discard(item)"><i class="fas fa-undo"></i></button>
-              </span>
-              <span class="actions btn-group">
-                <button class="btn btn-success-hover btn-sm" title="Item state">
-                  <span>Cmd <i class="badge badge-info itemstate">{{item.state}}</i></span>
-                </button>
-                <button class="btn btn-danger-hover" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
-              </span>
-            </div>
-            <div class="secondlevel">
-              <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
-              <span @click="copyClipboard($event, item.name)">{{item.name}}</span>
-              <div>Storage association: <input value="openhab"></div>
-              <div>
-                <ui-switch label="Group item" title="Item to nest other items / collect them in groups"></ui-switch>
-              </div>
-            </div>
-            <section class="description grid">
-              <div class="keyname">Type:</div>
-              <ui-dropdown btnclass="btn btn-primary-underline btn-sm" icons="itemtypes" class="itemtype" :options.prop="itemtypes"
-                :value.prop="item.type" @input="item.type = $event.target.value;changed(item)"></ui-dropdown>
-              <div class="keyname">Icon:</div>
-              <input list="itemCategories" type="text" class="category" @input="changed(item)" v-model="item.category"></input>
-              <details class="keyname span4">
-                <summary>Groups</summary>
-                <ui-tags class="pt-2" :value.prop="item.groupNames" @input="item.groupNames = $event.target.value;changed(item)"></ui-tags>
-              </details>
-            </section>
-          </div>
-          <div class="footer small" style="padding-top:5px">
-            <abbr style="margin-bottom: 5px;margin-right:10px" title="Tags are used for Rules and Scripts, but also for exposing Items to Amazon Alexa, Google Home and so on">Tags:</abbr>
-            <ui-tags suggestions="Switchable,Lighting,ColorLighting" :value.prop="item.tags" @input="item.tags = $event.target.value;changed(item)"></ui-tags>
-          </div>
+    <oh-vue-list id="itemlist" filtercriteria="label">
+      <div slot="app"></div>
+
+      <template slot="list">
+        <partial src="listerror.html"></partial>
+        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
+          <oh-codeeditor v-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema"
+            :content.prop="toTextual()" @state="editorstateChanged"></oh-codeeditor>
+          <template v-else>
+            <oh-vue-listitem v-for="item in filtered" :key="item.name" :listitem="item"></oh-vue-listitem>
+            <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show 50
+                more &hellip;</button></div>
+          </template>
         </div>
-        <p v-if="pending">loading items...</p>
-        <p v-if="error">loading failed</p>
-        <oh-codeeditor v-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema" :content.prop="toTextual()"
-          @state="editorstateChanged"></oh-codeeditor>
-      </div>
-    </template>
+      </template>
 
+      <template slot="item">
+        <transition name="fade">
+          <section class="listitem" :id="item.name" :class="[{haschanges: changed},{storingmode: storing}]">
+            <div class="body ui-dropdown">
+              <div class="title">
+                <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>{{item.label}}
+                </span>
+                <span class="actions unsaved btn-group">
+                  <button class="btn btn-success" title="Save changes" @click="save()"><i class="fas fa-save"></i></button>
+                  <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
+                </span>
+                <span class="actions btn-group">
+                  <i class="btn btn-info disabled btn-sm itemstate">{{item.state}}</i>
+                  <button class="btn btn-danger-hover" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
+                </span>
+              </div>
+              <div class="warnDialog" v-show="updatewhilechanged">
+                <h4>Warning: Update received</h4>
+                <span>If you save your changes, you'll overwrite the newer version.</span>
+                <button class="btn btn-primary" @click="updatewhilechanged=false">Thanks</button>
+              </div>
+              <div class="secondlevel">
+                <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
+                <span @click="copyClipboard($event, item.name)">{{item.name}}</span>
+                <div>Storage association: <input value="openhab"></div>
+              </div>
+              <ui-tabs upsidedown class="description">
+                <ul class="tablinks" slot="links">
+                  <li><a class="nav-link" href="#">Item Type</a></li>
+                  <li><a class="nav-link" href="#">
+                      <abbr title="If you want to switch items at the same time, group them together. You need to create group items first.">Groups</abbr>
+                    </a></li>
+                  <li><a class="nav-link" href="#">
+                      <abbr title="Tags are used for Rules and Scripts, but also for exposing Items to Amazon Alexa, Google Home and so on">Tags</abbr>
+                    </a></li>
+                  <li class="nav-item"><a class="nav-link" href="#">Control</a></li>
+                </ul>
+                <div class="tab-content" slot="tabs">
+                  <section class="grid">
+                    <div class="keyname">Type:</div>
+                    <ui-dropdown btnclass="btn btn-sm" icons="itemtypes" class="itemtype" :options.prop="itemtypes"
+                      :value="itemtype" @input="setType($event.target.value)"></ui-dropdown>
+                    <div class="keyname">Icon:</div>
+                    <input list="itemCategories" type="text" class="category" @input="$set(item,'category',$event.target.value)"
+                      :value="item.category"></input>
+                    <ui-switch class="span2" label="Group item" title="Item to nest other items / collect them in groups"
+                      :value.prop="isGroup" @input="setGroup($event.target.value)"></ui-switch>
+                  </section>
+                  <section>
+                    <ui-tags :value.prop="item.groupNames" @input="item.groupNames = $event.target.value"></ui-tags>
+                  </section>
+                  <section>
+                    <ui-tags suggestions="Switchable,Lighting,ColorLighting" :value.prop="item.tags" @input="item.tags = $event.target.value;changed(item)"></ui-tags>
+                  </section>
+                  <section>
+                    <input> <button class="btn btn-primary-hover">Send</button>
+                  </section>
+                </div>
+              </ui-tabs>
+            </div>
+          </section>
+        </transition>
+      </template>
+    </oh-vue-list>
 
     <datalist id="itemCategories">
       <option value="attic">
