@@ -1,0 +1,37 @@
+<div slot="app"></div>
+
+<template slot="list">
+    <h4 class="text-center pt-5" v-if="pendingwait">
+        Loading
+        <div class="loader"></div>
+    </h4>
+    <div class="text-center pt-5" v-else-if="error">
+        <h4><i class="fas fa-exclamation-circle"></i> Loading failed</h4>
+        <div>{{error}}</div>
+        <div class="bs-callout bs-callout-info mt-4 text-left" style="display:inline-block">
+            <p>An error while loading a list can happen because of multiple reasons.</p>
+            <dl>
+                <dt>A programming error</dt>
+                <dd>We are really sorry for that. Please report it in our bug-tracker, thank you.</dd>
+                <dt>Your openHAB doesn't understand</dt>
+                <dd>Please make sure this version is compatible to your openHAB version and you have
+                    installed all minimum-required Add-ons for this interface to work.
+                </dd>
+                <dt>Your openHAB / internet is slow</dt>
+                <dd>We can't really do much here. A request times out after 5 seconds.
+                    Please find out why your openHAB is soo slow. Reload the page to try again.
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <oh-codeeditor v-else-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema" :content.prop="toTextual()"
+        @state="editorstateChanged"></oh-codeeditor>
+    <div v-else class="w-100">
+        <transition-group name="fade" tag="div" id="listcontainer" @click="updateSelectCounter" :class="containerclasses">
+            <oh-vue-listitem v-for="item in filtered" :key="@@key" :listitem="item"></oh-vue-listitem>
+        </transition-group>
+        <div v-if="hasMore" class="text-center">
+            <button class="btn btn-primary-hover" @click="showMore()">Show 50 more &hellip;</button>
+        </div>
+    </div>
+</template>

@@ -82,7 +82,7 @@ class UiDropdown extends HTMLElement {
         this._options = newValue;
         if (!this.dropdownEl) return;
 
-        this.dropdownEl.innerHTML = "";
+        while (this.dropdownEl.firstChild) { this.dropdownEl.firstChild.remove(); }
         for (var key of Object.keys(this._options)) {
             const a = document.createElement("a");
             a.href = "#";
@@ -95,6 +95,8 @@ class UiDropdown extends HTMLElement {
                 a.innerHTML = `<div>${this._options[key]}</div>`;
             this.dropdownEl.appendChild(a);
         }
+
+        this.value = this._value;
     }
     select(key, event) {
         if (event) event.preventDefault();

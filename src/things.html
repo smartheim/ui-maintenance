@@ -21,9 +21,15 @@
     </ul>
     <p>Predefined filters</p>
     <ul>
-      <li><oh-change-filter target="ui-filter" filter="statusInfo:ONLINE">Online Things</oh-change-filter></li>
-      <li><oh-change-filter target="ui-filter" filter="statusInfo:OFFLINE">Offline Things</oh-change-filter></li>
-      <li><oh-change-filter target="ui-filter" filter="statusInfo:UNINITIALIZED">Configuration required</oh-change-filter></li>
+      <li>
+        <oh-change-filter target="ui-filter" filter="statusInfo:ONLINE">Online Things</oh-change-filter>
+      </li>
+      <li>
+        <oh-change-filter target="ui-filter" filter="statusInfo:OFFLINE">Offline Things</oh-change-filter>
+      </li>
+      <li>
+        <oh-change-filter target="ui-filter" filter="statusInfo:UNINITIALIZED">Configuration required</oh-change-filter>
+      </li>
     </ul>
   </nav>
   <partial src="mainnav.html"></partial>
@@ -39,23 +45,10 @@
     <oh-list-bind for="thinglist" listhelper="things"></oh-list-bind>
 
     <oh-vue-list id="thinglist" filtercriteria="label">
-      <div slot="app"></div>
-
-      <template slot="list">
-        <partial src="listerror.html"></partial>
-        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-          <oh-codeeditor v-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema"
-            :content.prop="toTextual()" @state="editorstateChanged"></oh-codeeditor>
-          <template v-else>
-            <oh-vue-listitem v-for="item in filtered" :key="item.UID" :listitem="item"></oh-vue-listitem>
-            <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
-                50 more &hellip;</button></div>
-          </template>
-        </div>
-      </template>
+      <partial src="vuelistbasics.html" key="item.UID"></partial>
 
       <template slot="item">
-        <section class="listitem" :id="item.UID" :class="[{haschanges: changed},{storingmode: storing}]">
+        <section class="listitem" :id="item.UID">
           <div class="body ui-dropdown">
             <div class="title">
               <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>
@@ -79,6 +72,10 @@
               <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
               <span @click="copyClipboard($event, item.UID)">{{item.UID}}</span>
               <div>Storage association: <input value="openhab"></div>
+            </div>
+            <div class="warnDialog" v-show="inProgress">
+              <h4>Waiting for openHAB</h4>
+              <div class="loader m-0"></div>
             </div>
             <section class="description">
               <span>{{description()}}</span>

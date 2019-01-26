@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/addons.css" type="text/css" />
+  <link rel="stylesheet" href="css/items.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Navigation</h4>
     <ul>
@@ -38,32 +38,25 @@
 
     <oh-list-bind for="addonsfilelist" listhelper="addon-files"></oh-list-bind>
 
-    <oh-vue-list id="addonsfilelist" filtercriteria="label" class="listwithouteditor">
-      <div slot="app"></div>
-
-      <template slot="list">
-        <partial src="listerror.html"></partial>
-        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-          <oh-vue-listitem v-for="item in filtered" :key="item.id" :listitem="item"></oh-vue-listitem>
-          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
-              50 more &hellip;</button></div>
-        </div>
-      </template>
+    <oh-vue-list id="addonsfilelist" filtercriteria="label">
+      <partial src="vuelistbasics.html" key="item.id"></partial>
 
       <template slot="item">
-        <transition name="fade">
-          <section class="listitem" :id="item.id" :class="[{haschanges: changed},{storingmode: storing}]">
-            <div class="body">
-              <div class="title"><span>{{item.filepath}}</span></div>
-              <section class="description muted small">{{getInstallDate()}}</section>
-              <section class="actions">
-                <span class="btn-group" role="group">
-                  <button class="btn btn-danger" @click="removeFileAddon()"><i class="fas fa-trash"></i> <span>Remove</span></button>
-                </span>
-              </section>
+        <section class="listitem" :id="item.id">
+          <div class="body">
+            <div class="title"><span>{{item.filepath}}</span></div>
+            <div class="warnDialog" v-show="inProgress">
+              <h4>Waiting for openHAB</h4>
+              <div class="loader m-0"></div>
             </div>
-          </section>
-        </transition>
+            <section class="description muted small">{{getInstallDate()}}</section>
+            <section class="actions showinlist">
+              <span class="btn-group" role="group">
+                <button class="btn btn-danger" @click="remove()"><i class="fas fa-trash"></i> <span>Remove</span></button>
+              </span>
+            </section>
+          </div>
+        </section>
       </template>
     </oh-vue-list>
 

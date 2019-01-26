@@ -22,8 +22,7 @@
 #listcontainer {
     align-self: flex-start;
     width: 100%;
-
-    .warnDialog {
+    .listitem .warnDialog {
         position: absolute;
         background-color: #fff;
         box-shadow: 0 0 5px 0 #000;
@@ -39,6 +38,9 @@
         justify-content: center;
         align-items: center;
         padding: 10px;
+        .loader {
+            top: -10px;
+        }
     }
     &.grid {
         display: flex;
@@ -48,11 +50,6 @@
     margin-top: 1.5rem;
     &.selectionmode .listitem.selected {
         box-shadow: 0px 0px 15px 0px theme-color("orange");
-    }
-    .listitem.storingmode {
-        pointer-events: none;
-        opacity: 0.5;
-        filter: grayscale(50%);
     }
     &.grid .listitem {
         margin-right: 10px; //flex-basis: calc(50% - 10px);
@@ -167,6 +164,7 @@
                     }
                     &>.keyname+* {
                         border: none;
+                        max-width: 220px;
                     }
                     &>input {
                         background-color: #f3f3f3;
@@ -230,6 +228,17 @@
                 background-color: rgb(255, 214, 214);
             }
         }
+        .warnDialog {
+            flex-direction: row;
+            h4 {
+                font-size: 1.3rem;
+                margin: 0;
+            }
+            .loader {
+                top: -25px;
+                left: 50px;
+            }
+        }
         .body {
             display: flex;
             font-size: 20pt;
@@ -251,8 +260,14 @@
             &>.secondlevel,
             &>.description,
             &>.itemname,
-            &>.actions {
+            &>.actions:not(.showinlist) {
                 display: none;
+            }
+            &>.actions.showinlist {
+                white-space: nowrap;
+                &>*:not(:last-child) {
+                    margin-right: 5px;
+                }
             }
         }
         .footer {
@@ -275,25 +290,18 @@ oh-vue-list {
     flex-direction: column;
 }
 
-// A list that doesn't support editors is hidden in textual-mode
-.listwithouteditor #listcontainer.textual {
-    display: none;
+oh-codeeditor {
+    margin-top: 10px;
+    display: block;
+    width: 100%;
 }
 
-oh-vue-list:not(.listwithouteditor) {
+oh-vue-list {
     flex: 1;
     &>div {
+        // The "app" div
         flex: 1;
         display: flex;
-    }
-    #listcontainer.textual {
-        align-self: stretch;
-        flex: 1;
-        display: flex;
-        oh-codeeditor {
-            display: block;
-            width: 100%;
-        }
     }
 }
 

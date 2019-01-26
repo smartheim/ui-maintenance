@@ -1,9 +1,4 @@
 #listcontainer {
-    .listitem.storingmode {
-        pointer-events: none;
-        opacity: 0.5;
-        filter: grayscale(50%);
-    }
     .warnDialog {
         position: absolute;
         background-color: #fff;
@@ -20,6 +15,9 @@
         justify-content: center;
         align-items: center;
         padding: 10px;
+        .loader {
+            top: -10px;
+        }
     }
     &.grid {
         display: flex;
@@ -132,6 +130,17 @@
                 overflow: hidden;
                 select {
                     display: none;
+                }
+            }
+            .warnDialog {
+                flex-direction: row;
+                h4 {
+                    font-size: 1.3rem;
+                    margin: 0;
+                }
+                .loader {
+                    top: -25px;
+                    left: 50px;    
                 }
             }
             .description {

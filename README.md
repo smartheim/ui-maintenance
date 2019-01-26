@@ -26,8 +26,9 @@ OR
 
 The original Paper UI is a Single Page Application (SPA) developed using a js framework called Angular.
 
-The downside of chosing a js framework is that those come and go. Angular has an extremly step learning
-curve and people familiar with the framework are rare because of the many existing and partly easier to
+The downside of chosing a js framework is that those come and go. Angular has a step learning
+curve, is not versioned semantically, does breaking changes regulary
+and people familiar with the framework are rare because of the many existing and partly easier to
 use competitors like Reactive, VueJS, Ember, Backbone, Aurelia, Meteor.js.
 
 SPAs require most libraries and interfaces to be loaded and initialized during startup,
@@ -77,11 +78,9 @@ Clicks are intercepted and only parts of the current shown page are replaced.
 
 ### Static pages 
 
-Each html file in `src/` is an independant html file. That means that
-the html markup for the basic layout need to be repeated
-for each page. Thanks to css, that is minimal though.
+Each html file in `src/` is an independant html file.
 
-A build system (Gulp) is in place to process html files anyway. For one to implement i18n
+A build system (Gulp) is in place to copy, but also process html files. For one to implement i18n
 (translations) and the other reason is to save us from repetitive html like navigation areas.
 Html partials are used like this:
 
@@ -126,8 +125,14 @@ and can be used in other projects as well.
 The html dom API alone is a bit clumsy for more complex reactive components though.
 I have used [lit-html](https://lit-html.polymer-project.org/guide/writing-templates) in
 some more complex components as renderer.
-It has a very similar syntax to the vue renderer, but is not as "reactive" as vue
-and therefore adds 1.7KB (tree shaking not even considered) to the ui-components bundle.
+It has a very similar syntax to the vue renderer, but is not "reactive" like vue
+and therefore adds only 1.7KB (tree shaking not even considered) to the ui-components bundle.
+
+We could think about using `lit-elements` in the future, which uses `lit-html` for
+rendering but also offers one-way and two-way bindings. Or we directly use
+[Vue 3](https://medium.com/the-vue-point/plans-for-the-next-iteration-of-vue-js-777ffea6fabf), which thanks
+to tree-shaking and building up on modern standards only, will also come with a low
+footprint.
 
 ### Icons / Fonts / Styling
 
@@ -144,6 +149,32 @@ See [Javascript Readme](js/readme.md).
 * Charts: https://www.chartjs.org
 * OpenStreetMaps: https://github.com/Leaflet/Leaflet
 * Web components: [lit-html](https://lit-html.polymer-project.org/guide/writing-templates)
+
+### How does interaction with openHAB works
+
+A Model-View-Adapter (MVA) concept is in place.
+
+The `VueJS` based `ohcomponents/oh-vue-list` web-component is our **View**.
+It is rendering a reactive list with provided templates and is extendable
+with Mixins.
+(There are more *View* classes, of course. As any reactive component can serve
+as a *View*.)
+
+The `ohcomponents/oh-vue-list-bind` is our **Controller**. It receives all
+*remove* and *change* requests of the view and also observes the *Model*
+and *Adapter* for any changes.
+
+The `listhelper/*` classes provide Mixins for the *View*, but also provide
+Model **Adapters** that communicate with the *Model* (aka Store).
+
+The `store/*` bundle finally provides the frontend database, the **Model**,
+for this architecture. All requested REST endpoints are cached in a Index DB and kept
+in sync via SSE (Server Send Events). Any sorting will not happen
+in the *View*, but directly in the Index DB.
+
+This architecture should provide us with low-latency rendering performance.
+We can outsource heavy operations like sorting into web-workers at any
+point without changing any of the *Adapters* or *Views*.
 
 ## Missing openHAB functionality
 

@@ -24,7 +24,7 @@ class StoreView {
 const ThingChannelsMixin = {
     methods: {
         description: function () {
-            const type = this.$parent.store.getChannelTypeFor(this.item.channelTypeUID);
+            const type = this.$root.store.getChannelTypeFor(this.item.channelTypeUID);
             if (type) return type.description;
             return "No Channel description available";
         }

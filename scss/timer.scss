@@ -8,7 +8,7 @@
 
 #cronexpression:not(.hidden) {
     pointer-events: none;
-    opacity: 0.5;
+    display: none;
     &~#absolutedatetime {
         border-color: #ff7214 !important;
     }
@@ -18,7 +18,7 @@
     border-color: #ff7214 !important;
     &~#absolutedatetime {
         pointer-events: none;
-        opacity: 0.5;
+        display: none;
     }
 }
 
@@ -29,4 +29,8 @@ label {
 .tab-content>section>* {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+#triggeritemcommand.hidden {
+    display: none;
 }

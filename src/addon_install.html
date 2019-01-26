@@ -59,46 +59,35 @@
     <oh-list-bind for="bindingslist" listhelper="addons"></oh-list-bind>
 
     <oh-vue-list id="bindingslist" filtercriteria="label" class="listwithouteditor">
-      <div slot="app"></div>
-
-      <template slot="list">
-        <partial src="listerror.html"></partial>
-        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-          <oh-vue-listitem v-for="item in filtered" :key="item.id" :listitem="item"></oh-vue-listitem>
-          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
-              50 more &hellip;</button></div>
-        </div>
-      </template>
+      <partial src="vuelistbasics.html" key="item.id"></partial>
 
       <template slot="item">
-        <transition name="fade">
-          <section class="listitem" :id="item.id" :class="[{haschanges: changed},{storingmode: storing}]">
-            <div class="body">
-              <div class="title"><span>{{item.label}}</span> <small>{{item.version}}</small>
-                <select class="ml-2 custom-select form-control-sm" @input="changeVersion($event.target.value)">
-                  <option v-for="ver in item.availableVersions" :value="ver">{{ver}}</option>
-                </select>
-              </div>
-              <div class="warnDialog" v-show="inProgress">
-                <h4>Waiting for openHAB</h4>
-                <div class="loader m-0"></div>
-              </div>
-              <section class="description">
-                Create broker connections, connect Things/Channels to MQTT Topics. <small>&ndash; By Author1, Author2</small>
-              </section>
-              <section class="actions">
-                <span class="btn-group" role="group">
-                  <button class="btn btn-success" @click="install()"><i class="fas fa-check"></i> <span>Install</span></button>
-                </span>
-                <span class="btn-group" role="group">
-                  <oh-doc-link show :href="item.link" class="btn btn-info"><i class="fas fa-book"></i> <span>Documentation</span></oh-doc-link>
-                  <oh-doc-link show href="https://raw.githubusercontent.com/eclipse/smarthome/master/extensions/binding/org.eclipse.smarthome.binding.mqtt/changelog.md"
-                    class="btn btn-secondary"><i class="fas fa-file-alt"></i> <span>Changelog</span></oh-doc-link>
-                </span>
-              </section>
+        <section class="listitem" :id="item.id">
+          <div class="body">
+            <div class="title"><span>{{item.label}}</span> <small>{{item.version}}</small>
+              <select class="ml-2 custom-select form-control-sm" @input="changeVersion($event.target.value)">
+                <option v-for="ver in item.availableVersions" :value="ver">{{ver}}</option>
+              </select>
             </div>
-          </section>
-        </transition>
+            <div class="warnDialog" v-show="inProgress">
+              <h4>Waiting for openHAB</h4>
+              <div class="loader m-0"></div>
+            </div>
+            <section class="description">
+              Create broker connections, connect Things/Channels to MQTT Topics. <small>&ndash; By Author1, Author2</small>
+            </section>
+            <section class="actions">
+              <span class="btn-group" role="group">
+                <button class="btn btn-success" @click="install()"><i class="fas fa-check"></i> <span>Install</span></button>
+              </span>
+              <span class="btn-group" role="group">
+                <oh-doc-link show :href="item.link" class="btn btn-info"><i class="fas fa-book"></i> <span>Documentation</span></oh-doc-link>
+                <oh-doc-link show href="https://raw.githubusercontent.com/eclipse/smarthome/master/extensions/binding/org.eclipse.smarthome.binding.mqtt/changelog.md"
+                  class="btn btn-secondary"><i class="fas fa-file-alt"></i> <span>Changelog</span></oh-doc-link>
+              </span>
+            </section>
+          </div>
+        </section>
       </template>
     </oh-vue-list>
 

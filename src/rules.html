@@ -31,53 +31,42 @@
     <oh-list-bind for="ruleslist" listhelper="rules"></oh-list-bind>
 
     <oh-vue-list id="ruleslist" filtercriteria="name">
-      <div slot="app"></div>
-
-      <template slot="list">
-        <partial src="listerror.html"></partial>
-        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-          <oh-codeeditor v-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema"
-            :content.prop="toTextual()" @state="editorstateChanged"></oh-codeeditor>
-          <template v-else>
-            <oh-vue-listitem v-for="item in filtered" :key="item.uid" :listitem="item"></oh-vue-listitem>
-            <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
-                50 more &hellip;</button></div>
-          </template>
-        </div>
-      </template>
+      <partial src="vuelistbasics.html" key="item.uid"></partial>
 
       <template slot="item">
-        <transition name="fade">
-          <section class="listitem" :id="item.uid" :class="[{haschanges: changed},{storingmode: storing}]">
-            <div class="body ui-dropdown">
-              <div class="title">
-                <span class="secondLevelBtn" :title="item.name" onclick='this.parentNode.parentNode.classList.toggle("show");'>
-                  {{item.name}}
-                </span>
-                <span class="actions btn-group">
-                  <button class="btn btn-success-hover btn-sm">
-                    <i class="fas fa-check"></i> <span>Run <i :title="rulesStatusDetails(item)" :class="rulesStatusBadge(item)">{{rulesStatusinfo(item)}}</i>
-                    </span>
-                  </button>
-                  <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
-                </span>
-              </div>
-              <div class="secondlevel">
-                <div class="bg-danger text-white">{{rulesStatusmessage(item)}}</div>
-                <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
-                <span @click="copyClipboard($event, item.uid)">{{item.uid}}</span>
-                <div>Storage association: <input value="openhab"></div>
-              </div>
-              <section class="description">
-                {{item.description}}
-              </section>
+        <section class="listitem" :id="item.uid">
+          <div class="body ui-dropdown">
+            <div class="title">
+              <span class="secondLevelBtn" :title="item.name" onclick='this.parentNode.parentNode.classList.toggle("show");'>
+                {{item.name}}
+              </span>
+              <span class="actions btn-group">
+                <button class="btn btn-success-hover btn-sm">
+                  <i class="fas fa-check"></i> <span>Run <i :title="rulesStatusDetails(item)" :class="rulesStatusBadge(item)">{{rulesStatusinfo(item)}}</i>
+                  </span>
+                </button>
+                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+              </span>
             </div>
-            <div class="footer small py-1 px-3">
-              <span>Runs: {{item.runcounter}}</span>
-              <a class="ml-auto" :href="'rule.html?uid='+encodeURIComponent(item.uid)"><i class="fas fa-cog"></i> <span>Edit</span></a>
+            <div class="secondlevel">
+              <div class="bg-danger text-white">{{rulesStatusmessage(item)}}</div>
+              <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
+              <span @click="copyClipboard($event, item.uid)">{{item.uid}}</span>
+              <div>Storage association: <input value="openhab"></div>
             </div>
-          </section>
-        </transition>
+            <div class="warnDialog" v-show="inProgress">
+              <h4>Waiting for openHAB</h4>
+              <div class="loader m-0"></div>
+            </div>
+            <section class="description">
+              {{item.description}}
+            </section>
+          </div>
+          <div class="footer small py-1 px-3">
+            <span>Runs: {{item.runcounter}}</span>
+            <a class="ml-auto" :href="'rule.html?uid='+encodeURIComponent(item.uid)"><i class="fas fa-cog"></i> <span>Edit</span></a>
+          </div>
+        </section>
       </template>
     </oh-vue-list>
 

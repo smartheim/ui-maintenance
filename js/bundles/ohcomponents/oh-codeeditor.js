@@ -184,6 +184,8 @@ class OhCodeEditor extends HTMLElement {
     }
 
     connectedCallback() {
+        while (this.firstChild) { this.firstChild.remove(); }
+        this.innerHTML = "<div>Loading editor &hellip;<br>This can take some seconds</div>"
         if (this.hasAttribute("scriptfile")) this.scriptfile = this.getAttribute("scriptfile");
         this.loadRequireJS()
             .then(() => this.loadMonaco())
@@ -196,15 +198,16 @@ class OhCodeEditor extends HTMLElement {
         if (this.resizeTimer) clearInterval(this.resizeTimer);
         delete this.resizeTimer;
         if (this.model) this.model.dispose();
-        this.model = null;
+        delete this.model;
         if (this.editor) this.editor.dispose();
+        delete this.editor;
     }
 
     startEditor() {
-        while (this.firstChild) { this.firstChild.remove(); }
         const el = this;
         if (this.model) this.model.dispose();
         this.model = this.monaco.editor.createModel("", "javascript");
+        while (this.firstChild) { this.firstChild.remove(); }
         this.editor = this.monaco.editor.create(el, this.model);
         let offset = { width: el.offsetWidth, height: el.offsetHeight - 50 }
         this.editor.layout(offset);
@@ -213,7 +216,6 @@ class OhCodeEditor extends HTMLElement {
             let newOffset = { width: el.offsetWidth, height: el.offsetHeight - 50 }
             if (offset.height != newOffset.height || offset.width != newOffset.width) {
                 offset = newOffset;
-                console.log(offset);
                 this.editor.layout(offset);
             }
         }, 2000);

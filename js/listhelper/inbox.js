@@ -34,14 +34,22 @@ const InboxMixin = {
     methods: {
         binding() {
             const bindingid = this.item.thingTypeUID.split(":")[0];
-            const bindings = this.$parent.store.getBindingFor(bindingid);
+            const bindings = this.$root.store.getBindingFor(bindingid);
             if (bindings) return bindings.name;
             return "Binding not found";
         },
         description() {
-            const type = this.$parent.store.getThingTypeFor(this.item.thingTypeUID);
+            const type = this.$root.store.getThingTypeFor(this.item.thingTypeUID);
             if (type) return type.description;
             return "No Thing description available";
+        },
+        hide() {
+            console.log("hide");
+            this.inProgress = true;
+        },
+        accept() {
+            console.log("accept");
+            this.inProgress = true;
         }
     }
 }

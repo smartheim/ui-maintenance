@@ -12,6 +12,3 @@ export * from './ui-tags'
 export * from './ui-dropdown'
 export * from './ui-tabs'
 export * from './ui-multiselect'
-
-export * from './oh-vue-list-items'
-export * from './oh-vue-list-mixins';

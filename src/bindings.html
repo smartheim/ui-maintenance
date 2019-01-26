@@ -27,45 +27,37 @@
 
     <oh-list-bind for="bindingslist" listhelper="bindings"></oh-list-bind>
 
-    <oh-vue-list id="bindingslist" filtercriteria="name" class="listwithouteditor">
-      <div slot="app"></div>
-
-      <template slot="list">
-        <partial src="listerror.html"></partial>
-        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-          <oh-vue-listitem v-for="item in filtered" :key="item.id" :listitem="item"></oh-vue-listitem>
-          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
-              50 more &hellip;</button></div>
-        </div>
-      </template>
+    <oh-vue-list id="bindingslist" filtercriteria="name">
+      <partial src="vuelistbasics.html" key="item.id"></partial>
 
       <template slot="item">
-        <transition name="fade">
-          <section class="listitem" :id="item.id" :class="[{haschanges: changed},{storingmode: storing}]">
-            <div class="body">
-              <div class="title"><span>{{item.name}}</span> <i class="small mr-1">{{item.version}}</i>
-              </div>
-              <section class="description">{{item.description}}</section>
-              <section class="actions">
-                <span class="btn-group" role="group">
-                  <button class="btn btn-danger" @click="remove()"><i class="fas fa-trash"></i> <span>Uninstall</span></button>
-                  <a :href="'binding_config.html?id='+item.id" class="btn btn-secondary"><i class="fas fa-cog"></i>
-                    <span>Configure</span></a>
-                </span>
-                <span class="btn-group" role="group">
-                  <oh-doc-link show class="btn btn-secondary" :href="'https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab.binding.'+item.id+'/README.md'">
-                    <i class="fas fa-book"></i> <span>Documentation</span>
-                  </oh-doc-link>
-                </span>
-              </section>
+        <section class="listitem" :id="item.id">
+          <div class="body">
+            <div class="title"><span>{{item.name}}</span> <i class="small mr-1">{{item.version}}</i></div>
+            <div class="warnDialog" v-show="inProgress">
+              <h4>Waiting for openHAB</h4>
+              <div class="loader m-0"></div>
             </div>
-            <div class="footer">
-              <small>Authors: {{item.author}}</small>
-              <a target="_blank" :href="'https://github.com/openhab/openhab2-addons/issues/new?title=['+item.id+']&nbsp;Your-&nbsp;title'">Report
-                a bug</a>
-            </div>
-          </section>
-        </transition>
+            <section class="description">{{item.description}}</section>
+            <section class="actions">
+              <span class="btn-group" role="group">
+                <button class="btn btn-danger" @click="remove()"><i class="fas fa-trash"></i> <span>Uninstall</span></button>
+                <a :href="'binding_config.html?id='+item.id" class="btn btn-secondary"><i class="fas fa-cog"></i>
+                  <span>Configure</span></a>
+              </span>
+              <span class="btn-group" role="group">
+                <oh-doc-link show class="btn btn-secondary" :href="'https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab.binding.'+item.id+'/README.md'">
+                  <i class="fas fa-book"></i> <span>Documentation</span>
+                </oh-doc-link>
+              </span>
+            </section>
+          </div>
+          <div class="footer">
+            <small>Authors: {{item.author}}</small>
+            <a target="_blank" :href="'https://github.com/openhab/openhab2-addons/issues/new?title=['+item.id+']&nbsp;Your-&nbsp;title'">Report
+              a bug</a>
+          </div>
+        </section>
       </template>
     </oh-vue-list>
 

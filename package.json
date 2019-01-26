@@ -19,6 +19,7 @@
   "devDependencies": {
     "compression": "^1.7.3",
     "connect-livereload": "^0.6.1",
+    "connect-rest": "^3.0.29",
     "csso": ">=3.5",
     "del": ">=3",
     "gulp": ">=4",

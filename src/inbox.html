@@ -46,38 +46,31 @@
 
     <oh-list-bind for="inboxlist" listhelper="inbox"></oh-list-bind>
 
-    <oh-vue-list id="inboxlist" filtercriteria="label" class="listwithouteditor">
-      <div slot="app"></div>
-
-      <template slot="list">
-        <partial src="listerror.html"></partial>
-        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-          <oh-vue-listitem v-for="item in filtered" :key="item.thingUID" :listitem="item"></oh-vue-listitem>
-          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
-              50 more &hellip;</button></div>
-        </div>
-      </template>
+    <oh-vue-list id="inboxlist" filtercriteria="label">
+      <partial src="vuelistbasics.html" key="item.thingUID"></partial>
 
       <template slot="item">
-        <transition name="fade">
-          <section class="listitem" :id="item.thingUID" :class="[{haschanges: changed},{storingmode: storing}]">
-            <div class="body">
-              <div class="title">
-                <span :title="item.label">{{item.label}}</span>
-                <span class="actions btn-group">
-                  <button class="btn btn-info btn-sm" title="Hide"><i class="fas fa-eye-slash"></i></button>
-                  <button class="btn btn-success btn-sm" title="Accept"><i class="fas fa-check"></i></button>
-                </span>
-              </div>
-              <section class="description">
-                {{description(item)}}
-              </section>
+        <section class="listitem" :id="item.thingUID" :class="[{haschanges: changed},{storingmode: storing}]">
+          <div class="body">
+            <div class="title">
+              <span :title="item.label">{{item.label}}</span>
+              <span class="actions btn-group">
+                <button class="btn btn-info btn-sm" title="Hide" @click="hide()"><i class="fas fa-eye-slash"></i></button>
+                <button class="btn btn-success btn-sm" title="Accept" @click="accept()"><i class="fas fa-check"></i></button>
+              </span>
             </div>
-            <div class="footer small py-1 px-3">
-              {{binding(item)}}
+            <div class="warnDialog" v-show="inProgress">
+              <h4>Waiting for openHAB</h4>
+              <div class="loader m-0"></div>
             </div>
-          </section>
-        </transition>
+            <section class="description">
+              {{description(item)}}
+            </section>
+          </div>
+          <div class="footer small py-1 px-3">
+            {{binding(item)}}
+          </div>
+        </section>
       </template>
     </oh-vue-list>
 

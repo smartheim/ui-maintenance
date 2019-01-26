@@ -68,7 +68,7 @@ const ThingsMixin = {
             return "badge badge-light";
         },
         description() {
-            const thingType = this.$parent.store.getThingTypeFor(this.UID);
+            const thingType = this.$root.store.getThingTypeFor(this.UID);
             if (thingType) return thingType.description;
             return "No Thing description available";
         },

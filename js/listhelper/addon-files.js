@@ -14,10 +14,6 @@ const AddonsFileMixin = {
         getInstallDate: function() {
             return new Date(this.item.installed).toDateString();
         },
-        removeFileAddon: function() {
-            this.storing = true;
-            console.log("remove", this.item.id);
-        }
     }
 }
 

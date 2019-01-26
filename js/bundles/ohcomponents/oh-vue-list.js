@@ -20,25 +20,25 @@ function createItemComponent(mixins, template) {
                 item: Object.assign({}, this.listitem),
                 original: this.listitem,
                 changed: false,
-                storing: false,
+                inProgress: false,
                 updatewhilechanged: false,
             }
         },
         mixins: [...mixins],
         methods: {
             save: function () {
-                this.storing = true;
+                this.inProgress = true;
                 this.changed = false;
-                setTimeout(() => this.storing = false, 1000);
+                setTimeout(() => this.inProgress = false, 1000);
             },
             remove: function () {
-                this.storing = true;
+                this.inProgress = true;
                 console.log("remove click");
             },
             discard: function () {
                 this.ignoreWatch = true;
                 this.item = Object.assign({}, this.original);
-                this.storing = false;
+                this.inProgress = false;
                 this.changed = false;
                 console.log("discarded");
             },
@@ -63,7 +63,7 @@ function createItemComponent(mixins, template) {
                     this.original = newVal;
                     if (!this.changed) {
                         this.item = Object.assign({}, this.original);
-                        this.storing = false;
+                        this.inProgress = false;
                         this.changed = false;
                     } else {
                         this.updatewhilechanged = true;
@@ -83,7 +83,7 @@ function createItemComponent(mixins, template) {
         },
         created: function () {
             this.changed = false;
-            this.storing = false;
+            this.inProgress = false;
         }
     }
 };

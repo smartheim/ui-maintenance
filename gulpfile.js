@@ -58,7 +58,7 @@ var config = {
         distjs: './dist/js',
         destsw: './dist/sw.js',
     },
-    external_js: ['./vue.js','./chart.js','./uicomponents.js','./ohcomponents.js','./cronstrue.js'],
+    external_js: ['./vue.js', './chart.js', './uicomponents.js', './ohcomponents.js', './cronstrue.js'],
     localServer: {
         port: 8001,
         url: 'http://localhost:8001/',
@@ -108,8 +108,8 @@ compileStyles.displayName = "Generating css from scss"
 
 const copyAssets = () =>
     gulp.src(config.paths.src.assets)
-    .pipe(gulp.dest(config.paths.dist))
-    .pipe(connect.reload());
+        .pipe(gulp.dest(config.paths.dist))
+        .pipe(connect.reload());
 copyAssets.displayName = "Copy assets"
 
 const minifyUnbundledScripts = () =>
@@ -135,13 +135,13 @@ const compileBundle = (dir, _rollup, modulename) =>
             if (path.dirname != ".") {
                 path.basename = path.dirname;
                 path.dirname = '';
-            } else if (path.basename==="index") {
+            } else if (path.basename === "index") {
                 path.basename = modulename;
             } else {
                 // Input is: node_modules/monaco-editor/esm/vs/language/json/json.worker.js. Output is: json.worker.js
                 path.dirname = '';
             }
-            console.log('Build: '+path.basename);
+            console.log('Build: ' + path.basename);
             return path;
         }))
         //        .pipe(uglify())
@@ -172,14 +172,13 @@ const watchTask = () => { // Watch the file system and reload the website automa
     var filename = ""; // Only rebuild the bundle where a file changed
     const rebuildOneBundle = (callback) => {
         var bundlename = filename.match(/bundles\/(.*?)\//);
-        console.log("rebuildOneBundle", bundlename);
         filename = "";
-        if (!bundlename || bundlename.length!=2) {
+        if (!bundlename || bundlename.length != 2) {
             callback();
             return;
         }
         var result = compileBundle(`./js/bundles/${bundlename[1]}/index.js`, rollup, bundlename[1]);
-        return result.on('error', e=>console.error("An error happened", e));
+        return result.on('error', e => console.error("An error happened", e));
     };
     gulp.watch(config.paths.src.js_bundles_watch, rebuildOneBundle).on("change", (file) => filename = file);
 }

@@ -59,7 +59,7 @@ class UiFilter extends HTMLElement {
     for (var node of this.childNodes) {
       slotElements.push(node.cloneNode(true));
     }
-    this.innerHTML = "";
+    while (this.firstChild) { this.firstChild.remove(); }
 
     render(html`
         <form @submit="${this.search.bind(this)}" name="filterform" class="ui-filterbar">

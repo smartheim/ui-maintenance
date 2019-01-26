@@ -69,7 +69,11 @@
         vertical-align: middle;
       }
 
-      .linkeditems tr>td:nth-of-type(2)>*,
+      .linkeditems tr>td:nth-of-type(2) {
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+      }
       .linkeditems tr>td:nth-of-type(3)>* {
         width: 100%;
       }
@@ -103,7 +107,7 @@
       </template>
 
       <template slot="item">
-        <section class="listitem mt-4" :id="item.id" :class="[{haschanges: changed},{storingmode: storing}]">
+        <section class="listitem mt-4" :id="item.id" :class="[{haschanges: changed}]">
           <h4 contenteditable="true" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</h4>
           <a class="ml-2" href="#"><i class="fas fa-trash"></i></a>
           <div class="ml-3">
@@ -126,8 +130,9 @@
               <tr>
                 <td>An item <small>(item id)</small></td>
                 <td>
-                  <ui-dropdown title="Profile" options="Default: Default - No transformation or interaction, Follow: Follow - Channel applies the state of the selected item"
-                    value="Default"></ui-dropdown>
+                  <oh-dropdown-bind viewkey="uid" viewvalue="label" listhelper="profiles"></oh-dropdown-bind>
+                  <ui-dropdown title="Profile" :value="'Whatever'"></ui-dropdown>
+                  <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
                 </td>
                 <td><button class="btn btn-danger-hover btn-sm"><i class="fas fa-trash"></i> Remove</button></td>
               </tr>
@@ -137,8 +142,8 @@
                   <ui-dropdown label="Item" options="Item1:item1name,Item2:item2name" value="Add new link"></ui-dropdown>
                 </td>
                 <td>
-                  <ui-dropdown title="Profile" options="Default: No transformation or interaction, Follow: Channel applies the state of the selected item"
-                    value="Default"></ui-dropdown>
+                  <oh-dropdown-bind viewkey="uid" viewvalue="label" listhelper="profiles"></oh-dropdown-bind>
+                  <ui-dropdown title="Profile" value="system:default"></ui-dropdown>
                 </td>
                 <td><button class="btn btn-success-hover btn-sm"><i class="fas fa-check"></i> Add</button></td>
               </tr>

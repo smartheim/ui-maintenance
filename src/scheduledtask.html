@@ -12,6 +12,7 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit a timer"></partial>
   <main>
+    <partial src="itemcommands.html"></partial>
     <nav-breadcrumb parent="Scheduler list" useParamAsHash="uid"></nav-breadcrumb>
     <form class="mb-4" action="#">
       <div class="form-group row">
@@ -36,7 +37,7 @@
       <div class="form-group row">
         <label for="timertags" class="col-sm-2 col-form-label">Tags</label>
         <div class="col-sm-10">
-          <ui-tags class="form-control" name="timertags" id="timertags"></ui-tags>
+          <ui-tags class="" name="timertags" id="timertags"></ui-tags>
         </div>
       </div>
       <div class="form-group row">
@@ -46,7 +47,8 @@
           <ui-switch class="col-form-label" name="triggertype" showid="triggeritemcommand" label="Trigger item command"
             title="Instead of just triggering, useful for Rules and Scripts, you can also issue an item command directly"></ui-switch>
           <div id="triggeritemcommand" class="hidden">
-            <ui-dropdown name="triggereditem" options="Item1,Item2,Item3" value="Item1"></ui-dropdown>
+            <ui-dropdown id="triggereditem" name="triggereditem" label="Select item"></ui-dropdown>
+            <oh-dropdown-bind for="triggereditem" viewkey="name" viewvalue="label" listhelper="items"></oh-dropdown-bind>
             <input name="itemcommand" list="itemCommands">
           </div>
         </div>
@@ -136,7 +138,8 @@
                   </div>
                   <div>
                     <label tabindex="0"><input class="mr-2" type="radio" name="hour"><i></i>Every hour between hour</label>
-                    <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);"> and hour
+                    <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    and hour
                     <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
                   </div>
                 </section>
@@ -187,11 +190,11 @@
                     of the month
                   </div>
                   <div style="display: flex;align-items: center">
-                      <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i>On the </label>
-                      <input type="number" min=1 max=5 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
-                      <ui-dropdown options="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday" value="Monday"></ui-dropdown>
-                      of the month
-                    </div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i>On the </label>
+                    <input type="number" min=1 max=5 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    <ui-dropdown options="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday" value="Monday"></ui-dropdown>
+                    of the month
+                  </div>
                 </section>
 
                 <section class="month">
@@ -200,7 +203,8 @@
                   <div style="display: flex;align-items: center">
                     <label tabindex="0"><input class="mr-2" type="radio" name="month"><i></i>Specific month (choose one
                       or many)</label>
-                    <ui-multiselect options="January,February,March,April,May,June,July,August,September,October,November,December" placeholder="Select months"></ui-multiselect>
+                    <ui-multiselect options="January,February,March,April,May,June,July,August,September,October,November,December"
+                      placeholder="Select months"></ui-multiselect>
                   </div>
                   <div>
                     <label tabindex="0"><input class="mr-2" type="radio" name="month"><i></i>Every</label>
@@ -239,9 +243,6 @@
                 </section>
               </div>
             </ui-tabs>
-            <div class="btn-group btnbar">
-              <button class="btn btn-primary">Convert to Cron</button>
-            </div>
           </div>
           <div id="absolutedatetime">
             <h4>Absolute Date/Time</h4>
@@ -250,19 +251,6 @@
         </div>
       </div>
     </form>
-
-    <datalist id="itemCommands">
-      <option value="ON">
-      <option value="OFF">
-      <option value="UP">
-      <option value="DOWN">
-      <option value="OPEN">
-      <option value="CLOSED">
-      <option value="STOP">
-      <option value="PLAY">
-      <option value="0">
-      <option value="100">
-    </datalist>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="timedtask"></partial>

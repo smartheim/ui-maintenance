@@ -29,38 +29,31 @@
 
     <oh-list-bind for="scriptslist" listhelper="scripts"></oh-list-bind>
 
-    <oh-vue-list id="scriptslist" filtercriteria="name" class="listwithouteditor">
-      <div slot="app"></div>
-
-      <template slot="list">
-        <partial src="listerror.html"></partial>
-        <div v-else id="listcontainer" :class="containerclasses" @click="updateSelectCounter">
-          <oh-vue-listitem v-for="item in filtered" :key="item.UID" :listitem="item"></oh-vue-listitem>
-          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
-              50 more &hellip;</button></div>
-        </div>
-      </template>
+    <oh-vue-list id="scriptslist" filtercriteria="name">
+      <partial src="vuelistbasics.html" key="item.filename"></partial>
 
       <template slot="item">
-        <transition name="fade">
-          <section class="listitem" :id="item.filename" :class="[{haschanges: changed},{storingmode: storing}]">
-            <div class="body">
-              <div class="title">
-                <span :title="item.label">{{item.name}}</span>
-                <span class="actions btn-group">
-                  <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
-                </span>
-              </div>
-              <section class="description">
-                Filename: <code>{{item.filename}}</code>
-              </section>
+        <section class="listitem" :id="item.filename">
+          <div class="body">
+            <div class="title">
+              <span :title="item.label">{{item.name}}</span>
+              <span class="actions btn-group">
+                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+              </span>
             </div>
-            <div class="footer small py-1 px-3">
-              <a class="ml-auto" :href="'script.html?file='+encodeURIComponent(item.filename)"><i class="fas fa-cog"></i>
-                <span>Edit</span></a>
+            <div class="warnDialog" v-show="inProgress">
+              <h4>Waiting for openHAB</h4>
+              <div class="loader m-0"></div>
             </div>
-          </section>
-        </transition>
+            <section class="description">
+              Filename: <code>{{item.filename}}</code>
+            </section>
+          </div>
+          <div class="footer small py-1 px-3">
+            <a class="ml-auto" :href="'script.html?file='+encodeURIComponent(item.filename)"><i class="fas fa-cog"></i>
+              <span>Edit</span></a>
+          </div>
+        </section>
       </template>
     </oh-vue-list>
 
