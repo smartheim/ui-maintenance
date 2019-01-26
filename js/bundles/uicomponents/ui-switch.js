@@ -1,7 +1,6 @@
 class UiSwitch extends HTMLElement {
   constructor() {
     super();
-    this.storekey = this.hasAttribute("storekey") ? this.getAttribute("storekey") : null;
   }
   setCheck(newState, noevents) {
     this.input.checked = newState;
@@ -29,6 +28,8 @@ class UiSwitch extends HTMLElement {
     return this.input && this.input.checked;
   }
   connectedCallback() {
+    this.storekey = this.hasAttribute("storekey") ? this.getAttribute("storekey") : null;
+    this.documentevent = this.hasAttribute("documentevent") ? this.getAttribute("documentevent") : null;
     while (this.firstChild) { this.firstChild.remove(); }
 
     const root = document.createElement("div");
@@ -37,16 +38,12 @@ class UiSwitch extends HTMLElement {
 
     this.input = root.appendChild(document.createElement("input"));
     this.input.type = "checkbox";
-    this.input.addEventListener("change", e => {
-      e.preventDefault();
-      e.stopPropagation();
-      this.setCheck(this.input.checked);
-      if (this.storekey) localStorage.setItem(this.storekey, this.input.checked);
-    });
     this.addEventListener("click", (e) => {
       e.preventDefault();
       this.input.checked = !this.input.checked;
       this.setCheck(this.input.checked);
+      if (this.storekey) localStorage.setItem(this.storekey, this.input.checked);
+      if (this.documentevent) document.dispatchEvent(new Event(this.documentevent));
     });
     root.appendChild(document.createElement("span"));
     var titleEl = root.appendChild(document.createElement("div"));

@@ -24,7 +24,7 @@
     width: 100%;
     .listitem .warnDialog {
         position: absolute;
-        background-color: #fff;
+        background-color: var(--card-bg);
         box-shadow: 0 0 5px 0 #000;
         border-radius: .25rem;
         top: 10px;
@@ -59,7 +59,7 @@
         display: flex;
         flex-direction: column;
         word-wrap: break-word;
-        background-color: #fff;
+        background-color: var(--card-bg);
         background-clip: border-box;
         border: 1px solid rgba(0, 0, 0, .125);
         border-radius: .25rem;
@@ -113,7 +113,7 @@
                 height: calc(100% - 60px);
                 top: 45px;
                 width: calc(100% - 30px);
-                background-color: #fff;
+                background-color: var(--card-bg);
                 position: absolute;
                 z-index: -1;
                 transition: all 0.5s;
@@ -194,7 +194,7 @@
                     }
                     .nav-link.active {
                         color: #495057;
-                        background-color: #fff;
+                        background-color: var(--card-bg);
                         border-color: #fff #dee2e6 #dee2e6 #dee2e6;
                         text-decoration: none;
                     }
@@ -221,7 +221,7 @@
         display: block;
         padding: .2rem 1.25rem;
         margin-bottom: -1px;
-        background-color: #fff;
+        background-color: var(--card-bg);
         border: 1px solid rgba(0, 0, 0, .125);
         &.haschanges {
             .body>.title {

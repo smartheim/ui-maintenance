@@ -4,7 +4,7 @@ section.header {
         width: 40px;
         height: 40px;
         text-decoration: none;
-        color: white;
+        color: inherit;
         border-radius: 55px;
         background-color: #f0ad4e;
         transition: background-color 0.2s;
@@ -43,7 +43,7 @@ aside.contexthelp {
     max-width: 400px;
     oh-context-help {
         padding: 20px;
-        background-color: white;
+        background-color: var(--background-color);
         max-height: calc(100vh - 140px);
         overflow-y: auto;
         scrollbar-color: rebeccapurple green;
@@ -140,7 +140,7 @@ body:before {
         &.showcontext>aside {
             animation: fadein 1s;
             display: block;
-            background-color: white;
+            background-color: var(--background-color);
             border: 1px solid rgba(0, 0, 0, .125);
             border-radius: .25rem;
         }
@@ -162,7 +162,6 @@ body:before {
             &.contexthelp {
                 oh-context-help {
                     padding: 20px;
-                    background-color: white;
                     max-height: calc(100vh - 140px);
                 }
             }

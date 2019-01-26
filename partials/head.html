@@ -3,9 +3,12 @@
 <link rel="icon" href="img/favicon.ico">
 <link rel="preload" href="fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
 <link rel="preload" href="fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-<link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-<link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-500.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-<link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-regular.woff2"
+    as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-500.woff2"
+    as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-700.woff2"
+    as="font" type="font/woff2" crossorigin="anonymous">
 <link rel="preload" href="img/pattern_opacity.png" as="image">
 <link rel="preload" href="img/openhab-logo.png" as="image">
 <link rel="stylesheet" href="css/main.css" type="text/css" />
@@ -15,3 +18,29 @@
 <script type="module" src="js/app.js" async></script>
 <script type="module" src="js/ohcomponents.js"></script>
 <script type="module" src="js/uicomponents.js"></script>
+<script type="module">
+    function checkDarkTheme() {
+        if (localStorage.getItem("darktheme") === "true") {
+            let css = document.getElementById("darkthemecss");
+            if (css) return;
+            let head = document.getElementsByTagName('head')[0];
+            let link = document.createElement('link');
+            link.id = "darkthemecss";
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = 'css/dark.css';
+            head.appendChild(link);
+        } else {
+            let css = document.getElementById("darkthemecss");
+            if (css) css.remove();
+        }
+    }
+    checkDarkTheme();
+    window.addEventListener('storage', e => {
+        console.log("changed", e.key);
+        if (e.key =="darktheme") checkDarkTheme();
+    });
+    document.addEventListener('themechange', e => {
+        checkDarkTheme();
+    });
+</script>
