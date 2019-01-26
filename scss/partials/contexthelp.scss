@@ -85,9 +85,6 @@ a.helpbtn i.fa-times {
 
 .helpbtn2 {
     display: none;
-    background-color: white;
-    font-size: 20pt;
-    text-align: right;
 }
 
 @media (min-width: get-breakpoints("xxl")) {
@@ -113,6 +110,7 @@ a.helpbtn i.fa-times {
     aside.contexthelp {
         animation: swinginxr 1s;
         oh-context-help {
+            position: fixed;
             max-height: calc(100vh - 240px);
         }
     }
@@ -129,19 +127,22 @@ body:before {
 @media (max-width: get-breakpoints("xl")) {
     body {
         &.showcontext:before {
-            z-index: 10;
+            z-index: 20;
             background-color: rgba(22, 22, 22, 0.335);
-            position: absolute;
+            position: fixed;
             top: 0;
             bottom: 0;
             left: 0;
             right: 0;
+            pointer-events: none;
             content: " ";
         }
         &.showcontext>aside {
             animation: fadein 1s;
             display: block;
             background-color: white;
+            border: 1px solid rgba(0, 0, 0, .125);
+            border-radius: .25rem;
         }
         &.showcontext .helpbtn2 {
             display: block;
@@ -149,15 +150,22 @@ body:before {
         &>aside {
             // grid-column: 3 / span 1;
             // grid-row: 3 / span 2;
-            position: absolute; // There is no space. Make it absolute
+            position: fixed; // There is no space. Make it absolute
             top: 20px;
             bottom: 20px;
             left: 20px;
             right: 20px;
-            z-index: 20;
+            z-index: 21;
             display: none;
             max-width: initial !important;
             max-height: initial !important;
+            &.contexthelp {
+                oh-context-help {
+                    padding: 20px;
+                    background-color: white;
+                    max-height: calc(100vh - 140px);
+                }
+            }
         }
         &>main {
             grid-column: 2 / span 2; // span 2 because no context help

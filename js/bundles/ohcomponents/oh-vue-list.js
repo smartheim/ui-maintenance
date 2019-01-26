@@ -121,9 +121,7 @@ class OhViewList extends HTMLElement {
         this.listTmpl = elList;
         this.itemTmpl = elItem;
 
-        var appEl = this.shadowRoot.querySelector('slot[name="app"]').assignedNodes()[0];
-        var child = document.createElement("div");
-        this.mountEl = appEl.appendChild(child);
+        this.mountEl = this.shadowRoot.querySelector('slot[name="app"]').assignedNodes()[0];
         this.ok = true;
         this.dispatchEvent(new Event("load"));
     }
@@ -165,6 +163,7 @@ class OhViewList extends HTMLElement {
                 'oh-vue-listitem': createItemComponent(itemMixins, this.itemTmpl.cloneNode(true))
             },
             mounted: function () {
+                this.$el.setAttribute("slot","app");
                 setTimeout(() => {
                     if (this.pending)
                         this.pendingwait = true;

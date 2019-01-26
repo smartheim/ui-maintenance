@@ -47,15 +47,18 @@ class OhContextHelp extends HTMLElement {
     this.url = this.getAttribute("url");
     if (this.initdone) this.checkCacheAndLoad(this.url);
   }
-  checkCacheAndLoad(contenturl=null) {
+  checkCacheAndLoad(contenturl = null) {
     if (!contenturl) contenturl = this.url;
     if (!contenturl) {
       this.innerHTML = "No url given!";
       return;
     }
     var cacheTimestamp = localStorage.getItem("timestamp_" + contenturl);
-    var cachedData = cacheTimestamp ? localStorage.getItem(contenturl) : null;
-    if (cachedData && (cacheTimestamp + this.cachetime * 60 * 1000 > Date.now())) {
+    var cachedData = null;
+    if (cacheTimestamp && parseInt(cacheTimestamp) + this.cachetime * 60 * 1000 > Date.now()) {
+      cachedData = localStorage.getItem(contenturl);
+    }
+    if (cachedData) {
       this.renderData(cachedData, contenturl);
     } else {
       this.reset(contenturl);

@@ -11,6 +11,6 @@ export * from './oh-change-filter'
 export * from './oh-vue-list'
 export * from './oh-vue-list-mixins';
 export * from './oh-vue-list-bind'
-export * from './oh-vue-dropdown-bind'
+export * from './oh-dropdown-bind'
 
 export { fetchWithTimeout } from '../../common/fetch';

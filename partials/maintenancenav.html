@@ -20,7 +20,6 @@
     <oh-list-bind for="serviceslist" listhelper="services"></oh-list-bind>
     <oh-vue-list id="serviceslist" filtercriteria="label" maxFilteredItems="1000">
         <div slot="app"></div>
-
         <template slot="list">
             <h4 class="text-center pt-5" v-if="pendingwait"> Loading </h4>
             <div class="text-center pt-5" v-else-if="error"> {{error}} </div>

@@ -50,7 +50,7 @@
       <partial src="vuelistbasics.html" key="item.thingUID"></partial>
 
       <template slot="item">
-        <section class="listitem" :id="item.thingUID" :class="[{haschanges: changed},{storingmode: storing}]">
+        <section class="listitem" :id="item.thingUID">
           <div class="body">
             <div class="title">
               <span :title="item.label">{{item.label}}</span>

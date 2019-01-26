@@ -9,11 +9,13 @@
     margin-bottom: 10px;
     .elements {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-around;
     }
     .element {
         margin: 10px;
         flex: 1;
+        min-width: 45%;
     }
 }
 

@@ -1429,7 +1429,7 @@
                 "multiple": false,
                 "advanced": false,
                 "verify": false,
-                "limitToOptions": true,
+                "limitToOptions": false,
                 "options": [],
                 "filterCriteria": []
             },

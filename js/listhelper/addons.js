@@ -12,15 +12,12 @@ class StoreView {
 const AddonsMixin = {
     methods: {
         install: function() {
-            this.original.status = "unknown";
+            console.log("install");
+            this.inProgress = true;
         },
         changeVersion: function() {
-            this.original.status = "unknown";
-        }
-    },
-    computed: {
-        inProgress: function() {
-            return (this.item.status!="installed" && this.item.status!="notinstalled");
+            console.log("changeversion");
+            this.inProgress = true;
         }
     }
 }

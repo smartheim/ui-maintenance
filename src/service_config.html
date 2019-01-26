@@ -13,9 +13,7 @@
   <partial src="pagetitleheader.html" title="Service configuration"></partial>
   <main>
     <div class="mt-4 bs-callout bs-callout-info">
-      The backup service is responsible for cloning the current state,
-      and packaging it to a compressed file. That file is either moved to
-      a local destination or pushed to a remote / cloud service.
+      desc
     </div>
 
     <oh-github-issues class="mt-4 bs-callout bs-callout-danger" title="There are known issues with this service:"
@@ -37,15 +35,15 @@
           Defines whether openHAB should access the remote repository for add-on installation.
         </small>
       </div>
-      <div class="btn-group btnbar" role="group">
+      <div class="float-left mt-2">The service is currently <i class="badge badge-success">Running</i></div>
+      <div class="mt-4 btn-group btnbar" role="group">
+          
         <a href="#" class="btn btn-secondary"><i class="fas fa-align-justify"></i> Show log</a>
         <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
       </div>
     </section>
   </main>
-  <footer class="p-4">
-    The service is currently <i class="badge badge-success">Running</i>
-  </footer>
+  <footer></footer>
   <partial src="contexthelp.html" help="service"></partial>
 </body>
 

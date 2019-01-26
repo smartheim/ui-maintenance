@@ -1,13 +1,23 @@
 [
     {
         "id": "org.openhab.habpanel",
+        "description": "",
         "label": "HABPanel",
         "category": "ui",
         "configDescriptionURI": "ui:habpanel",
         "multiple": false
     },
     {
+        "id": "org.openhab.backup",
+        "description": "The backup service is responsible for cloning the current state, and packaging it to a compressed file. That file is either moved to a local destination or pushed to a remote / cloud service.",
+        "label": "Backup",
+        "category": "misc",
+        "configDescriptionURI": "misc:backup",
+        "multiple": false
+    },
+    {
         "id": "org.openhab.addons",
+        "description": "",
         "label": "Add-on Management",
         "category": "system",
         "configDescriptionURI": "system:addons",
@@ -15,6 +25,7 @@
     },
     {
         "id": "org.eclipse.smarthome.core.i18nprovider",
+        "description": "",
         "label": "Regional Settings",
         "category": "system",
         "configDescriptionURI": "system:i18n",
@@ -22,6 +33,7 @@
     },
     {
         "id": "org.eclipse.smarthome.network",
+        "description": "",
         "label": "Network Settings",
         "category": "system",
         "configDescriptionURI": "system:network",
@@ -29,6 +41,7 @@
     },
     {
         "id": "org.eclipse.smarthome.audio",
+        "description": "",
         "label": "Audio",
         "category": "system",
         "configDescriptionURI": "system:audio",
@@ -36,6 +49,7 @@
     },
     {
         "id": "org.eclipse.smarthome.persistence",
+        "description": "",
         "label": "Persistence",
         "category": "system",
         "configDescriptionURI": "system:persistence",
@@ -43,6 +57,7 @@
     },
     {
         "id": "org.eclipse.smarthome.voice",
+        "description": "",
         "label": "Voice",
         "category": "system",
         "configDescriptionURI": "system:voice",
@@ -50,6 +65,7 @@
     },
     {
         "id": "org.eclipse.smarthome.rulehli",
+        "description": "",
         "label": "Rule Voice Interpreter",
         "category": "voice",
         "configDescriptionURI": "voice:rulehli",
@@ -57,6 +73,7 @@
     },
     {
         "id": "org.eclipse.smarthome.lsp",
+        "description": "",
         "label": "Language Server (LSP)",
         "category": "misc",
         "configDescriptionURI": "misc:lsp",
@@ -64,6 +81,7 @@
     },
     {
         "id": "org.eclipse.smarthome.storage.json",
+        "description": "",
         "label": "Json Storage",
         "category": "system",
         "configDescriptionURI": "system:json_storage",
@@ -71,6 +89,7 @@
     },
     {
         "id": "org.eclipse.smarthome.inbox",
+        "description": "",
         "label": "Inbox",
         "category": "system",
         "configDescriptionURI": "system:inbox",
@@ -78,6 +97,7 @@
     },
     {
         "id": "org.eclipse.smarthome.links",
+        "description": "",
         "label": "Item Linking",
         "category": "system",
         "configDescriptionURI": "system:links",
@@ -85,6 +105,7 @@
     },
     {
         "id": "org.eclipse.smarthome.chart",
+        "description": "",
         "label": "Charts",
         "category": "system",
         "configDescriptionURI": "system:chart",
@@ -92,6 +113,7 @@
     },
     {
         "id": "org.eclipse.smarthome.basicui",
+        "description": "",
         "label": "Basic UI",
         "category": "ui",
         "configDescriptionURI": "ui:basic",
@@ -99,6 +121,7 @@
     },
     {
         "id": "org.openhab.hueemulation",
+        "description": "",
         "label": "Hue Emulation",
         "category": "io",
         "configDescriptionURI": "io:hueemulation",
@@ -106,6 +129,7 @@
     },
     {
         "id": "org.eclipse.smarthome.mqttembeddedbroker",
+        "description": "",
         "label": "MQTT Embedded Broker",
         "category": "MQTT",
         "configDescriptionURI": "mqtt:mqttembeddedbroker",
@@ -113,6 +137,7 @@
     },
     {
         "id": "org.eclipse.smarthome.mqttbroker",
+        "description": "",
         "label": "MQTT system broker connection",
         "category": "MQTT",
         "configDescriptionURI": "mqtt:systemBrokerConnectionInstance",

@@ -12,96 +12,57 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="General openHAB configuration"></partial>
   <main>
-    <section class="config">
-      <h4 title="org.openhab.addons">Add-on Management</h4>
-      <div class="elements">
-        <div class="element">
-          <ui-switch label="Access remote repository"></ui-switch>
-          <small class="form-text text-muted">
-            Defines whether openHAB should access the remote repository for add-on installation.
-          </small>
-        </div>
-      </div>
-      <div class="element">
-        <ui-switch label="Include Legacy 1.x Binding"></ui-switch>
-        <small class="form-text text-muted">
-          Defines whether openHAB should access the remote repository for add-on installation.
-        </small>
-      </div>
-      <div class="btn-group btnbar" role="group">
-        <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
-      </div>
-      <hr>
-    </section>
 
-    <section class="config">
-      <h4 title="org.eclipse.smarthome.audio">Audio</h4>
-      <div class="elements">
-        <div class="element">
-          <select class="custom-select">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-          <small class="form-text text-muted">
-            The default audio source to use if no other is specified.
-          </small>
+    <oh-list-bind listhelper="services"></oh-list-bind>
+    <oh-vue-list filtercriteria="label" maxFilteredItems="1000">
+      <div slot="app"></div>
+      <template slot="list">
+        <h4 class="text-center pt-5" v-if="pendingwait"> Loading </h4>
+        <div class="text-center pt-5" v-else-if="error"> {{error}} </div>
+        <div v-else>
+          <oh-vue-listitem v-for="item in filtered" v-if="item.category=='system'" :key="item.id" :listitem="item"></oh-vue-listitem>
         </div>
-        <div class="element">
-          <select class="custom-select">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-          <small class="form-text text-muted">
-            The default audio sink to use if no other is specified.
-          </small>
-        </div>
-      </div>
-      <div class="btn-group btnbar" role="group">
-        <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
-      </div>
-    </section>
+      </template>
+      <template slot="item">
+        <section class="config">
+          <h4 title="org.openhab.addons">{{item.label}}</h4>
 
-    <section class="config">
-      <h4 title="org.eclipse.smarthome.audio">Regional Settings</h4>
-      <div class="elements">
-        <div class="element">
-          <select class="custom-select">
-            <option selected>Language</option>
-            <option value="de">German</option>
-            <option value="en">English</option>
-            <option value="fr">French</option>
-          </select>
-          <small class="form-text text-muted">
-            The default language that should be used. If not specified, the system default locale is used.
-            The ISO 639 alpha-2 or alpha-3 language code (if there is no alpha-2 one).
-            Example: "en" (English), "de" (German), "ja" (Japanese), "kok" (Konkani)
-          </small>
-        </div>
-        <div class="element">
-          <select class="custom-select">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-          <small class="form-text text-muted">
-            The default audio sink to use if no other is specified.
-          </small>
-        </div>
-      </div>
-      <div class="elements">
-        <div class="element w-100">
-          <ui-maps></ui-maps>
-        </div>
-      </div>
-      <div class="btn-group btnbar" role="group">
-        <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
-      </div>
-    </section>
+          <div class="elements">
+            <template v-for="config in configurations()">
+              <div class="element" v-if="config.type=='BOOLEAN'">
+                <ui-switch :label="config.label"></ui-switch>
+                <small class="form-text text-muted" v-html="config.description"></small>
+              </div>
+              <template v-else-if="config.type=='TEXT'">
+                <div class="element" v-if="config.limitToOptions">
+                  <ui-dropdown :value="config.defaultValue" :options.prop="convertOptions(config.options)"></ui-dropdown>
+                  <small class="form-text text-muted" v-html="config.description"></small>
+                </div>
+                <div class="element" style="min-width: 90%;" v-else-if="config.context=='location'">
+                  <input :value="config.defaultValue" id="mapcoordinates">
+                  <small class="form-text text-muted" v-html="config.description"></small>
+                  <ui-maps @change="mapChanged"></ui-maps>
+                </div>
+                <div class="element" v-else>
+                  <input :value="config.defaultValue">
+                  <small class="form-text text-muted" v-html="config.description"></small>
+                </div>
+              </template>
+              <div class="element" v-else-if="config.type=='DECIMAL' || config.type=='INTEGER'">
+                <input type="number" :value="config.defaultValue" :min="config.min" :max="config.max">
+                <small class="form-text text-muted" v-html="config.description"></small>
+              </div>
+            </template>
+          </div>
+
+          <div class="btn-group btnbar" role="group">
+            <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+          </div>
+          <hr>
+        </section>
+      </template>
+    </oh-vue-list>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="configuration"></partial>

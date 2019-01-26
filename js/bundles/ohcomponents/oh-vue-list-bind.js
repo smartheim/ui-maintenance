@@ -14,11 +14,13 @@ class OhListBind extends HTMLElement {
     constructor() {
         super();
         this.style.display = "none";
-        this.forid = this.getAttribute("for");
     }
     connectedCallback() {
-        this.target = document.getElementById(this.forid);
-        if (!this.target) return;
+        const forid = this.getAttribute("for");
+        this.target = document.getElementById(forid);
+        if (!this.target) {
+            this.target = this.nextElementSibling;
+        }
         if (!this.target.ok) {
             this.target.addEventListener("load", this.connectedCallback.bind(this), { once: true, passive: true });
             return;

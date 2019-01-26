@@ -204,3 +204,7 @@ oh-community-topics ul {
 nav-breadcrumb {
     padding: 20px 0;
 }
+
+oh-vue-list:not(:defined), oh-community-topics:not(:defined) {
+    display:none;
+}
