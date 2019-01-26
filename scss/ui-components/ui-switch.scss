@@ -16,7 +16,7 @@ ui-switch {
         display: block;
         height: 18px;
         width: 44px;
-        background-color: #ccc;
+        background-color: var(--ui-bg);
         -webkit-transition: .4s;
         transition: .4s;
         border-radius: 34px;
@@ -33,7 +33,7 @@ ui-switch {
         width: 16px;
         margin-top: 1px;
         margin-left: 1px;
-        background-color: white;
+        background-color: var(--background-color);
         -webkit-transition: .4s;
         transition: .4s;
         border-radius: 50%;
@@ -45,10 +45,10 @@ ui-switch {
         margin-top: 1px;
     }
     input:checked+span {
-        background-color: theme-color("orange");
+        background-color: var(--primary);
     }
     input:focus+span {
-        box-shadow: 0 0 1px theme-color("orange");
+        box-shadow: 0 0 1px var(--primary);
     }
     input:checked+span:before {
         -webkit-transform: translateX(26px);

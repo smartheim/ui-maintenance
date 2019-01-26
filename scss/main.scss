@@ -2,7 +2,12 @@
     --background-color: white;
     --main-bg: white;
     --card-bg: white;
-    --color: 2c3e50;
+    --color: #2c3e50;
+    --color-btn: #212529;
+    --ui-bg: #ccc;
+    --background-large-screen: #ececec;
+    --border-btn: #f8f9fa;
+    --primary: #ff7214;
 }
 
 @import "partials/variables";
@@ -30,6 +35,11 @@ $value in $theme-colors {
         &:not(:disabled):not(.disabled):active:focus {
             box-shadow: initial;
         }
+        & {
+            background-color: var(--light);
+            color: var(--color-btn);
+            border-color: var(--border-btn);
+        }
     }
     .btn-#{$color}-underline {
         @include button-variant(transparent, transparent, $hover-background: lighten($value, 7.5%), $hover-border: lighten($value, 10%), $active-background: lighten($value, 10%), $active-border: lighten($value, 12.5%));
@@ -44,6 +54,12 @@ $value in $theme-colors {
             color: inherit;
         }
     }
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--background-color);
+    border-color: var(--primary);
 }
 
 details[open] summary~* {
@@ -64,6 +80,7 @@ input:focus {
 }
 
 /* bootstrap link class for non a-elements */
+
 .link {
     cursor: pointer;
     color: $link-color;
@@ -75,9 +92,11 @@ input:focus {
     }
 }
 
-input,.form-control {
+input,
+.form-control {
     background-color: var(--background-color);
 }
+
 .card {
     background-color: var(--card-bg);
 }
@@ -220,6 +239,7 @@ nav-breadcrumb {
     padding: 20px 0;
 }
 
-oh-vue-list:not(:defined), oh-community-topics:not(:defined) {
-    display:none;
+oh-vue-list:not(:defined),
+oh-community-topics:not(:defined) {
+    display: none;
 }

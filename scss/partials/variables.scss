@@ -2,9 +2,6 @@
 
 $theme-colors: ( "orange": #ff7214, "primary": #ff7214, "info": #f0ad4e);
 $container-max-widths: (xxl: 1500px, xxxl: 1700px); // Add a "very large screen width"
-html {
-    --background-large-screen: #ececec;
-}
 
 @import "../../node_modules/bootstrap/scss/_functions.scss";
 @import "../../node_modules/bootstrap/scss/_variables.scss";
