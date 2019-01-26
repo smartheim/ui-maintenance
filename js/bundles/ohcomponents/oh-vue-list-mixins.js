@@ -14,7 +14,7 @@ const UIFilterbarMixin = {
         this.props = ['filtercriteria'];
         this.filter = null;
         this.customcriteria = null;
-        this.maxFilteredItems = 100;
+        if (!this.maxFilteredItems) this.maxFilteredItems = 100;
     },
     mounted: function () {
         this.filterbar = document.querySelector("ui-filter");

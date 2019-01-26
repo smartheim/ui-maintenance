@@ -16,14 +16,20 @@
         </li>
     </ul>
     <p>Service config</p>
-    <ul class="exact">
-        <ui-nav-auto-link></ui-nav-auto-link>
-        <li><a data-no-reload="nav" href="service_config.html#backup">Backup</a></li>
-        <li><a data-no-reload="nav" href="service_config.html#ssl">SSL certificates</a></li>
-        <li><a data-no-reload="nav" href="service_config.html#hue">Hue Emulation</a></li>
-        <li><a data-no-reload="nav" href="service_config.html#lts">Long time stability</a></li>
-        <li><a data-no-reload="nav" href="service_config.html#lsp">Language Server (LSP)</a></li>
-        <li><a data-no-reload="nav" href="service_config.html#habpanel">HabPanel</a></li>
-        <li><a data-no-reload="nav" href="service_config.html#rvi">Rule Voice Interpreter</a></li>
-    </ul>
+
+    <oh-list-bind for="serviceslist" listhelper="services"></oh-list-bind>
+    <oh-vue-list id="serviceslist" filtercriteria="label" maxFilteredItems="1000">
+        <div slot="app"></div>
+
+        <template slot="list">
+            <h4 class="text-center pt-5" v-if="pendingwait"> Loading </h4>
+            <div class="text-center pt-5" v-else-if="error"> {{error}} </div>
+            <ul v-else>
+                <oh-vue-listitem v-for="item in filtered" v-if="item.category!='system'" :key="item.id" :listitem="item"></oh-vue-listitem>
+            </ul>
+        </template>
+        <template slot="item">
+            <li><a data-no-reload="nav" :href="'service_config.html?id='+item.id">{{item.label}}</a></li>
+        </template>
+    </oh-vue-list>
 </nav>

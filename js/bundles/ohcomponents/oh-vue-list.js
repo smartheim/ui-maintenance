@@ -142,12 +142,14 @@ class OhViewList extends HTMLElement {
         if (!this.ok) return;
 
         const filtercriteria = this.getAttribute("filtercriteria");
+        const maxFilteredItems = this.hasAttribute("maxFilteredItems") ? this.getAttribute("maxFilteredItems") : null;
         this.vue = new Vue({
             created: function () {
                 this.store = databaseStore;
                 this.runtimeKeys = runtimeKeys;
                 this.filtercriteria = filtercriteria;
                 this.modelschema = schema;
+                if (maxFilteredItems) this.maxFilteredItems = parseInt(maxFilteredItems);
             },
             mixins: [UIFilterbarMixin, UIEditorMixin],
             template: this.listTmpl,
