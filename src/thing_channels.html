@@ -7,6 +7,7 @@
 </head>
 
 <body>
+  <link rel="stylesheet" href="css/thingchannels.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -21,132 +22,63 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Thing Channels"></partial>
   <main>
-    <nav-breadcrumb parent="Thing list" useParamAsHash="uid"></nav-breadcrumb>
-    <ui-filter placeholder="Filter..." select="Selection mode">
-      <div class="btn-group ml-3" role="group">
-        <a href="#" class="btn btn-info">
-          <i class="fas fa-eye-slash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
-        </a>
-        <a href="#" class="btn btn-success">
-          <i class="fas fa-check"></i> <span>Autolink <span class="badge badge-light selectcounter">0</span></span>
-        </a>
-      </div>
-    </ui-filter>
-    <style>
-      .newitem {
-        opacity: 0.5;
-      }
-
-      .newitem:hover {
-        opacity: 1;
-      }
-
-      .technicaldetails {
-        display: grid;
-        grid-template-columns: auto 1fr
-      }
-
-      .technicaldetails>b,
-      .technicaldetails>span {
-        position: relative;
-        display: block;
-        padding: .75rem 1.25rem;
-        margin-bottom: -1px;
-        background-color: #fff;
-        border: 1px solid rgba(0, 0, 0, .125);
-        border-right: 0;
-        border-left: 0;
-      }
-
-      .linkeditems {
-        width: initial;
-      }
-
-      .linkeditems tr>td:nth-of-type(1) {
-        width: 300px;
-        vertical-align: middle;
-      }
-
-      .linkeditems tr>td:nth-of-type(2) {
-        white-space: nowrap;
-        display: flex;
-        align-items: center;
-      }
-
-      .linkeditems tr>td:nth-of-type(3)>* {
-        width: 100%;
-      }
-
-      .listitem.storingmode {
-        pointer-events: none;
-        opacity: 0.5;
-        filter: grayscale(50%);
-      }
-
-      .listitem.haschanges h4 {
-        background-color: rgb(255, 214, 214);
-      }
-
-    </style>
-    <oh-list-bind for="thingchannelslist" listadapter="thingchannels"></oh-list-bind>
-    <oh-vue-list id="thingchannelslist" filtercriteria="label">
-      <div slot="app"></div>
-      <template slot="list">
-        <partial src="listerror.html"></partial>
-        <div v-else id="listcontainer" @click="updateSelectCounter">
-          <oh-vue-listitem v-for="item in filtered" :key="item.id" :listitem="item"></oh-vue-listitem>
-          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show 50
-              more &hellip;</button></div>
+    <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
+    <oh-object-bind adapter="thing" objectFromURL></oh-object-bind>
+    <oh-vue></oh-vue>
+    <template>
+      <h4 class="text-center pt-5" v-if="pendingwait"> Loading </h4>
+      <div class="text-center pt-5" v-else-if="error"> {{error}} </div>
+      <div v-else>
+        <div id="listcontainer" @click="updateSelectCounter">
+          <section v-for="item in objectdata.channels" :key="item.id" :id="item.id">
+            <h4 contenteditable="true" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</h4>
+            <a class="ml-2" href="#"><i class="fas fa-trash"></i></a>
+            <div class="ml-3">
+              <p>{{description()}}</p>
+              <details class="mb-2">
+                <summary>Technical details</summary>
+                <div class="ml-3 technicaldetails">
+                  <b>UID</b> <span>{{item.uid}}</span>
+                  <b>Channel Type</b> <span>{{item.channelTypeUID}}</span>
+                  <b>Item Type</b> <span>{{item.itemType}}</span>
+                  <b>Kind</b> <span>{{item.kind}}</span>
+                  <b>Item Tags</b> <span v-for="tag in item.defaultTags">{{tag}} </span>
+                </div>
+              </details>
+              <details class="mb-2">
+                <summary>Configuration</summary>
+                <div v-if="configurations().length==0">No configuration available</div>
+                <partial src="vue-config-elements.html"></partial>
+              </details>
+              <div style="float: left;transform: rotate(270deg);margin-top: 20px;">Links</div>
+              <table class="table table-hover linkeditems">
+                <tr>
+                  <td>An item <small>(item id)</small></td>
+                  <td>
+                    <oh-dropdown-bind viewkey="uid" viewvalue="label" listadapter="profiles"></oh-dropdown-bind>
+                    <ui-dropdown title="Profile" :value="'Whatever'"></ui-dropdown>
+                    <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
+                  </td>
+                  <td><button class="btn btn-danger-hover btn-sm"><i class="fas fa-trash"></i> Remove</button></td>
+                </tr>
+                <tr class="newitem">
+                  <td>
+                    <ui-dropdown label="Item" options="Item1:item1name,Item2:item2name" value="Add new link"></ui-dropdown>
+                  </td>
+                  <td>
+                    <oh-dropdown-bind viewkey="uid" viewvalue="label" listadapter="profiles"></oh-dropdown-bind>
+                    <ui-dropdown title="Profile" value="system:default"></ui-dropdown>
+                  </td>
+                  <td><button class="btn btn-success-hover btn-sm"><i class="fas fa-check"></i> Add</button></td>
+                </tr>
+              </table>
+            </div>
+          </section>
           <div class="btn-group btnbar mb-2" role="group">
-            <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
+            <a href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i> Save</a>
           </div>
         </div>
-      </template>
-      <template slot="item">
-        <section class="listitem mt-4" :id="item.id" :class="[{haschanges: changed}]">
-          <h4 contenteditable="true" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</h4>
-          <a class="ml-2" href="#"><i class="fas fa-trash"></i></a>
-          <div class="ml-3">
-            <p>{{description()}}</p>
-            <details class="mb-2">
-              <summary>Technical details</summary>
-              <div class="ml-3 technicaldetails">
-                <b>UID</b> <span>{{item.uid}}</span>
-                <b>Channel Type</b> <span>{{item.channelTypeUID}}</span>
-                <b>Item Type</b> <span>{{item.itemType}}</span>
-                <b>Kind</b> <span>{{item.kind}}</span>
-                <b>Item Tags</b> <span v-for="tag in item.defaultTags">{{tag}} </span>
-              </div>
-            </details>
-            <details class="mb-2">
-              <summary>Configuration</summary>
-            </details>
-            <div style="float: left;transform: rotate(270deg);margin-top: 20px;">Links</div>
-            <table class="table table-hover linkeditems">
-              <tr>
-                <td>An item <small>(item id)</small></td>
-                <td>
-                  <oh-dropdown-bind viewkey="uid" viewvalue="label" listadapter="profiles"></oh-dropdown-bind>
-                  <ui-dropdown title="Profile" :value="'Whatever'"></ui-dropdown>
-                  <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
-                </td>
-                <td><button class="btn btn-danger-hover btn-sm"><i class="fas fa-trash"></i> Remove</button></td>
-              </tr>
-              <tr class="newitem">
-                <td>
-                  <ui-dropdown label="Item" options="Item1:item1name,Item2:item2name" value="Add new link"></ui-dropdown>
-                </td>
-                <td>
-                  <oh-dropdown-bind viewkey="uid" viewvalue="label" listadapter="profiles"></oh-dropdown-bind>
-                  <ui-dropdown title="Profile" value="system:default"></ui-dropdown>
-                </td>
-                <td><button class="btn btn-success-hover btn-sm"><i class="fas fa-check"></i> Add</button></td>
-              </tr>
-            </table>
-          </div>
-        </section>
-      </template>
-    </oh-vue-list>
+    </template>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="thingchannels"></partial>

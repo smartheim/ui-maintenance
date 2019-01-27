@@ -34,16 +34,27 @@ class OhVueBind extends HTMLElement {
             });
     }
     disconnectedCallback() {
-        if (!this.modeladapter) {
+        if (this.modeladapter) {
             this.modeladapter.dispose();
             delete this.modeladapter;
         }
     }
     async start(module) {
+        let id = this.getAttribute("id");
+        if (this.hasAttribute("objectFromURL")) {
+            id = new URL(window.location).searchParams.get(module.ID_KEY);
+        }
+
         if (this.modeladapter) this.modeladapter.dispose();
         this.modeladapter = new module.StoreView();
         this.target.start(this.modeladapter, module.mixins, module.schema, module.runtimekeys);
-        this.target.items = await this.modeladapter.getall();
+        if (id)
+            this.target.objectdata = await this.modeladapter.get(id);
+        else if (this.hasAttribute("allowNew")) {
+            this.target.objectdata = {};
+        } else {
+            this.error = "No id set and no attribute 'allowNew'";
+        }
     }
 }
 

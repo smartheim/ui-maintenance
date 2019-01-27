@@ -29,7 +29,7 @@ class OhVue extends HTMLElement {
             return;
         }
 
-        this.tmpl = tmpEl.content;
+        this.tmpl = tmpEl;
         this.ok = true;
         this.dispatchEvent(new Event("load"));
     }
@@ -43,7 +43,7 @@ class OhVue extends HTMLElement {
      * @param {JSON} schema A json schema
      * @param {String[]} runtimeKeys A list of mixin objects
      */
-    start(databaseStore, schema = null, runtimeKeys = null) {
+    start(databaseStore, mixins, schema = null, runtimeKeys = null) {
         if (!this.ok) return;
 
         this.vue = new Vue({
@@ -51,8 +51,9 @@ class OhVue extends HTMLElement {
                 this.store = databaseStore;
                 this.runtimeKeys = runtimeKeys;
                 this.modelschema = schema;
+                this.ignoreWatch = false;
             },
-            mixins: [UIFilterbarMixin, UIEditorMixin],
+            mixins: [UIFilterbarMixin, UIEditorMixin, ...mixins],
             template: this.tmpl,
             data: function () {
                 return {
@@ -60,6 +61,23 @@ class OhVue extends HTMLElement {
                     pending: true, // No data yet
                     pendingwait: false, // No data yet and some time passed already
                     error: false,
+                    changed: false,
+                }
+            },
+            computed: {
+                unchanged: function () {
+                    return !this.changed;
+                }
+            },
+            watch: {
+                objectdata: {
+                    handler: function (newVal, oldVal) {
+                        if (this.ignoreWatch) {
+                            this.ignoreWatch = false;
+                            return;
+                        }
+                        this.changed = true;
+                    }, deep: true, immediate: true,
                 }
             },
             mounted: function () {
@@ -78,7 +96,12 @@ class OhVue extends HTMLElement {
     }
 
     set objectdata(val) {
+        this.vue.ignoreWatch = true;
         this.vue.objectdata = val;
+        this.vue.error = false;
+        this.vue.changed = false;
+        this.vue.pending = false;
+        this.vue.pendingwait = false;
     }
     get objectdata() {
         return this.vue.objectdata;

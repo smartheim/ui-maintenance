@@ -1,3 +1,7 @@
+/**
+ * Extracts a value from the URL query string ("queryParameter") and adds it as an attribute
+ * to the referenced destination via element ID given by "for" or by using the next sibling element.
+ */
 class OhAttributeBind extends HTMLElement {
     constructor() {
         super();
@@ -19,6 +23,10 @@ class OhAttributeBind extends HTMLElement {
         let paramValue = new URL(window.location).searchParams.get(queryParameter);
         if (!paramValue) {
             return;
+        }
+        const regex = this.getAttribute("regex");
+        if (regex) {
+            paramValue = paramValue.match(regex)[1];
         }
 
         if (this.hasAttribute("setcontent")) {

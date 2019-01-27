@@ -5,6 +5,8 @@
         "id": "mqtt",
         "version": "2.4.0",
         "name": "MQTT Thing Binding",
+        "loglevel": "warn",
+        "source": "https://github.com/openhab/openhab2-addons/tree/master/addons/binding/org.openhab.binding.mqtt",
         "custompages": [
             {
                 "uri": "dummydata/mqtt.html",
@@ -18,6 +20,8 @@
         "id": "network",
         "version": "2.4.0",
         "name": "Network Binding",
+        "loglevel": "warn",
+        "source": "https://github.com/openhab/openhab2-addons/tree/master/addons/binding/org.openhab.binding.network",
         "custompages": []
     },
     {
@@ -26,6 +30,8 @@
         "id": "zwave",
         "version": "2.4.0",
         "name": "ZWave Binding",
+        "loglevel": "debug",
+        "source": "https://github.com/openhab/org.openhab.binding.zwave/tree/master",
         "custompages": [
             {
                 "uri": "dummydata/zwave.html",

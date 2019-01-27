@@ -1,0 +1,53 @@
+.newitem {
+    opacity: 0.5;
+}
+
+.newitem:hover {
+    opacity: 1;
+}
+
+.technicaldetails {
+    display: grid;
+    grid-template-columns: auto 1fr
+}
+
+.technicaldetails>b,
+.technicaldetails>span {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-right: 0;
+    border-left: 0;
+}
+
+.linkeditems {
+    width: initial;
+}
+
+.linkeditems tr>td:nth-of-type(1) {
+    width: 300px;
+    vertical-align: middle;
+}
+
+.linkeditems tr>td:nth-of-type(2) {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+.linkeditems tr>td:nth-of-type(3)>* {
+    width: 100%;
+}
+
+.listitem.storingmode {
+    pointer-events: none;
+    opacity: 0.5;
+    filter: grayscale(50%);
+}
+
+.listitem.haschanges h4 {
+    background-color: rgb(255, 214, 214);
+}

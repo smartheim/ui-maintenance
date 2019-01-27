@@ -18,7 +18,6 @@ const BindingsMixin = {
     },
     methods: {
         showAuxiliary: function (event) {
-            console.log("page", event.detail);
             let title = this.getAuxiliaries()[event.detail];
             this.link.href = "binding_custompage.html?title=" + title + "&customurl=" + encodeURIComponent(event.detail);
             this.link.dispatchEvent(new MouseEvent('click', { // programatically click link now
@@ -31,10 +30,16 @@ const BindingsMixin = {
             const custom = this.item.custompages;
             let options = {};
             for (let page of custom) {
-                console.log("page1", page);
                 options[page.uri] = page.label;
             }
             return options;
+        }
+    },
+    computed: {
+        documentationlink: function () {
+            var source = this.item.source;
+            source = source.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("tree/master", "master");
+            return source + '/README.md';
         }
     }
 }

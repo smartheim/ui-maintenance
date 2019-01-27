@@ -55,9 +55,10 @@
                 <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
               </span>
               <span class="actions btn-group">
-                <a title="Edit channels" :href="'thing_channels.html?uid='+encodeURIComponent(item.UID)" class="btn btn-secondary-hover btn-sm text-nowrap">
+                <a title="Edit channels" :href="'thing_channels.html?title='+encodeURIComponent(item.label)+'&UID='+encodeURIComponent(item.UID)"
+                  class="btn btn-secondary-hover btn-sm text-nowrap">
                   <i class="fas fa-sitemap"></i></a>
-                <a title="Edit configuration" :href="'thing_configuration.html?uid='+encodeURIComponent(item.UID)"
+                <a title="Edit configuration" :href="'thing_configuration.html?title='+encodeURIComponent(item.label)+'&UID='+encodeURIComponent(item.UID)"
                   class="btn btn-secondary-hover btn-sm text-nowrap">
                   <i class="fas fa-cog"></i></a>
                 <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>

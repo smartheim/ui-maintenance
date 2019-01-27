@@ -40,6 +40,8 @@ Paper UI NG requires some additonal core services and functionality.
   - Add version information (available versions)
   - Add "custompages" list. A binding should be able to register own endpoints (under /binding/{binding-id}) and serve own
     html pages. For MQTT an auxilary page could be a "MQTT Traffic Monitor", for ZWave it could be "ZWave Network Diagram".
+  - Add "source" link, e.g. "https://github.com/openhab/openhab2-addons/tree/master/addons/binding/org.openhab.binding.network"
+  - Add "loglevel" (trace, info, debug, warn, error)
 * Notification infrastructure (including PUSH mobile notifications like HabBot)
 * Thing Handler actions: For example to have a "Start pairing" or "Firmware reset" action.
   - This includes a simple "web-link" action: Some bindings like the Alexa-Echo one require

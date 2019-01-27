@@ -39,11 +39,12 @@
             <section class="actions">
               <span class="btn-group" role="group">
                 <button class="btn btn-danger" @click="remove()"><i class="fas fa-trash"></i> <span>Uninstall</span></button>
-                <a :href="'binding_config.html?id='+item.id" class="btn btn-secondary"><i class="fas fa-cog"></i>
+                <a :href="'binding_config.html?title='+encodeURIComponent(item.name)+'&id='+item.id" class="btn btn-secondary"><i
+                    class="fas fa-cog"></i>
                   <span>Configure</span></a>
               </span>
               <span class="btn-group" role="group">
-                <oh-doc-link show class="btn btn-secondary" :href="'https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab.binding.'+item.id+'/README.md'">
+                <oh-doc-link show class="btn btn-secondary" :href="documentationlink">
                   <i class="fas fa-book"></i> <span>Documentation</span>
                 </oh-doc-link>
               </span>
@@ -53,8 +54,8 @@
             <small>Authors: {{item.author}}</small>
             <a target="_blank" :href="'https://github.com/openhab/openhab2-addons/issues/new?title=['+item.id+']&nbsp;Your-&nbsp;title'">Report
               a bug</a>
-            <ui-dropdown v-show="item.custompages.length>0" class="ml-2" nostate novalue label="Auxiliaries"
-              :options.prop="getAuxiliaries()" @input="showAuxiliary"></ui-dropdown>
+            <ui-dropdown btnclass="btn btn-primary-hover btn-sm p-0" v-show="item.custompages.length>0" class="ml-2"
+              nostate novalue label="Auxiliaries" :options.prop="getAuxiliaries()" @input="showAuxiliary"></ui-dropdown>
           </div>
         </section>
       </template>

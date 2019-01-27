@@ -34,7 +34,7 @@ class OhListBind extends HTMLElement {
             });
     }
     disconnectedCallback() {
-        if (!this.modeladapter) {
+        if (this.modeladapter) {
             this.modeladapter.dispose();
             delete this.modeladapter;
         }

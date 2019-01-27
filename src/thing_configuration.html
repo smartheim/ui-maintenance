@@ -12,63 +12,46 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Thing Configuration"></partial>
   <main>
-    <nav-breadcrumb parent="Thing list" useParamAsHash="uid"></nav-breadcrumb>
-
-    <div class="bs-callout bs-callout-info">
-      This thing does this and that.
-    </div>
-
-    <form class="mt-4" action="#">
-      <div class="form-group row">
-        <div class="col-sm-10" style="display:flex">
-          <ui-switch name="enabled" checked="true" label="Enabled" title="A disabled thing will not connect to its peer device"></ui-switch>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="timername" class="col-sm-2 col-form-label">Thing label</label>
-        <div class="col-sm-10">
-          <input autofocus type="text" class="form-control" name="timername" id="timername" pattern=".{1,}" required
-            placeholder="Thing label">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="timerid" class="col-sm-2 col-form-label">Location</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" name="timerid" id="timerid" pattern="[^\s]+" required placeholder="Location">
-        </div>
-      </div>
-      <div class="btn-group btnbar mt-4" role="group">
-        <button type="submit" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</botton>
-      </div>
-    </form>
-
-    <oh-github-issues class="my-4 bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"
-      filter="hue"></oh-github-issues>
-
-    <form action="#">
-
-      <section class="config">
-        <h4 title="org.openhab.addons">Configuration group</h4>
-        <div class="elements">
-          <div class="element">
-            <ui-switch title="Access remote repository"></ui-switch>
-            <small class="form-text text-muted">
-              Defines whether openHAB should access the remote repository for add-on installation.
-            </small>
-          </div>
-          <div class="element">
-            <ui-switch title="Include Legacy 1.x Binding"></ui-switch>
-            <small class="form-text text-muted">
-              Defines whether openHAB should access the remote repository for add-on installation.
-            </small>
+    <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
+    <oh-attribute-bind attribute="filter" queryParameter="UID" regex="(.*?)\:"></oh-attribute-bind>
+    <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></oh-github-issues>
+    <oh-object-bind adapter="thing" objectFromURL allowNew></oh-object-bind>
+    <oh-vue></oh-vue>
+    <template>
+      <h4 class="text-center pt-5" v-if="pendingwait"> Loading </h4>
+      <div class="text-center pt-5" v-else-if="error"> {{error}} </div>
+      <div v-else>
+        <div class="bs-callout bs-callout-info"> {{description()}} </div>
+        <div class="mt-4" class="form-group row">
+          <div class="col-sm-10" style="display:flex">
+            <ui-switch name="enabled" checked="true" label="Enabled" title="A disabled thing will not connect to its peer device"></ui-switch>
           </div>
         </div>
-      </section>
-
-      <div class="btn-group btnbar mt-4" role="group">
-        <button type="submit" href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</botton>
+        <div class="form-group row">
+          <label for="timername" class="col-sm-2 col-form-label">Thing label</label>
+          <div class="col-sm-10">
+            <input autofocus type="text" class="form-control" name="timername" id="timername" pattern=".{1,}" required
+              placeholder="Thing label" v-model="objectdata.label">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="timerid" class="col-sm-2 col-form-label">Location</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="timerid" id="timerid" pattern="[^\s]+" required placeholder="Location"
+              v-model="objectdata.location">
+          </div>
+        </div>
+        <section class="config">
+          <h4 title="org.openhab.addons">Configuration</h4>
+          <div v-if="configurations().length==0">No configuration available</div>
+          <partial src="vue-config-elements.html"></partial>
+        </section>
+        <div class="btn-group btnbar mt-4" role="group">
+          <button type="submit" href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i>
+            Save</botton>
+        </div>
       </div>
-    </form>
+    </template>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="thingconfig"></partial>
