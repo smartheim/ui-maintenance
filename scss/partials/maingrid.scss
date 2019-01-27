@@ -13,7 +13,6 @@ body {
     &>aside {
         grid-column: 3;
         grid-row: 2 / span 4;
-        justify-self: start;
         position: relative;
         z-index: 5;
         contain: layout;
@@ -82,8 +81,7 @@ body {
             grid-column: 2 / span 1;
             grid-row: 3;
             box-shadow: none;
-            overflow: hidden;
-            //margin-left: auto;
+            overflow: hidden; //margin-left: auto;
             //margin-right: auto;
             //max-width: get-breakpoints("lg");
         }

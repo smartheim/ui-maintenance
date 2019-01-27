@@ -4,6 +4,8 @@ class UiSwitch extends HTMLElement {
   }
   setCheck(newState, noevents) {
     this.input.checked = newState;
+    console.log("checked", newState, this.input.name, this.input);
+
     if (!noevents && !this.disabled) this.dispatchEvent(new Event("input"));
     if (this.showid) {
       var el = document.getElementById(this.showid);
@@ -32,12 +34,13 @@ class UiSwitch extends HTMLElement {
     this.documentevent = this.hasAttribute("documentevent") ? this.getAttribute("documentevent") : null;
     while (this.firstChild) { this.firstChild.remove(); }
 
-    const root = document.createElement("div");
+    const root = this.appendChild(document.createElement("div"));
 
     root.classList.add("ui-switch");
 
     this.input = root.appendChild(document.createElement("input"));
     this.input.type = "checkbox";
+    if (this.storekey) this.input.setAttribute("name", this.storekey);
     this.addEventListener("click", (e) => {
       e.preventDefault();
       this.input.checked = !this.input.checked;
@@ -48,8 +51,6 @@ class UiSwitch extends HTMLElement {
     root.appendChild(document.createElement("span"));
     var titleEl = root.appendChild(document.createElement("div"));
 
-    this.appendChild(root);
-
     this.showid = this.hasAttribute("showid") ? this.getAttribute("showid") : null;
     titleEl.title = this.hasAttribute("title") ? this.getAttribute("title") : "";
     titleEl.innerHTML = this.hasAttribute("label") ? this.getAttribute("label") : (this.hasAttribute("title") ? this.getAttribute("title") : "");
@@ -58,8 +59,7 @@ class UiSwitch extends HTMLElement {
     this.attributeChangedCallback("showid");
     var isChecked = this.hasAttribute("checked") ? this.getAttribute("checked") == "true" : false;
     var cached = this.storekey ? localStorage.getItem(this.storekey) : this._value;
-    console.log("checked", isChecked, cached);
-    this.setCheck(isChecked || cached, true);
+    window.requestAnimationFrame(() => this.setCheck(isChecked || cached, true));
   }
   static get observedAttributes() {
     return ['checked'];

@@ -41,6 +41,10 @@ section.header {
 aside.contexthelp {
     min-width: 300px;
     max-width: 400px;
+    .fixedwrapper {
+        position: sticky;
+        top: 0;
+    }
     oh-context-help {
         padding: 20px;
         background-color: var(--background-color);
@@ -110,7 +114,6 @@ a.helpbtn i.fa-times {
     aside.contexthelp {
         animation: swinginxr 1s;
         oh-context-help {
-            position: fixed;
             max-height: calc(100vh - 240px);
         }
     }
@@ -143,6 +146,9 @@ body:before {
             background-color: var(--background-color);
             border: 1px solid rgba(0, 0, 0, .125);
             border-radius: .25rem;
+            .fixedwrapper {
+                position: initial;
+            }
         }
         &.showcontext .helpbtn2 {
             display: block;
