@@ -1,11 +1,11 @@
 <div slot="app"></div>
 
 <template slot="list">
-    <h4 class="text-center pt-5" v-if="pendingwait">
+    <h4 class="text-center pt-5" v-if="pendingwait" slot="app">
         Loading
         <div class="loader"></div>
     </h4>
-    <div class="text-center pt-5" v-else-if="error">
+    <div class="text-center pt-5" v-else-if="error" slot="app">
         <h4><i class="fas fa-exclamation-circle"></i> Loading failed</h4>
         <div>{{error}}</div>
         <div class="bs-callout bs-callout-info mt-4 text-left" style="display:inline-block">
@@ -24,9 +24,9 @@
             </dl>
         </div>
     </div>
-    <oh-codeeditor v-else-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema" :content.prop="toTextual()"
+    <oh-codeeditor slot="app" v-else-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema" :content.prop="toTextual()"
         @state="editorstateChanged"></oh-codeeditor>
-    <div v-else class="w-100">
+    <div v-else class="w-100" slot="app">
         <transition-group name="fade" tag="div" id="listcontainer" @click="updateSelectCounter" :class="containerclasses">
             <oh-vue-listitem v-for="item in filtered" :key="@@key" :listitem="item"></oh-vue-listitem>
         </transition-group>

@@ -27,7 +27,7 @@ class OhCodeEditor extends HTMLElement {
     set scriptfile(filename) {
         fetchWithTimeout(filename).then(response => response.text())
             .then(res => {
-                this.content = {value:res,language:"javascript"};
+                this.content = { value: res, language: "javascript" };
             })
             .catch(error => console.warn(error, e));
     }
@@ -42,7 +42,7 @@ class OhCodeEditor extends HTMLElement {
             if (this.model) this.model.dispose();
             this.model = this.monaco.editor.createModel(data.value, data.language, data.modeluri);
             this.editor.setModel(this.model);
-            if (data.language=="yaml") this.loadYamlHighlightSupport();
+            if (data.language == "yaml") this.loadYamlHighlightSupport();
             delete this.cached;
         }
         else
@@ -207,6 +207,7 @@ class OhCodeEditor extends HTMLElement {
         const el = this;
         if (this.model) this.model.dispose();
         this.model = this.monaco.editor.createModel("", "javascript");
+        this.monaco.editor.setTheme(localStorage.getItem("darktheme") == "true" ? "vs-dark" : "vs");
         while (this.firstChild) { this.firstChild.remove(); }
         this.editor = this.monaco.editor.create(el, this.model);
         let offset = { width: el.offsetWidth, height: el.offsetHeight - 50 }

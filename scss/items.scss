@@ -292,7 +292,8 @@ oh-vue-list {
 
 oh-codeeditor {
     margin-top: 10px;
-    display: block;
+    display: flex;
+    flex: 1;
     width: 100%;
 }
 
