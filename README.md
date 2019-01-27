@@ -179,7 +179,7 @@ point without changing any of the *Adapters* or *Views*.
 
 This design study incorporates functionality, that is not yet implemented in openHAB.
 
-See [Styling Readme](assets/roadmap.md).
+See [Missing services and functionality](assets/roadmap.md).
 
 ## Pitfals
 
