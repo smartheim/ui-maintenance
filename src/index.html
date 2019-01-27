@@ -13,43 +13,34 @@
   </section>
   <!--TODO:REMOVE-->
   <ui-notification persistent>
-    <div>
-      This is a design study.<br>
+    <div> This is a design study.<br>
       <a href="about.html" data-close>About version w4</a>
     </div>
   </ui-notification>
   <main>
     <center><img src="img/openhab-logo.png" alt="openHAB" class="logo"></center>
-
     <div class="card my-4 border-primary">
       <div class="card-body">
         <h3 class="card-title">Welcome aboard!</h3>
         <div class="row">
-          <p class="card-text col-sm mb-0">
-            You are using <abbr title="Google’s Material Design approach uses so called “cards”, which looks like paper. As the Paper UI also uses this card, it was decided to call it Paper UI.">Paper
-              UI</abbr>, the setup and maintenance interface of openHAB.
-            If this is your first time here or you haven't been here for a while, swipe through the introduction slides
-            for a quick tutorial.
-          </p>
+          <p class="card-text col-sm mb-0"> You are using <abbr title="Google’s Material Design approach uses so called “cards”, which looks like paper. As the Paper UI also uses this card, it was decided to call it Paper UI.">Paper
+              UI</abbr>, the setup and maintenance interface of openHAB. If this is your first time here or you haven't
+            been here for a while, swipe through the introduction slides for a quick tutorial. </p>
           <div class="col-md-auto text-right"><a class="btn btn-primary-hover" href="tutorial-1.html">Introduction</a></div>
         </div>
       </div>
     </div>
-
     <div class="card mb-4">
       <div class="card-body">
         <h5 class="card-title">Avoid unpleasant surprises</h5>
         <div class="row">
-          <p class="card-text col-sm">
-            There is always something new to discover in a fresh openHAB release.
-            But there is certainly also something that breaks.
-          </p>
+          <p class="card-text col-sm"> There is always something new to discover in a fresh openHAB release. But there
+            is certainly also something that breaks. </p>
           <div class="col-md-auto text-right"><a class="btn btn-primary-hover" href="changelog.html">Check the
               changelog</a></div>
         </div>
       </div>
     </div>
-
     <details class="card mb-4">
       <summary>Improve your openHAB skills: Check our tutorial section</summary>
       <div class="card-body">
@@ -64,7 +55,24 @@
         </div>
       </div>
     </details>
-
+    <details class="card mb-4">
+      <summary>Get engaged: Binding development and core roadmap</summary>
+      <div class="card-body">
+        <div class="row">
+          <div class="card-text col-sm"> You have basic skills in Java programming? <ul>
+              <li>Help us to port over OH 1.x bindings to the new OH 2 architecture.</li>
+              <li>Create a binding for your favourite devices / services.</li>
+              <li>Create bug fixes for existing bindings.</li>
+            </ul>
+          </div>
+          <div class="col-md-auto" style="display:flex;flex-direction: column">
+            <a class="btn btn-primary-hover m-2" href="roadmap.html">Roadmap</a>
+            <a class="btn btn-primary-hover m-2" target="_blank" href="https://www.openhab.org/docs/developer/development/bindings.html">Binding
+              development</a>
+          </div>
+        </div>
+      </div>
+    </details>
     <ui-switch class="mb-4" storekey="skiphome" label="Show
     the 'Maintenance' screen by default" title="You will not start on this screen but the maintenance screen instead"></ui-switch>
   </main>

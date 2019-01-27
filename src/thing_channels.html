@@ -22,7 +22,6 @@
   <partial src="pagetitleheader.html" title="Thing Channels"></partial>
   <main>
     <nav-breadcrumb parent="Thing list" useParamAsHash="uid"></nav-breadcrumb>
-
     <ui-filter placeholder="Filter..." select="Selection mode">
       <div class="btn-group ml-3" role="group">
         <a href="#" class="btn btn-info">
@@ -33,7 +32,6 @@
         </a>
       </div>
     </ui-filter>
-
     <style>
       .newitem {
         opacity: 0.5;
@@ -74,6 +72,7 @@
         display: flex;
         align-items: center;
       }
+
       .linkeditems tr>td:nth-of-type(3)>* {
         width: 100%;
       }
@@ -87,25 +86,22 @@
       .listitem.haschanges h4 {
         background-color: rgb(255, 214, 214);
       }
+
     </style>
-
-    <oh-list-bind for="thingchannelslist" listhelper="thingchannels"></oh-list-bind>
-
+    <oh-list-bind for="thingchannelslist" listadapter="thingchannels"></oh-list-bind>
     <oh-vue-list id="thingchannelslist" filtercriteria="label">
       <div slot="app"></div>
-
       <template slot="list">
         <partial src="listerror.html"></partial>
         <div v-else id="listcontainer" @click="updateSelectCounter">
           <oh-vue-listitem v-for="item in filtered" :key="item.id" :listitem="item"></oh-vue-listitem>
-          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show
-              50 more &hellip;</button></div>
+          <div v-if="hasMore" class="text-center"><button class="btn btn-primary-hover" @click="showMore()">Show 50
+              more &hellip;</button></div>
           <div class="btn-group btnbar mb-2" role="group">
             <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
           </div>
         </div>
       </template>
-
       <template slot="item">
         <section class="listitem mt-4" :id="item.id" :class="[{haschanges: changed}]">
           <h4 contenteditable="true" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</h4>
@@ -130,30 +126,27 @@
               <tr>
                 <td>An item <small>(item id)</small></td>
                 <td>
-                  <oh-dropdown-bind viewkey="uid" viewvalue="label" listhelper="profiles"></oh-dropdown-bind>
+                  <oh-dropdown-bind viewkey="uid" viewvalue="label" listadapter="profiles"></oh-dropdown-bind>
                   <ui-dropdown title="Profile" :value="'Whatever'"></ui-dropdown>
                   <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
                 </td>
                 <td><button class="btn btn-danger-hover btn-sm"><i class="fas fa-trash"></i> Remove</button></td>
               </tr>
-
               <tr class="newitem">
                 <td>
                   <ui-dropdown label="Item" options="Item1:item1name,Item2:item2name" value="Add new link"></ui-dropdown>
                 </td>
                 <td>
-                  <oh-dropdown-bind viewkey="uid" viewvalue="label" listhelper="profiles"></oh-dropdown-bind>
+                  <oh-dropdown-bind viewkey="uid" viewvalue="label" listadapter="profiles"></oh-dropdown-bind>
                   <ui-dropdown title="Profile" value="system:default"></ui-dropdown>
                 </td>
                 <td><button class="btn btn-success-hover btn-sm"><i class="fas fa-check"></i> Add</button></td>
               </tr>
-
             </table>
           </div>
         </section>
       </template>
     </oh-vue-list>
-
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="thingchannels"></partial>

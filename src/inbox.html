@@ -41,14 +41,10 @@
         </button>
       </div>
     </ui-filter>
-
     <div class="mt-4 alert alert-info">Discovery status for "Network binding": <span class="badge badge-success">Running</span></div>
-
-    <oh-list-bind for="inboxlist" listhelper="inbox"></oh-list-bind>
-
+    <oh-list-bind for="inboxlist" listadapter="inbox"></oh-list-bind>
     <oh-vue-list id="inboxlist" filtercriteria="label">
       <partial src="vuelistbasics.html" key="item.thingUID"></partial>
-
       <template slot="item">
         <section class="listitem" :id="item.thingUID">
           <div class="body">
@@ -63,17 +59,12 @@
               <h4>Waiting for openHAB</h4>
               <div class="loader m-0"></div>
             </div>
-            <section class="description">
-              {{description(item)}}
-            </section>
+            <section class="description"> {{description(item)}} </section>
           </div>
-          <div class="footer small py-1 px-3">
-            {{binding(item)}}
-          </div>
+          <div class="footer small py-1 px-3"> {{binding(item)}} </div>
         </section>
       </template>
     </oh-vue-list>
-
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="inbox"></partial>

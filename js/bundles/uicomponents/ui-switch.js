@@ -56,8 +56,10 @@ class UiSwitch extends HTMLElement {
     if (this.disabled) this.classList.add("disabled"); else this.classList.remove("disabled");
 
     this.attributeChangedCallback("showid");
+    var isChecked = this.hasAttribute("checked") ? this.getAttribute("checked") == "true" : false;
     var cached = this.storekey ? localStorage.getItem(this.storekey) : this._value;
-    this.setCheck(cached !== null ? cached : (this.hasAttribute("checked") ? this.getAttribute("checked") == "true" : false), true);
+    console.log("checked", isChecked, cached);
+    this.setCheck(isChecked || cached, true);
   }
   static get observedAttributes() {
     return ['checked'];

@@ -26,21 +26,16 @@
         </a>
       </div>
     </ui-filter>
-
     <div class="alert alert-info mb-0 mt-4">Using an external <code>.jar</code> file can be a security risk!</span></div>
-
     <ui-drop-zone class="mt-4" style="--padding: 30px 20px;background-color:#c8dadf;outline-color: #92b0b3">
       <div slot="label"><i class="fas fa-file-upload"></i> <strong>Choose a file</strong> or drag it here.</div>
       <div slot="uploading">Uploading&hellip;</div>
       <div slot="success">Done!</div>
       <div slot="error">Error!</div>
     </ui-drop-zone>
-
-    <oh-list-bind for="addonsfilelist" listhelper="addon-files"></oh-list-bind>
-
+    <oh-list-bind for="addonsfilelist" listadapter="addon-files"></oh-list-bind>
     <oh-vue-list id="addonsfilelist" filtercriteria="label">
       <partial src="vuelistbasics.html" key="item.id"></partial>
-
       <template slot="item">
         <section class="listitem" :id="item.id">
           <div class="body">
@@ -59,7 +54,6 @@
         </section>
       </template>
     </oh-vue-list>
-
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="addons_files"></partial>

@@ -10,7 +10,7 @@
  * - runtimekeys: A list of keys that should be filtered out for the text-editor
  * - StoreView: This serves as *Adapter* in our MVA architecture.
  */
-class OhListBind extends HTMLElement {
+class OhVueBind extends HTMLElement {
     constructor() {
         super();
         this.style.display = "none";
@@ -26,10 +26,10 @@ class OhListBind extends HTMLElement {
             return;
         }
 
-        const listadapter = this.getAttribute("listadapter");
-        import('./listadapter/' + listadapter + '.js')
-            .then(this.startList.bind(this)).catch(e => {
-                console.log("list bind failed", e);
+        const adapter = this.getAttribute("adapter");
+        import('./objectadapter/' + adapter + '.js')
+            .then(this.start.bind(this)).catch(e => {
+                console.log("object bind failed", e);
                 this.target.error = e;
             });
     }
@@ -39,7 +39,7 @@ class OhListBind extends HTMLElement {
             delete this.modeladapter;
         }
     }
-    async startList(module) {
+    async start(module) {
         if (this.modeladapter) this.modeladapter.dispose();
         this.modeladapter = new module.StoreView();
         this.target.start(this.modeladapter, module.mixins, module.schema, module.runtimekeys);
@@ -47,4 +47,4 @@ class OhListBind extends HTMLElement {
     }
 }
 
-customElements.define('oh-list-bind', OhListBind);
+customElements.define('oh-object-bind', OhVueBind);

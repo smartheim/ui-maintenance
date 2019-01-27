@@ -27,19 +27,15 @@
         </a>
       </div>
     </ui-filter>
-
-    <oh-list-bind for="ruleslist" listhelper="rules"></oh-list-bind>
-
+    <oh-list-bind for="ruleslist" listadapter="rules"></oh-list-bind>
     <oh-vue-list id="ruleslist" filtercriteria="name">
       <partial src="vuelistbasics.html" key="item.uid"></partial>
-
       <template slot="item">
         <section class="listitem" :id="item.uid">
           <div class="body ui-dropdown">
             <div class="title">
               <span class="secondLevelBtn" :title="item.name" onclick='this.parentNode.parentNode.classList.toggle("show");'>
-                {{item.name}}
-              </span>
+                {{item.name}} </span>
               <span class="actions btn-group">
                 <button class="btn btn-success-hover btn-sm">
                   <i class="fas fa-check"></i> <span>Run <i :title="rulesStatusDetails(item)" :class="rulesStatusBadge(item)">{{rulesStatusinfo(item)}}</i>
@@ -58,9 +54,7 @@
               <h4>Waiting for openHAB</h4>
               <div class="loader m-0"></div>
             </div>
-            <section class="description">
-              {{item.description}}
-            </section>
+            <section class="description"> {{item.description}} </section>
           </div>
           <div class="footer small py-1 px-3">
             <span>Runs: {{item.runcounter}}</span>
@@ -69,7 +63,6 @@
         </section>
       </template>
     </oh-vue-list>
-
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="rules"></partial>

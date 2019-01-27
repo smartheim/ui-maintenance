@@ -13,45 +13,33 @@
   <partial src="pagetitleheader.html" title="Edit binding configuration"></partial>
   <main>
     <nav-breadcrumb parent="Add-Ons"></nav-breadcrumb>
-
-    <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:"
-    url="https://api.github.com/repos/openhab/openhab2-addons/issues" filter="deconz"></oh-github-issues>  
-
-    <form action="#">
-
-      <div class="config">
-        <h4 title="org.openhab.addons">Logging level</h4>
-        <div class="element radio-button-group" role="group">
-          <label class="radio-button"><input type="radio" name="radioButtonTest1" value="trace" /><span>Trace</span></label>
-          <label class="radio-button"><input type="radio" name="radioButtonTest1" value="info" /><span>Info</span></label>
-          <label class="radio-button"><input type="radio" name="radioButtonTest1" value="debug" /><span>Debug</span></label>
-          <label class="radio-button"><input type="radio" name="radioButtonTest1" value="warn" checked /><span>Only
-              warning &amp; errors</span></label>
+    <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"
+      filter="deconz"></oh-github-issues>
+    <oh-object-bind adapter="binding" objectFromURL allowNew></oh-object-bind>
+    <oh-vue></oh-vue>
+    <template>
+      <h4 slot="app" class="text-center pt-5" v-if="pendingwait"> Loading </h4>
+      <div class="text-center pt-5" v-else-if="error"> {{error}} </div>
+      <div v-else>
+        <section class="config">
+          <h4 title="org.openhab.addons">Logging level</h4>
+          <div class="element radio-button-group" role="group">
+            <label class="radio-button"><input type="radio" name="radioButtonTest1" value="trace" /><span>Trace</span></label>
+            <label class="radio-button"><input type="radio" name="radioButtonTest1" value="info" /><span>Info</span></label>
+            <label class="radio-button"><input type="radio" name="radioButtonTest1" value="debug" /><span>Debug</span></label>
+            <label class="radio-button"><input type="radio" name="radioButtonTest1" value="warn" checked /><span>Only
+                warning &amp; errors</span></label>
+          </div>
+        </section>
+        <section class="config">
+          <h4 title="org.openhab.addons">Configuration group</h4>
+          <partial src="vue-config-elements.html"></partial>
+        </section>
+        <div class="btn-group btnbar mt-4" role="group">
+          <button type="submit" href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</botton>
         </div>
       </div>
-
-      <div class="config">
-        <h4 title="org.openhab.addons">Configuration group</h4>
-        <div class="elements">
-          <div class="element">
-            <ui-switch title="Access remote repository"></ui-switch>
-            <small class="form-text text-muted">
-              Defines whether openHAB should access the remote repository for add-on installation.
-            </small>
-          </div>
-          <div class="element">
-            <ui-switch title="Include Legacy 1.x Binding"></ui-switch>
-            <small class="form-text text-muted">
-              Defines whether openHAB should access the remote repository for add-on installation.
-            </small>
-          </div>
-        </div>
-      </div>
-
-      <div class="btn-group btnbar mt-4" role="group">
-        <button type="submit" href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</botton>
-      </div>
-    </form>
+    </template>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="bindingconfig"></partial>

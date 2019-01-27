@@ -154,17 +154,16 @@ See [Javascript Readme](js/readme.md).
 
 A Model-View-Adapter (MVA) concept is in place.
 
-The `VueJS` based `ohcomponents/oh-vue-list` web-component is our **View**.
-It is rendering a reactive list with provided templates and is extendable
-with Mixins.
-(There are more *View* classes, of course. As any reactive component can serve
-as a *View*.)
+There are several components used as **View**:
+* The `VueJS` based `ohcomponents/oh-vue-list` for reactive list
+* The `uicomponents/ui-dropdown` for a dropdown (e.g. selection of *Items* or *Profiles*)
+* The `VueJS` based `ohcomponents/oh-vue` for configuration pages
 
-The `ohcomponents/oh-vue-list-bind` is our **Controller**. It receives all
-*remove* and *change* requests of the view and also observes the *Model*
+The `ohcomponents/oh-vue-list-bind` and `ohcomponents/oh-vue-bind` classes serve as **Controllers**.
+They receive all *remove* and *change* requests of the *Views* and also observe the *Model*
 and *Adapter* for any changes.
 
-The `listhelper/*` classes provide Mixins for the *View*, but also provide
+The `listadapter/*` classes provide Mixins for the *View*, but also provide
 Model **Adapters** that communicate with the *Model* (aka Store).
 
 The `store/*` bundle finally provides the frontend database, the **Model**,
@@ -180,42 +179,7 @@ point without changing any of the *Adapters* or *Views*.
 
 This design study incorporates functionality, that is not yet implemented in openHAB.
 
-Missing services:
-
-* Backup service: Configure a local or cloud backup destination and intervals. Allow import/export in yaml/json/xml.
-* SSL certificate management service: Add/Remove trusted (D)TLS certificates for peer devices and setup own certificate.
-* Rules/scripts files REST service: Alter files on disk via the REST API.
-* "storage" association for Things/Items/Rules/Timers
-* Manual Addons managment:
-  - List jars including some detailed information like bundle name+version
-  - Sha signature display
-  - Manual Jar upload
-  - Download
-  - (De)Activate via the REST API
-* Average and longtime resource observe service:
-  - Detects thread abuse and memory leaks for long time stability
-  - Issues warning notifications
-  - REST interface
-* OSGI bundles info/start/stop REST interface
-* Log provider service that allows to receive the uncut realtime feed via websocket connection
-* Platform information provider service: REST endpoints for maintenance page.
-  - openHabian: Update/package status, link to openhabian-cli web-service for further configuration.
-  - Generic windows/osx/linux: OS version, link to documentation.
-
-Missing core functionality:
-
-* Addon management REST interface extension:
-  - Easily add more maven sources
-  - Install a specific version of an Add-on
-* Notification infrastructure (including PUSH mobile notifications like HabBot)
-* Thing Handler actions: For example to have a "Start pairing" or "Firmware reset" action.
-* Services with advanced feedback status (like the backup service, the hue emulation service etc)
-  should implement a new interface. Rest endpoint extension to retrieve those extended stati.
-* Things/Items/Rules/Scheduled-Tasks need a storage association for the backup service.
-* Things/Items/Rules/Scheduled-Tasks need a generic "comment" field for the user to leave notes and annotations.
-* Timer/Alarm/Scheduler configuration:
-  - Rest interface
-  - Command an item on timeout (to replace the expire binding more easily)
+See [Styling Readme](assets/roadmap.md).
 
 ## Pitfals
 

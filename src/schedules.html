@@ -28,19 +28,15 @@
         <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
       </a>
     </ui-filter>
-
-    <oh-list-bind for="schedulelist" listhelper="schedule"></oh-list-bind>
-
+    <oh-list-bind for="schedulelist" listadapter="schedule"></oh-list-bind>
     <oh-vue-list id="schedulelist" filtercriteria="label">
       <partial src="vuelistbasics.html" key="item.UID"></partial>
-
       <template slot="item">
         <section class="listitem" :id="item.UID">
           <div class="body ui-dropdown">
             <div class="title">
               <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>
-                {{item.label}}
-              </span>
+                {{item.label}} </span>
               <span class="actions btn-group">
                 <button class="btn btn-success-hover btn-sm">
                   <i class="fas fa-check"></i> <span>Run <i :class="timerStatusBadge()">{{timerStatusinfo()}}</i></span>
@@ -57,9 +53,7 @@
               <h4>Waiting for openHAB</h4>
               <div class="loader m-0"></div>
             </div>
-            <section class="description">
-              {{timerDescription(item)}}
-            </section>
+            <section class="description"> {{timerDescription(item)}} </section>
           </div>
           <div class="footer small py-1 px-3"><span>Runs: {{item.totalRuns}}</span><span v-if="item.remainingRuns">,
               Remaining: {{item.remainingRuns}}</span>
@@ -69,7 +63,6 @@
         </section>
       </template>
     </oh-vue-list>
-
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="scheduler"></partial>

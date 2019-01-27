@@ -24,12 +24,9 @@
         <i class="fas fa-trash"></i> <span>Uninstall <span class="badge badge-light selectcounter">0</span></span>
       </a>
     </ui-filter>
-
-    <oh-list-bind for="bindingslist" listhelper="bindings"></oh-list-bind>
-
+    <oh-list-bind for="bindingslist" listadapter="bindings"></oh-list-bind>
     <oh-vue-list id="bindingslist" filtercriteria="name">
       <partial src="vuelistbasics.html" key="item.id"></partial>
-
       <template slot="item">
         <section class="listitem" :id="item.id">
           <div class="body">
@@ -56,11 +53,12 @@
             <small>Authors: {{item.author}}</small>
             <a target="_blank" :href="'https://github.com/openhab/openhab2-addons/issues/new?title=['+item.id+']&nbsp;Your-&nbsp;title'">Report
               a bug</a>
+            <ui-dropdown v-show="item.custompages.length>0" class="ml-2" nostate novalue label="Auxiliaries"
+              :options.prop="getAuxiliaries()" @input="showAuxiliary"></ui-dropdown>
           </div>
         </section>
       </template>
     </oh-vue-list>
-
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="addons"></partial>

@@ -3,7 +3,7 @@
  * in the MVA (Model-View-Adapter) concept.
  * 
  * It waits for the target, identified by the "for" attribute
- * to be ready and then loads the "listhelper" es6 module.
+ * to be ready and then loads the "listadapter" es6 module.
  * The helper module is expected to export:
  * - mixins: A list of mixins to apply to list-item components
  * - schema: An optional json-schema for the text-editor
@@ -28,8 +28,8 @@ class OhDropdownBind extends HTMLElement {
             return;
         }
 
-        const listhelper = this.getAttribute("listhelper");
-        import('./listhelper/' + listhelper + '.js')
+        const listadapter = this.getAttribute("listadapter");
+        import('./listadapter/' + listadapter + '.js')
             .then(this.startList.bind(this)).catch(e => {
                 console.log("list bind failed", e);
                 this.target.error = e;
@@ -49,7 +49,7 @@ class OhDropdownBind extends HTMLElement {
         for (let item of items) {
             dropdownItems[item[this.viewkey]] = item[this.viewvalue];
         };
-console.log("startList", items);
+        console.log("startList", items);
         this.target.options = dropdownItems;
     }
 }

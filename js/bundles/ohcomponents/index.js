@@ -8,9 +8,12 @@ export * from './oh-codeeditor'
 export * from './oh-github-issues'
 export * from './oh-change-filter'
 
+export * from './oh-vue'
+export * from './oh-vue-bind'
 export * from './oh-vue-list'
 export * from './oh-vue-list-mixins';
 export * from './oh-vue-list-bind'
 export * from './oh-dropdown-bind'
+export * from './oh-attribute-bind'
 
 export { fetchWithTimeout } from '../../common/fetch';

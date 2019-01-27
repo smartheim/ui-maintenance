@@ -4,13 +4,33 @@
         "description": "Link MQTT topics to things",
         "id": "mqtt",
         "version": "2.4.0",
-        "name": "MQTT Thing Binding"
+        "name": "MQTT Thing Binding",
+        "custompages": [
+            {
+                "uri": "dummydata/mqtt.html",
+                "label": "MQTT Traffic monitor"
+            }
+        ]
     },
     {
         "author": "David Graeff",
         "description": "Ping network devices",
         "id": "network",
         "version": "2.4.0",
-        "name": "Network Binding"
+        "name": "Network Binding",
+        "custompages": []
+    },
+    {
+        "author": "Chris Jackson",
+        "description": "The ZWave binding supports an interface to a wireless Z-Wave home automation network.",
+        "id": "zwave",
+        "version": "2.4.0",
+        "name": "ZWave Binding",
+        "custompages": [
+            {
+                "uri": "dummydata/zwave.html",
+                "label": "ZWave Network Diagram"
+            }
+        ]
     }
 ]

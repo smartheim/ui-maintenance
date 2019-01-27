@@ -1,7 +1,7 @@
 import { fetchWithTimeout } from '../ohcomponents.js';
 
 class StoreView {
-    async getall() {
+    async get(thinguid) {
         return fetchWithTimeout("dummydata/rest/channel-types.json")
             .then(response => response.json())
             .then(json => this.channeltypes = json)
