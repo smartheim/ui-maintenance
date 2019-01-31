@@ -157,6 +157,8 @@ the following diagram:
 
 ![Model-View-Adapter](docs/paperui-ng-dataflow.svg "Model-View-Adapter Architecture")
 
+[Image source](https://drive.google.com/file/d/1lqg5GJHdkVk5PlnCgbheggQ7MSwSDHfj/view?usp=sharing)
+
 There are several components used as **View**:
 * The `VueJS` based `ohcomponents/oh-vue-list` for reactive list
 * The `uicomponents/ui-dropdown` for a dropdown (e.g. selection of *Items* or *Profiles*)
@@ -175,11 +177,11 @@ The `app/*` bundle finally provides the frontend database, the **Model**,
 for this architecture. All requested REST endpoints are cached in a Index DB and kept
 in sync via SSE (Server Send Events). The storage follows a State-While-Revalidate strategy.
 
-The Index DB access and REST updates happen in a shared web-worker.
-Heavy operations like sorting is outsourced into the web-worker.
+The Index DB access and REST updates happen in a web-worker.
+Heavy operations like table joining and sorting is outsourced into the web-worker.
 
 Multiple browser tabs stay in sync and only a single SSE connection must
-be established.
+be established. (Not true at the moment. Shared web workers do not work in WebKit/Safari.)
 
 This architecture should provide us with low-latency rendering performance.
 
