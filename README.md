@@ -152,7 +152,10 @@ See [Javascript Readme](js/readme.md).
 
 ### How does interaction with openHAB works
 
-A Model-View-Adapter (MVA) concept is in place.
+A Model-View-Adapter (MVA) concept is in place and illustrated in
+the following diagram:
+
+![Model-View-Adapter](docs/paperui-ng-dataflow.svg "Model-View-Adapter Architecture")
 
 There are several components used as **View**:
 * The `VueJS` based `ohcomponents/oh-vue-list` for reactive list
@@ -166,14 +169,19 @@ and *Adapter* for any changes.
 The `listadapter/*` classes provide Mixins for the *View*, but also provide
 Model **Adapters** that communicate with the *Model* (aka Store).
 
-The `store/*` bundle finally provides the frontend database, the **Model**,
+#### The Model
+
+The `app/*` bundle finally provides the frontend database, the **Model**,
 for this architecture. All requested REST endpoints are cached in a Index DB and kept
-in sync via SSE (Server Send Events). Any sorting will not happen
-in the *View*, but directly in the Index DB.
+in sync via SSE (Server Send Events). The storage follows a State-While-Revalidate strategy.
+
+The Index DB access and REST updates happen in a shared web-worker.
+Heavy operations like sorting is outsourced into the web-worker.
+
+Multiple browser tabs stay in sync and only a single SSE connection must
+be established.
 
 This architecture should provide us with low-latency rendering performance.
-We can outsource heavy operations like sorting into web-workers at any
-point without changing any of the *Adapters* or *Views*.
 
 ## Missing openHAB functionality
 
