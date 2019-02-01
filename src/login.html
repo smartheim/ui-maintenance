@@ -77,6 +77,11 @@ server {
           </div>
           <button type="submit" :class="{disabled:connecting}" class="btn btn-orange w-100">Login</button>
         </form>
+        <div class="centeredsmallcard mt-0 p-1 card" v-if="hostedapp">
+          Although you have apparently accessed this application from an external webpage,
+          it can only find and access your network internal openHAB installation.
+          <mark>No openHAB data is leaving your network at any time.</mark>
+        </div>
         <div class="centeredsmallcard mt-0 p-0 text-right"><a href="#" @click="dump">Dump cache</a></div>
       </div>
     </template>

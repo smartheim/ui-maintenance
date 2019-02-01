@@ -27,6 +27,9 @@ const Mixin = {
     computed: {
         notconnected: function () {
             return !this.connected;
+        },
+        hostedapp: function () {
+            return (window.location.host.includes("github"));
         }
     },
     methods: {
