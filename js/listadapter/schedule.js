@@ -1,10 +1,11 @@
 // import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
 import * as cronstrue from '../cronstrue.js';
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "schedule" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/schedule.json").then(response => response.json());
+        return store.get("rest/schedule", "schedule").then(list => this.list = list);
     }
     dispose() {
     }
@@ -31,8 +32,8 @@ const schema = {
                         enum: ['fixed', 'cron'],
                         description: "A fixed timer runs once at the given date and time. A cron timer is reoccuring."
                     },
-                    cronExpression: { type: "string", description: "A cron expression for reoccuring events", minLength: 2  },
-                    datetime: { type: "string", description: "A date/time expressed as ISO 8601 Notation", minLength: 2  }
+                    cronExpression: { type: "string", description: "A cron expression for reoccuring events", minLength: 2 },
+                    datetime: { type: "string", description: "A date/time expressed as ISO 8601 Notation", minLength: 2 }
                     // config: { // reference the second schema.. demo
                     //     $ref: 'http://myserver/bar-schema.json', 
                     // },
@@ -55,7 +56,7 @@ const ScheduleMixin = {
                 try {
                     return cronstrue.toString(this.item.cronExpression, { throwExceptionOnParseError: true, use24HourTimeFormat: true });
                 } catch (e) {
-                    return "Cron expression parse error: "+e;
+                    return "Cron expression parse error: " + e;
                 }
             } else if (this.item.type == "fixed") {
                 return new Date().toString();
@@ -67,6 +68,8 @@ const ScheduleMixin = {
 }
 
 const mixins = [ScheduleMixin];
-const runtimekeys = ["link","editable","remainingRuns","totalRuns","lastrun"];
+const listmixins = [];
+const runtimekeys = ["link", "editable", "remainingRuns", "totalRuns", "lastrun"];
+const ID_KEY = "UID";
 
-export {mixins, schema, runtimekeys, StoreView};
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

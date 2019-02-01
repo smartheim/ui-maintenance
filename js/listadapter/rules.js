@@ -1,9 +1,9 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "rules" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/rules.json").then(response => response.json());
+        return store.get("rest/rules", "rules").then(list => this.list = list);
     }
     dispose() {
     }
@@ -53,6 +53,8 @@ const RulesMixin = {
 }
 
 const mixins = [RulesMixin];
-const runtimekeys = ["link","editable","status","runcounter"];
+const listmixins = [];
+const runtimekeys = ["link", "editable", "status", "runcounter"];
+const ID_KEY = "UID";
 
-export {mixins, schema, runtimekeys, StoreView};
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

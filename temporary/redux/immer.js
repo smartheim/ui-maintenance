@@ -1,32 +1,32 @@
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
+    return typeof obj;
 } : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
 
 var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
 };
 
 var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
     }
-  }
 
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
+    return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+    };
 }();
 
 
@@ -34,18 +34,18 @@ var createClass = function () {
 
 
 var defineProperty = function (obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
 
-  return obj;
+    return obj;
 };
 
 var NOTHING = typeof Symbol !== "undefined" ? Symbol("immer-nothing") : defineProperty({}, "immer-nothing", true);
@@ -149,19 +149,19 @@ function generateArrayPatches(state, basePath, patches, inversePatches) {
 
     // ...or did it shrink?
     else if (minLength < base.length) {
-            patches.push({
-                op: "replace",
-                path: basePath.concat("length"),
-                value: copy.length
+        patches.push({
+            op: "replace",
+            path: basePath.concat("length"),
+            value: copy.length
+        });
+        for (var _i2 = minLength; _i2 < base.length; _i2++) {
+            inversePatches.push({
+                op: "add",
+                path: basePath.concat(_i2),
+                value: base[_i2]
             });
-            for (var _i2 = minLength; _i2 < base.length; _i2++) {
-                inversePatches.push({
-                    op: "add",
-                    path: basePath.concat(_i2),
-                    value: base[_i2]
-                });
-            }
         }
+    }
 }
 
 function generateObjectPatches(state, basePath, patches, inversePatches) {
@@ -196,7 +196,6 @@ function applyPatches(draft, patches) {
             switch (patch.op) {
                 case "replace":
                 case "add":
-                    // TODO: add support is not extensive, it does not support insertion or `-` atm!
                     base[key] = patch.value;
                     break;
                 case "remove":
@@ -433,10 +432,10 @@ function createHiddenProperty(target, prop, value) {
 
 
 var legacyProxy = Object.freeze({
-	scopes: scopes,
-	currentScope: currentScope,
-	willFinalize: willFinalize,
-	createDraft: createDraft
+    scopes: scopes,
+    currentScope: currentScope,
+    willFinalize: willFinalize,
+    createDraft: createDraft
 });
 
 // @ts-check
@@ -448,7 +447,7 @@ var currentScope$1 = function currentScope() {
 };
 
 // Do nothing before being finalized.
-function willFinalize$1() {}
+function willFinalize$1() { }
 
 function createDraft$1(base, parent) {
     if (isDraft(base)) throw new Error("This should never happen. Please report: https://github.com/mweststrate/immer/issues/new"); // prettier-ignore
@@ -533,7 +532,7 @@ function get$1(state, prop) {
 
 function set$1(state, prop, value) {
     if (!state.modified) {
-        // Optimize based on value's truthiness. Truthy values are guaranteed to
+        // Optimized based on value's truthiness. Truthy values are guaranteed to
         // never be undefined, so we can avoid the `in` operator. Lastly, truthy
         // values may be drafts, but falsy values are never drafts.
         var isUnchanged = value ? is(state.base[prop], value) || value === state.drafts[prop] : is(state.base[prop], value) && prop in state.base;
@@ -577,13 +576,13 @@ function markChanged$1(state) {
 }
 
 var modernProxy = Object.freeze({
-	scopes: scopes$1,
-	currentScope: currentScope$1,
-	willFinalize: willFinalize$1,
-	createDraft: createDraft$1
+    scopes: scopes$1,
+    currentScope: currentScope$1,
+    willFinalize: willFinalize$1,
+    createDraft: createDraft$1
 });
 
-function verifyMinified() {}
+function verifyMinified() { }
 
 var configDefaults = {
     useProxies: typeof Proxy !== "undefined" && typeof Reflect !== "undefined",
@@ -641,54 +640,54 @@ var Immer = function () {
             }
             // See #100, don't nest producers
             else if (isDraft(base)) {
-                    result = recipe.call(base, base);
-                    if (result === undefined) return base;
-                }
-                // The given value must be proxied.
-                else {
-                        this.scopes.push([]);
-                        var baseDraft = this.createDraft(base);
-                        try {
-                            result = recipe.call(baseDraft, baseDraft);
-                            this.willFinalize(result, baseDraft, !!patchListener);
+                result = recipe.call(base, base);
+                if (result === undefined) return base;
+            }
+            // The given value must be proxied.
+            else {
+                this.scopes.push([]);
+                var baseDraft = this.createDraft(base);
+                try {
+                    result = recipe.call(baseDraft, baseDraft);
+                    this.willFinalize(result, baseDraft, !!patchListener);
 
-                            // Never generate patches when no listener exists.
-                            var patches = patchListener && [],
-                                inversePatches = patchListener && [];
+                    // Never generate patches when no listener exists.
+                    var patches = patchListener && [],
+                        inversePatches = patchListener && [];
 
-                            // Finalize the modified draft...
-                            if (result === undefined || result === baseDraft) {
-                                result = this.finalize(baseDraft, [], patches, inversePatches);
-                            }
-                            // ...or use a replacement value.
-                            else {
-                                    // Users must never modify the draft _and_ return something else.
-                                    if (baseDraft[DRAFT_STATE].modified) throw new Error("An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft."); // prettier-ignore
-
-                                    // Finalize the replacement in case it contains (or is) a subset of the draft.
-                                    if (isDraftable(result)) result = this.finalize(result);
-
-                                    if (patchListener) {
-                                        patches.push({
-                                            op: "replace",
-                                            path: [],
-                                            value: result
-                                        });
-                                        inversePatches.push({
-                                            op: "replace",
-                                            path: [],
-                                            value: base
-                                        });
-                                    }
-                                }
-                        } finally {
-                            this.currentScope().forEach(function (state) {
-                                return state.revoke();
-                            });
-                            this.scopes.pop();
-                        }
-                        patchListener && patchListener(patches, inversePatches);
+                    // Finalize the modified draft...
+                    if (result === undefined || result === baseDraft) {
+                        result = this.finalize(baseDraft, [], patches, inversePatches);
                     }
+                    // ...or use a replacement value.
+                    else {
+                        // Users must never modify the draft _and_ return something else.
+                        if (baseDraft[DRAFT_STATE].modified) throw new Error("An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft."); // prettier-ignore
+
+                        // Finalize the replacement in case it contains (or is) a subset of the draft.
+                        if (isDraftable(result)) result = this.finalize(result);
+
+                        if (patchListener) {
+                            patches.push({
+                                op: "replace",
+                                path: [],
+                                value: result
+                            });
+                            inversePatches.push({
+                                op: "replace",
+                                path: [],
+                                value: base
+                            });
+                        }
+                    }
+                } finally {
+                    this.currentScope().forEach(function (state) {
+                        return state.revoke();
+                    });
+                    this.scopes.pop();
+                }
+                patchListener && patchListener(patches, inversePatches);
+            }
             // Normalize the result.
             return result === NOTHING ? undefined : result;
         }
@@ -766,8 +765,8 @@ var Immer = function () {
 
                     // prettier-ignore
                     parent[prop] =
-                    // Patches are never generated for assigned properties.
-                    patches && parent === root && !(state && state.assigned[prop]) ? _this2.finalize(value, path.concat(prop), patches, inversePatches) : _this2.finalize(value);
+                        // Patches are never generated for assigned properties.
+                        patches && parent === root && !(state && state.assigned[prop]) ? _this2.finalize(value, path.concat(prop), patches, inversePatches) : _this2.finalize(value);
 
                     if (onAssign && inDraft) onAssign(state, prop, parent[prop]);
                     return;
@@ -812,7 +811,7 @@ var produce = immer.produce;
  * By default, auto-freezing is disabled in production.
  */
 var setAutoFreeze = function setAutoFreeze(value) {
-  return immer.setAutoFreeze(value);
+    return immer.setAutoFreeze(value);
 };
 
 /**
@@ -822,7 +821,7 @@ var setAutoFreeze = function setAutoFreeze(value) {
  * By default, feature detection is used, so calling this is rarely necessary.
  */
 var setUseProxies = function setUseProxies(value) {
-  return immer.setUseProxies(value);
+    return immer.setUseProxies(value);
 };
 
 /**

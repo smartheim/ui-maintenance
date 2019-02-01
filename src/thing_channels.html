@@ -23,14 +23,15 @@
   <partial src="pagetitleheader.html" title="Thing Channels"></partial>
   <main>
     <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
-    <oh-object-bind adapter="thing" objectFromURL></oh-object-bind>
-    <oh-vue></oh-vue>
+    <oh-form-bind adapter="thing" objectFromURL></oh-form-bind>
+    <oh-vue-form></oh-vue-form>
     <template>
       <h4 class="text-center pt-5" v-if="pendingwait"> Loading </h4>
       <div class="text-center pt-5" v-else-if="error"> {{error}} </div>
       <div v-else>
         <div id="listcontainer" @click="updateSelectCounter">
-          <section v-for="item in objectdata.channels" :key="item.id" :id="item.id">
+          <div v-if="!objectdata.channels || objectdata.channels.length==0">No channels found</div>
+          <section v-else v-for="item in objectdata.channels" :key="item.id" :id="item.id">
             <h4 contenteditable="true" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</h4>
             <a class="ml-2" href="#"><i class="fas fa-trash"></i></a>
             <div class="ml-3">
@@ -74,7 +75,7 @@
               </table>
             </div>
           </section>
-          <div class="btn-group btnbar mb-2" role="group">
+          <div v-if="objectdata.channels && objectdata.channels.length>0" class="btn-group btnbar mb-2" role="group">
             <a href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i> Save</a>
           </div>
         </div>

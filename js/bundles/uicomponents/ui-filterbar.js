@@ -126,11 +126,11 @@ class UiFilter extends HTMLElement {
     this.dispatchEvent(new CustomEvent('selectmode', { detail: { selectmode: this.selectmode } }));
   }
   renderViewMode() {
-    render(html`${!this.grid ? '' : html`<button type="button" title="${this.grid}" data-mode="grid" @click="${this.modeChange.bind(this)}"
+    render(html`${!this.grid ? '' : html`<button type="button" title="${this.grid} (Alt+g)" accesskey="g" data-mode="grid" @click="${this.modeChange.bind(this)}"
               class="btn ${this.mode == "grid" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-large"></i></button>`}
-          ${!this.list ? '' : html`<button type="button" title="${this.list}" data-mode="list" @click="${this.modeChange.bind(this)}"
+          ${!this.list ? '' : html`<button type="button" title="${this.list} (Alt+l)" data-mode="list" accesskey="l" @click="${this.modeChange.bind(this)}"
               class="btn ${this.mode == "list" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-list"></i></button>`}
-          ${!this.textual ? '' : html`<button type="button" title="${this.textual}" data-mode="textual" @click="${this.modeChange.bind(this)}"
+          ${!this.textual ? '' : html`<button type="button" title="${this.textual} (Alt+t)" data-mode="textual" accesskey="t" @click="${this.modeChange.bind(this)}"
               class="btn ${this.mode == "textual" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-align-justify"></i></button>`}
               `, this.querySelector(".viewmode"));
   }

@@ -27,7 +27,6 @@ class OhDropdownBind extends HTMLElement {
             console.warn("OhDropdownBind: Could not find target!");
             return;
         }
-
         const listadapter = this.getAttribute("listadapter");
         import('./listadapter/' + listadapter + '.js')
             .then(this.startList.bind(this)).catch(e => {
@@ -49,7 +48,6 @@ class OhDropdownBind extends HTMLElement {
         for (let item of items) {
             dropdownItems[item[this.viewkey]] = item[this.viewvalue];
         };
-        console.log("startList", items);
         this.target.options = dropdownItems;
     }
 }

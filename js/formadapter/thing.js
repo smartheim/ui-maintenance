@@ -1,20 +1,18 @@
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "things" };
     constructor() {
         this.thingtypes = [];
         this.channeltypes = [];
     }
     async get(thinguid) {
-        return fetchWithTimeout("dummydata/rest/thing-types.json")
-            .then(response => response.json())
+        return store.get("rest/thing-types", "thing-types")
             .then(json => this.thingtypes = json)
-            .then(() => fetchWithTimeout("dummydata/rest/channel-types.json"))
-            .then(response => response.json())
+            .then(() => store.get("rest/channel-types", "channel-types"))
             .then(json => this.channeltypes = json)
-            .then(() => fetchWithTimeout("dummydata/rest/things.json"))
-            .then(response => response.json())
-            .then(json => json.find(e => e.UID == thinguid));
+            .then(() => store.get("rest/things/" + thinguid, "things", thinguid))
+            .then(v => this.value = v);
     }
     getChannelTypeFor(uid) {
         for (const channelType of this.channeltypes) {

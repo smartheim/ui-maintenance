@@ -11,6 +11,7 @@ const UIFilterbarMixin = {
         }
     },
     created: function () {
+        // this.ignoreWatch = true;
         this.props = ['filtercriteria'];
         this.filter = null;
         this.customcriteria = null;
@@ -42,6 +43,19 @@ const UIFilterbarMixin = {
             var classes = [this.viewmode];
             if (this.selectmode) classes.push("selectionmode");
             return classes;
+        }
+    },
+    watch: {
+        items: {
+            handler: function (newVal, oldVal) {
+                if (this.ignoreWatch) {
+                    console.debug("list change ignored", newVal.length);
+                    this.ignoreWatch = false;
+                    return;
+                }
+                console.debug("list changed", newVal.length);
+                this.rebuildList();
+            }
         }
     },
     methods: {

@@ -1,9 +1,9 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "bindings" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/bindings.json").then(response => response.json());
+        return store.get("rest/bindings", "bindings").then(list => this.list = list);
     }
     dispose() {
     }
@@ -29,10 +29,14 @@ const BindingsMixin = {
         getAuxiliaries: function () {
             const custom = this.item.custompages;
             let options = {};
+            if (!custom) return options;
             for (let page of custom) {
                 options[page.uri] = page.label;
             }
             return options;
+        },
+        hasCustomPages: function () {
+            return this.item.custompages && this.item.custompages.length > 0;
         }
     },
     computed: {
@@ -47,7 +51,9 @@ const BindingsMixin = {
 
 
 const mixins = [BindingsMixin];
+const listmixins = [];
 const runtimekeys = [];
 const schema = null;
+const ID_KEY = "id";
 
-export { mixins, schema, runtimekeys, StoreView };
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

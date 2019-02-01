@@ -1,17 +1,14 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "inbox" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/thing-types.json")
-            .then(response => response.json())
+        return store.get("rest/thing-types", "thing-types")
             .then(json => this.thingtypes = json)
-            .then(() => fetchWithTimeout("dummydata/rest/bindings.json"))
-            .then(response => response.json())
+            .then(() => store.get("rest/bindings", "bindings"))
             .then(json => this.bindings = json)
-            .then(() => fetchWithTimeout("dummydata/rest/inbox.json"))
-            .then(response => response.json())
-            .then(json => this.thing = json);
+            .then(() => store.get("rest/inbox", "inbox"))
+            .then(list => this.list = list);
     }
     getThingTypeFor(uid) {
         for (const type of this.thingtypes) {
@@ -23,7 +20,7 @@ class StoreView {
     getBindingFor(bindingid) {
         for (const binding of this.bindings) {
             if (binding.id == bindingid)
-            return binding;
+                return binding;
         }
     }
     dispose() {
@@ -44,18 +41,30 @@ const InboxMixin = {
             return "No Thing description available";
         },
         hide() {
-            console.log("hide");
+            this.message = null;
+            this.messagetitle = "Hiding...";
             this.inProgress = true;
         },
         accept() {
-            console.log("accept");
+            this.message = null;
+            this.messagetitle = "Accepting...";
             this.inProgress = true;
         }
     }
 }
 
+const InboxListMixin = {
+    methods: {
+        clear() {
+            console.log("clear");
+        },
+    }
+}
+
 const mixins = [InboxMixin];
+const listmixins = [InboxListMixin];
 const runtimekeys = [];
 const schema = null;
+const ID_KEY = "thinkUID";
 
-export { mixins, schema, runtimekeys, StoreView };
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

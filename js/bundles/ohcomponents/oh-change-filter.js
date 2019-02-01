@@ -1,5 +1,5 @@
 /**
- * This is a tandem component for ui-filterbar.
+ * This is a tandem component for ui-filterbar and ui-vue-list-bind
  * 
  */
 class OhChangeFilter extends HTMLElement {
@@ -10,6 +10,8 @@ class OhChangeFilter extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     this.target = this.hasAttribute("target") ? this.getAttribute("target") : null;
     this.filter = this.hasAttribute("filter") ? this.getAttribute("filter") : null;
+    this.sort = this.hasAttribute("sort") ? this.getAttribute("sort") : null;
+    this.direction = this.hasAttribute("direction") ? this.getAttribute("direction") : null;
   }
   connectedCallback() {
     this.attributeChangedCallback();
@@ -24,7 +26,8 @@ class OhChangeFilter extends HTMLElement {
       return;
     }
 
-    el.setAttribute("value", this.filter);
+    if (this.filter) el.setAttribute("value", this.filter);
+    if (this.sort) el.sort(this.sort, this.direction);
   }
 }
 

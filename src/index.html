@@ -11,25 +11,20 @@
   <partial src="mainnav.html"></partial>
   <section class="header d-none">
   </section>
-  <!--TODO:REMOVE-->
-  <ui-notification persistent>
-    <div> This is a design study.<br>
-      <a href="about.html" data-close>About version w4</a>
-    </div>
-  </ui-notification>
   <main>
-    <center><img src="img/openhab-logo.png" alt="openHAB" class="logo"></center>
+    <img src="img/openhab-logo.png" alt="openHAB" class="logo">
     <div class="card my-4 border-primary">
       <div class="card-body">
         <h3 class="card-title">Welcome aboard!</h3>
         <div class="row">
-          <p class="card-text col-sm mb-0"> You are using <abbr title="Google’s Material Design approach uses so called “cards”, which looks like paper. As the Paper UI also uses this card, it was decided to call it Paper UI.">Paper
-              UI</abbr>, the setup and maintenance interface of openHAB. If this is your first time here or you haven't
-            been here for a while, swipe through the introduction slides for a quick tutorial. </p>
+          <p class="card-text col-sm mb-0"> You are using the <b>Setup &amp; Maintenance</b> interface of openHAB. If
+            this is your first time here or you haven't been here for a while, swipe through the introduction slides
+            for a quick tutorial. </p>
           <div class="col-md-auto text-right"><a class="btn btn-primary-hover" href="tutorial-1.html">Introduction</a></div>
         </div>
       </div>
     </div>
+    <!--
     <div class="card mb-4">
       <div class="card-body">
         <h5 class="card-title">Avoid unpleasant surprises</h5>
@@ -39,6 +34,21 @@
           <div class="col-md-auto text-right"><a class="btn btn-primary-hover" href="changelog.html">Check the
               changelog</a></div>
         </div>
+      </div>
+    </div>
+  -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h3 class="card-title">This is a design study!</h3>
+        <p class="card-text"> This design study of a next generation Paper UI is aiming to solve these issues: </p>
+        <ul class="card-text">
+          <li>Modern, maintainable technology stack for easy extensions.</li>
+          <li>A newby friendly presentation, including a features tour and a guided tutorial on how to begin with
+            openHAB.</li>
+          <li>Covering all openHAB functionality, including Item Tags and Automation Rules, so that falling back to
+            text files or the command line should not be necessary at any time.</li>
+          <li>Efficient multi item / batch editing features via textual view mode and multi-item selection.</li>
+        </ul>
       </div>
     </div>
     <details class="card mb-4">
@@ -73,8 +83,18 @@
         </div>
       </div>
     </details>
-    <ui-switch class="mb-4" storekey="skiphome" label="Show
-    the 'Maintenance' screen by default" title="You will not start on this screen but the maintenance screen instead"></ui-switch>
+    <span style="flex:1"></span>
+    <div style="display:flex;align-items: center;" class="mb-4">
+      <ui-switch storekey="skiphome" label="Show
+        the 'Maintenance' screen by default" title="You will not start on this screen but the maintenance screen instead"></ui-switch>
+      <span style="flex:1"></span>
+      <a class="mr-3" href="about.html">About / <abbr title="Open Source">OS</abbr> Attributions</a>
+      <oh-login-status-link class="invisible" style="min-width: 220px;min-height: 31px">
+        <a class="btn btn-primary-hover btn-sm" slot="connected" href="login.html">Logout from <span class="hostname"></span></a>
+        <div slot="disconnected"><span class="hostname"></span> - <a class="btn btn-primary-hover btn-sm" href="login.html">Connection
+            failed</a></div>
+      </oh-login-status-link>
+    </div>
   </main>
   <footer></footer>
   <aside>

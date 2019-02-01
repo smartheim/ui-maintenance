@@ -7,24 +7,35 @@
 
 <body>
   <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <link rel="stylesheet" href="css/inbox.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
-      <li><a href="#">Start <b>full</b> discovery</a></li>
-      <li><a href="#" class="disabled" id="clearresults">Clear results</a></li>
+      <li id="clearresults">
+      </li>
     </ul>
-    <p>Add-on specific discovery</p>
-    <ul>
-      <li><a href="#">Network binding</a></li>
-      <li><a href="#">MQTT binding</a></li>
-    </ul>
+    <p>Start manuall discovery</p>
+    <oh-list-bind for="serviceslist" listadapter="discovery"></oh-list-bind>
+    <oh-vue-list id="serviceslist" filtercriteria="id" maxFilteredItems="1000" style="display: block;max-width: 250px;">
+      <div slot="app"></div>
+      <template slot="list">
+        <partial src="vuelisterrors.html"></partial>
+        <ul slot="app" v-else>
+          <oh-vue-listitem v-for="item in filtered" :key="item.id" :listitem="item"></oh-vue-listitem>
+        </ul>
+      </template>
+      <template slot="item">
+        <li><a class="discovery" :class="{activediscovery:activediscovery}" href="#" :title="description()"
+            @click.prevent="toggle()"> {{label()}}</a></li>
+      </template>
+    </oh-vue-list>
     <p>Settings</p>
     <ul>
       <li>
-        <ui-switch class="ml-4" storekey="enabletest" title="Auto approve"></ui-switch>
+        <ui-switch storekey="enabletest" title="Auto approve"></ui-switch>
       </li>
       <li>
-        <ui-switch class="ml-4" storekey="showhidden" title="Show hidden"></ui-switch>
+        <ui-switch storekey="showhidden" title="Show hidden"></ui-switch>
       </li>
     </ul>
   </nav>
@@ -41,10 +52,23 @@
         </button>
       </div>
     </ui-filter>
-    <div class="mt-4 alert alert-info">Discovery status for "Network binding": <span class="badge badge-success">Running</span></div>
     <oh-list-bind for="inboxlist" listadapter="inbox"></oh-list-bind>
     <oh-vue-list id="inboxlist" filtercriteria="label">
-      <partial src="vuelistbasics.html" key="item.thingUID"></partial>
+      <div slot="app"></div>
+      <template slot="list">
+        <partial src="vuelisterrors.html"></partial>
+        <div v-else class="w-100" slot="app">
+          <transition-group name="fade" tag="div" id="listcontainer" @click="updateSelectCounter" :class="containerclasses">
+            <oh-vue-listitem v-for="item in filtered" :key="item.thingUID" :listitem="item"></oh-vue-listitem>
+          </transition-group>
+          <portal name="testname" target-el="#clearresults" breakshadow slim>
+            <a href="#" @click.prevent="clear" :class="{disabled:empty}">Clear Inbox</a>
+          </portal>
+          <div v-if="hasMore" class="text-center">
+            <button class="btn btn-primary-hover" @click="showMore()">Show 50 more &hellip;</button>
+          </div>
+        </div>
+      </template>
       <template slot="item">
         <section class="listitem" :id="item.thingUID">
           <div class="body">
@@ -55,10 +79,7 @@
                 <button class="btn btn-success btn-sm" title="Accept" @click="accept()"><i class="fas fa-check"></i></button>
               </span>
             </div>
-            <div class="warnDialog" v-show="inProgress">
-              <h4>Waiting for openHAB</h4>
-              <div class="loader m-0"></div>
-            </div>
+            <vue-inprogress></vue-inprogress>
             <section class="description"> {{description(item)}} </section>
           </div>
           <div class="footer small py-1 px-3"> {{binding(item)}} </div>

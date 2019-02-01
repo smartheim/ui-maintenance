@@ -15,32 +15,33 @@
     <nav-breadcrumb parent="Add-Ons"></nav-breadcrumb>
     <oh-attribute-bind attribute="filter" queryParameter="id"></oh-attribute-bind>
     <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></oh-github-issues>
-    <oh-object-bind adapter="binding" objectFromURL allowNew></oh-object-bind>
-    <oh-vue></oh-vue>
+    <oh-form-bind adapter="binding" objectFromURL allowNew></oh-form-bind>
+    <oh-vue-form></oh-vue-form>
     <template>
-      <h4 class="text-center pt-5" v-if="pendingwait"> Loading </h4>
-      <div class="text-center pt-5" v-else-if="error"> {{error}} </div>
-      <div v-else>
-        <section class="config">
-          <h4 title="org.openhab.addons">Logging level</h4>
-          <div class="element radio-button-group" role="group">
-            <label class="radio-button"><input type="radio" name="loglevel" value="trace" v-model="objectdata.loglevel" /><span>Trace</span></label>
-            <label class="radio-button"><input type="radio" name="loglevel" value="info" v-model="objectdata.loglevel" /><span>Info</span></label>
-            <label class="radio-button"><input type="radio" name="loglevel" value="debug" v-model="objectdata.loglevel" /><span>Debug</span></label>
-            <label class="radio-button"><input type="radio" name="loglevel" value="warn" v-model="objectdata.loglevel" /><span>Only
-                warning &amp; errors</span></label>
+      <transition name="fade">
+        <partial src="vuelisterrors.html"></partial>
+        <div v-else-if="objectdata.loglevel">
+          <section class="config">
+            <h4 title="org.openhab.addons">Logging level</h4>
+            <div class="element radio-button-group" role="group">
+              <label class="radio-button"><input type="radio" name="loglevel" value="trace" v-model="objectdata.loglevel" /><span>Trace</span></label>
+              <label class="radio-button"><input type="radio" name="loglevel" value="info" v-model="objectdata.loglevel" /><span>Info</span></label>
+              <label class="radio-button"><input type="radio" name="loglevel" value="debug" v-model="objectdata.loglevel" /><span>Debug</span></label>
+              <label class="radio-button"><input type="radio" name="loglevel" value="warn" v-model="objectdata.loglevel" /><span>Only
+                  warning &amp; errors</span></label>
+            </div>
+          </section>
+          <section class="config">
+            <h4 title="org.openhab.addons">Configuration</h4>
+            <div v-if="configurations().length==0">No configuration available</div>
+            <partial src="vue-config-elements.html"></partial>
+          </section>
+          <div class="btn-group btnbar mt-4" role="group">
+            <button type="submit" href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i>
+              Save</botton>
           </div>
-        </section>
-        <section class="config">
-          <h4 title="org.openhab.addons">Configuration</h4>
-          <div v-if="configurations().length==0">No configuration available</div>
-          <partial src="vue-config-elements.html"></partial>
-        </section>
-        <div class="btn-group btnbar mt-4" role="group">
-          <button type="submit" href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i>
-            Save</botton>
         </div>
-      </div>
+      </transition>
     </template>
   </main>
   <footer></footer>

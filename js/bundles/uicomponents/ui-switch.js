@@ -4,7 +4,6 @@ class UiSwitch extends HTMLElement {
   }
   setCheck(newState, noevents) {
     this.input.checked = newState;
-    console.log("checked", newState, this.input.name, this.input);
 
     if (!noevents && !this.disabled) this.dispatchEvent(new Event("input"));
     if (this.showid) {
@@ -21,6 +20,7 @@ class UiSwitch extends HTMLElement {
     }
   }
   set value(newValue) {
+    if (newValue instanceof String) newValue = (newValue == 'true');
     if (this.input)
       this.setCheck(newValue, true);
     else
@@ -43,8 +43,7 @@ class UiSwitch extends HTMLElement {
     if (this.storekey) this.input.setAttribute("name", this.storekey);
     this.addEventListener("click", (e) => {
       e.preventDefault();
-      this.input.checked = !this.input.checked;
-      this.setCheck(this.input.checked);
+      this.setCheck(!this.input.checked);
       if (this.storekey) localStorage.setItem(this.storekey, this.input.checked);
       if (this.documentevent) document.dispatchEvent(new Event(this.documentevent));
     });
@@ -58,7 +57,7 @@ class UiSwitch extends HTMLElement {
 
     this.attributeChangedCallback("showid");
     var isChecked = this.hasAttribute("checked") ? this.getAttribute("checked") == "true" : false;
-    var cached = this.storekey ? localStorage.getItem(this.storekey) : this._value;
+    var cached = this.storekey ? localStorage.getItem(this.storekey) == "true" : this._value;
     window.requestAnimationFrame(() => this.setCheck(isChecked || cached, true));
   }
   static get observedAttributes() {

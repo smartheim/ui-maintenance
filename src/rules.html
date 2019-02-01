@@ -38,22 +38,19 @@
                 {{item.name}} </span>
               <span class="actions btn-group">
                 <button class="btn btn-success-hover btn-sm">
-                  <i class="fas fa-check"></i> <span>Run <i :title="rulesStatusDetails(item)" :class="rulesStatusBadge(item)">{{rulesStatusinfo(item)}}</i>
+                  <i class="fas fa-check"></i> <span>Run <i :title="rulesStatusDetails()" :class="rulesStatusBadge()">{{rulesStatusinfo()}}</i>
                   </span>
                 </button>
-                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
               </span>
             </div>
             <div class="secondlevel">
-              <div class="bg-danger text-white">{{rulesStatusmessage(item)}}</div>
+              <div class="bg-danger text-white">{{rulesStatusmessage()}}</div>
               <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
               <span @click="copyClipboard($event, item.uid)">{{item.uid}}</span>
               <div>Storage association: <input value="openhab"></div>
             </div>
-            <div class="warnDialog" v-show="inProgress">
-              <h4>Waiting for openHAB</h4>
-              <div class="loader m-0"></div>
-            </div>
+            <vue-inprogress></vue-inprogress>
             <section class="description"> {{item.description}} </section>
           </div>
           <div class="footer small py-1 px-3">

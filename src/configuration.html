@@ -16,8 +16,7 @@
     <oh-vue-list filtercriteria="label" maxFilteredItems="1000">
       <div slot="app"></div>
       <template slot="list">
-        <h4 slot="app" class="text-center pt-5" v-if="pendingwait"> Loading </h4>
-        <div slot="app" class="text-center pt-5" v-else-if="error"> {{error}} </div>
+        <partial src="vuelisterrors.html"></partial>
         <div slot="app" v-else>
           <oh-vue-listitem v-for="item in filtered" v-if="item.category=='system'" :key="item.id" :listitem="item"></oh-vue-listitem>
         </div>

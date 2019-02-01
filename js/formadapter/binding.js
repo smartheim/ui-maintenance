@@ -1,11 +1,11 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
+
+const ID_KEY = "id";
 
 class StoreView {
+    mainStore() { return "bindings" };
     async get(bindingid) {
-        return fetchWithTimeout("dummydata/rest/bindings.json")
-            .then(response => response.json())
-            .then(json => json.find(e => e.id == bindingid));
+        return store.get("rest/bindings", "bindings", bindingid, ID_KEY).then(v => this.value = v);
     }
     dispose() {
     }
@@ -21,7 +21,6 @@ const BindingsMixin = {
     }
 }
 
-const ID_KEY = "id";
 const mixins = [BindingsMixin];
 const runtimekeys = [];
 const schema = null;

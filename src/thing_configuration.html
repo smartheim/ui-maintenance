@@ -15,11 +15,10 @@
     <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
     <oh-attribute-bind attribute="filter" queryParameter="UID" regex="(.*?)\:"></oh-attribute-bind>
     <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></oh-github-issues>
-    <oh-object-bind adapter="thing" objectFromURL allowNew></oh-object-bind>
-    <oh-vue></oh-vue>
+    <oh-form-bind adapter="thing" objectFromURL allowNew></oh-form-bind>
+    <oh-vue-form></oh-vue-form>
     <template>
-      <h4 class="text-center pt-5" v-if="pendingwait"> Loading </h4>
-      <div class="text-center pt-5" v-else-if="error"> {{error}} </div>
+      <partial src="vuelisterrors.html"></partial>
       <div v-else>
         <div class="bs-callout bs-callout-info"> {{description()}} </div>
         <div class="mt-4" class="form-group row">
@@ -41,6 +40,13 @@
               v-model="objectdata.location">
           </div>
         </div>
+        <div class="form-group row" v-if="!objectdata.UID">
+          <label for="timerid" class="col-sm-2 col-form-label">Thing Type</label>
+          <div class="col-sm-10">
+            <oh-dropdown-bind viewkey="UID" viewvalue="label" listadapter="thing-types"></oh-dropdown-bind>
+            <ui-dropdown title="Thing types" label="Select a thing type"></ui-dropdown>
+          </div>
+        </div>
         <section class="config">
           <h4 title="org.openhab.addons">Configuration</h4>
           <div v-if="configurations().length==0">No configuration available</div>
@@ -48,7 +54,7 @@
         </section>
         <div class="btn-group btnbar mt-4" role="group">
           <button type="submit" href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i>
-            Save</botton>
+            {{objectdata.UID?'Save':'Create'}}</botton>
         </div>
       </div>
     </template>

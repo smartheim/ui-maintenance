@@ -10,14 +10,26 @@
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
-      <li><a href="#add"><i class="fas fa-plus"></i> Add Thing</a></li>
+      <li><a href="thing_configuration.html"><i class="fas fa-plus"></i> Add Thing</a></li>
     </ul>
     <p>Sort list</p>
     <ul>
-      <li><a href="#sort=alphabetically"><i class="fas fa-sort-alpha-down"></i> By name</a></li>
-      <li><a href="#sort=alphabetically_reverse"><i class="fas fa-sort-alpha-up"></i> By name</a></li>
-      <li><a href="#sort=changedate_desc"><i class="fas fa-sort-amount-down"></i> By change date</a></li>
-      <li><a href="#sort=changedate_asc"><i class="fas fa-sort-amount-up"></i> By change date</a></li>
+      <li>
+        <oh-change-filter target="oh-list-bind" sort="label" direction="↓">
+          <i class="fas fa-sort-alpha-down"></i> By name</oh-change-filter>
+      </li>
+      <li>
+        <oh-change-filter target="oh-list-bind" sort="label" direction="↑">
+          <i class="fas fa-sort-alpha-up"></i> By name</oh-change-filter>
+      </li>
+      <li>
+        <oh-change-filter target="oh-list-bind" sort="thingTypeUID" direction="↓">
+          <i class="fas fa-sort-amount-down"></i> By binding</oh-change-filter>
+      </li>
+      <li>
+        <oh-change-filter target="oh-list-bind" sort="thingTypeUID" direction="↑">
+          <i class="fas fa-sort-amount-up"></i> By binding</oh-change-filter>
+      </li>
     </ul>
     <p>Predefined filters</p>
     <ul>
@@ -55,7 +67,7 @@
                 <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
               </span>
               <span class="actions btn-group">
-                <a title="Edit channels" :href="'thing_channels.html?title='+encodeURIComponent(item.label)+'&UID='+encodeURIComponent(item.UID)"
+                <a v-if="haschannels()" title="Edit channels" :href="'thing_channels.html?title='+encodeURIComponent(item.label)+'&UID='+encodeURIComponent(item.UID)"
                   class="btn btn-secondary-hover btn-sm text-nowrap">
                   <i class="fas fa-sitemap"></i></a>
                 <a title="Edit configuration" :href="'thing_configuration.html?title='+encodeURIComponent(item.label)+'&UID='+encodeURIComponent(item.UID)"
@@ -70,10 +82,7 @@
               <span @click="copyClipboard($event, item.UID)">{{item.UID}}</span>
               <div>Storage association: <input value="openhab"></div>
             </div>
-            <div class="warnDialog" v-show="inProgress">
-              <h4>Waiting for openHAB</h4>
-              <div class="loader m-0"></div>
-            </div>
+            <vue-inprogress></vue-inprogress>
             <section class="description">
               <span>{{description()}}</span>
             </section>

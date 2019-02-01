@@ -3,6 +3,7 @@ main .logo {
     max-width: calc(100% - 40px);
     padding: 20px 0;
     animation: fadein 1s linear 0.2s 1 normal both;
+    margin: 0 auto;
 }
 
 main {
@@ -12,8 +13,9 @@ main {
 }
 
 body {
-    &>main,&>aside {
-        grid-row: 2!important;
+    &>main,
+    &>aside {
+        grid-row: 2 !important;
     }
 }
 

@@ -1,9 +1,9 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store, fetchMethodWithTimeout } from '../app.js';
 
 class StoreView {
+    mainStore() { return "items" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/items.json").then(response => response.json());
+        return store.get("rest/items", "items").then(list => this.list = list);
     }
     dispose() {
     }
@@ -57,32 +57,17 @@ const schema = {
 }
 
 const ItemsMixin = {
-    created: function () {
-        this.itemtypes = {
-            "Color": "<b>Color</b><br>Color information",
-            "Contact": "<b>Contact</b><br>Read-only status of contacts, e.g. door/window contacts.",
-            "DateTime": "<b>DateTime</b><br>Stores date and time",
-            "Dimmer": "<b>Dimmer</b><br>Percentage value, typically used for dimmers",
-            "Image": "<b>Image</b><br>Binary data of an image",
-            "Location": "<b>Location</b><br>GPS coordinates",
-            "Number": "<b>Number</b><br>Values in number format",
-            "Player": "<b>Player</b><br>Allows control of players (e.g. audio players)",
-            "Rollershutter": "<b>Rollershutter</b><br>Roller shutter Item, typically used for blinds",
-            "String": "<b>String</b><br>Stores texts",
-            "Switch": "<b>Switch</b><br>Used for anything that needs to be switched ON and OFF",
-        }
-    },
     computed: {
-        itemtype: function() {
-            if (this.item.type=="Group") return (this.item.basetype ? this.item.basetype : "String");
+        itemtype: function () {
+            if (this.item.type == "Group") return (this.item.basetype ? this.item.basetype : "String");
             return this.item.type;
         },
-        isGroup: function() {
-            return this.item.type=="Group";
+        isGroup: function () {
+            return this.item.type == "Group";
         }
     },
     methods: {
-        setGroup: function(isGroup) {
+        setGroup: function (isGroup) {
             console.log("setGroup");
             if (isGroup) {
                 this.item.basetype = this.item.type;
@@ -91,18 +76,64 @@ const ItemsMixin = {
                 this.item.type = (this.item.basetype ? this.item.basetype : "String");
             }
         },
-        setType: function(type) {
-            if (this.item.type=="Group") {
+        setType: function (type) {
+            if (this.item.type == "Group") {
                 this.item.basetype = type;
             } else {
                 this.item.type = type;
             }
-        }
+        },
+        sendCommand: function () {
+            const command = this.$el.querySelector("input.commandInput").value;
+            this.message = null;
+            this.messagetitle = "Sending '" + command + "'";
+            this.inProgress = true;
+            setTimeout(() => {
+                fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "POST", command, "text/plain")
+                    .then(r => {
+                        this.message = "Command '" + command + "' send";
+                    }).catch(e => {
+                        console.log(e);
+                        if (e.status && e.status == 400) {
+                            this.message = "Command not applicable for item type!";
+                        } else
+                            this.message = e.toString();
+                    })
+            }, 500);
+        },
+        removeItem: function () {
+            this.message = null;
+            this.messagetitle = "Removing item...";
+            this.inProgress = true;
+            setTimeout(() => {
+                fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "DELETE", null)
+                    .then(r => {
+                        this.message = "Item '" + this.item.label + "' removed";
+                    }).catch(e => {
+                        this.message = e.toString();
+                    })
+            }, 500);
+        },
+        saveItem: function () {
+            this.message = null;
+            this.messagetitle = "Saving item...";
+            this.inProgress = true;
+            this.changed = false;
+            setTimeout(() => {
+                fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "PUT", JSON.stringify(this.item))
+                    .then(r => {
+                        this.message = "Item '" + this.item.label + "' saved";
+                    }).catch(e => {
+                        this.message = e.toString();
+                    })
+            }, 500);
+        },
     }
 }
 
 const mixins = [ItemsMixin];
-
+const listmixins = [];
 const runtimekeys = ["link", "editable", "state"];
+const ID_KEY = "name";
 
-export {mixins, schema, runtimekeys, StoreView};
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

@@ -1,4 +1,4 @@
-// TODO: This file was created by bulk-decaffeinate.
+
 // Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
@@ -12,18 +12,18 @@
 //
 class Pattern {
     static initClass() {
-    
+
         // @property [RegExp] The RegExp instance
-        this.prototype.regex =          null;
-    
+        this.prototype.regex = null;
+
         // @property [String] The raw regex string
-        this.prototype.rawRegex =       null;
-    
+        this.prototype.rawRegex = null;
+
         // @property [String] The cleaned regex string (used to create the RegExp instance)
-        this.prototype.cleanedRegex =   null;
-    
+        this.prototype.cleanedRegex = null;
+
         // @property [Object] The dictionary mapping names to capturing bracket numbers
-        this.prototype.mapping =        null;
+        this.prototype.mapping = null;
     }
 
     // Constructor
@@ -43,12 +43,12 @@ class Pattern {
             const _char = rawRegex.charAt(i);
             if (_char === '\\') {
                 // Ignore next character
-                cleanedRegex += rawRegex.slice(i, +(i+1) + 1 || undefined);
+                cleanedRegex += rawRegex.slice(i, +(i + 1) + 1 || undefined);
                 i++;
             } else if (_char === '(') {
                 // Increase bracket number, only if it is capturing
                 if (i < (len - 2)) {
-                    const part = rawRegex.slice(i, +(i+2) + 1 || undefined);
+                    const part = rawRegex.slice(i, +(i + 2) + 1 || undefined);
                     if (part === '(?:') {
                         // Non-capturing bracket
                         i += 2;
@@ -164,42 +164,42 @@ class Pattern {
             str = str.replace(this.regex, replacement);
             count++;
         }
-        
+
         return [str, count];
     }
 }
 Pattern.initClass();
 
-// TODO: This file was created by bulk-decaffeinate.
+
 
 // A bunch of utility methods
 //
 class Utils {
     static initClass() {
-    
-        this.REGEX_LEFT_TRIM_BY_CHAR =   {};
-        this.REGEX_RIGHT_TRIM_BY_CHAR =  {};
-        this.REGEX_SPACES =              /\s+/g;
-        this.REGEX_DIGITS =              /^\d+$/;
-        this.REGEX_OCTAL =               /[^0-7]/gi;
-        this.REGEX_HEXADECIMAL =         /[^a-f0-9]/gi;
-    
+
+        this.REGEX_LEFT_TRIM_BY_CHAR = {};
+        this.REGEX_RIGHT_TRIM_BY_CHAR = {};
+        this.REGEX_SPACES = /\s+/g;
+        this.REGEX_DIGITS = /^\d+$/;
+        this.REGEX_OCTAL = /[^0-7]/gi;
+        this.REGEX_HEXADECIMAL = /[^a-f0-9]/gi;
+
         // Precompiled date pattern
-        this.PATTERN_DATE =              new Pattern('^'+
-                '(?<year>[0-9][0-9][0-9][0-9])'+
-                '-(?<month>[0-9][0-9]?)'+
-                '-(?<day>[0-9][0-9]?)'+
-                '(?:(?:[Tt]|[ \t]+)'+
-                '(?<hour>[0-9][0-9]?)'+
-                ':(?<minute>[0-9][0-9])'+
-                ':(?<second>[0-9][0-9])'+
-                '(?:\.(?<fraction>[0-9]*))?'+
-                '(?:[ \t]*(?<tz>Z|(?<tz_sign>[-+])(?<tz_hour>[0-9][0-9]?)'+
-                '(?::(?<tz_minute>[0-9][0-9]))?))?)?'+
-                '$', 'i');
-    
+        this.PATTERN_DATE = new Pattern('^' +
+            '(?<year>[0-9][0-9][0-9][0-9])' +
+            '-(?<month>[0-9][0-9]?)' +
+            '-(?<day>[0-9][0-9]?)' +
+            '(?:(?:[Tt]|[ \t]+)' +
+            '(?<hour>[0-9][0-9]?)' +
+            ':(?<minute>[0-9][0-9])' +
+            ':(?<second>[0-9][0-9])' +
+            '(?:\.(?<fraction>[0-9]*))?' +
+            '(?:[ \t]*(?<tz>Z|(?<tz_sign>[-+])(?<tz_hour>[0-9][0-9]?)' +
+            '(?::(?<tz_minute>[0-9][0-9]))?))?)?' +
+            '$', 'i');
+
         // Local timezone offset in ms
-        this.LOCAL_TIMEZONE_OFFSET =     new Date().getTimezoneOffset() * 60 * 1000;
+        this.LOCAL_TIMEZONE_OFFSET = new Date().getTimezoneOffset() * 60 * 1000;
     }
 
     // Trims the given string on both sides
@@ -218,7 +218,7 @@ class Utils {
         regexLeft.lastIndex = 0;
         let regexRight = this.REGEX_RIGHT_TRIM_BY_CHAR[_char];
         if (regexRight == null) {
-            this.REGEX_RIGHT_TRIM_BY_CHAR[_char] = (regexRight = new RegExp(_char+''+_char+'*$'));
+            this.REGEX_RIGHT_TRIM_BY_CHAR[_char] = (regexRight = new RegExp(_char + '' + _char + '*$'));
         }
         regexRight.lastIndex = 0;
         return str.replace(regexLeft, '').replace(regexRight, '');
@@ -254,7 +254,7 @@ class Utils {
         if (_char == null) { _char = '\\s'; }
         let regexRight = this.REGEX_RIGHT_TRIM_BY_CHAR[_char];
         if (regexRight == null) {
-            this.REGEX_RIGHT_TRIM_BY_CHAR[_char] = (regexRight = new RegExp(_char+''+_char+'*$'));
+            this.REGEX_RIGHT_TRIM_BY_CHAR[_char] = (regexRight = new RegExp(_char + '' + _char + '*$'));
         }
         regexRight.lastIndex = 0;
         return str.replace(regexRight, '');
@@ -311,7 +311,7 @@ class Utils {
 
         const len = string.length;
         const sublen = subString.length;
-        for (let j = 0, i = j, end = len, asc = 0 <= end; asc ? j < end : j > end; asc ? j++ : j--, i = j) {
+        for (let j = 0, i = j, end = len, asc = 0 <= end; asc ? j < end : j > end; asc ? j++ : j-- , i = j) {
             if (subString === string.slice(i, sublen)) {
                 c++;
                 i += sublen - 1;
@@ -342,7 +342,7 @@ class Utils {
     //
     static octDec(input) {
         this.REGEX_OCTAL.lastIndex = 0;
-        return parseInt((input+'').replace(this.REGEX_OCTAL, ''), 8);
+        return parseInt((input + '').replace(this.REGEX_OCTAL, ''), 8);
     }
 
 
@@ -355,8 +355,8 @@ class Utils {
     static hexDec(input) {
         this.REGEX_HEXADECIMAL.lastIndex = 0;
         input = this.trim(input);
-        if ((input+'').slice(0, 2) === '0x') { input = (input+'').slice(2); }
-        return parseInt((input+'').replace(this.REGEX_HEXADECIMAL, ''), 16);
+        if ((input + '').slice(0, 2) === '0x') { input = (input + '').slice(2); }
+        return parseInt((input + '').replace(this.REGEX_HEXADECIMAL, ''), 16);
     }
 
 
@@ -372,13 +372,13 @@ class Utils {
             return ch(c);
         }
         if (0x800 > c) {
-            return ch(0xC0 | (c>>6)) + ch(0x80 | (c & 0x3F));
+            return ch(0xC0 | (c >> 6)) + ch(0x80 | (c & 0x3F));
         }
         if (0x10000 > c) {
-            return ch(0xE0 | (c>>12)) + ch(0x80 | ((c>>6) & 0x3F)) + ch(0x80 | (c & 0x3F));
+            return ch(0xE0 | (c >> 12)) + ch(0x80 | ((c >> 6) & 0x3F)) + ch(0x80 | (c & 0x3F));
         }
 
-        return ch(0xF0 | (c>>18)) + ch(0x80 | ((c>>12) & 0x3F)) + ch(0x80 | ((c>>6) & 0x3F)) + ch(0x80 | (c & 0x3F));
+        return ch(0xF0 | (c >> 18)) + ch(0x80 | ((c >> 12) & 0x3F)) + ch(0x80 | ((c >> 6) & 0x3F)) + ch(0x80 | (c & 0x3F));
     }
 
 
@@ -391,7 +391,7 @@ class Utils {
     //
     static parseBoolean(input, strict) {
         if (strict == null) { strict = true; }
-        if (typeof(input) === 'string') {
+        if (typeof (input) === 'string') {
             const lowerInput = input.toLowerCase();
             if (!strict) {
                 if (lowerInput === 'no') { return false; }
@@ -414,7 +414,7 @@ class Utils {
     //
     static isNumeric(input) {
         this.REGEX_SPACES.lastIndex = 0;
-        return (typeof(input) === 'number') || ((typeof(input) === 'string') && !isNaN(input) && (input.replace(this.REGEX_SPACES, '') !== ''));
+        return (typeof (input) === 'number') || ((typeof (input) === 'string') && !isNaN(input) && (input.replace(this.REGEX_SPACES, '') !== ''));
     }
 
 
@@ -524,7 +524,7 @@ class Utils {
                 for (let name of ["Msxml2.XMLHTTP.6.0", "Msxml2.XMLHTTP.3.0", "Msxml2.XMLHTTP", "Microsoft.XMLHTTP"]) {
                     try {
                         xhr = new ActiveXObject(name);
-                    } catch (error) {}
+                    } catch (error) { }
                 }
             }
         }
@@ -533,7 +533,7 @@ class Utils {
             // Browser
             if (callback != null) {
                 // Async
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4) {
                         if ((xhr.status === 200) || (xhr.status === 0)) {
                             return callback(xhr.responseText);
@@ -562,7 +562,7 @@ class Utils {
             const fs = req('fs'); // Prevent browserify from trying to load 'fs' module
             if (callback != null) {
                 // Async
-                return fs.readFile(path, function(err, data) {
+                return fs.readFile(path, function (err, data) {
                     if (err) {
                         return callback(null);
                     } else {
@@ -583,17 +583,17 @@ class Utils {
 }
 Utils.initClass();
 
-// TODO: This file was created by bulk-decaffeinate.
+
 
 // Unescaper encapsulates unescaping rules for single and double-quoted YAML strings.
 //
 class Unescaper {
     static initClass() {
-    
+
         // Regex fragment that matches an escaped character in
         // a double quoted string.
-        this.PATTERN_ESCAPED_CHARACTER =     new Pattern('\\\\([0abt\tnvfre "\\/\\\\N_LP]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})');
-        
+        this.PATTERN_ESCAPED_CHARACTER = new Pattern('\\\\([0abt\tnvfre "\\/\\\\N_LP]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})');
+
     }
 
 
@@ -615,9 +615,11 @@ class Unescaper {
     // @return [String]      The unescaped string.
     //
     static unescapeDoubleQuotedString(value) {
-        if (this._unescapeCallback == null) { this._unescapeCallback = str => {
+        if (this._unescapeCallback == null) {
+        this._unescapeCallback = str => {
             return this.unescapeCharacter(str);
-        }; }
+        };
+        }
 
         // Evaluate the string
         return this.PATTERN_ESCAPED_CHARACTER.replace(value, this._unescapeCallback);
@@ -686,43 +688,43 @@ class Unescaper {
 }
 Unescaper.initClass();
 
-// TODO: This file was created by bulk-decaffeinate.
+
 
 // Escaper encapsulates escaping rules for single
 // and double-quoted YAML strings.
 class Escaper {
     static initClass() {
-    
+
         // Mapping arrays for escaping a double quoted string. The backslash is
         // first to ensure proper escaping.
         let ch;
-        this.LIST_ESCAPEES =                 ['\\', '\\\\', '\\"', '"',
-                                         "\x00",  "\x01",  "\x02",  "\x03",  "\x04",  "\x05",  "\x06",  "\x07",
-                                         "\x08",  "\x09",  "\x0a",  "\x0b",  "\x0c",  "\x0d",  "\x0e",  "\x0f",
-                                         "\x10",  "\x11",  "\x12",  "\x13",  "\x14",  "\x15",  "\x16",  "\x17",
-                                         "\x18",  "\x19",  "\x1a",  "\x1b",  "\x1c",  "\x1d",  "\x1e",  "\x1f",
-                                         (ch = String.fromCharCode)(0x0085), ch(0x00A0), ch(0x2028), ch(0x2029)];
-        this.LIST_ESCAPED =                  ['\\\\', '\\"', '\\"', '\\"',
-                                         "\\0",   "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
-                                         "\\b",   "\\t",   "\\n",   "\\v",   "\\f",   "\\r",   "\\x0e", "\\x0f",
-                                         "\\x10", "\\x11", "\\x12", "\\x13", "\\x14", "\\x15", "\\x16", "\\x17",
-                                         "\\x18", "\\x19", "\\x1a", "\\e",   "\\x1c", "\\x1d", "\\x1e", "\\x1f",
-                                         "\\N", "\\_", "\\L", "\\P"];
-    
-        this.MAPPING_ESCAPEES_TO_ESCAPED =   (() => {
+        this.LIST_ESCAPEES = ['\\', '\\\\', '\\"', '"',
+            "\x00", "\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07",
+            "\x08", "\x09", "\x0a", "\x0b", "\x0c", "\x0d", "\x0e", "\x0f",
+            "\x10", "\x11", "\x12", "\x13", "\x14", "\x15", "\x16", "\x17",
+            "\x18", "\x19", "\x1a", "\x1b", "\x1c", "\x1d", "\x1e", "\x1f",
+            (ch = String.fromCharCode)(0x0085), ch(0x00A0), ch(0x2028), ch(0x2029)];
+        this.LIST_ESCAPED = ['\\\\', '\\"', '\\"', '\\"',
+            "\\0", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
+            "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0e", "\\x0f",
+            "\\x10", "\\x11", "\\x12", "\\x13", "\\x14", "\\x15", "\\x16", "\\x17",
+            "\\x18", "\\x19", "\\x1a", "\\e", "\\x1c", "\\x1d", "\\x1e", "\\x1f",
+            "\\N", "\\_", "\\L", "\\P"];
+
+        this.MAPPING_ESCAPEES_TO_ESCAPED = (() => {
             const mapping = {};
             for (let i = 0, end = this.LIST_ESCAPEES.length, asc = 0 <= end; asc ? i < end : i > end; asc ? i++ : i--) {
                 mapping[this.LIST_ESCAPEES[i]] = this.LIST_ESCAPED[i];
             }
             return mapping;
         })();
-    
+
         // Characters that would cause a dumped string to require double quoting.
-        this.PATTERN_CHARACTERS_TO_ESCAPE =  new Pattern('[\\x00-\\x1f]|\xc2\x85|\xc2\xa0|\xe2\x80\xa8|\xe2\x80\xa9');
-    
+        this.PATTERN_CHARACTERS_TO_ESCAPE = new Pattern('[\\x00-\\x1f]|\xc2\x85|\xc2\xa0|\xe2\x80\xa8|\xe2\x80\xa9');
+
         // Other precompiled patterns
-        this.PATTERN_MAPPING_ESCAPEES =      new Pattern(this.LIST_ESCAPEES.join('|').split('\\').join('\\\\'));
-        this.PATTERN_SINGLE_QUOTING =        new Pattern('[\\s\'":{}[\\],&*#?]|^[-?|<>=!%@`]');
+        this.PATTERN_MAPPING_ESCAPEES = new Pattern(this.LIST_ESCAPEES.join('|').split('\\').join('\\\\'));
+        this.PATTERN_SINGLE_QUOTING = new Pattern('[\\s\'":{}[\\],&*#?]|^[-?|<>=!%@`]');
     }
 
 
@@ -747,7 +749,7 @@ class Escaper {
     static escapeWithDoubleQuotes(value) {
         const result = this.PATTERN_MAPPING_ESCAPEES.replace(value, str => {
             return this.MAPPING_ESCAPEES_TO_ESCAPED[str];
-    });
+        });
         return `"${result}"`;
     }
 
@@ -775,7 +777,7 @@ class Escaper {
 }
 Escaper.initClass();
 
-// TODO: This file was created by bulk-decaffeinate.
+
 // Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
@@ -801,7 +803,7 @@ class ParseException extends Error {
     }
 }
 
-// TODO: This file was created by bulk-decaffeinate.
+
 // Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
@@ -827,24 +829,24 @@ class ParseMore extends Error {
     }
 }
 
-// TODO: This file was created by bulk-decaffeinate.
 
-// TODO: This file was created by bulk-decaffeinate.
+
+
 
 // Inline YAML parsing and dumping
 class Inline {
     static initClass() {
-    
+
         // Quoted string regular expression
-        this.REGEX_QUOTED_STRING =               '(?:"(?:[^"\\\\]*(?:\\\\.[^"\\\\]*)*)"|\'(?:[^\']*(?:\'\'[^\']*)*)\')';
-    
+        this.REGEX_QUOTED_STRING = '(?:"(?:[^"\\\\]*(?:\\\\.[^"\\\\]*)*)"|\'(?:[^\']*(?:\'\'[^\']*)*)\')';
+
         // Pre-compiled patterns
         //
-        this.PATTERN_TRAILING_COMMENTS =         new Pattern('^\\s*#.*$');
-        this.PATTERN_QUOTED_SCALAR =             new Pattern(`^${this.REGEX_QUOTED_STRING}`);
-        this.PATTERN_THOUSAND_NUMERIC_SCALAR =   new Pattern('^(-|\\+)?[0-9,]+(\\.[0-9]+)?$');
-        this.PATTERN_SCALAR_BY_DELIMITERS =      {};
-    
+        this.PATTERN_TRAILING_COMMENTS = new Pattern('^\\s*#.*$');
+        this.PATTERN_QUOTED_SCALAR = new Pattern(`^${this.REGEX_QUOTED_STRING}`);
+        this.PATTERN_THOUSAND_NUMERIC_SCALAR = new Pattern('^(-|\\+)?[0-9,]+(\\.[0-9]+)?$');
+        this.PATTERN_SCALAR_BY_DELIMITERS = {};
+
         // Settings
         this.settings = {};
     }
@@ -890,7 +892,7 @@ class Inline {
         }
 
         // Keep a context object to pass through static methods
-        const context = {exceptionOnInvalidType, objectDecoder, i: 0};
+        const context = { exceptionOnInvalidType, objectDecoder, i: 0 };
 
         switch (value.charAt(0)) {
             case '[':
@@ -966,7 +968,7 @@ class Inline {
         if (Utils.PATTERN_DATE.test(value)) {
             return `'${value}'`;
         }
-        if ((needle = value.toLowerCase(), ['null','~','true','false'].includes(needle))) {
+        if ((needle = value.toLowerCase(), ['null', '~', 'true', 'false'].includes(needle))) {
             return `'${value}'`;
         }
         // Default
@@ -992,12 +994,12 @@ class Inline {
             }
             return `[${output.join(', ')}]`;
 
-        // Mapping
+            // Mapping
         } else {
             output = [];
             for (let key in value) {
                 val = value[key];
-                output.push(this.dump(key)+': '+this.dump(val));
+                output.push(this.dump(key) + ': ' + this.dump(val));
             }
             return `{${output.join(', ')}}`;
         }
@@ -1021,14 +1023,14 @@ class Inline {
         if (stringDelimiters == null) { stringDelimiters = ['"', "'"]; }
         if (evaluate == null) { evaluate = true; }
         if (context == null) {
-            context = {exceptionOnInvalidType: this.settings.exceptionOnInvalidType, objectDecoder: this.settings.objectDecoder, i: 0};
+            context = { exceptionOnInvalidType: this.settings.exceptionOnInvalidType, objectDecoder: this.settings.objectDecoder, i: 0 };
         }
-        let {i} = context;
+        let { i } = context;
 
         if ((needle = scalar.charAt(i), Array.from(stringDelimiters).includes(needle))) {
             // Quoted scalar
             output = this.parseQuotedScalar(scalar, context);
-            ({i} = context);
+            ({ i } = context);
 
             if (delimiters != null) {
                 let needle1;
@@ -1088,7 +1090,7 @@ class Inline {
     //
     static parseQuotedScalar(scalar, context) {
         let match;
-        let {i} = context;
+        let { i } = context;
 
         if (!(match = this.PATTERN_QUOTED_SCALAR.exec(scalar.slice(i)))) {
             throw new ParseMore(`Malformed inline YAML string (${scalar.slice(i)}).`);
@@ -1121,7 +1123,7 @@ class Inline {
     static parseSequence(sequence, context) {
         const output = [];
         const len = sequence.length;
-        let {i} = context;
+        let { i } = context;
         i += 1;
 
         // [foo, bar, ...]
@@ -1132,31 +1134,31 @@ class Inline {
                 case '[':
                     // Nested sequence
                     output.push(this.parseSequence(sequence, context));
-                    ({i} = context);
+                    ({ i } = context);
                     break;
                 case '{':
                     // Nested mapping
                     output.push(this.parseMapping(sequence, context));
-                    ({i} = context);
+                    ({ i } = context);
                     break;
                 case ']':
                     return output;
                     break;
                 case ',': case ' ': case "\n":
                     break;
-                    // Do nothing
+                // Do nothing
                 default:
                     var isQuoted = ((needle = sequence.charAt(i), ['"', "'"].includes(needle)));
                     var value = this.parseScalar(sequence, [',', ']'], ['"', "'"], context);
-                    ({i} = context);
+                    ({ i } = context);
 
-                    if (!(isQuoted) && (typeof(value) === 'string') && ((value.indexOf(': ') !== -1) || (value.indexOf(":\n") !== -1))) {
+                    if (!(isQuoted) && (typeof (value) === 'string') && ((value.indexOf(': ') !== -1) || (value.indexOf(":\n") !== -1))) {
                         // Embedded mapping?
                         try {
                             value = this.parseMapping(`{${value}}`);
-                        } catch (e) {}
+                        } catch (e) { }
                     }
-                            // No, it's not
+                    // No, it's not
 
 
                     output.push(value);
@@ -1183,7 +1185,7 @@ class Inline {
     static parseMapping(mapping, context) {
         const output = {};
         const len = mapping.length;
-        let {i} = context;
+        let { i } = context;
         i += 1;
 
         // {foo: bar, bar:foo, ...}
@@ -1208,7 +1210,7 @@ class Inline {
 
             // Key
             const key = this.parseScalar(mapping, [':', ' ', "\n"], ['"', "'"], context, false);
-            ({i} = context);
+            ({ i } = context);
 
             // Value
             let done = false;
@@ -1219,7 +1221,7 @@ class Inline {
                     case '[':
                         // Nested sequence
                         var value = this.parseSequence(mapping, context);
-                        ({i} = context);
+                        ({ i } = context);
                         // Spec: Keys MUST be unique; first one wins.
                         // Parser cannot abort this mapping earlier, since lines
                         // are processed sequentially.
@@ -1231,7 +1233,7 @@ class Inline {
                     case '{':
                         // Nested mapping
                         value = this.parseMapping(mapping, context);
-                        ({i} = context);
+                        ({ i } = context);
                         // Spec: Keys MUST be unique; first one wins.
                         // Parser cannot abort this mapping earlier, since lines
                         // are processed sequentially.
@@ -1242,10 +1244,10 @@ class Inline {
                         break;
                     case ':': case ' ': case "\n":
                         break;
-                        // Do nothing
+                    // Do nothing
                     default:
                         value = this.parseScalar(mapping, [',', '}'], ['"', "'"], context);
-                        ({i} = context);
+                        ({ i } = context);
                         // Spec: Keys MUST be unique; first one wins.
                         // Parser cannot abort this mapping earlier, since lines
                         // are processed sequentially.
@@ -1322,9 +1324,9 @@ class Inline {
                                 return Utils.stringToDate(Utils.ltrim(scalar.slice(11)));
                             default:
                                 if (context == null) {
-                                    context = {exceptionOnInvalidType: this.settings.exceptionOnInvalidType, objectDecoder: this.settings.objectDecoder, i: 0};
+                                    context = { exceptionOnInvalidType: this.settings.exceptionOnInvalidType, objectDecoder: this.settings.objectDecoder, i: 0 };
                                 }
-                                var {objectDecoder, exceptionOnInvalidType} = context;
+                                var { objectDecoder, exceptionOnInvalidType } = context;
 
                                 if (objectDecoder) {
                                     // If objectDecoder function is given, we can do custom decoding of custom types
@@ -1333,7 +1335,7 @@ class Inline {
                                     if (firstSpace === -1) {
                                         return objectDecoder(trimmedScalar, null);
                                     } else {
-                                        let subValue = Utils.ltrim(trimmedScalar.slice(firstSpace+1));
+                                        let subValue = Utils.ltrim(trimmedScalar.slice(firstSpace + 1));
                                         if (!(subValue.length > 0)) {
                                             subValue = null;
                                         }
@@ -1406,35 +1408,35 @@ class Inline {
 }
 Inline.initClass();
 
-// TODO: This file was created by bulk-decaffeinate.
+
 
 // Parser parses YAML strings to convert them to JavaScript objects.
 //
 class Parser {
     static initClass() {
-    
+
         // Pre-compiled patterns
         //
-        this.prototype.PATTERN_FOLDED_SCALAR_ALL =              new Pattern('^(?:(?<type>![^\\|>]*)\\s+)?(?<separator>\\||>)(?<modifiers>\\+|\\-|\\d+|\\+\\d+|\\-\\d+|\\d+\\+|\\d+\\-)?(?<comments> +#.*)?$');
-        this.prototype.PATTERN_FOLDED_SCALAR_END =              new Pattern('(?<separator>\\||>)(?<modifiers>\\+|\\-|\\d+|\\+\\d+|\\-\\d+|\\d+\\+|\\d+\\-)?(?<comments> +#.*)?$');
-        this.prototype.PATTERN_SEQUENCE_ITEM =                  new Pattern('^\\-((?<leadspaces>\\s+)(?<value>.+?))?\\s*$');
-        this.prototype.PATTERN_ANCHOR_VALUE =                   new Pattern('^&(?<ref>[^ ]+) *(?<value>.*)');
-        this.prototype.PATTERN_COMPACT_NOTATION =               new Pattern(`^(?<key>${Inline.REGEX_QUOTED_STRING}|[^ '"\\{\\[].*?) *\\:(\\s+(?<value>.+?))?\\s*$`);
-        this.prototype.PATTERN_MAPPING_ITEM =                   new Pattern(`^(?<key>${Inline.REGEX_QUOTED_STRING}|[^ '"\\[\\{].*?) *\\:(\\s+(?<value>.+?))?\\s*$`);
-        this.prototype.PATTERN_DECIMAL =                        new Pattern('\\d+');
-        this.prototype.PATTERN_INDENT_SPACES =                  new Pattern('^ +');
-        this.prototype.PATTERN_TRAILING_LINES =                 new Pattern('(\n*)$');
-        this.prototype.PATTERN_YAML_HEADER =                    new Pattern('^\\%YAML[: ][\\d\\.]+.*\n', 'm');
-        this.prototype.PATTERN_LEADING_COMMENTS =               new Pattern('^(\\#.*?\n)+', 'm');
-        this.prototype.PATTERN_DOCUMENT_MARKER_START =          new Pattern('^\\-\\-\\-.*?\n', 'm');
-        this.prototype.PATTERN_DOCUMENT_MARKER_END =            new Pattern('^\\.\\.\\.\\s*$', 'm');
-        this.prototype.PATTERN_FOLDED_SCALAR_BY_INDENTATION =   {};
-    
+        this.prototype.PATTERN_FOLDED_SCALAR_ALL = new Pattern('^(?:(?<type>![^\\|>]*)\\s+)?(?<separator>\\||>)(?<modifiers>\\+|\\-|\\d+|\\+\\d+|\\-\\d+|\\d+\\+|\\d+\\-)?(?<comments> +#.*)?$');
+        this.prototype.PATTERN_FOLDED_SCALAR_END = new Pattern('(?<separator>\\||>)(?<modifiers>\\+|\\-|\\d+|\\+\\d+|\\-\\d+|\\d+\\+|\\d+\\-)?(?<comments> +#.*)?$');
+        this.prototype.PATTERN_SEQUENCE_ITEM = new Pattern('^\\-((?<leadspaces>\\s+)(?<value>.+?))?\\s*$');
+        this.prototype.PATTERN_ANCHOR_VALUE = new Pattern('^&(?<ref>[^ ]+) *(?<value>.*)');
+        this.prototype.PATTERN_COMPACT_NOTATION = new Pattern(`^(?<key>${Inline.REGEX_QUOTED_STRING}|[^ '"\\{\\[].*?) *\\:(\\s+(?<value>.+?))?\\s*$`);
+        this.prototype.PATTERN_MAPPING_ITEM = new Pattern(`^(?<key>${Inline.REGEX_QUOTED_STRING}|[^ '"\\[\\{].*?) *\\:(\\s+(?<value>.+?))?\\s*$`);
+        this.prototype.PATTERN_DECIMAL = new Pattern('\\d+');
+        this.prototype.PATTERN_INDENT_SPACES = new Pattern('^ +');
+        this.prototype.PATTERN_TRAILING_LINES = new Pattern('(\n*)$');
+        this.prototype.PATTERN_YAML_HEADER = new Pattern('^\\%YAML[: ][\\d\\.]+.*\n', 'm');
+        this.prototype.PATTERN_LEADING_COMMENTS = new Pattern('^(\\#.*?\n)+', 'm');
+        this.prototype.PATTERN_DOCUMENT_MARKER_START = new Pattern('^\\-\\-\\-.*?\n', 'm');
+        this.prototype.PATTERN_DOCUMENT_MARKER_END = new Pattern('^\\.\\.\\.\\s*$', 'm');
+        this.prototype.PATTERN_FOLDED_SCALAR_BY_INDENTATION = {};
+
         // Context types
         //
-        this.prototype.CONTEXT_NONE =       0;
-        this.prototype.CONTEXT_SEQUENCE =   1;
-        this.prototype.CONTEXT_MAPPING =    2;
+        this.prototype.CONTEXT_NONE = 0;
+        this.prototype.CONTEXT_SEQUENCE = 1;
+        this.prototype.CONTEXT_MAPPING = 2;
     }
 
 
@@ -1445,10 +1447,10 @@ class Parser {
     constructor(offset) {
         if (offset == null) { offset = 0; }
         this.offset = offset;
-        this.lines          = [];
-        this.currentLineNb  = -1;
-        this.currentLine    = '';
-        this.refs           = {};
+        this.lines = [];
+        this.currentLineNb = -1;
+        this.currentLine = '';
+        this.refs = {};
     }
 
 
@@ -1641,7 +1643,7 @@ class Parser {
                 }
 
 
-                if (mergeNode) ; else if ((values.value == null) || ('' === Utils.trim(values.value, ' ')) || (Utils.ltrim(values.value, ' ').indexOf('#') === 0)) {
+                if (mergeNode); else if ((values.value == null) || ('' === Utils.trim(values.value, ' ')) || (Utils.ltrim(values.value, ' ').indexOf('#') === 0)) {
                     // Hash
                     // if next line is less indented or equal, then it means that the current value is null
                     if (!(this.isNextLineIndented()) && !(this.isNextLineUnIndentedCollection())) {
@@ -1728,7 +1730,7 @@ class Parser {
 
             if (isRef) {
                 if (data instanceof Array) {
-                    this.refs[isRef] = data[data.length-1];
+                    this.refs[isRef] = data[data.length - 1];
                 } else {
                     let lastKey = null;
                     for (key in data) {
@@ -1828,7 +1830,7 @@ class Parser {
 
             if (indent >= newIndent) {
                 data.push(this.currentLine.slice(newIndent));
-            } else if (Utils.ltrim(this.currentLine).charAt(0) === '#') ; else if (0 === indent) {
+            } else if (Utils.ltrim(this.currentLine).charAt(0) === '#'); else if (0 === indent) {
                 this.moveToPreviousLine();
                 break;
             } else {
@@ -1878,7 +1880,7 @@ class Parser {
         if (0 === value.indexOf('*')) {
             const pos = value.indexOf('#');
             if (pos !== -1) {
-                value = value.substr(1, pos-2);
+                value = value.substr(1, pos - 2);
             } else {
                 value = value.slice(1);
             }
@@ -1900,7 +1902,7 @@ class Parser {
             if (matches.type != null) {
                 // Force correct settings
                 Inline.configure(exceptionOnInvalidType, objectDecoder);
-                return Inline.parseScalar(matches.type+' '+val);
+                return Inline.parseScalar(matches.type + ' ' + val);
             } else {
                 return val;
             }
@@ -2189,15 +2191,15 @@ class Parser {
 }
 Parser.initClass();
 
-// TODO: This file was created by bulk-decaffeinate.
+
 
 // Dumper dumps JavaScript variables to YAML strings.
 //
 class Dumper {
     static initClass() {
-    
+
         // The amount of spaces to use for indentation of nested nodes.
-        this.indentation =   4;
+        this.indentation = 4;
     }
 
 
@@ -2216,21 +2218,21 @@ class Dumper {
         if (indent == null) { indent = 0; }
         if (exceptionOnInvalidType == null) { exceptionOnInvalidType = false; }
         let output = '';
-        
-        if (typeof(input) === 'function') {
+
+        if (typeof (input) === 'function') {
             return output;
         }
-        
+
         const prefix = (indent ? Utils.strRepeat(' ', indent) : '');
 
-        if ((inline <= 0) || (typeof(input) !== 'object') || input instanceof Date || Utils.isEmpty(input)) {
+        if ((inline <= 0) || (typeof (input) !== 'object') || input instanceof Date || Utils.isEmpty(input)) {
             output += prefix + Inline.dump(input, exceptionOnInvalidType, objectEncoder);
-        
+
         } else {
             let value, willBeInlined;
             if (input instanceof Array) {
                 for (value of Array.from(input)) {
-                    willBeInlined = (((inline - 1) <= 0) || (typeof(value) !== 'object') || Utils.isEmpty(value));
+                    willBeInlined = (((inline - 1) <= 0) || (typeof (value) !== 'object') || Utils.isEmpty(value));
 
                     output +=
                         prefix +
@@ -2242,7 +2244,7 @@ class Dumper {
             } else {
                 for (let key in input) {
                     value = input[key];
-                    willBeInlined = (((inline - 1) <= 0) || (typeof(value) !== 'object') || Utils.isEmpty(value));
+                    willBeInlined = (((inline - 1) <= 0) || (typeof (value) !== 'object') || Utils.isEmpty(value));
 
                     output +=
                         prefix +
@@ -2259,7 +2261,7 @@ class Dumper {
 }
 Dumper.initClass();
 
-// TODO: This file was created by bulk-decaffeinate.
+
 
 // Yaml offers convenience methods to load and dump YAML.
 //

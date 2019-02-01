@@ -1,13 +1,12 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "services" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/config-descriptions.json")
-            .then(response => response.json())
+        return store.get("rest/config-descriptions", "config-descriptions")
             .then(json => this.configs = json)
-            .then(() => fetchWithTimeout("dummydata/rest/services.json"))
-            .then(response => response.json())
+            .then(() => store.get("rest/services", "services"))
+            .then(list => this.list = list);
     }
     dispose() {
     }
@@ -33,14 +32,16 @@ const ServicesMixin = {
             }
             return d;
         },
-        mapChanged: function(event) {
-            document.getElementById('mapcoordinates').value=event.target.value[0]+","+event.target.value[1];
+        mapChanged: function (event) {
+            document.getElementById('mapcoordinates').value = event.target.value[0] + "," + event.target.value[1];
         }
     }
 }
 
 const mixins = [ServicesMixin];
+const listmixins = [];
 const runtimekeys = [];
 const schema = null;
+const ID_KEY = "id";
 
-export { mixins, schema, runtimekeys, StoreView };
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

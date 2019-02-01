@@ -6,7 +6,7 @@
  * David Graeff: Removed deprecated gulp-utils. Correct "Buffer" usage.
  */
 const fs = require('fs');
-const partition = require('lodash.partition');
+const partition = require('./partition');
 const html = require('html');
 const PluginError = require('plugin-error');
 const colors = require('ansi-colors');
@@ -147,7 +147,7 @@ module.exports = (function () {
 
                 return callback(null, file);
             }
-            
+
             if (file.isBuffer()) {
                 file = injectHTML(file);
             }

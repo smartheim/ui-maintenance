@@ -31,10 +31,7 @@
         <section class="listitem" :id="item.id">
           <div class="body">
             <div class="title"><span>{{item.name}}</span> <i class="small mr-1">{{item.version}}</i></div>
-            <div class="warnDialog" v-show="inProgress">
-              <h4>Waiting for openHAB</h4>
-              <div class="loader m-0"></div>
-            </div>
+            <vue-inprogress></vue-inprogress>
             <section class="description">{{item.description}}</section>
             <section class="actions">
               <span class="btn-group" role="group">
@@ -54,8 +51,8 @@
             <small>Authors: {{item.author}}</small>
             <a target="_blank" :href="'https://github.com/openhab/openhab2-addons/issues/new?title=['+item.id+']&nbsp;Your-&nbsp;title'">Report
               a bug</a>
-            <ui-dropdown btnclass="btn btn-primary-hover btn-sm p-0" v-show="item.custompages.length>0" class="ml-2"
-              nostate novalue label="Auxiliaries" :options.prop="getAuxiliaries()" @input="showAuxiliary"></ui-dropdown>
+            <ui-dropdown btnclass="btn btn-primary-hover btn-sm p-0" v-if="hasCustomPages()" class="ml-2" nostate
+              novalue label="Auxiliaries" :options.prop="getAuxiliaries()" @input="showAuxiliary"></ui-dropdown>
           </div>
         </section>
       </template>

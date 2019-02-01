@@ -1,16 +1,18 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "profile-types" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/profile-types.json").then(response => response.json());
+        return store.get("rest/profile-types", "profile-types").then(list => this.list = list);
     }
     dispose() {
     }
 }
 
 const mixins = [];
+const listmixins = [];
 const runtimekeys = [];
 const schema = null;
+const ID_KEY = "UID";
 
-export {mixins, schema, runtimekeys, StoreView};
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

@@ -1,9 +1,9 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "extensions" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/extensions.json").then(response => response.json());
+        return store.get("rest/extensions", "extensions").then(list => this.list = list);
     }
     dispose() {
     }
@@ -11,19 +11,23 @@ class StoreView {
 
 const AddonsMixin = {
     methods: {
-        install: function() {
-            console.log("install");
+        install: function () {
+            this.message = null;
+            this.messagetitle = "Installing...";
             this.inProgress = true;
         },
-        changeVersion: function() {
-            console.log("changeversion");
+        changeVersion: function () {
+            this.message = null;
+            this.messagetitle = "Changing version";
             this.inProgress = true;
         }
     }
 }
 
 const mixins = [AddonsMixin];
+const listmixins = [];
 const runtimekeys = [];
 const schema = null;
+const ID_KEY = "id";
 
-export {mixins, schema, runtimekeys, StoreView};
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

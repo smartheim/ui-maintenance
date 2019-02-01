@@ -49,10 +49,7 @@
               <span @click="copyClipboard($event, item.UID)">{{item.UID}}</span>
               <div>Storage association: <input value="openhab"></div>
             </div>
-            <div class="warnDialog" v-show="inProgress">
-              <h4>Waiting for openHAB</h4>
-              <div class="loader m-0"></div>
-            </div>
+            <vue-inprogress></vue-inprogress>
             <section class="description"> {{timerDescription(item)}} </section>
           </div>
           <div class="footer small py-1 px-3"><span>Runs: {{item.totalRuns}}</span><span v-if="item.remainingRuns">,

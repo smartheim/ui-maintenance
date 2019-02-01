@@ -12,36 +12,37 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Service configuration"></partial>
   <main>
-    <div class="mt-4 bs-callout bs-callout-info">
-      desc
-    </div>
-
-    <oh-github-issues class="mt-4 bs-callout bs-callout-danger" title="There are known issues with this service:"
-    url="https://api.github.com/repos/openhab/openhab2-addons/issues" filter="milight"></oh-github-issues>
-
-    <section class="config">
-      <h4 title="org.openhab.addons">Demo config category</h4>
-      <div class="elements">
-        <div class="element">
-          <ui-switch label="Access remote repository"></ui-switch>
-          <small class="form-text text-muted">
-            Defines whether openHAB should access the remote repository for add-on installation.
-          </small>
+    <oh-attribute-bind attribute="filter" queryParameter="id"></oh-attribute-bind>
+    <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this service:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></oh-github-issues>
+    <oh-form-bind adapter="service" objectFromURL></oh-form-bind>
+    <oh-vue-form></oh-vue-form>
+    <template>
+      <partial src="vuelisterrors.html"></partial>
+      <div v-else>
+        <div class="mt-2">This service is currently <i class="badge badge-success">Running</i></div>
+        <section class="config mt-2">
+          <h4 title="org.openhab.addons">Logging level</h4>
+          <div class="element radio-button-group" role="group">
+            <label class="radio-button"><input type="radio" name="loglevel" value="trace" v-model="objectdata.loglevel" /><span>Trace</span></label>
+            <label class="radio-button"><input type="radio" name="loglevel" value="info" v-model="objectdata.loglevel" /><span>Info</span></label>
+            <label class="radio-button"><input type="radio" name="loglevel" value="debug" v-model="objectdata.loglevel" /><span>Debug</span></label>
+            <label class="radio-button"><input type="radio" name="loglevel" value="warn" v-model="objectdata.loglevel" /><span>Only
+                warning &amp; errors</span></label>
+          </div>
+        </section>
+        <section class="config">
+          <h4 title="org.openhab.addons">Configuration</h4>
+          <div v-if="configurations().length==0">No configuration available</div>
+          <partial src="vue-config-elements.html"></partial>
+        </section>
+        <div class="btn-group btnbar mt-4" role="group">
+          <a :href="'logview.html?filter='+objectdata.id" class="btn btn-secondary"><i class="fas fa-align-justify"></i>
+            Show log</a>
+          <button type="submit" href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i>
+            Save</botton>
         </div>
       </div>
-      <div class="element">
-        <ui-switch label="Include Legacy 1.x Binding"></ui-switch>
-        <small class="form-text text-muted">
-          Defines whether openHAB should access the remote repository for add-on installation.
-        </small>
-      </div>
-      <div class="float-left mt-2">The service is currently <i class="badge badge-success">Running</i></div>
-      <div class="mt-4 btn-group btnbar" role="group">
-          
-        <a href="#" class="btn btn-secondary"><i class="fas fa-align-justify"></i> Show log</a>
-        <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>
-      </div>
-    </section>
+    </template>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="service"></partial>

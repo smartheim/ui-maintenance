@@ -1,3 +1,5 @@
+import { importModule } from "./polyfill/importModule";
+
 /**
  * This is a non-visible data binding component and serves as *Controller*
  * in the MVA (Model-View-Adapter) concept.
@@ -17,45 +19,24 @@ class OhVueBind extends HTMLElement {
     }
     connectedCallback() {
         const forid = this.getAttribute("for");
-        this.target = document.getElementById(forid);
-        if (!this.target) {
-            this.target = this.nextElementSibling;
+        let target = document.getElementById(forid);
+        if (!target) {
+            target = this.nextElementSibling;
         }
-        if (!this.target.ok) {
-            this.target.addEventListener("load", this.connectedCallback.bind(this), { once: true, passive: true });
+        if (!target.ok) {
+            target.addEventListener("load", this.connectedCallback.bind(this), { once: true, passive: true });
             return;
         }
 
         const adapter = this.getAttribute("adapter");
-        import('./objectadapter/' + adapter + '.js')
-            .then(this.start.bind(this)).catch(e => {
-                console.log("object bind failed", e);
-                this.target.error = e;
-            });
+        importModule('./js/mixins/' + adapter + '.js')
+            .then(async (module) => {
+                target.start(module.mixins);
+            })
+            .catch(e => console.log("adapter bind failed", e));
     }
     disconnectedCallback() {
-        if (this.modeladapter) {
-            this.modeladapter.dispose();
-            delete this.modeladapter;
-        }
-    }
-    async start(module) {
-        let id = this.getAttribute("id");
-        if (this.hasAttribute("objectFromURL")) {
-            id = new URL(window.location).searchParams.get(module.ID_KEY);
-        }
-
-        if (this.modeladapter) this.modeladapter.dispose();
-        this.modeladapter = new module.StoreView();
-        this.target.start(this.modeladapter, module.mixins, module.schema, module.runtimekeys);
-        if (id)
-            this.target.objectdata = await this.modeladapter.get(id);
-        else if (this.hasAttribute("allowNew")) {
-            this.target.objectdata = {};
-        } else {
-            this.error = "No id set and no attribute 'allowNew'";
-        }
     }
 }
 
-customElements.define('oh-object-bind', OhVueBind);
+customElements.define('oh-vue-bind', OhVueBind);

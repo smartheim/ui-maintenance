@@ -1,9 +1,9 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "manualextensions" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/manualextensions.json").then(response => response.json());
+        return store.get("rest/manualextensions", "manualextensions").then(list => this.list = list);
     }
     dispose() {
     }
@@ -11,7 +11,7 @@ class StoreView {
 
 const AddonsFileMixin = {
     methods: {
-        getInstallDate: function() {
+        getInstallDate: function () {
             return new Date(this.item.installed).toDateString();
         },
     }
@@ -19,7 +19,9 @@ const AddonsFileMixin = {
 
 
 const mixins = [AddonsFileMixin];
+const listmixins = [];
 const runtimekeys = [];
 const schema = null;
+const ID_KEY = "id";
 
-export {mixins, schema, runtimekeys, StoreView};
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

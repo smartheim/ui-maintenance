@@ -1,0 +1,51 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <partial src="maintenancenav.html"></partial>
+  <partial src="mainnav.html"></partial>
+  <partial src="pagetitleheader.html" title="Persistence"></partial>
+  <main>
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
+      select="Selection mode">
+      <div class="btn-group ml-3" role="group">
+        <a href="#" class="btn btn-danger">
+          <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
+        </a>
+      </div>
+    </ui-filter>
+    <oh-list-bind listadapter="persistence"></oh-list-bind>
+    <oh-vue-list filtercriteria="label">
+      <partial src="vuelistbasics.html" key="item.uid"></partial>
+      <template slot="item">
+        <section class="listitem" :id="item.uid">
+          <div class="body">
+            <div class="title">
+              <span :title="item.label">{{item.label}}</span>
+              <span class="actions btn-group">
+                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
+              </span>
+            </div>
+            <vue-inprogress></vue-inprogress>
+            <section class="description">
+              Database: <br>
+              <oh-dropdown-bind listadapter="persistence-services" viewkey="id" viewvalue="label"></oh-dropdown-bind>
+              <ui-dropdown btnclass="form-control" :value="item.serviceid" label="Select database"></ui-dropdown>
+              Stategies: <ui-multiselect :options="item.strategy" :value="item.strategy" placeholder="Select strategy"></ui-multiselect>
+              Items: <ui-multiselect options="Item1,Item2,Item3" placeholder="Select items"></ui-multiselect>
+            </section>
+          </div>
+        </section>
+      </template>
+    </oh-vue-list>
+  </main>
+  <footer></footer>
+  <partial src="contexthelp.html" help="logview"></partial>
+</body>
+
+</html>

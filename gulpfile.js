@@ -35,9 +35,7 @@ const rollupPluginNodeModuleResolve = require('rollup-plugin-node-resolve');
 const rollupPluginCss = require('rollup-plugin-css-only');
 const rollupPluginReplace = require('rollup-plugin-replace');
 // Rete requires some more plugins
-const rollupPluginFlow = require('rollup-plugin-flow'); // This Rollup plugin will remove Flow type annotations during bundling using flow-remove-types.
 const rollupPluginSass = require('rollup-plugin-sass'); // Rete is using sass imports
-const rollupPluginCommonjs = require('rollup-plugin-commonjs');
 
 var config = {
     paths: {
@@ -58,7 +56,7 @@ var config = {
         distjs: './dist/js',
         destsw: './dist/sw.js',
     },
-    external_js: ['./vue.js', './chart.js', './uicomponents.js', './ohcomponents.js', './cronstrue.js'],
+    external_js: ['./app.js', './vue.js', '../vue.js', './chart.js', './uicomponents.js', './ohcomponents.js', './cronstrue.js'],
     localServer: {
         port: 8001,
         url: 'http://localhost:8001/',
@@ -124,7 +122,7 @@ const compileBundle = (dir, _rollup, modulename) =>
             external: config.external_js,
             cache: false,
             plugins: [
-                rollupPluginNodeModuleResolve({ browser: true, jsnext: true, modulesOnly: true }),
+                rollupPluginNodeModuleResolve({ main: false, browser: false, modulesOnly: true }),
                 rollupPluginSass({ output: false, insert: false, options: { includePaths: [".", "./scss"] } }),
                 rollupPluginCss({}),
                 rollupPluginReplace({ 'process.env.NODE_ENV': '"development"' }) // // production
@@ -164,7 +162,7 @@ openPageInBrowser.displayName = "Opening page in browser"
 const clean = () => del([config.paths.dist]);
 clean.displayName = "Cleaning dist/"
 
-const watchTask = () => { // Watch the file system and reload the website automatically
+const watchTask = () => { // Watch the file system and rebuild automatically
     gulp.watch(config.paths.src.html_watch, copyHtml);
     gulp.watch(config.paths.src.scss_watch, compileStyles);
     gulp.watch(config.paths.src.js, minifyUnbundledScripts);
@@ -189,9 +187,7 @@ lint.displayName = 'Lint all source'
 
 const compile = gulp.series(clean, gulp.parallel(copyHtml, minifyUnbundledScripts, compileBundles, copyAssets, compileStyles), generateServiceWorker)
 
-const serve = gulp.series(compile, gulp.parallel(watchTask, startLocalWebserver))
-
 gulp.task('build', compile);
-gulp.task('serveonly', serve);
-gulp.task('serve', gulp.parallel(serve, openPageInBrowser));
+gulp.task('serveonly', gulp.series(compile, gulp.parallel(watchTask, startLocalWebserver)));
+gulp.task('serve', gulp.series(compile, gulp.parallel(watchTask, openPageInBrowser, startLocalWebserver)));
 gulp.task('lint', lint);

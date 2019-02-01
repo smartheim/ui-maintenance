@@ -40,10 +40,10 @@
     <p>Settings</p>
     <ul>
       <li>
-        <ui-switch class="ml-4" storekey="enabletest" title="Snapshot repo"></ui-switch>
+        <ui-switch storekey="enabletest" title="Snapshot repo"></ui-switch>
       </li>
       <li>
-        <ui-switch class="ml-4" storekey="enabletest" title="Legacy repo"></ui-switch>
+        <ui-switch storekey="enabletest" title="Legacy repo"></ui-switch>
       </li>
     </ul>
   </nav>
@@ -66,10 +66,7 @@
                 <option v-for="ver in item.availableVersions" :value="ver">{{ver}}</option>
               </select>
             </div>
-            <div class="warnDialog" v-show="inProgress">
-              <h4>Waiting for openHAB</h4>
-              <div class="loader m-0"></div>
-            </div>
+            <vue-inprogress></vue-inprogress>
             <section class="description"> Create broker connections, connect Things/Channels to MQTT Topics. <small>&ndash;
                 By Author1, Author2</small>
             </section>

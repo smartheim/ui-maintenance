@@ -1,14 +1,12 @@
-// import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
-
-import { fetchWithTimeout } from '../ohcomponents.js';
+import { store } from '../app.js';
 
 class StoreView {
+    mainStore() { return "things" };
     async getall() {
-        return fetchWithTimeout("dummydata/rest/thing-types.json")
-            .then(response => response.json())
-            .then(json => this.thingtypes = json)
-            .then(() => fetchWithTimeout("dummydata/rest/things.json"))
-            .then(response => response.json());
+        return store.get("rest/thing-types", "thing-types")
+            .then(list => this.thingtypes = list)
+            .then(() => store.get("rest/things", "things"))
+            .then(list => this.list = list);
     }
     getThingTypeFor(uid) {
         for (const thingType of this.thingtypes) {
@@ -57,7 +55,7 @@ const ThingsMixin = {
         },
         statusmessage: function () {
             return this.item.statusInfo ? this.item.statusInfo.message : "";
-        }, //TODO
+        },
         statusBadge: function () {
             const status = this.item.statusInfo ? this.item.statusInfo.status : "";
             switch (status) {
@@ -68,7 +66,7 @@ const ThingsMixin = {
             return "badge badge-light";
         },
         description() {
-            const thingType = this.$root.store.getThingTypeFor(this.UID);
+            const thingType = this.$root.store.getThingTypeFor(this.item.thingTypeUID);
             if (thingType) return thingType.description;
             return "No Thing description available";
         },
@@ -81,12 +79,23 @@ const ThingsMixin = {
         },
         triggerAction(actionEvent) {
             console.log("triggered", actionEvent.target.dataset.uid, actionEvent.detail);
+            this.message = null;
+            this.messagetitle = "Performing action...";
+            this.inProgress = true;
+            this.changed = false;
+            setTimeout(() => {
+                this.inProgress = false;
+            }, 500);
+        },
+        haschannels() {
+            return this.item.channels.length > 0;
         }
     }
 }
 
 const mixins = [ThingsMixin];
-
+const listmixins = [];
 const runtimekeys = ["link", "editable", "statusInfo", "properties"];
+const ID_KEY = "UID";
 
-export { mixins, schema, runtimekeys, StoreView };
+export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

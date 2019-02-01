@@ -1,0 +1,29 @@
+.activediscovery:before {
+    animation: activediscovery 2s linear 0s infinite forwards;
+    background: linear-gradient(to left, #2098D1, rgb(255, 255, 255));
+}
+
+a.discovery:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    height: 100%;
+    transform: translateX(-100%);
+}
+
+a.activediscovery:hover {
+    opacity: 0.5;
+}
+
+@keyframes activediscovery {
+    0% {
+        transform: translateX(-100%)
+    }
+    100% {
+        transform: translateX(100%)
+    }
+}

@@ -1,40 +1,47 @@
- 
-    /* Fix combobox, smart-date-time, smart-drop-down-list */
-    .smart-selection-field {
-      width: 100%;
-    }
+ /* combobox, smart-date-time, smart-drop-down-list */
 
-    .smart-selection-field input {
-      height: 100%;
-      width: 100%;
-    }
+ .smart-selection-field {
+     width: 100%;
+ }
 
-    .smart-date-time-input {
-      width: 100%;
-    }
+ .smart-selection-field input {
+     height: 100%;
+     width: 100%;
+ }
 
-    smart-drop-down-list[label] .smart-label, smart-drop-down-list[label]>.smart-container[has-value] .smart-label, smart-drop-down-list[label][focus] .smart-label, smart-drop-down-list[label][hint] .smart-label, smart-drop-down-list[label][hint]:focus .smart-label, smart-drop-down-list[label][hint][focus] .smart-label {
-      top: calc(-1 * var(--smart-label-height));
-      font-size: 12px;
-      opacity: .8;
-  }
+ .smart-date-time-input {
+     width: 100%;
+ }
 
-smart-calendar .smart-calendar-button[next-month], smart-calendar .smart-calendar-button[prev-month] {
-  display: flex;
-}
+ smart-drop-down-list[label] .smart-label,
+ smart-drop-down-list[label]>.smart-container[has-value] .smart-label,
+ smart-drop-down-list[label][focus] .smart-label,
+ smart-drop-down-list[label][hint] .smart-label,
+ smart-drop-down-list[label][hint]:focus .smart-label,
+ smart-drop-down-list[label][hint][focus] .smart-label {
+     top: calc(-1 * var(--smart-label-height));
+     font-size: 12px;
+     opacity: .8;
+ }
 
-  smart-drop-down-list .smart-content .smart-action-button {
-    width: 100%;
-  }
-  smart-drop-down-list .smart-content .smart-action-button .smart-token {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-width: 1px;
-    border-style: outset;
-  }
-  smart-drop-down-list .smart-drop-down-list-selection-label {
-    height: initial;
-  }
+ smart-calendar .smart-calendar-button[next-month],
+ smart-calendar .smart-calendar-button[prev-month] {
+     display: flex;
+ }
 
+ smart-drop-down-list .smart-content .smart-action-button {
+     width: 100%;
+ }
+
+ smart-drop-down-list .smart-content .smart-action-button .smart-token {
+     height: 100%;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     border-width: 1px;
+     border-style: outset;
+ }
+
+ smart-drop-down-list .smart-drop-down-list-selection-label {
+     height: initial;
+ }

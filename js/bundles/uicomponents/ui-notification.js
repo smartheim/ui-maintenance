@@ -94,6 +94,9 @@ class UiNotification extends HTMLElement {
 
 
         if (this.persistent) return;
+        this.hideAfterCloseTime();
+    }
+    hideAfterCloseTime() {
         this.alertTimeout = setTimeout(() => {
             this.alertTimeout = null;
             this.hide();

@@ -19,7 +19,14 @@ section.bundles {
 .graphs {
     display: flex;
     justify-content: space-between;
+    min-height: 300px;
+    ui-time-graph:not(:defined) {
+        transition: opacity 0.5s;
+        opacity: 0;
+    }
     ui-time-graph {
+        transition: opacity 0.5s;
+        opacity: 1;
         width: 30%;
         height: 300px;
     }

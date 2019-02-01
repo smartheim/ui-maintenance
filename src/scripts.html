@@ -38,10 +38,7 @@
                 <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
               </span>
             </div>
-            <div class="warnDialog" v-show="inProgress">
-              <h4>Waiting for openHAB</h4>
-              <div class="loader m-0"></div>
-            </div>
+            <vue-inprogress></vue-inprogress>
             <section class="description"> Filename: <code>{{item.filename}}</code>
             </section>
           </div>

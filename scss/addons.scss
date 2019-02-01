@@ -1,30 +1,12 @@
 #listcontainer {
-    .warnDialog {
-        position: absolute;
-        background-color: var(--card-bg);
-        box-shadow: 0 0 5px 0 #000;
-        border-radius: .25rem;
-        top: 10px;
-        bottom: 10px;
-        left: 10px;
-        right: 10px;
-        z-index: 10;
-        opacity: 0.9;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        .loader {
-            top: -10px;
-        }
-    }
+    align-self: flex-start;
+    width: 100%;
+    margin-top: 1.5rem;
     &.grid {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
     }
-    margin-top: 1.5rem;
     &.textual {
         flex: 1;
         display: flex;
@@ -140,7 +122,7 @@
                 }
                 .loader {
                     top: -25px;
-                    left: 50px;    
+                    left: 50px;
                 }
             }
             .description {
@@ -182,4 +164,14 @@
 oh-vue-list {
     display: flex;
     flex-direction: column;
+}
+
+oh-vue-list {
+    flex: 1;
+    &>div {
+        // The "app" div
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
 }

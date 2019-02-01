@@ -40,10 +40,7 @@
         <section class="listitem" :id="item.id">
           <div class="body">
             <div class="title"><span>{{item.filepath}}</span></div>
-            <div class="warnDialog" v-show="inProgress">
-              <h4>Waiting for openHAB</h4>
-              <div class="loader m-0"></div>
-            </div>
+            <vue-inprogress></vue-inprogress>
             <section class="description muted small">{{getInstallDate()}}</section>
             <section class="actions showinlist">
               <span class="btn-group" role="group">

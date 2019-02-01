@@ -10,10 +10,13 @@ export * from './oh-change-filter'
 
 export * from './oh-vue'
 export * from './oh-vue-bind'
+export * from './oh-vue-form'
+export * from './oh-vue-form-bind'
 export * from './oh-vue-list'
 export * from './oh-vue-list-mixins';
 export * from './oh-vue-list-bind'
 export * from './oh-dropdown-bind'
 export * from './oh-attribute-bind'
+export * from './oh-login-status-link'
 
 export { fetchWithTimeout } from '../../common/fetch';
