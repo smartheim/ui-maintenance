@@ -16,7 +16,6 @@ import { importModule } from "./polyfill/importModule";
 class OhVueFormBind extends HTMLElement {
     constructor() {
         super();
-        this.style.display = "none";
         this.connectedBound = (e) => this.connected(e.detail);
         this.connectingBound = (e) => this.connecting(e.detail);
         this.disconnectedBound = (e) => this.disconnected(e.detail);
@@ -25,6 +24,7 @@ class OhVueFormBind extends HTMLElement {
         this.listEntryRemovedBound = (e) => this.listEntryRemoved(e.detail);
     }
     connectedCallback() {
+        this.style.display = "none";
         const forid = this.getAttribute("for");
         this.target = document.getElementById(forid);
         if (!this.target) {

@@ -76,7 +76,7 @@ class OhGithubIssues extends HTMLElement {
       var li = document.createElement("li");
       var a = document.createElement("a");
       a.innerHTML = entry.title;
-      a.href = entry.url;
+      a.href = entry.html_url;
       a.target = "_blank";
       li.appendChild(a);
       ul.appendChild(li);

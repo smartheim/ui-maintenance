@@ -1,6 +1,7 @@
 import { Vue } from './vue.js'; // Pre-bundled, external reference
 import { UIFilterbarMixin, UIEditorMixin } from './oh-vue-list-mixins';
 import { OhListStatus } from './oh-vue-list-status'
+import VueConfigElement from './vue-config-element';
 
 Vue.config.ignoredElements = [
     /^oh-/, /^ui-/
@@ -54,6 +55,9 @@ class OhVueForm extends HTMLElement {
                 this.ignoreWatch = false;
             },
             mixins: [UIFilterbarMixin, UIEditorMixin, ...mixins],
+            components: {
+                'vue-config-element': VueConfigElement
+            },
             template: this.tmpl,
             data: function () {
                 return {

@@ -47,10 +47,12 @@
             <ui-dropdown title="Thing types" label="Select a thing type"></ui-dropdown>
           </div>
         </div>
-        <section class="config">
-          <h4 title="org.openhab.addons">Configuration</h4>
-          <div v-if="configurations().length==0">No configuration available</div>
-          <partial src="vue-config-elements.html"></partial>
+        <div class="config" v-if="!configuration()">No further configuration available</div>
+        <section class="config" v-else>
+          <h4>Configuration</h4>
+          <div class="elements">
+            <vue-config-element v-for="config in configuration().parameters" :config="config"></vue-config-element>
+          </div>
         </section>
         <div class="btn-group btnbar mt-4" role="group">
           <button type="submit" href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i>

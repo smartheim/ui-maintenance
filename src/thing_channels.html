@@ -49,7 +49,9 @@
               <details class="mb-2">
                 <summary>Configuration</summary>
                 <div v-if="configurations().length==0">No configuration available</div>
-                <partial src="vue-config-elements.html"></partial>
+                <div class="elements">
+                  <vue-config-element v-for="config in configuration().parameters" :config="config"></vue-config-element>
+                </div>
               </details>
               <div style="float: left;transform: rotate(270deg);margin-top: 20px;">Links</div>
               <table class="table table-hover linkeditems">

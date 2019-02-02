@@ -7,12 +7,16 @@ class StoreView {
         this.channeltypes = [];
     }
     async get(thinguid) {
-        return store.get("rest/thing-types", "thing-types")
-            .then(json => this.thingtypes = json)
+        console.log("thing:get");
+        return store.get("rest/things/" + thinguid, "things", thinguid)
+            .then(v => this.value = v)
+            .then(() => store.get("rest/thing-types", "thing-types", this.value.thingTypeUID, "UID"))
+            .then(json => this.thingtype = json)
             .then(() => store.get("rest/channel-types", "channel-types"))
             .then(json => this.channeltypes = json)
-            .then(() => store.get("rest/things/" + thinguid, "things", thinguid))
-            .then(v => this.value = v);
+            .then(() => store.get("rest/config-descriptions", "config-descriptions", "thing-type:" + this.value.thingTypeUID, "uri"))
+            .then(v => this.config = v)
+            .then(() => this.value);
     }
     getChannelTypeFor(uid) {
         for (const channelType of this.channeltypes) {
@@ -21,12 +25,11 @@ class StoreView {
         }
         return null;
     }
-    getThingTypeFor(uid) {
-        for (const thingType of this.thingtypes) {
-            if (thingType.UID == uid)
-                return thingType;
-        }
-        return null;
+    getThingType() {
+        return this.thingtype;
+    }
+    getConfig() {
+        return this.config;
     }
     dispose() {
     }
@@ -35,7 +38,7 @@ class StoreView {
 const ThingChannelsMixin = {
     methods: {
         description: function () {
-            const type = this.$root.store.getThingTypeFor(this.objectdata.thingTypeUID);
+            const type = this.$root.store.getThingType();
             if (type) return type.description;
             return "No thing description available";
         },
@@ -44,9 +47,8 @@ const ThingChannelsMixin = {
             if (type) return type.description;
             return "No Channel description available";
         },
-        configurations: function () {
-            return [];
-            //return this.objectdata.configuration ? this.objectdata.configuration : [];
+        configuration: function () {
+            return this.$root.store.getConfig();
         }
     }
 }

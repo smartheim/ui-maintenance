@@ -3,9 +3,17 @@ import { store } from '../app.js';
 class StoreView {
     mainStore() { return "services" };
     async get(serviceid) {
-        return store.get("rest/services/" + serviceid, "services", serviceid).then(v => this.value = v);
+        return store.get("rest/services/" + serviceid, "services", serviceid)
+            .then(v => this.value = v)
+            .then(() => this.value.configDescriptionURI ?
+                store.get("rest/config-descriptions", "config-descriptions", this.value.configDescriptionURI, "uri") : null)
+            .then(v => this.config = v)
+            .then(() => this.value);
     }
     dispose() {
+    }
+    getConfig() {
+        return this.config;
     }
 }
 
@@ -13,8 +21,8 @@ const ServiceMixin = {
     mounted: function () {
     },
     methods: {
-        configurations: function () {
-            return this.objectdata.configurations ? this.objectdata.configurations : [];
+        configuration: function () {
+            return this.$root.store.getConfig();
         }
     }
 }

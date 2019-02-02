@@ -21,7 +21,7 @@
       <div v-else>
         <div class="mt-2">This service is currently <i class="badge badge-success">Running</i></div>
         <section class="config mt-2">
-          <h4 title="org.openhab.addons">Logging level</h4>
+          <h4>Logging level</h4>
           <div class="element radio-button-group" role="group">
             <label class="radio-button"><input type="radio" name="loglevel" value="trace" v-model="objectdata.loglevel" /><span>Trace</span></label>
             <label class="radio-button"><input type="radio" name="loglevel" value="info" v-model="objectdata.loglevel" /><span>Info</span></label>
@@ -30,10 +30,12 @@
                 warning &amp; errors</span></label>
           </div>
         </section>
-        <section class="config">
-          <h4 title="org.openhab.addons">Configuration</h4>
-          <div v-if="configurations().length==0">No configuration available</div>
-          <partial src="vue-config-elements.html"></partial>
+        <div class="config" v-if="!configuration()">No further configuration available</div>
+        <section class="config" v-else>
+          <h4>Configuration</h4>
+          <div class="elements">
+            <vue-config-element v-for="config in configuration().parameters" :config="config"></vue-config-element>
+          </div>
         </section>
         <div class="btn-group btnbar mt-4" role="group">
           <a :href="'logview.html?filter='+objectdata.id" class="btn btn-secondary"><i class="fas fa-align-justify"></i>
