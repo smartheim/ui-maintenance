@@ -9,6 +9,7 @@
 </head>
 
 <body>
+  <link rel="stylesheet" href="css/tutorial.css" type="text/css" />
   <partial src="tutorialnavigation.html"></partial>
   <partial src="mainnav.html"></partial>
   <section class="header">
@@ -16,12 +17,35 @@
   </section>
   <main>
     <nav-breadcrumb></nav-breadcrumb>
-    <p>A fresh installation has a limited functionality only.</p>
-    <p>Find the section "Add-ons" in the top navigation bar and
-      extend your openHAB installation. Choose from over 300 addons.</p>
-    <p>
-      An addon that enables you to use a physical device is called a <u>binding</u>.</p>
-    <center><img src="img/tutorial/addons.jpg"></center>
+
+    <h4>Add-Ons</h4>
+
+    <p>All aspects of openHAB are extendable. We call those extensions <b>Add-ons</b>.</p>
+
+    <p>Add-ons allow openHAB to recognise devices, to extend what
+      you can do in Rules and Scripts, and to make openHAB
+      available to other services like Amazon Alexa, Google Home,
+      Apple HomeKit and so on.</p>
+
+    <p>An add-on that &hellip;</p>
+
+    <ul>
+      <li>integrates physical hardware, external systems and web services is called: <b>Binding</b>,</li>
+      <li>exposes openHAB to external systems is called: <b>System integration</b>,</li>
+      <li>stores time series data for history-based actions or statistics is called: <b>Persistence service</b>,</li>
+      <li>translates between technical and human-readable values for Items is called: <b>Transformation</b>,</li>
+      <li>provides voice enabling features, such as text-to-speech, speech-to-text is called: <b>Voice service</b>.</li>
+    </ul>
+
+    <p>Find the section <span class="demolink">Add-ons</span> in the top navigation bar and
+      extend your openHAB installation. Choose from over 300 addons via &hellip;</p>
+
+    <ul>
+      <li>the official openHAB repositories,</li>
+      <li>from the Eclipse Marketplace,</li>
+      <li>directly from the repository of a developer, via a <code>.jar</code> file.</li>
+    </ul>
+
   </main>
   <footer>
     <nav-buttons class="m-4"></nav-buttons>

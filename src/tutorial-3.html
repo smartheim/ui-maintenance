@@ -10,16 +10,31 @@
 </head>
 
 <body>
+    <link rel="stylesheet" href="css/tutorial.css" type="text/css" />
     <partial src="tutorialnavigation.html"></partial>
     <partial src="mainnav.html"></partial>
     <section class="header">
-        <h4>Concepts - Bindings and Things</h4>
+        <h4>Conceptional overview</h4>
     </section>
     <main>
         <nav-breadcrumb></nav-breadcrumb>
-        <p>A binding provides <u>Things</u>. A Thing can have <u>Channels</u>.</p>
-        <center><img style="max-width: 60%;max-height: 100%" src="img/tutorial/concepts.png"></center>
 
+        <details class="alert alert-info" role="alert">
+            <summary>Not into walls of text? Watch the video "Things &amp; Bindings".</summary>
+            <ui-youtube videoid="6HbGVWjL6II" videoparams="modestbranding=1&showinfo=0&controls=1&vq=hd720">
+            </ui-youtube>
+        </details>
+
+        <h4>Conceptional overview</h4>
+
+        <p>The following diagram shows a “big picture” of openHAB components. Even though it may seem
+            complicated at first, We’ll explain each component one-by-one, and give examples so you understand what
+            they do.</p>
+
+        <img class="tutimage" src="img/tutorial/overview.png">
+
+        <p>We’ll start with the openHAB components shown in the “Object” section - these interact with actual hardware
+            components in your home automation system.</p>
     </main>
     <footer>
         <nav-buttons class="m-4"></nav-buttons>
