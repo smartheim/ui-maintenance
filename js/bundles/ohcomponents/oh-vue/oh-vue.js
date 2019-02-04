@@ -1,4 +1,4 @@
-import { Vue } from './vue.js'; // Pre-bundled, external reference
+import { Vue } from '../vue.js'; // Pre-bundled, external reference
 import VueInProgress from './vue-inprogress';
 
 Vue.config.ignoredElements = [

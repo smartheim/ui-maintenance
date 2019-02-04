@@ -1,9 +1,10 @@
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "manualextensions" };
+    constructor() { this.items = []; }
+    stores() { return { "manualextensions": "items" } };
     async getall() {
-        return store.get("rest/manualextensions", "manualextensions").then(list => this.list = list);
+        return store.get("rest/manualextensions", "manualextensions").then(items => this.items = items);
     }
     dispose() {
     }

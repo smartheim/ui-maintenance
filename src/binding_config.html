@@ -20,14 +20,14 @@
     <template>
       <transition name="fade">
         <partial src="vuelisterrors.html"></partial>
-        <div v-else-if="objectdata.loglevel">
+        <div v-else-if="value.loglevel">
           <section class="config">
             <h4>Logging level</h4>
             <div class="element radio-button-group" role="group">
-              <label class="radio-button"><input type="radio" name="loglevel" value="trace" v-model="objectdata.loglevel" /><span>Trace</span></label>
-              <label class="radio-button"><input type="radio" name="loglevel" value="info" v-model="objectdata.loglevel" /><span>Info</span></label>
-              <label class="radio-button"><input type="radio" name="loglevel" value="debug" v-model="objectdata.loglevel" /><span>Debug</span></label>
-              <label class="radio-button"><input type="radio" name="loglevel" value="warn" v-model="objectdata.loglevel" /><span>Only
+              <label class="radio-button"><input type="radio" name="loglevel" value="trace" v-model="value.loglevel" /><span>Trace</span></label>
+              <label class="radio-button"><input type="radio" name="loglevel" value="info" v-model="value.loglevel" /><span>Info</span></label>
+              <label class="radio-button"><input type="radio" name="loglevel" value="debug" v-model="value.loglevel" /><span>Debug</span></label>
+              <label class="radio-button"><input type="radio" name="loglevel" value="warn" v-model="value.loglevel" /><span>Only
                   warning &amp; errors</span></label>
             </div>
           </section>

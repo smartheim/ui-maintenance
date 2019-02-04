@@ -12,6 +12,9 @@ export default {
         },
         selected() {
             return this.editor.selected.contains(this.node) ? 'selected' : '';
+        },
+        remove() {
+            this.node.remove();
         }
     },
     directives: {

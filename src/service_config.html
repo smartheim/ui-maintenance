@@ -23,10 +23,10 @@
         <section class="config mt-2">
           <h4>Logging level</h4>
           <div class="element radio-button-group" role="group">
-            <label class="radio-button"><input type="radio" name="loglevel" value="trace" v-model="objectdata.loglevel" /><span>Trace</span></label>
-            <label class="radio-button"><input type="radio" name="loglevel" value="info" v-model="objectdata.loglevel" /><span>Info</span></label>
-            <label class="radio-button"><input type="radio" name="loglevel" value="debug" v-model="objectdata.loglevel" /><span>Debug</span></label>
-            <label class="radio-button"><input type="radio" name="loglevel" value="warn" v-model="objectdata.loglevel" /><span>Only
+            <label class="radio-button"><input type="radio" name="loglevel" value="trace" v-model="value.loglevel" /><span>Trace</span></label>
+            <label class="radio-button"><input type="radio" name="loglevel" value="info" v-model="value.loglevel" /><span>Info</span></label>
+            <label class="radio-button"><input type="radio" name="loglevel" value="debug" v-model="value.loglevel" /><span>Debug</span></label>
+            <label class="radio-button"><input type="radio" name="loglevel" value="warn" v-model="value.loglevel" /><span>Only
                 warning &amp; errors</span></label>
           </div>
         </section>
@@ -38,7 +38,7 @@
           </div>
         </section>
         <div class="btn-group btnbar mt-4" role="group">
-          <a :href="'logview.html?filter='+objectdata.id" class="btn btn-secondary"><i class="fas fa-align-justify"></i>
+          <a :href="'logview.html?filter='+value.id" class="btn btn-secondary"><i class="fas fa-align-justify"></i>
             Show log</a>
           <button type="submit" href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i>
             Save</botton>

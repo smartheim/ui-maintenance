@@ -1,4 +1,4 @@
-import Yaml from '../../common/yaml/yaml';
+import Yaml from '../yaml/yaml';
 
 const UIFilterbarMixin = {
     data: function () {
@@ -24,7 +24,7 @@ const UIFilterbarMixin = {
             this.selectmode = this.filterbar.selectmode;
             this.updateViewModeBound = (event) => this.updateViewMode(event);
             this.updateSelectModeBound = (event) => this.updateSelectMode(event);
-            this.updateFilterBound = (event) => this.updateFilter(event);
+            this.updateFilterBound = (event) => this.updateFilter(event.detail.value.trim());
             this.filterbar.addEventListener("filter", this.updateFilterBound);
             this.filterbar.addEventListener("mode", this.updateViewModeBound);
             this.filterbar.addEventListener("selectmode", this.updateSelectModeBound);
@@ -63,8 +63,7 @@ const UIFilterbarMixin = {
             this.maxFilteredItems += 50;
             this.rebuildList();
         },
-        updateFilter: function (event) {
-            var filter = event.detail.value.trim();
+        updateFilter: function (filter) {
             if (filter.length == 0)
                 this.filter = null;
             else {

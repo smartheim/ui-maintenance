@@ -42,7 +42,7 @@
     </details>
 
     <div class="card border-orange">
-      <div class="card-header">Advanced: Get to know rules and timers</div>
+      <div class="card-header">Advanced: Get to know rules and scheduled-tasks</div>
       <ol class="card-body ml-4">
         <li>
           <a href="#">Turn on a light by a button press, but only if it is after 6 pm.</a><br>
@@ -56,45 +56,44 @@
         </li>
         <li>
           <a href="#">Setup a wakeup alarm that turns on the coffee machine and 10 minutes later all lights</a><br>
-          Subject: <b>Timers</b><br>
+          Subject: <b>Scheduled-Tasks</b><br>
           Objectives:
           <ul>
-            <li>Create a one-shot or periodic timer.</li>
-            <li>Create a rule and let it be triggered by a timer.</li>
+            <li>Create a one-shot or periodic task.</li>
+            <li>Create a rule and let it be triggered by a scheduled task.</li>
           </ul>
         </li>
         <li>
           <a href="#">Turn a light automatically off 5 minutes later after it has been turned on. A motion sensor
-            resets the timer.</a><br>
-          Subject: <b>Dynamic timers</b><br>
+            resets the task.</a><br>
+          Subject: <b>Dynamic scheduled tasks</b><br>
           Objectives:
           <ul>
             <li>Create a rule that changes an item state and is triggered by an item state.</li>
-            <li>Create a dynamic timer within a rule with an ID based on the item that triggered the rule.</li>
-            <li>Reset a timer by ID within a rule.</li>
+            <li>Create a dynamic scheduled task within a rule with an ID based on the item that triggered the rule.</li>
+            <li>Reset a scheduled task by ID within a rule.</li>
           </ul>
         </li>
       </ol>
     </div>
 
     <details class="alert alert-info" role="alert">
-      <summary>Rules and timers are essential for advanced functionality</summary>
+      <summary>Rules and scheduled-tasks are essential for advanced functionality</summary>
       <p class="mt-2">
-        More and more bindings support Actions that can be run by a rule. Expect even more to come.
+        Some bindings already support specific Actions that can be run by a rule. Expect even more to come.
       </p>
       <p>You still have scratched only the surface. If you want to integrate a new kind of device
         via generic HTTP, MQTT, CoAP bindings, you also want to read about
         <a target="_blank" href="https://www.openhab.org/docs/configuration/transformations.html#transformation-services">Transformations</a>.
       </p>
       <p>We have only used the graphical rule editor so far, to connect triggers with actions on optional conditions.
-        openHAB allows freely written
-        <a target="_blank" href="https://www.openhab.org/docs/configuration/jsr223.html#jsr223-scripting">scripts</a>
-        (they are also called <q><abbr title="New Rule Engine">NRE</abbr> Rules</q> in the community). A script can
-        interact with
-        your system, an external service, your hardware or just perform item state changes and react to triggers on
-        conditions.
-        The freedom due to scripts allow you to master any complex scenarios with openHAB.
+        openHAB allows
+        <a target="_blank" href="https://www.openhab.org/docs/configuration/jsr223.html#jsr223-scripting">Standalone
+          Scripts</a>.
+        A script can interact with your system, an external service, your hardware or just perform item state changes.
+        It can as also react to triggers on conditions, like Rules.
       </p>
+      <mark>Scripts allow you to master any complex scenarios with openHAB.</mark>
     </details>
 
     <p>Further reading:</p>

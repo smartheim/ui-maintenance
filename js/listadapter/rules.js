@@ -1,9 +1,10 @@
-import { store } from '../app.js';
+import { store, fetchMethodWithTimeout, createNotification } from '../app.js';
 
 class StoreView {
-    mainStore() { return "rules" };
+    constructor() { this.items = []; }
+    stores() { return { "rules": "items" } };
     async getall() {
-        return store.get("rest/rules", "rules").then(list => this.list = list);
+        return store.get("rest/rules", "rules").then(items => this.items = items);
     }
     dispose() {
     }
@@ -48,6 +49,18 @@ const RulesMixin = {
                 case "IDLE": return "badge badge-info";
             }
             return "badge badge-light";
+        },
+        run: function (target) {
+            if (target.classList.contains("disabled")) return;
+            target.classList.add("disabled");
+            fetchMethodWithTimeout(store.host + "/rest/rules/" + this.item.uid + "/runnow", "POST", "", null)
+                .then(r => {
+                    createNotification(null, `Run ${this.item.name}`, false, 1500);
+                    setTimeout(() => target.classList.remove("disabled"), 1000);
+                }).catch(e => {
+                    setTimeout(() => target.classList.remove("disabled"), 1000);
+                    createNotification(null, `Failed ${this.item.name}: ${e}`, false, 4000);
+                })
         },
     }
 }

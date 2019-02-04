@@ -1,9 +1,10 @@
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "scripts" };
+    constructor() { this.items = []; }
+    stores() { return { "scripts": "items" } };
     async getall() {
-        return store.get("rest/scripts", "scripts").then(list => this.list = list);
+        return store.get("rest/scripts", "scripts").then(items => this.items = items);
     }
     dispose() {
     }

@@ -1,13 +1,13 @@
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "things" };
+    stores() { return { "things": "value" } };
     constructor() {
         this.thingtypes = [];
         this.channeltypes = [];
+        this.value = {};
     }
     async get(thinguid) {
-        console.log("thing:get");
         return store.get("rest/things/" + thinguid, "things", thinguid)
             .then(v => this.value = v)
             .then(() => store.get("rest/thing-types", "thing-types", this.value.thingTypeUID, "UID"))
@@ -15,8 +15,7 @@ class StoreView {
             .then(() => store.get("rest/channel-types", "channel-types"))
             .then(json => this.channeltypes = json)
             .then(() => store.get("rest/config-descriptions", "config-descriptions", "thing-type:" + this.value.thingTypeUID, "uri"))
-            .then(v => this.config = v)
-            .then(() => this.value);
+            .then(v => this.config = v);
     }
     getChannelTypeFor(uid) {
         for (const channelType of this.channeltypes) {

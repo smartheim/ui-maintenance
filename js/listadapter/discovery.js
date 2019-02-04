@@ -1,12 +1,13 @@
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "discovery" };
+    constructor() { this.items = []; this.bindings = []; }
+    stores() { return { "discovery": "items" } };
     async getall() {
         return store.get("rest/bindings", "bindings")
             .then(json => this.bindings = json)
             .then(() => store.get("rest/discovery", "discovery"))
-            .then(list => this.list = list);
+            .then(items => this.items = items);
     }
     dispose() {
     }

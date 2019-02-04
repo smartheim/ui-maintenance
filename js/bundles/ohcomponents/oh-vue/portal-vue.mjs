@@ -5,7 +5,7 @@
     (c) Thorsten Lünborg
   */
 
-import { Vue } from '../vue.js'
+import { Vue } from '../vue.js' // Pre-bundled, external reference
 
 var nestRE = /^(attrs|props|on|nativeOn|class|style|hook)$/
 

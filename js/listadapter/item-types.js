@@ -1,5 +1,5 @@
 class StoreView {
-    mainStore() { return null };
+    stores() { return {} };
     async getall() {
         return [
             { id: "Color", value: "<b>Color</b><br>Color information" },

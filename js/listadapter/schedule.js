@@ -3,9 +3,10 @@ import * as cronstrue from '../cronstrue.js';
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "schedule" };
+    constructor() { this.items = []; }
+    stores() { return { "schedule": "items" } };
     async getall() {
-        return store.get("rest/schedule", "schedule").then(list => this.list = list);
+        return store.get("rest/schedule", "schedule").then(items => this.items = items);
     }
     dispose() {
     }

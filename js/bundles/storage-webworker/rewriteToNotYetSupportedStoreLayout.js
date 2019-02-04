@@ -1,4 +1,6 @@
-export function hack_rewriteToNotYetSupportedStoreLayout(storename, entry) {
+import { fetchWithTimeout } from '../../common/fetch';
+
+export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) {
     switch (storename) {
         case "bindings": {
             entry.loglevel = "warn";
@@ -43,4 +45,45 @@ export function hack_rewriteToNotYetSupportedStoreLayout(storename, entry) {
         }
     }
     return entry;
+}
+
+export async function hack_rewriteTableToNotYetSupportedStoreLayout(storename, table, store) {
+    if (store.openhabHost == "demo") {
+        return table;
+    }
+
+    switch (storename) {
+        /**
+         * The module-types entries do not store their own type (what the heck??).
+         * So we need to http GET all three endpoints, for each type one, and compare all
+         * entries to those three sets. Tedious.
+         */
+        case "module-types": {
+            let uris = [store.openhabHost + "/rest/module-types?type=action",
+            store.openhabHost + "/rest/module-types?type=condition",
+            store.openhabHost + "/rest/module-types?type=trigger"];
+            let sets = [];
+            for (let uri of uris) {
+                const response = await fetchWithTimeout(uri);
+                const jsonList = await response.json();
+                let set = new Set();
+                for (let entry of jsonList) set.add(entry.uid);
+                sets.push(set);
+            }
+            for (let entry of table) {
+                if (sets[0].has(entry.uid)) {
+                    entry.type = "action";
+                }
+                else if (sets[1].has(entry.uid)) {
+                    entry.type = "condition";
+                }
+                else if (sets[2].has(entry.uid)) {
+                    entry.type = "trigger";
+                }
+            }
+            break;
+        }
+    }
+    return table;
+
 }

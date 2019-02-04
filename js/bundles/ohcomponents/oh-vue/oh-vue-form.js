@@ -1,4 +1,4 @@
-import { Vue } from './vue.js'; // Pre-bundled, external reference
+import { Vue } from '../vue.js'; // Pre-bundled, external reference
 import { UIFilterbarMixin, UIEditorMixin } from './oh-vue-list-mixins';
 import { OhListStatus } from './oh-vue-list-status'
 import VueConfigElement from './vue-config-element';
@@ -43,13 +43,13 @@ class OhVueForm extends HTMLElement {
      * @param {JSON} schema A json schema
      * @param {String[]} runtimeKeys A list of mixin objects
      */
-    start(databaseStore, mixins, schema = null, runtimeKeys = null) {
+    start(adapter, mixins, schema = null, runtimeKeys = null) {
         if (!this.ok) return;
 
         this.vue = new Vue({
             created: function () {
                 this.OhListStatus = OhListStatus;
-                this.store = databaseStore;
+                this.store = adapter;
                 this.runtimeKeys = runtimeKeys;
                 this.modelschema = schema;
                 this.ignoreWatch = false;
@@ -60,12 +60,11 @@ class OhVueForm extends HTMLElement {
             },
             template: this.tmpl,
             data: function () {
-                return {
-                    objectdata: {},
-                    status: OhListStatus.READY,
+                return Object.assign(adapter, {
                     message: "",
+                    status: OhListStatus.PENDING,
                     changed: false,
-                }
+                });
             },
             computed: {
                 unchanged: function () {
@@ -73,14 +72,13 @@ class OhVueForm extends HTMLElement {
                 }
             },
             watch: {
-                objectdata: {
+                value: {
                     handler: function (newVal, oldVal) {
                         if (this.ignoreWatch) {
-                            console.debug("object ignore change", this.objectdata);
+                            console.debug("oh-vue-form, ignore data change", newVal);
                             this.ignoreWatch = false;
                             return;
                         }
-                        console.debug("object changed", this.objectdata);
                         this.changed = true;
                     }, deep: true, immediate: true,
                 }
@@ -116,22 +114,11 @@ class OhVueForm extends HTMLElement {
                 }
             }, 1000);
             this.vue.ignoreWatch = true;
-            this.vue.objectdata = {};
         } else if (this.vue.status != OhListStatus.READY) {
             this.pending = true;
         }
     }
 
-    set objectdata(val) {
-        console.log("set object", val);
-        this.vue.ignoreWatch = true;
-        this.vue.objectdata = val;
-        this.vue.status = OhListStatus.READY;
-    }
-
-    get objectdata() {
-        return this.vue.objectdata;
-    }
     set modelschema(val) {
         this.vue.modelschema = val;
     }

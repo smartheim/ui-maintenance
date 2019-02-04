@@ -1,4 +1,7 @@
-import { store } from './app.js'; // Pre-bundled, external reference
+import { store } from '../app.js'; // Pre-bundled, external reference
+import { importModule } from "./importModule";
+import { UpdateAdapter } from './updateAdapter';
+import { OhListStatus } from './oh-vue-list-status'
 
 /**
  * This is a non-visible data binding component and serves as *Controller*
@@ -12,28 +15,27 @@ import { store } from './app.js'; // Pre-bundled, external reference
  * - runtimekeys: A list of keys that should be filtered out for the text-editor
  * - StoreView: This serves as *Adapter* in our MVA architecture.
  */
-class OhDropdownBind extends HTMLElement {
+class OhListBind extends HTMLElement {
     constructor() {
         super();
+        this.style.display = "none";
         this.connectedBound = (e) => this.connected(e.detail);
         this.connectingBound = (e) => this.connecting(e.detail);
         this.disconnectedBound = (e) => this.disconnected(e.detail);
     }
     connectedCallback() {
-        this.style.display = "none";
         const forid = this.getAttribute("for");
-        this.viewkey = this.getAttribute("viewkey");
-        this.viewvalue = this.getAttribute("viewvalue");
         this.target = document.getElementById(forid);
         if (!this.target) {
             this.target = this.nextElementSibling;
         }
-        if (!this.target) {
-            console.warn("OhDropdownBind: Could not find target!");
+        if (!this.target.ok) {
+            this.target.addEventListener("load", this.connectedCallback.bind(this), { once: true, passive: true });
             return;
         }
+
         const listadapter = this.getAttribute("listadapter");
-        import('./listadapter/' + listadapter + '.js')
+        importModule('./js/listadapter/' + listadapter + '.js')
             .then(this.startList.bind(this)).catch(e => {
                 console.log("list bind failed", e);
                 this.target.error = e;
@@ -43,38 +45,53 @@ class OhDropdownBind extends HTMLElement {
         store.removeEventListener("connectionEstablished", this.connectedBound, false);
         store.removeEventListener("connecting", this.connectingBound, false);
         store.removeEventListener("connectionLost", this.disconnectedBound, false);
-        if (!this.modeladapter) {
+        if (this.modeladapter) {
             this.modeladapter.dispose();
             delete this.modeladapter;
         }
+        delete this.target;
+        this.disconnected();
     }
     async startList(module) {
+        this.module = module;
         if (this.modeladapter) this.modeladapter.dispose();
-        this.modeladapter = new module.StoreView();
+        this.modeladapter = new module.StoreView(this);
+        this.target.start(this.modeladapter, module.listmixins, module.mixins, module.schema, module.runtimekeys);
+
         store.addEventListener("connectionEstablished", this.connectedBound, false);
         store.addEventListener("connecting", this.connectingBound, false);
         store.addEventListener("connectionLost", this.disconnectedBound, false);
 
         if (store.connected) this.connected(); else this.disconnected();
     }
-
     async connected() {
-        await this.modeladapter.getall();
-        let dropdownItems = {};
-        for (let item of this.modeladapter.list) {
-            dropdownItems[item[this.viewkey]] = item[this.viewvalue];
-        };
-        this.target.options = dropdownItems;
-    }
+        if (this.updateAdapter) this.updateAdapter.dispose();
+        this.updateAdapter = new UpdateAdapter(this.modeladapter, store);
 
+        await this.modeladapter.getall();
+        this.target.vue.status = OhListStatus.READY;
+        console.debug("OhListBind", this.modeladapter.items);
+    }
     connecting() {
-        this.target.options = {};
-        this.target.label = "Connecting...";
+        this.target.connectionState(true, store.host);
     }
     disconnected() {
-        this.target.options = {};
-        this.target.label = "Not connected!";
+        if (!this.updateAdapter) return;
+        this.updateAdapter.dispose();
+        delete this.updateAdapter;
+        if (this.target) this.target.connectionState(false, store.connectionErrorMessage);
+    }
+
+    /**
+     * 
+     * @param {String} criteria The sorting criteria.
+     *  Need to match with a database entries property. E.g. "label" or "category".
+     * @param {Enumerator<String>} direction The sorting direction. Usually ↓ or ↑.
+     */
+    sort(criteria, direction = "↓") {
+        if (!this.modeladapter) return;
+        store.sort(this.modeladapter.mainStore(), criteria, direction);
     }
 }
 
-customElements.define('oh-dropdown-bind', OhDropdownBind);
+customElements.define('oh-list-bind', OhListBind);

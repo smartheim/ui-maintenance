@@ -8,64 +8,95 @@
 
 <body>
   <link rel="stylesheet" href="css/rule.css" type="text/css" />
-  <nav class="sidebar leftright">
+  <nav class="sidebar leftright w-100">
+
+    <datalist id="filtertypes">
+      <option>type:trigger</option>
+      <option>type:condition</option>
+      <option>type:action</option>
+    </datalist>
     <p>Rule components</p>
+
     <oh-list-bind for="componentslist" listadapter="modules"></oh-list-bind>
-    <oh-vue-list id="componentslist" filtercriteria="label" maxFilteredItems="1000" style="display: block;max-width: 250px;">
+    <oh-vue-list id="componentslist" filtercriteria="label" maxFilteredItems="1000" style="display: block;">
       <div slot="app"></div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
-        <ul slot="app" style="max-height: calc(100vh - 180px); overflow-y: auto;" v-else>
-          <oh-vue-listitem v-for="item in filtered" v-if="item.category!='system'" :key="item.id" :listitem="item"></oh-vue-listitem>
+        <ul slot="app" style="max-height: calc(100vh - 180px); overflow-y: auto" v-else>
+          <input list="filtertypes" class="form-control py-2 mr-4 search" type="search" name="filter" placeholder="Filter by type:trigger,condition,action"
+            title="Enter a search string or filter by type:trigger,condition,action or label:labeltext, description:description-text"
+            @input="updateFilter($event.target.value.trim())">
+          <input class="form-control py-2" style="visibility: hidden;">
+          <oh-vue-listitem v-for="item in filtered" v-if="item.visibility!='HIDDEN'" :key="item.uid" :listitem="item"></oh-vue-listitem>
         </ul>
       </template>
       <template slot="item">
-        <div class="card node text-black m-2" draggable="true">
-          <div class="card-header">{{item.label}}</div>
+        <div class="node text-black m-2" :class="[{trigger:isTrigger},{condition:isCondition},{action:isAction}]"
+          draggable="true" @dragstart="dragstart" :data-uid="item.uid">
+          <div class="card-header">{{item.label}} (Type: {{item.type}})</div>
           <div class="card-body">
             <p class="card-text">{{item.description}}</p>
           </div>
         </div>
       </template>
     </oh-vue-list>
-    <oh-rule-components dragtarget="rulesapp">
-    </oh-rule-components>
+
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit rule"></partial>
   <main>
     <nav-breadcrumb parent="Rule list" useParamAsHash="uid"></nav-breadcrumb>
-    <details open>
-      <summary>Configuration</summary>
-      <form class="m-4 mb-0">
-        <div class="form-group row">
-          <label for="scriptname" class="col-sm-2 col-form-label">Rule name</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" name="name" id="scriptname" pattern=".{1,}" required placeholder="Your rule name goes here">
-          </div>
+
+    <oh-form-bind adapter="rule" objectFromURL allowNew></oh-form-bind>
+    <oh-vue-form style="display: flex;flex:1;flex-direction: column"></oh-vue-form>
+    <template>
+      <div style="display: flex;flex:1;flex-direction: column">
+        <details open>
+          <summary>Configuration</summary>
+          <form class="m-4 mb-0">
+            <div class="form-group row">
+              <label for="scriptname" class="col-sm-2 col-form-label">Rule name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" id="scriptname" pattern=".{1,}" required
+                  placeholder="Your rule name goes here" v-model="value.name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="filepath" class="col-sm-2 col-form-label">Description</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="filepath" id="filepath" pattern="[^\s]+" required
+                  placeholder="Rule description" v-model="value.description">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label"><abbr title="Reference this Rule via this identifier">UID</abbr></label>
+              <div class="col-sm-10">
+                <div class="form-control" @click="copyClipboard($event, value.uid)">{{value.uid}}</div>
+              </div>
+            </div>
+          </form>
+        </details>
+        <div class="btn-group btnbar mb-4" role="group">
+          <template v-if="isNew">
+            <button class="btn btn-primary" @click="create($event.target)"><i class="fas fa-plus"></i>
+              Create</button>
+          </template>
+          <template v-else>
+            <button class="btn btn-danger" @click="remove($event.target)"><i class="fas fa-trash"></i> <span>Remove</span></button>
+            <button class="btn btn-primary" :class="{disabled:unchanged}" @click="save($event.target)"><i class="fas fa-save"></i>
+              Save</button>
+            <button class="btn btn-success" @click="run($event.target)"><i class="fas fa-check"></i> <span>Run</span>
+              <span class="badge badge-light">{{status}}</span></button>
+          </template>
         </div>
-        <div class="form-group row">
-          <label for="filepath" class="col-sm-2 col-form-label">Description</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" name="filepath" id="filepath" pattern="[^\s]+" required placeholder="Rule description">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label"><abbr title="Reference this Rule via this identifier">UID</abbr></label>
-          <div class="col-sm-10">
-            <div class="form-control">3453-2345-2342-5423-6452-1235</div>
-          </div>
-        </div>
-      </form>
-    </details>
-    <div class="btn-group btnbar mb-4" role="group">
-      <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> <span>Remove</span></a>
-      <a href="#" class="btn btn-primary"><i class="fas fa-save"></i> Save</a>
-      <a href="#" class="btn btn-success"><i class="fas fa-check"></i> <span>Run</span> <span class="badge badge-light">Idle</span></a>
-    </div>
+        <oh-rule-editor rule-node-template="rulenode" :rule.prop="value" :moduletypes.prop="moduletypes"></oh-rule-editor>
+      </div>
+    </template>
+
     <template id="rulenode">
-      <div class="node" :class="classes">
-        <div class="title">{{node.name}}</div>
+      <div class="node" :class="classes" :title="node.data.description">
+        <a href="#" @click="remove" class="remove"><i class="fas fa-times-circle"></i></a>
+        <div class="title">{{node.data.label}}</div>
         <!-- Outputs-->
         <div class="output" v-for="output in outputs()" :key="output.key">
           <div class="output-title">{{output.name}}</div>
@@ -81,7 +112,6 @@
         </div>
       </div>
     </template>
-    <oh-rule-editor rule-node-template="rulenode"></oh-rule-editor>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="rule"></partial>

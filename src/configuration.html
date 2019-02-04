@@ -13,7 +13,7 @@
   <partial src="pagetitleheader.html" title="General openHAB configuration"></partial>
   <main>
     <oh-list-bind listadapter="services"></oh-list-bind>
-    <oh-vue-list filtercriteria="label" maxFilteredItems="1000">
+    <oh-vue-list>
       <div slot="app"></div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
@@ -35,7 +35,7 @@
     </oh-vue-list>
 
     <template id="serviceconfig">
-      <div v-if="!objectdata.id || !configuration()">No further configuration available</div>
+      <div v-if="!value.id || !configuration()">No further configuration available</div>
       <div class="elements" v-else>
         <vue-config-element v-for="config in configuration().parameters" :key="config.name" :config="config"></vue-config-element>
       </div>

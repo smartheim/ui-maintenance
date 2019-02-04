@@ -1,8 +1,9 @@
-import { Vue } from './vue.js'; // Pre-bundled, external reference
+import { Vue } from '../vue.js'; // Pre-bundled, external reference
+import { createNotification } from '../app.js'; // Pre-bundled, external reference
 import { UIFilterbarMixin, UIEditorMixin } from './oh-vue-list-mixins';
 import { OhListStatus } from './oh-vue-list-status'
 import VueInProgress from './vue-inprogress';
-import PortalVue from './portal-vue/portal-vue.mjs'
+import PortalVue from './portal-vue.mjs'
 
 Vue.use(PortalVue);
 Vue.config.ignoredElements = [
@@ -60,11 +61,7 @@ function createItemComponent(mixins, template) {
                 window.getSelection().addRange(range);
                 document.execCommand("copy");
 
-                var el = document.createElement("ui-notification");
-                el.id = "clipboard";
-                el.setAttribute("close-time", 3000);
-                el.innerHTML = `Copied ${itemid} to clipboard`;
-                document.body.appendChild(el);
+                createNotification("clipboard", `Copied ${itemid} to clipboard`, false, 3000);
             }
         },
         watch: {
@@ -151,7 +148,7 @@ class OhViewList extends HTMLElement {
      * @param {JSON} schema A json schema
      * @param {String[]} runtimeKeys A list of mixin objects
      */
-    start(databaseStore, listmixins, itemMixins, schema = null, runtimeKeys = null) {
+    start(adapter, listmixins, itemMixins, schema = null, runtimeKeys = null) {
         if (!this.ok) return;
 
         const filtercriteria = this.getAttribute("filtercriteria");
@@ -159,7 +156,7 @@ class OhViewList extends HTMLElement {
         this.vue = new Vue({
             created: function () {
                 this.OhListStatus = OhListStatus;
-                this.store = databaseStore;
+                this.store = adapter;
                 this.runtimeKeys = runtimeKeys;
                 this.filtercriteria = filtercriteria;
                 this.modelschema = schema;
@@ -168,11 +165,10 @@ class OhViewList extends HTMLElement {
             mixins: [UIFilterbarMixin, UIEditorMixin, ...listmixins],
             template: this.listTmpl,
             data: function () {
-                return {
-                    items: [],
+                return Object.assign(adapter, {
                     message: "",
                     status: OhListStatus.READY,
-                }
+                });
             },
             computed: {
                 empty: function () {
@@ -212,13 +208,6 @@ class OhViewList extends HTMLElement {
         } else if (this.vue.status != OhListStatus.READY) {
             this.pending = true;
         }
-    }
-    set items(val) {
-        this.vue.items = val;
-        this.vue.status = OhListStatus.READY;
-    }
-    get items() {
-        return this.vue.items;
     }
     set modelschema(val) {
         this.vue.modelschema = val;

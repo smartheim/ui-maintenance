@@ -1,4 +1,4 @@
-import { importModule } from "./polyfill/importModule";
+import { importModule } from "./importModule";
 
 /**
  * This is a non-visible data binding component and serves as *Controller*

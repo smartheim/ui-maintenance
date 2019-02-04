@@ -43,7 +43,7 @@ class OhContextHelp extends HTMLElement {
     return this.url;
   }
   attributeChangedCallback(name, oldValue, newValue) {
-    this.cachetime = this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : 1440; // One day in minutes
+    this.cachetime = this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : 600; // One day in minutes
     this.url = this.getAttribute("url");
     if (this.initdone) this.checkCacheAndLoad(this.url);
   }

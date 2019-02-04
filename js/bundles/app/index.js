@@ -30,21 +30,25 @@ function openhabHost() {
   return host;
 }
 
+export function createNotification(id, message, persistent = false, timeout = 5000) {
+  const oldEl = id ? document.getElementById(id) : null;
+  var el = oldEl ? oldEl : document.createElement("ui-notification");
+  if (id) el.id = id;
+  el.setAttribute("closetime", timeout);
+  if (persistent) el.setAttribute("persistent", "true");
+  el.innerHTML = `<div>${message}</div>`;
+  document.body.appendChild(el);
+}
+
 var store = new StorageConnector();
 
-store.addEventListener("connecting", e => {
-  var el = document.createElement("ui-notification");
-  el.id = "connecting";
-  el.setAttribute("closetime", 2000);
-  el.setAttribute("persistent", true);
-  el.innerHTML = `<div>Connecting&hellip;</div>`;
-  document.body.appendChild(el);
-}, false);
+store.addEventListener("connecting", () => createNotification("connecting", "Connecting&hellip;", true, 2000), false);
 
 store.addEventListener("connectionEstablished", e => {
   const connectingN = document.getElementById("connecting");
+  if (!connectingN) return;
   connectingN.innerHTML = `<div>Connected!</div>`;
-  if (connectingN) connectingN.hideAfterCloseTime();
+  connectingN.hideAfterCloseTime();
 }, false);
 
 store.addEventListener("connectionLost", e => {
@@ -53,35 +57,17 @@ store.addEventListener("connectionLost", e => {
 
   if (e.toString().includes("TypeError")) {
     if (window.location.pathname == "/login.html") {
-      var el = document.createElement("ui-notification");
-      el.id = "login";
-      el.setAttribute("persistent", false);
-      el.innerHTML = `<div>Connection to ${openhabHost()} failed</div>`;
-      document.body.appendChild(el);
+      createNotification("login", "Connection to " + openhabHost() + " failed", false);
     } else {
-      var el = document.createElement("ui-notification");
-      el.id = "login";
-      el.setAttribute("persistent", false);
-      el.innerHTML = `<div>Cross-orgin access denied for ${openhabHost()}.<br>
-      <a href="login.html" data-close>Login to openHab instance</a></div>`;
-      document.body.appendChild(el);
+      createNotification("login", "Cross-orgin access denied for " + openhabHost() + ".<br><a href='login.html' data-close>Login to openHab instance</a></div>", false);
     }
   }
   else {
     if (window.location.pathname == "/login.html") {
-      var el = document.createElement("ui-notification");
-      el.id = "login";
-      el.setAttribute("persistent", false);
-      el.innerHTML = `<div>Connection to ${openhabHost()} failed</div>`;
-      document.body.appendChild(el);
+      createNotification("login", "Connection to " + openhabHost() + " failed", false);
     }
     else {
-      var el = document.createElement("ui-notification");
-      el.id = "login";
-      el.setAttribute("persistent", false);
-      el.innerHTML = `<div>Could not connect to openHAB on ${openhabHost()}.<br>
-      <a href="login.html" data-close>Login to openHab instance</a></div>`;
-      document.body.appendChild(el);
+      createNotification("login", "Could not connect to openHAB on " + openhabHost() + ".<br><a href='login.html' data-close>Login to openHab instance</a></div>", false);
     }
   }
 }, false);

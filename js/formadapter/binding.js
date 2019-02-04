@@ -3,7 +3,8 @@ import { store } from '../app.js';
 const ID_KEY = "id";
 
 class StoreView {
-    mainStore() { return "bindings" };
+    constructor() { this.value = {}; }
+    stores() { return { "bindings": "value" } };
     async get(bindingid) {
         return store.get("rest/bindings", "bindings", bindingid, ID_KEY)
             .then(v => this.value = v)

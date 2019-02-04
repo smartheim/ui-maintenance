@@ -1,9 +1,10 @@
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "profile-types" };
+    constructor() { this.items = []; }
+    stores() { return { "profile-types": "list" } };
     async getall() {
-        return store.get("rest/profile-types", "profile-types").then(list => this.list = list);
+        return store.get("rest/profile-types", "profile-types").then(items => this.items = items);
     }
     dispose() {
     }

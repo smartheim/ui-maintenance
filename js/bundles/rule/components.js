@@ -9,7 +9,7 @@ class MessageControl extends Rete.Control {
     this.render = 'vue';
     this.emitter = emitter;
     this.component = { // Vue component
-      data: function() { return {value: ''} },
+      data: function () { return { value: '' } },
       props: ['change'],
       template: '<input :value="value" @input="change($event)"/>'
     };
@@ -69,7 +69,7 @@ class AlertComponent extends Rete.Component {
     var ctrl = new MessageControl(this.editor, node.data.msg);
     node
       .addControl(ctrl)
-      .addInput(new Rete.Input('act', '', actionSocket));
+      .addInput(new Rete.Input('act', '', actionSocket, true));
   }
 }
 

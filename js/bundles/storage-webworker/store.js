@@ -1,9 +1,9 @@
-import { openDb } from 'idb';
+import { openDb, deleteDb } from 'idb';
 import { hack_addNotYetSupportedStoreData, blockLiveDataFromTables } from './addNotYetSupportedStoreData';
-import { hack_rewriteToNotYetSupportedStoreLayout } from './rewriteToNotYetSupportedStoreLayout';
+import { hack_rewriteEntryToNotYetSupportedStoreLayout, hack_rewriteTableToNotYetSupportedStoreLayout } from './rewriteToNotYetSupportedStoreLayout';
 import { fetchWithTimeout } from '../../common/fetch';
 import { CompareTwoDataSets } from './compareTwoDatasets';
-import { tables, tableToId } from './openhabStoreLayout';
+import { tables, tableToId, dbversion } from './openhabStoreLayout';
 
 export class StateWhileRevalidateStore extends EventTarget {
     constructor() {
@@ -164,16 +164,26 @@ export class StateWhileRevalidateStore extends EventTarget {
         }
         const topic = data.topic.split("/");
         const storename = topic[1];
+        let newState;
         switch (data.type) {
             case "ItemAddedEvent":
-                this.insertIntoStore(this.db, storename, JSON.parse(data.payload));
+                newState = JSON.parse(data.payload);
+                this.insertIntoStore(this.db, storename, newState);
+                return;
+            case "ItemUpdatedEvent":
+                newState = JSON.parse(data.payload)[0];
+                this.insertIntoStore(this.db, storename, newState);
                 return;
             case "ItemStateEvent":
-                let newState = JSON.parse(data.payload);
+                newState = JSON.parse(data.payload);
                 this.changeItemState(this.db, storename, topic[2], newState.value);
                 return;
             case "ItemRemovedEvent":
                 this.removeFromStore(this.db, storename, JSON.parse(data.payload));
+                return;
+            case "RuleStatusInfoEvent":
+                newState = JSON.parse(data.payload);
+                this.changeItemState(this.db, storename, topic[2], newState, "status");
                 return;
             //Ignore the following events
             case "ItemStateChangedEvent":
@@ -194,14 +204,15 @@ export class StateWhileRevalidateStore extends EventTarget {
             this.db.close();
             delete this.db;
         }
-        this.db = await openDb(hostname, 1, db => {
-            // Fall-through behaviour is what we want here
-            switch (db.oldVersion) {
-                case 0:
-                    console.log("Upgrading database to version 1");
-                    for (let table of tables) {
-                        db.createObjectStore(table.id, { keyPath: table.key });
-                    }
+
+        this.db = await openDb(hostname, dbversion, db => {
+            console.log("Upgrading database to version", dbversion);
+            const objs = db.objectStoreNames;
+            for (let ojs of objs) {
+                db.deleteObjectStore(ojs);
+            }
+            for (let table of tables) {
+                db.createObjectStore(table.id, { keyPath: table.key });
             }
         }).then(db => {
             hack_addNotYetSupportedStoreData(db);
@@ -259,7 +270,7 @@ export class StateWhileRevalidateStore extends EventTarget {
         const store = tx.objectStore(storename);
         await store.clear();
         for (let entry of jsonList) {
-            if (requireRewrite) entry = hack_rewriteToNotYetSupportedStoreLayout(storename, entry);
+            if (requireRewrite) entry = hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry);
             try {
                 await store.add(entry);
             } catch (e) {
@@ -274,6 +285,7 @@ export class StateWhileRevalidateStore extends EventTarget {
     }
 
     async replaceStore(db, storename, jsonList) {
+        jsonList = await hack_rewriteTableToNotYetSupportedStoreLayout(storename, jsonList, this);
         const tx = db.transaction(storename, 'readwrite');
         const store = tx.objectStore(storename);
         const key_id = tableToId[storename];
@@ -282,7 +294,7 @@ export class StateWhileRevalidateStore extends EventTarget {
         // Clear and add entry per entry
         await store.clear();
         for (let entry of jsonList) {
-            await store.add(hack_rewriteToNotYetSupportedStoreLayout(storename, entry));
+            await store.add(hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry));
             compare.compareNewAndOld(entry);
         }
         await tx.complete.catch(e => {
@@ -318,14 +330,14 @@ export class StateWhileRevalidateStore extends EventTarget {
         return null;
     }
 
-    async changeItemState(db, storename, itemid, value) {
+    async changeItemState(db, storename, itemid, value, fieldname = "state") {
         const store = db.transaction(storename, 'readwrite').objectStore(storename);
         var item = await store.get(itemid);
         if (!item) {
             console.info("changeItemState: Item does not exist", itemid);
             return;
         }
-        item.state = value;
+        item[fieldname] = value;
         await store.put(item);
         this.dispatchEvent(new CustomEvent("storeItemChanged", { detail: { "value": item, "storename": storename } }));
     }
@@ -334,7 +346,7 @@ export class StateWhileRevalidateStore extends EventTarget {
             console.warn("insertIntoStore must be called with an object", jsonEntry);
             return;
         }
-        jsonEntry = hack_rewriteToNotYetSupportedStoreLayout(storename, jsonEntry);
+        jsonEntry = hack_rewriteEntryToNotYetSupportedStoreLayout(storename, jsonEntry);
         const store = db.transaction(storename, 'readwrite').objectStore(storename);
         const id_key = tableToId[storename];
         var old = await store.get(jsonEntry[id_key]);

@@ -15,6 +15,15 @@ main {
     flex-direction: column;
 }
 
+.search {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+}
+
 .rete-background {
     position: absolute;
     width: 100%;
@@ -62,7 +71,24 @@ main {
 }
 
 .node {
-    background: theme-color("info");
+    &.trigger {
+        background-color: lighten(theme-color("success"), 50%);
+        &:hover {
+            background-color: lighten(theme-color("success"), 40%);
+        }
+    }
+    &.condition {
+        background-color: lighten(theme-color("info"), 10%);
+        &:hover {
+            background-color: lighten(theme-color("info"), 0%);
+        }
+    }
+    &.action {
+        background-color: lighten(theme-color("danger"), 30%);
+        &:hover {
+            background-color: lighten(theme-color("danger"), 20%);
+        }
+    }
     border: $node-border*1px solid #4e58bf;
     border-radius: 10px;
     cursor: pointer;
@@ -73,15 +99,12 @@ main {
     box-sizing: content-box;
     position: relative;
     user-select: none;
-    &:hover {
-        background: lighten(theme-color("info"), 4%);
-    }
     &.selected {
         background: $node-color-selected;
         border-color: #e3c000;
     }
     .title {
-        color: white;
+        color: black;
         font-family: sans-serif;
         font-size: 18px;
         padding: 8px;
@@ -95,7 +118,7 @@ main {
     .input-title,
     .output-title {
         vertical-align: middle;
-        color: white;
+        color: black;
         display: inline-block;
         font-family: sans-serif;
         font-size: 14px;
@@ -124,7 +147,7 @@ oh-rule-editor {
     height: 100%;
     flex: 1;
     height: 100% !important;
-    overflow: auto!important;
+    overflow: auto !important;
     &>div {
         position: absolute;
         height: 100%;
@@ -135,4 +158,11 @@ oh-rule-editor {
 nav.sidebar {
     display: flex;
     flex-direction: column;
+}
+
+.remove {
+    float: right;
+    font-size: 1.7rem;
+    left: 10px;
+    top: -10px;
 }

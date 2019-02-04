@@ -4,7 +4,7 @@ var data = {
     'nodes': {
         '2': {
             'id': 2,
-            'data': {},
+            'data': { type: 'trigger', label: "test", description: "desc" },
             'group': null,
             'inputs': {},
             'outputs': {
@@ -26,13 +26,13 @@ var data = {
                 }
             },
             'position': [
-                32, 32*5
+                32, 32 * 5
             ],
             'name': 'MQTT Receive Trigger'
         },
         '3': {
             'id': 3,
-            'data': {},
+            'data': { type: 'condition', label: "test", description: "desc" },
             'group': null,
             'inputs': {
                 'act': {
@@ -71,14 +71,15 @@ var data = {
                 }
             },
             'position': [
-                32*10, 32*4
+                32 * 10, 32 * 4
             ],
             'name': 'Enter pressed'
         },
         '10': {
             'id': 10,
             'data': {
-                'msg': 'Enter!'
+                'msg': 'Enter!',
+                type: 'action', label: "test", description: "desc"
             },
             'group': null,
             'inputs': {
@@ -93,14 +94,15 @@ var data = {
             },
             'outputs': [],
             'position': [
-                32*20, 32*3
+                32 * 20, 32 * 3
             ],
             'name': 'Alert'
         },
         '11': {
             'id': 11,
             'data': {
-                'msg': 'Another key pressed'
+                'msg': 'Another key pressed',
+                type: 'action', label: "test", description: "desc"
             },
             'group': null,
             'inputs': {
@@ -115,7 +117,7 @@ var data = {
             },
             'outputs': [],
             'position': [
-                32*20, 32*10
+                32 * 20, 32 * 10
             ],
             'name': 'Alert'
         }

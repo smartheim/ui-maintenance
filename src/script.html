@@ -18,15 +18,22 @@
       <summary>Configuration</summary>
       <form class="mt-4 mb-0">
         <div class="form-group row">
-          <label for="scriptname" class="col-sm-2 col-form-label">Script name</label>
+          <label for="scriptname" class="col-sm-2 col-form-label">Name</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="name" id="scriptname" pattern=".{1,}" required placeholder="Your script name goes here">
           </div>
         </div>
         <div class="form-group row">
-          <label for="filepath" class="col-sm-2 col-form-label">Script filepath</label>
+          <label for="scriptpath" class="col-sm-2 col-form-label">Filepath</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="filepath" id="filepath" pattern="[^\s]+" required placeholder="File path like my-script.js">
+            <input type="text" class="form-control" name="path" id="scriptpath" pattern="[^\s]+" required placeholder="File path like my-script.js">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="scripttype" class="col-sm-2 col-form-label">Script language</label>
+          <div class="col-sm-10">
+            <oh-dropdown-bind listadapter="script-types" viewkey="id" viewvalue="label"></oh-dropdown-bind>
+            <ui-dropdown btnclass="btn btn-sm" name="type" id="scripttype" label="Script type"></ui-dropdown>
           </div>
         </div>
       </form>

@@ -27,13 +27,49 @@
 
     <h4>Control interfaces</h4>
 
-    <p>This is where you need to leave <b>"Setup and Maintenance"</b>.
-      We provide an Android App, an iOS App and also a web-based solution for all kind of devices called <u>Habpanel</u>.
-    </p>
+    <p>In this section you learn about the fun part of setting up your openHAB system - the user interface! This is the
+      most
+      rewarding part of your configuration, because you’ll actually get to see real-time results of all your work until
+      now, and interact with your home automation things directly via the user interface.</p>
+
+    <img class="tutimage" src="img/tutorial/user_interfaces.png">
+
+    <p>This is where you need to leave <b>"Setup and Maintenance"</b>.</p>
+
+    <h5>Habpanel</h5>
 
     <img style="max-width: 60%;max-height: 100%;float:right;padding-right: 20px;" src="img/tutorial/habpanel.png">
 
+    <p>Habpanel is the most touch-friendly and easily configurable user interface in openHAB, and it doesn’t require
+      anything more than what you’ve done so far (that is, creating the Items for your Thing Channels). That is because
+      Habpanel interfaces directly to the Items, using “Widgets”.</p>
+
+    <p>There are many types of Widgets and they use Items to
+      show things like the state of your HVAC system temperature, or to control the color of your lamp. If you had
+      nothing but computers and touchpads controlling your home automation system, you could easily get away with only
+      using Habpanel.</p>
+
     <p>Make sure you have installed Habpanel in the <a href="addons.html">Add-ons</a> section.</p>
+
+    <h5 style="clear: both">Basic UI</h5>
+
+    <img style="max-width: 60%;max-height: 100%;float:right;padding-right: 20px;" src="img/tutorial/basicui.png">
+
+    <p>For the phone screen, there are much better options, like <b>Basic UI</b>.
+      It does NOT interface directly to your <i>Items</i>, like Habpanel does.
+      Instead, it depend on a configuration file called a “Sitemap”. Sitemaps define the layout and handling of
+      items for the user interface, and tell the Basic UI how to interact with your Items.</p>
+
+    <p>Make sure you have installed Basic UI in the <a href="addons.html">Add-ons</a> section.</p>
+
+    <p><a target="_blank" href="https://www.openhab.org/docs/configuration/sitemaps.html">Sitemaps</a> are created with
+      <b>Habmin</b>.</p>
+
+    <h5 style="clear: both">Android / iOS App</h5>
+
+    <p>If you want to enjoy the native speed of your phone platform, consider our mobile apps.
+      Both Apps use Sitemaps for displaying your Items.</p>
+
   </main>
   <footer>
     <nav-buttons class="m-4"></nav-buttons>

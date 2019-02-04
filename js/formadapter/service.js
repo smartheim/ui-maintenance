@@ -1,7 +1,8 @@
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "services" };
+    constructor() { this.value = {}; }
+    stores() { return { "services": "value" } };
     async get(serviceid) {
         return store.get("rest/services/" + serviceid, "services", serviceid)
             .then(v => this.value = v)

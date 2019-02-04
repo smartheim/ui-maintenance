@@ -1,12 +1,13 @@
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "things" };
+    constructor() { this.items = []; this.thingtypes = []; }
+    stores() { return { "things": "items" } };
     async getall() {
         return store.get("rest/thing-types", "thing-types")
             .then(list => this.thingtypes = list)
             .then(() => store.get("rest/things", "things"))
-            .then(list => this.list = list);
+            .then(items => this.items = items);
     }
     getThingTypeFor(uid) {
         for (const thingType of this.thingtypes) {

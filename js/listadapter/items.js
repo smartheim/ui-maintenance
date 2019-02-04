@@ -1,9 +1,10 @@
 import { store, fetchMethodWithTimeout } from '../app.js';
 
 class StoreView {
-    mainStore() { return "items" };
+    constructor() { this.items = []; }
+    stores() { return { "items": "items" } };
     async getall() {
-        return store.get("rest/items", "items").then(list => this.list = list);
+        return store.get("rest/items", "items").then(items => this.items = items);
     }
     dispose() {
     }

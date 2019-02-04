@@ -2,10 +2,9 @@ class Component {
     constructor(name) {
         if (this.constructor === Component)
             throw new TypeError('Can not construct abstract class.');
-        
+
         this.name = name;
         this.data = {};
-        this.engine = null;
     }
 
     worker() { }
@@ -26,8 +25,8 @@ class Control {
 
     getNode() {
         if (this.parent === null)
-            throw new Error("Control isn't added to Node/Input");   
-        
+            throw new Error("Control isn't added to Node/Input");
+
         return this.parent instanceof Node ? this.parent : this.parent.node;
     }
 
@@ -37,7 +36,7 @@ class Control {
 
     putData(key, data) {
         this.getNode().data[key] = data;
-    }  
+    }
 }
 
 class Connection {
@@ -59,16 +58,16 @@ class Connection {
 class IO {
 
     constructor(key, name, socket, multiConns) {
-	    this.node = null;
+        this.node = null;
         this.multipleConnections = multiConns;
         this.connections = [];
-	   
+
         this.key = key;
         this.name = name;
         this.socket = socket;
     }
-    
-    removeConnection(connection            ) {
+
+    removeConnection(connection) {
         this.connections.splice(this.connections.indexOf(connection), 1);
     }
 
@@ -79,24 +78,24 @@ class IO {
 
 class Socket {
 
-    constructor(name        , data = {}) {
+    constructor(name, data = {}) {
         this.name = name;
         this.data = data;
         this.compatible = [];
     }
 
-    combineWith(socket        ) {
+    combineWith(socket) {
         this.compatible.push(socket);
     }
 
-    compatibleWith(socket        ) {
-        return this === socket || this.compatible.includes(socket);
+    compatibleWith(socket) {
+        return this.name == socket.name || this.compatible.includes(socket);
     }
 }
 
 class Input extends IO {
-   
-    constructor(key        , title        , socket        , multiConns          = false) {
+
+    constructor(key, title, socket, multiConns = false) {
         super(key, title, socket, multiConns);
         this.control = null;
     }
@@ -105,13 +104,13 @@ class Input extends IO {
         return this.connections.length > 0;
     }
 
-    addConnection(connection            ) {
+    addConnection(connection) {
         if (!this.multipleConnections && this.hasConnection())
             throw new Error('Multiple connections not allowed');
         this.connections.push(connection);
     }
 
-    addControl(control         ) {
+    addControl(control) {
         this.control = control;
         control.parent = this;
     }
@@ -119,31 +118,19 @@ class Input extends IO {
     showControl() {
         return !this.hasConnection() && this.control !== null;
     }
-
-    toJSON() {
-        return {
-            'connections': this.connections.map(c => {
-                return {
-                    node: c.output.node.id,
-                    output: c.output.key,
-                    data: c.data
-                };
-            })
-        };
-    }
 }
 
 class Output extends IO {
-  
-    constructor(key        , title        , socket        , multiConns          = true) {
+
+    constructor(key, title, socket, multiConns = true) {
         super(key, title, socket, multiConns);
     }
-    
+
     hasConnection() {
         return this.connections.length > 0;
     }
 
-    connectTo(input       ) {
+    connectTo(input) {
         if (!this.socket.compatibleWith(input.socket))
             throw new Error('Sockets not compatible');
         if (!input.multipleConnections && input.hasConnection())
@@ -157,28 +144,16 @@ class Output extends IO {
         return connection;
     }
 
-    connectedTo(input       ) {
+    connectedTo(input) {
         return this.connections.some((item) => {
             return item.input === input;
         });
     }
-
-    toJSON() {
-        return {
-            'connections': this.connections.map(c => {
-                return {
-                    node: c.input.node.id,
-                    input: c.input.key,
-                    data: c.data
-                }
-            })
-        };
-    }
 }
 
 class Node {
-   
-    constructor(name        ) {
+
+    constructor(name) {
         this.name = name;
         this.id = Node.incrementId();
         this.position = [0.0, 0.0];
@@ -190,47 +165,47 @@ class Node {
         this.meta = {};
     }
 
-    addControl(control         ) {
+    addControl(control) {
         control.parent = this;
 
         this.controls.set(control.key, control);
         return this;
     }
 
-    removeControl(control         ) {
+    removeControl(control) {
         control.parent = null;
 
         this.controls.delete(control.key);
     }
 
-    addInput(input       ) {
+    addInput(input) {
         if (input.node !== null)
             throw new Error('Input has already been added to the node');
- 
+
         input.node = this;
 
         this.inputs.set(input.key, input);
         return this;
     }
 
-    removeInput(input       ) {
+    removeInput(input) {
         input.removeConnections();
         input.node = null;
 
         this.inputs.delete(input.key);
     }
 
-    addOutput(output        ) {
+    addOutput(output) {
         if (output.node !== null)
             throw new Error('Output has already been added to the node');
-        
+
         output.node = this;
 
         this.outputs.set(output.key, output);
         return this;
     }
 
-    removeOutput(output        ) {
+    removeOutput(output) {
         output.removeConnections();
         output.node = null;
 
@@ -242,11 +217,11 @@ class Node {
         const connections = ios.reduce((arr, io) => {
             return [...arr, ...io.connections];
         }, []);
-    
+
         return connections;
     }
 
-    update() {}
+    update() { }
 
     static incrementId() {
         if (!this.latestId)
@@ -254,29 +229,6 @@ class Node {
         else
             this.latestId++;
         return this.latestId
-    }
-
-    toJSON() {
-        return {
-            'id': this.id,
-            'data': this.data,
-            'inputs': Array.from(this.inputs).reduce((obj, [key, input]) => (obj[key] = input.toJSON(), obj), {}),
-            'outputs': Array.from(this.outputs).reduce((obj, [key, output]) => (obj[key] = output.toJSON(), obj), {}),
-            'position': this.position,
-            'name': this.name
-        }
-    }
-
-    static fromJSON(json        ) {
-        const node = new Node(json.name);
-
-        node.id = json.id;
-        node.data = json.data;
-        node.position = json.position;
-        node.name = json.name;
-        Node.latestId = Math.max(node.id, Node.latestId);
-
-        return node;
     }
 }
 
@@ -292,7 +244,7 @@ class Component$1 extends Component {
 
     async builder() { }
 
-    async build(node      ) {
+    async build(node) {
         await this.builder(node);
 
         return node;
@@ -300,7 +252,7 @@ class Component$1 extends Component {
 
     async createNode(data = {}) {
         const node = new Node(this.name);
-        
+
         node.data = data;
         await this.build(node);
 
@@ -316,17 +268,17 @@ class Events {
             error: [console.error],
             ...handlers
         };
-    }    
+    }
 }
 
 class Emitter {
 
-    constructor(events                  ) {
+    constructor(events) {
         this.events = events instanceof Emitter ? events.events : events.handlers;
         this.silent = false;
     }
 
-    on(names        , handler          ) {
+    on(names, handler) {
         names.split(' ').forEach(name => {
             if (!this.events[name])
                 throw new Error(`The event ${name} does not exist`);
@@ -336,7 +288,7 @@ class Emitter {
         return this;
     }
 
-    trigger(name        , params) {
+    trigger(name, params) {
         if (!(name in this.events))
             throw new Error(`The event ${name} cannot be triggered`);
 
@@ -345,45 +297,15 @@ class Emitter {
         }, true); // return false if at least one event is false        
     }
 
-    bind(name        ) {
+    bind(name) {
         if (this.events[name])
             throw new Error(`The event ${name} is already bound`);
 
         this.events[name] = [];
     }
 
-    exist(name        ) {
+    exist(name) {
         return Array.isArray(this.events[name]);
-    }
-}
-
-class Validator {
-
-    static isValidData(data) {
-        return typeof data.id === 'string' &&
-            this.isValidId(data.id) &&
-            data.nodes instanceof Object && !(data.nodes instanceof Array);
-    }
-
-    static isValidId(id) {
-        return /^[\w-]{3,}@[0-9]+\.[0-9]+\.[0-9]+$/.test(id);
-    }
-
-    static validate(id, data) {
-        var msg = '';
-        var id1 = id.split('@');
-        var id2 = data.id.split('@');
-
-        if (!this.isValidData(data))
-            msg += 'Data is not suitable. '; 
-        if (id !== data.id)
-            msg += 'IDs not equal. ';
-        if (id1[0] !== id2[0])
-            msg += 'Names don\'t match. ';
-        if (id1[1] !== id2[1])
-            msg += 'Versions don\'t match';
-
-        return { success: msg ==='', msg };
     }
 }
 
@@ -392,9 +314,9 @@ class Context extends Emitter {
     constructor(id, events) {
         super(events);
 
-        if (!Validator.isValidId(id))
-            throw new Error('ID should be valid to name@0.1.0 format');  
-        
+        if (!/^[\w-]{3,}@[0-9]+\.[0-9]+\.[0-9]+$/.test(id))
+            throw new Error('ID should be valid to name@0.1.0 format');
+
         this.id = id;
         this.plugins = new Map();
     }
@@ -404,264 +326,6 @@ class Context extends Emitter {
 
         plugin.install(this, options);
         this.plugins.set(plugin.name, options);
-    }
-}
-
-class EngineEvents extends Events {
-
-    constructor() {
-        super({
-            componentregister: []
-        });
-    }    
-}
-
-var State = { AVALIABLE:0, PROCESSED: 1, ABORT: 2 };
-
-class Engine extends Context {
-
-    constructor(id        ) {
-        super(id, new EngineEvents());
-
-        this.components = [];
-        this.args = [];
-        this.data = null;
-        this.state = State.AVALIABLE;
-        this.onAbort = () => { };
-    }
-
-    clone() {
-        const engine = new Engine(this.id);
-
-        this.components.map(c => engine.register(c));
-
-        return engine;
-    }
-
-    register(component           ) {
-        this.components.push(component);
-        this.trigger('componentregister', component);
-    }
-
-    async throwError (message, data = null) {
-        await this.abort();
-        this.trigger('error', { message, data });
-        this.processDone();
-
-        return 'error';
-    }
-
-    extractInputNodes(node, nodes) {
-        return Object.keys(node.inputs).reduce((a, key) => {
-            return [...a, ...(node.inputs[key].connections || []).reduce((b, c) => [...b, nodes[c.node]], [])]
-        }, []);
-    }
-
-    detectRecursions(nodes) {
-        const nodesArr = Object.keys(nodes).map(id => nodes[id]);
-        const findSelf = (node, inputNodes) => {
-            if (inputNodes.some(n => n === node))
-                return node;
-            
-            for (var i = 0; i < inputNodes.length; i++) {
-                if (findSelf(node, this.extractInputNodes(inputNodes[i], nodes)))
-                    return node;
-            }
-
-            return null;
-        };
-
-        return nodesArr.map(node => {
-            return findSelf(node, this.extractInputNodes(node, nodes))
-        }).filter(r => r !== null);
-    }
-
-    processStart() {
-        if (this.state === State.AVALIABLE) {  
-            this.state = State.PROCESSED;
-            return true;
-        }
-
-        if (this.state === State.ABORT) {
-            return false;
-        }
-
-        console.warn(`The process is busy and has not been restarted.
-                Use abort() to force it to complete`);
-        return false;
-    }
-
-    processDone() {
-        var success = this.state !== State.ABORT;
-
-        this.state = State.AVALIABLE;
-        
-        if (!success) {
-            this.onAbort();
-            this.onAbort = () => { };
-        }    
-
-        return success;
-    }
-
-    async abort() {
-        return new Promise(ret => {
-            if (this.state === State.PROCESSED) {
-                this.state = State.ABORT;
-                this.onAbort = ret;
-            }
-            else if (this.state === State.ABORT) {
-                this.onAbort();
-                this.onAbort = ret;
-            }
-            else
-                ret();
-        });
-    }
-
-    async lock(node) {
-        return new Promise(res => {
-            node.unlockPool = node.unlockPool || [];
-            if (node.busy && !node.outputData)
-                node.unlockPool.push(res);
-            else 
-                res();
-            
-            node.busy = true;
-        });    
-    }
-
-    unlock(node) {
-        node.unlockPool.forEach(a => a());
-        node.unlockPool = [];
-        node.busy = false;
-    }
-
-    async extractInputData(node) {
-        const obj = {};
-
-        for (let key of Object.keys(node.inputs)) {
-            let input = node.inputs[key];
-            var conns = input.connections;
-            let connData = await Promise.all(conns.map(async (c) => {
-                const prevNode = this.data.nodes[c.node];
-
-                let outputs = await this.processNode(prevNode);
-
-                if (!outputs) 
-                    this.abort();
-                else
-                    return outputs[c.output];
-            }));
-
-            obj[key] = connData;
-        }
-
-        return obj;
-    }
-
-    async processWorker(node) {
-        var inputData = await this.extractInputData(node);
-        var component = this.components.find(c => c.name === node.name);
-        var outputData = {};
-
-        try {
-            await component.worker(node, inputData, outputData, ...this.args);
-        } catch (e) {
-            this.abort();
-            this.trigger('warn', e);
-        }
-
-        return outputData;
-    }
-
-    async processNode(node) {
-        if (this.state === State.ABORT || !node)
-            return null;
-        
-        await this.lock(node);
-
-        if (!node.outputData) {
-            node.outputData = this.processWorker(node);
-        }
-
-        this.unlock(node);
-        return node.outputData;
-    }
-
-    async forwardProcess(node) {
-        if (this.state === State.ABORT)
-            return null;
-
-        return await Promise.all(Object.keys(node.outputs).map(async (key) => {
-            const output = node.outputs[key];
-
-            return await Promise.all(output.connections.map(async (c) => {
-                const nextNode = this.data.nodes[c.node];
-
-                await this.processNode(nextNode);
-                await this.forwardProcess(nextNode);
-            }));
-        }));
-    }
-
-    copy(data) {
-        data = Object.assign({}, data);
-        data.nodes = Object.assign({}, data.nodes);
-        
-        Object.keys(data.nodes).forEach(key => {
-            data.nodes[key] = Object.assign({}, data.nodes[key]);
-        });
-        return data;
-    }
-
-    async validate(data) {
-        var checking = Validator.validate(this.id, data);
-
-        if (!checking.success)
-            return await this.throwError(checking.msg);  
-        
-        var recurentNodes = this.detectRecursions(data.nodes);
-
-        if (recurentNodes.length > 0)
-            return await this.throwError('Recursion detected', recurentNodes);      
-         
-        return true;
-    }
-
-    async processStartNode(id) {
-        if (id) {
-            let startNode = this.data.nodes[id];
-
-            if (!startNode)
-                return await this.throwError('Node with such id not found');   
-            
-            await this.processNode(startNode);
-            await this.forwardProcess(startNode);
-        }
-    }
-
-    async processUnreachable() {
-        for (var i in this.data.nodes) // process nodes that have not been reached
-            if (typeof this.data.nodes[i].outputData === 'undefined') {
-                var node = this.data.nodes[i];
-
-                await this.processNode(node);
-                await this.forwardProcess(node);
-            }
-    }
-
-    async process(data        , startId          = null, ...args) {
-        if (!this.processStart()) return;
-        if (!this.validate(data)) return;    
-        
-        this.data = this.copy(data);
-        this.args = args;
-
-        await this.processStartNode(startId);
-        await this.processUnreachable();
-        
-        return this.processDone()?'success':'aborted';
     }
 }
 
@@ -703,12 +367,12 @@ class EditorEvents extends Events {
             export: [],
             process: []
         });
-    }    
+    }
 }
 
 class Drag {
 
-    constructor(el, onTranslate = () => {}, onStart = () => {}, onDrag = () => {}) {
+    constructor(el, onTranslate = () => { }, onStart = () => { }, onDrag = () => { }) {
         this.mouseStart = null;
 
         this.el = el;
@@ -761,7 +425,7 @@ class Drag {
 
     up(e) {
         if (!this.mouseStart) return;
-        
+
         this.mouseStart = null;
         this.onDrag(e);
     }
@@ -785,7 +449,7 @@ class Zoom {
 
     wheel(e) {
         e.preventDefault();
-        
+
         var rect = this.el.getBoundingClientRect();
         var delta = (e.wheelDelta ? e.wheelDelta / 120 : - e.deltaY / 3) * this.intensity;
 
@@ -801,21 +465,21 @@ class Zoom {
         let distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 
         return {
-            cx: (x1 + x2)/2,
-            cy: (y1 + y2)/2,
+            cx: (x1 + x2) / 2,
+            cy: (y1 + y2) / 2,
             distance
         };
     }
 
     move(e) {
         if (e.touches.length < 2) return;
-        
+
         let rect = this.el.getBoundingClientRect();
         let { cx, cy, distance } = this.touches(e);
 
         if (this.distance !== null) {
             let delta = distance / this.distance - 1;
-    
+
             var ox = (rect.left - cx) * delta;
             var oy = (rect.top - cy) * delta;
 
@@ -830,22 +494,22 @@ class Zoom {
 
     dblclick(e) {
         e.preventDefault();
-        
+
         var rect = this.el.getBoundingClientRect();
         var delta = 4 * this.intensity;
 
         var ox = (rect.left - e.clientX) * delta;
         var oy = (rect.top - e.clientY) * delta;
 
-        this.onzoom(delta, ox, oy, 'dblclick'); 
+        this.onzoom(delta, ox, oy, 'dblclick');
     }
 }
 
 class Area extends Emitter {
 
-    constructor(container, emitter         ) {
+    constructor(container, emitter) {
         super(emitter);
-        
+
         const el = this.el = document.createElement('div');
 
         this.container = container;
@@ -877,7 +541,7 @@ class Area extends Emitter {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         const k = this.transform.k;
-        
+
         this.mouse = { x: x / k, y: y / k };
         this.trigger('mousemove', { ...this.mouse });
     }
@@ -913,7 +577,7 @@ class Area extends Emitter {
         const params = { transform: this.transform, zoom, source };
 
         if (!this.trigger('zoom', params)) return;
-        
+
         const d = (k - params.zoom) / ((k - zoom) || 1);
 
         this.transform.k = params.zoom || 1;
@@ -983,9 +647,9 @@ class Node$1 extends Emitter {
         });
 
         this.trigger('rendernode', {
-            el: this.el, 
-            node, 
-            component: component.data, 
+            el: this.el,
+            node,
+            component: component.data,
             bindSocket: this.bindSocket.bind(this),
             bindControl: this.bindControl.bind(this)
         });
@@ -997,11 +661,11 @@ class Node$1 extends Emitter {
         this._drag.dispose();
     }
 
-    bindSocket(el             , type        , io    ) {
+    bindSocket(el, type, io) {
         this.sockets.set(io, new Socket$1(el, type, io, this.node, this));
     }
 
-    bindControl(el             , control         ) {
+    bindControl(el, control) {
         this.controls.set(control, new Control$1(el, control, this));
     }
 
@@ -1009,7 +673,7 @@ class Node$1 extends Emitter {
         return this.sockets.get(io).getPosition(this.node);
     }
 
-    onSelect(e) {        
+    onSelect(e) {
         this.onStart();
         this.trigger('selectnode', { node: this.node, accumulate: e.ctrlKey });
     }
@@ -1049,13 +713,13 @@ class Node$1 extends Emitter {
     }
 
     remove() {
-        
+
     }
 }
 
 class Connection$1 extends Emitter {
 
-    constructor(connection, inputNode          , outputNode          , emitter) {
+    constructor(connection, inputNode, outputNode, emitter) {
         super(emitter);
         this.connection = connection;
         this.inputNode = inputNode;
@@ -1065,9 +729,9 @@ class Connection$1 extends Emitter {
         this.el.style.position = 'absolute';
         this.el.style.zIndex = '-1';
 
-        this.trigger('renderconnection', { 
-            el: this.el, 
-            connection: this.connection, 
+        this.trigger('renderconnection', {
+            el: this.el,
+            connection: this.connection,
             points: this.getPoints()
         });
     }
@@ -1080,9 +744,9 @@ class Connection$1 extends Emitter {
     }
 
     update() {
-        this.trigger('updateconnection', { 
-            el: this.el, 
-            connection: this.connection, 
+        this.trigger('updateconnection', {
+            el: this.el,
+            connection: this.connection,
             points: this.getPoints()
         });
     }
@@ -1090,7 +754,7 @@ class Connection$1 extends Emitter {
 
 class EditorView extends Emitter {
 
-    constructor(container             , components        , emitter         ) {
+    constructor(container, components, emitter) {
         super(emitter);
 
         this.container = container;
@@ -1105,7 +769,7 @@ class EditorView extends Emitter {
         window.addEventListener('resize', this.boundResize);
 
         this.on('nodetranslated', this.updateConnections.bind(this));
-            
+
         this.area = new Area(container, this);
         this.container.appendChild(this.area.el);
     }
@@ -1116,14 +780,14 @@ class EditorView extends Emitter {
         window.removeEventListener('resize', this.boundResize);
     }
 
-    addNode(node      ) {
+    addNode(node) {
         const nodeView = new Node$1(node, this.components.get(node.name), this);
 
         this.nodes.set(node, nodeView);
         this.area.appendChild(nodeView.el);
     }
 
-    removeNode(node      ) {
+    removeNode(node) {
         const nodeView = this.nodes.get(node);
 
         nodeView.dispose();
@@ -1131,7 +795,7 @@ class EditorView extends Emitter {
         this.area.removeChild(nodeView.el);
     }
 
-    addConnection(connection            ) {
+    addConnection(connection) {
         const viewInput = this.nodes.get(connection.input.node);
         const viewOutput = this.nodes.get(connection.output.node);
         const connView = new Connection$1(connection, viewInput, viewOutput, this);
@@ -1140,7 +804,7 @@ class EditorView extends Emitter {
         this.area.appendChild(connView.el);
     }
 
-    removeConnection(connection            ) {
+    removeConnection(connection) {
         const connView = this.connections.get(connection);
 
         this.connections.delete(connection);
@@ -1164,7 +828,7 @@ class EditorView extends Emitter {
 
     click(e) {
         const container = this.container;
-        
+
         if (container !== e.target) return;
         if (!this.trigger('click', { e, container })) return;
     }
@@ -1176,11 +840,11 @@ class Selected {
         this.list = [];
     }
 
-    add(item      , accumulate = false) {
+    add(item, accumulate = false) {
         if (!accumulate)
-            this.list = [item]; 
+            this.list = [item];
         else if (!this.contains(item))
-            this.list.push(item);   
+            this.list.push(item);
     }
 
     clear() {
@@ -1202,9 +866,9 @@ class Selected {
 
 class NodeEditor extends Context {
 
-    constructor(id        , container             ) {
+    constructor(id, container) {
         super(id, new EditorEvents());
-        
+
         this.nodes = [];
         this.components = new Map();
 
@@ -1226,16 +890,16 @@ class NodeEditor extends Context {
         window.removeEventListener('keyup', this.boundTriggerKeyup);
     }
 
-    addNode(node      ) {
+    addNode(node) {
         if (!this.trigger('nodecreate', node)) return;
 
         this.nodes.push(node);
         this.view.addNode(node);
-        
+
         this.trigger('nodecreated', node);
     }
 
-    removeNode(node      ) {
+    removeNode(node) {
         if (!this.trigger('noderemove', node)) return;
 
         node.getConnections().forEach(c => this.removeConnection(c));
@@ -1246,7 +910,7 @@ class NodeEditor extends Context {
         this.trigger('noderemoved', node);
     }
 
-    connect(output        , input       , data = {}) {
+    connect(output, input, data = {}) {
         if (!this.trigger('connectioncreate', { output, input })) return;
 
         try {
@@ -1261,23 +925,23 @@ class NodeEditor extends Context {
         }
     }
 
-    removeConnection(connection            ) {
+    removeConnection(connection) {
         if (!this.trigger('connectionremove', connection)) return;
-            
+
         this.view.removeConnection(connection);
         connection.remove();
 
         this.trigger('connectionremoved', connection);
     }
 
-    selectNode(node      , accumulate          = false) {
-        if (this.nodes.indexOf(node) === -1) 
+    selectNode(node, accumulate = false) {
+        if (this.nodes.indexOf(node) === -1)
             throw new Error('Node not exist in list');
-        
+
         if (!this.trigger('nodeselect', node)) return;
 
         this.selected.add(node, accumulate);
-        
+
         this.trigger('nodeselected', node);
     }
 
@@ -1286,11 +950,11 @@ class NodeEditor extends Context {
 
         if (!component)
             throw `Component ${name} not found`;
-        
+
         return component;
     }
 
-    register(component           ) {
+    register(component) {
         component.editor = this;
         this.components.set(component.name, component);
         this.trigger('componentregister', component);
@@ -1300,71 +964,14 @@ class NodeEditor extends Context {
         [...this.nodes].map(node => this.removeNode(node));
     }
 
-    toJSON() {
-        const data = { id: this.id, nodes: {} };
-        
-        this.nodes.forEach(node => data.nodes[node.id] = node.toJSON());
-        this.trigger('export', data);
-        return data;
-    }
-
-    beforeImport(json        ) {
-        var checking = Validator.validate(this.id, json);
-        
-        if (!checking.success) {
-            this.trigger('warn', checking.msg);
-            return false;
-        }
-        
+    beforeImport(data) {
         this.silent = true;
         this.clear();
-        this.trigger('import', json);
-        return true;
+        this.trigger('import', data);
     }
 
     afterImport() {
         this.silent = false;
-        return true;
-    }
-
-    async fromJSON(json        ) {
-        if (!this.beforeImport(json)) return false;
-        var nodes = {};
-
-        try {
-            await Promise.all(Object.keys(json.nodes).map(async id => {
-                var node = json.nodes[id];
-                var component = this.getComponent(node.name);
-
-                nodes[id] = await component.build(Node.fromJSON(node));
-                this.addNode(nodes[id]);
-            }));
-        
-            Object.keys(json.nodes).forEach(id => {
-                var jsonNode = json.nodes[id];
-                var node = nodes[id];
-                
-                Object.keys(jsonNode.outputs).forEach(key => {
-                    var outputJson = jsonNode.outputs[key];
-
-                    outputJson.connections.forEach(jsonConnection => {
-                        var nodeId = jsonConnection.node;
-                        var data = jsonConnection.data;
-                        var targetOutput = node.outputs.get(key);
-                        var targetInput = nodes[nodeId].inputs.get(jsonConnection.input);
-
-                        this.connect(targetOutput, targetInput, data);
-                    });
-                });
-
-            });
-        }
-        catch (e) {
-            this.trigger('warn', e);
-            return !this.afterImport();
-        } finally {
-            return this.afterImport();
-        }
     }
 }
 
@@ -1373,16 +980,10 @@ var index = {
     Control,
     NodeEditor,
     Emitter,
-    Engine,
     Input,
     Node,
     Output,
     Socket
 };
-
-/**
- * For creating a single rete ES6 file.
- * Move this to js/bundles/rete/, compile and get the dist/rete.js file as result.
- */
 
 export { index as Rete };

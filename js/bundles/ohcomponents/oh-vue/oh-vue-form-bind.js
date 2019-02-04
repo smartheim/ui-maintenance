@@ -1,5 +1,7 @@
-import { store } from './app.js';
-import { importModule } from "./polyfill/importModule";
+import { store } from '../app.js'; // Pre-bundled, external reference
+import { importModule } from "./importModule";
+import { UpdateAdapter } from './updateAdapter';
+import { OhListStatus } from './oh-vue-list-status'
 
 /**
  * This is a non-visible data binding component and serves as *Controller*
@@ -19,9 +21,6 @@ class OhVueFormBind extends HTMLElement {
         this.connectedBound = (e) => this.connected(e.detail);
         this.connectingBound = (e) => this.connecting(e.detail);
         this.disconnectedBound = (e) => this.disconnected(e.detail);
-        this.listChangedBound = (e) => this.listChanged(e.detail);
-        this.listEntryChangedBound = (e) => this.listEntryChanged(e.detail);
-        this.listEntryRemovedBound = (e) => this.listEntryRemoved(e.detail);
     }
     connectedCallback() {
         this.style.display = "none";
@@ -38,7 +37,7 @@ class OhVueFormBind extends HTMLElement {
         const adapter = this.getAttribute("adapter");
         importModule('./js/formadapter/' + adapter + '.js')
             .then(this.start.bind(this)).catch(e => {
-                console.log("form bind failed", e);
+                console.warn("form bind failed", e);
                 this.target.error = e;
             });
     }
@@ -46,14 +45,14 @@ class OhVueFormBind extends HTMLElement {
         store.removeEventListener("connectionEstablished", this.connectedBound, false);
         store.removeEventListener("connecting", this.connectingBound, false);
         store.removeEventListener("connectionLost", this.disconnectedBound, false);
-        store.removeEventListener("storeChanged", this.listChangedBound, false);
-        store.removeEventListener("storeItemChanged", this.listEntryChangedBound, false);
-        store.removeEventListener("storeItemRemoved", this.listEntryRemovedBound, false);
 
         if (this.modeladapter) {
             this.modeladapter.dispose();
             delete this.modeladapter;
         }
+
+        delete this.target;
+        this.disconnected();
     }
     async start(module) {
         this.module = module;
@@ -64,9 +63,6 @@ class OhVueFormBind extends HTMLElement {
         store.addEventListener("connectionEstablished", this.connectedBound, false);
         store.addEventListener("connecting", this.connectingBound, false);
         store.addEventListener("connectionLost", this.disconnectedBound, false);
-        store.addEventListener("storeChanged", this.listChangedBound, false);
-        store.addEventListener("storeItemChanged", this.listEntryChangedBound, false);
-        store.addEventListener("storeItemRemoved", this.listEntryRemovedBound, false);
 
         if (store.connected) this.connected(); else this.disconnected();
     }
@@ -82,67 +78,30 @@ class OhVueFormBind extends HTMLElement {
     }
 
     async connected() {
+        if (this.updateAdapter) this.updateAdapter.dispose();
+
         this.objectid = this.hasAttribute("objectid") ? this.getAttribute("objectid") : this.objectid;
         if (!this.objectid && this.hasAttribute("objectFromURL")) {
             this.objectid = new URL(window.location).searchParams.get(this.module.ID_KEY);
         }
 
-        console.log("thing id", this.objectid);
-        if (this.objectid) {
-            const data = await this.modeladapter.get(this.objectid);
-            console.debug("OhObjectBind", data);
-            this.target.objectdata = data;
-        } else if (this.hasAttribute("allowNew")) {
-            this.target.objectdata = {};
-        } else {
+        this.updateAdapter = new UpdateAdapter(this.modeladapter, store, this.module.ID_KEY, this.objectid);
+
+        if (this.objectid !== undefined) {
+            await this.modeladapter.get(this.objectid);
+            this.target.vue.status = OhListStatus.READY;
+        } else if (!this.hasAttribute("allowNew")) {
             this.error = "No id set and no attribute 'allowNew'";
         }
     }
     connecting() {
-        console.debug("connecting");
         this.target.connectionState(true, store.host);
     }
     disconnected() {
-        console.debug("disconnected");
-        this.target.connectionState(false, store.connectionErrorMessage);
-    }
-
-    listChanged(e) {
-        if (e.storename == this.modeladapter.mainStore()) {
-            // Find entry in list
-            for (let entry of e.value) {
-                if (entry[this.module.ID_KEY] == this.objectid) {
-                    console.debug("listChanged->update view", e.storename, entry);
-                    this.modeladapter.value = entry;
-                    this.target.objectdata = entry;
-                    return;
-                }
-            }
-        }
-    }
-
-    listEntryChanged(e) {
-        // If changed database entry matches the adapters store-name and
-        // the id of entry itself matches the adapters objects id, we store
-        // the new value and assign it to the view.
-        if (e.storename == this.modeladapter.mainStore() &&
-            e.value[this.module.ID_KEY] == this.objectid) {
-            console.debug("listEntryChanged->update view", e.storename, entry);
-            this.modeladapter.value = e.value;
-            this.target.objectdata = e.value;
-        }
-    }
-
-    listEntryRemoved(e) {
-        // If changed database entry matches the adapters store-name and
-        // the id of entry itself matches the adapters objects id, we store
-        // the new value and assign it to the view.
-        if (e.storename == this.modeladapter.mainStore() &&
-            e.value[this.module.ID_KEY] == this.objectid) {
-            console.debug("listEntryRemoved->update view", e.storename, entry);
-            this.modeladapter.value = {};
-            this.target.objectdata = {};
-        }
+        if (!this.updateAdapter) return;
+        this.updateAdapter.dispose();
+        delete this.updateAdapter;
+        if (this.target) this.target.connectionState(false, store.connectionErrorMessage);
     }
 }
 

@@ -1,20 +1,22 @@
-import Vue from 'vue/dist/vue.esm.js';
+import { Vue } from '../vue.js';
 import mixin from './mixin';
 
 var Socket = {
     template: `<div :class="classes" :title="title"></div>`,
     props: ['type', 'socket'],
     computed: {
-        classes: function() {
+        classes: function () {
             const str = ["socket", this.type, this.socket.name];
-            const replace = s =>  s.toLowerCase().replace(/ /g, '-');
-            return Array.isArray(str) ?  str.map(replace) : replace(str);
+            const replace = s => s.toLowerCase().replace(/ /g, '-');
+            return Array.isArray(str) ? str.map(replace) : replace(str);
         },
-        title: function() {
-            return this.socket.name+'\n'+this.socket.hint;
+        title: function () {
+            return this.socket.name + '\n' + this.socket.data.hint;
         }
     }
 };
+
+const replace = s => s.toLowerCase().replace(/ /g, '-');
 
 var Node = {
     template: '#rulenode',
@@ -23,13 +25,11 @@ var Node = {
         Socket
     },
     computed: {
-        classes: function() {
-            const str = [this.selected(), this.node.name];
-            const replace = s =>  s.toLowerCase().replace(/ /g, '-');
-            return Array.isArray(str) ?  str.map(replace) : replace(str);
+        classes: function () {
+            return [replace(this.selected()), this.node.data.type];
         },
-        title: function() {
-            return this.socket.name+'\n'+this.socket.hint;
+        title: function () {
+            return this.node.name + '\n' + this.node.data.hint;
         }
     }
 }

@@ -48,7 +48,8 @@ var config = {
             js_bundles_entry: ['./js/bundles/*/index.js'],
             js_bundles_watch: './js/bundles/**/*',
             assets: [
-                './assets/**/*'
+                './assets/**/*',
+                './docs/*'
             ]
         },
         partials: './partials/',
@@ -56,7 +57,7 @@ var config = {
         distjs: './dist/js',
         destsw: './dist/sw.js',
     },
-    external_js: ['./app.js', './vue.js', '../vue.js', './chart.js', './uicomponents.js', './ohcomponents.js', './cronstrue.js'],
+    external_js: ['./app.js', '../app.js', './vue.js', '../vue.js', './chart.js', './uicomponents.js', './ohcomponents.js', './cronstrue.js'],
     localServer: {
         port: 8001,
         url: 'http://localhost:8001/',

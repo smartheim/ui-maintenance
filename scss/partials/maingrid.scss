@@ -57,7 +57,6 @@ body {
 
 @media (max-width: get-breakpoints("xxl")) {
     body {
-        display: grid;
         grid-template-columns: [nav] min-content [main] 1fr [aside] min-content [end];
         &>header {
             grid-column: 1 / span 3;
@@ -89,11 +88,5 @@ body {
             grid-column: 2 / span 1;
             grid-row: 4;
         }
-    }
-}
-
-@media (max-width: get-breakpoints("md")) {
-    body {
-        display: initial;
     }
 }

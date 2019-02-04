@@ -1,9 +1,10 @@
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "persistence-services" };
+    constructor() { this.items = []; }
+    stores() { return { "persistence-services": "items" } };
     async getall() {
-        return store.get("rest/persistence-services", "persistence-services").then(list => this.list = list);
+        return store.get("rest/persistence-services", "persistence-services").then(items => this.items = items);
     }
     dispose() {
     }

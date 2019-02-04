@@ -19,12 +19,12 @@
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
       select="Selection mode">
       <div class="btn-group ml-3" role="group">
-        <a href="#" class="btn btn-danger">
+        <button class="btn btn-danger">
           <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
-        </a>
-        <a href="#" class="btn btn-success ">
+        </button>
+        <button class="btn btn-success">
           <i class="fas fa-check"></i> <span>Run <span class="badge badge-light selectcounter">0</span></span>
-        </a>
+        </button>
       </div>
     </ui-filter>
     <oh-list-bind for="ruleslist" listadapter="rules"></oh-list-bind>
@@ -37,7 +37,7 @@
               <span class="secondLevelBtn" :title="item.name" onclick='this.parentNode.parentNode.classList.toggle("show");'>
                 {{item.name}} </span>
               <span class="actions btn-group">
-                <button class="btn btn-success-hover btn-sm">
+                <button class="btn btn-success-hover btn-sm" @click="run($event.target)">
                   <i class="fas fa-check"></i> <span>Run <i :title="rulesStatusDetails()" :class="rulesStatusBadge()">{{rulesStatusinfo()}}</i>
                   </span>
                 </button>

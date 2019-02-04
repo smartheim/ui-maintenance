@@ -1,7 +1,8 @@
 import { store } from '../app.js';
 
 class StoreView {
-    mainStore() { return "inbox" };
+    constructor() { this.items = []; }
+    stores() { return { "inbox": "items" } };
     async getall() {
         return store.get("rest/thing-types", "thing-types")
             .then(json => this.thingtypes = json)
