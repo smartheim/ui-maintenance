@@ -67,6 +67,7 @@ export class StateWhileRevalidateStore extends EventTarget {
 
         // Fetch all endpoints in parallel, replace the stores with the received data
         const requests = refreshStores.map(item => fetchWithTimeout(this.openhabHost + "/" + item.uri)
+            .catch(e => { console.warn("Failed to fetch", this.openhabHost + "/" + item.uri); throw e; })
             .then(response => response.json())
             .then(json => this.initialStoreFill(this.db, item.storename, json, true)));
 
@@ -122,6 +123,7 @@ export class StateWhileRevalidateStore extends EventTarget {
                 return val;
             }
             const newVal = this.performRESTandNotify(uri)
+                .catch(e => { console.warn("Failed to fetch", uri); throw e; })
                 .then(json => { if (!Array.isArray(json)) throw new Error("Returned value is not an array"); return json; })
                 .then(json => this.replaceStore(this.db, storename, json))
             return val || newVal;
@@ -131,29 +133,44 @@ export class StateWhileRevalidateStore extends EventTarget {
         const tx = this.db.transaction(storename, 'readonly');
         var val = tx.objectStore(storename).get(objectid);
 
-        return tx.complete.catch(e => {
+        try {
+            await tx.complete
+        } catch (e) {
             console.warn("Failed to read", storename, objectid)
             val = null;
-        }).then(() => {
-            if (this.blockRESTrequest(storename)) return val;
-            const newVal = this.performRESTandNotify(uri)
-                .then(json => {
-                    if (Array.isArray(json)) {
-                        if (id_key) {
-                            for (var item of json) {
-                                if (item[id_key] == objectid) {
-                                    return item;
-                                }
-                            }
-                        }
-                        console.warn("Returned value is an array. Couldn't extract single value", json, uri, objectid, id_key)
-                        throw new Error("Returned value is an array. Couldn't extract single value");
+        };
+
+        if (this.blockRESTrequest(storename)) return val;
+
+        let newVal = this.fetchNewValue(uri, storename, objectid, id_key);
+        return val || newVal;
+    }
+
+    async fetchNewValue(uri, storename, objectid, id_key) {
+        let json;
+        try {
+            json = await this.performRESTandNotify(uri);
+        } catch (e) {
+            console.warn("Fetch failed for", uri);
+            throw e;
+        }
+        if (Array.isArray(json)) {
+            let found = false;
+            if (id_key) {
+                for (var item of json) {
+                    if (item[id_key] == objectid) {
+                        json = item;
+                        found = true;
+                        break;
                     }
-                    return json;
-                })
-                .then(json => this.insertIntoStore(this.db, storename, json))
-            return val || newVal;
-        })
+                }
+            }
+            if (!found) {
+                console.warn("Returned value is an array. Couldn't extract single value", json, uri, objectid, id_key)
+                throw new Error("Returned value is an array. Couldn't extract single value");
+            }
+        }
+        return await this.insertIntoStore(this.db, storename, json);
     }
 
     sseMessageReceived(e) {

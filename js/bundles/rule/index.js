@@ -6,14 +6,14 @@ import { Rete } from "./rete";
 
 
 class TextControl extends Rete.Control {
-    constructor(emitter, msg) {
-        super('akey');
+    constructor(emitter, key, label, description, msg) {
+        super(key);
         this.render = 'vue';
         this.emitter = emitter;
         this.component = { // Vue component
-            data: function () { return { value: '' } },
+            data: function () { return { value: '', label: label, description: description } },
             props: ['change'],
-            template: '<input :value="value" @input="change($event)"/>'
+            template: '<label :title="description">{{label}}: <input :value="value" @input="change($event)"/></label>'
         };
         this.props = { change: this.change.bind(this) };
         this.msg = msg;
@@ -64,8 +64,8 @@ class OHRuleComponent extends Rete.Component {
         if (this.moduletype.configDescriptions)
             for (const configDesc of this.moduletype.configDescriptions) {
                 if (!configDesc.type) return;
-                node.addControl();
-                node.addOutput(new Rete.Output(output.name, output.label, new Rete.Socket(output.type, { hint: output.description })));
+                let control = new TextControl(this.editor, configDesc.name, configDesc.name, configDesc.description, "test");
+                node.addControl(control);
             }
     }
 }

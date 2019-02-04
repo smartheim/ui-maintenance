@@ -19,7 +19,7 @@ export async function fetchWithTimeout(url, timeout = 5000) {
   const controller = new AbortController();
   const signal = controller.signal;
   setTimeout(() => controller.abort(), timeout);
-  const response = await fetch(url, { signal });
+  const response = await fetch(url, { signal: signal, validateHttpsCertificates: false, muteHttpExceptions: true });
   if (!response.ok) {
     throw new FetchError(response.statusText, response.status);
   }
@@ -30,8 +30,11 @@ export async function fetchMethodWithTimeout(url, method, body, contentType = 'a
   const signal = controller.signal;
   const headers = new Headers({ 'content-type': contentType });
   const mode = 'cors';
+  const validateHttpsCertificates = false;
+  const muteHttpExceptions = true;
+  const options = { signal, method, mode, body, validateHttpsCertificates, muteHttpExceptions };
   setTimeout(() => controller.abort(), timeout);
-  const response = await fetch(url, contentType ? { signal, method, headers, mode, body } : { signal, method, mode, body });
+  const response = await fetch(url, contentType ? Object.assign(options, { headers }) : options);
   if (!response.ok) {
     throw new FetchError(response.statusText, response.status);
   }
