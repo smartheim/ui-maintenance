@@ -10,7 +10,7 @@ function toAbsoluteURL(url) {
   return a.cloneNode(false).href; // -> "http://example.com/hoge.html"
 }
 
-export function importModule(url) {
+function importModule(url) {
   return new Promise((resolve, reject) => {
     const vector = "$importModule$" + Math.random().toString(32).slice(2);
     const script = document.createElement("script");
@@ -41,5 +41,5 @@ export function importModule(url) {
   });
 }
 
-export default importModule;
+export { importModule };
 

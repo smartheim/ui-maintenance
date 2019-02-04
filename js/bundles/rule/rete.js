@@ -84,12 +84,12 @@ class Socket {
         this.compatible = [];
     }
 
-    combineWith(socket) {
-        this.compatible.push(socket);
+    combineWith(socketName) {
+        this.compatible.push(socketName);
     }
 
     compatibleWith(socket) {
-        return this.name == socket.name || this.compatible.includes(socket);
+        return this.name == socket.name || socket.compatible.includes(this.name);
     }
 }
 

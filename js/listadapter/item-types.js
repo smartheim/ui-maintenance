@@ -1,7 +1,8 @@
 class StoreView {
-    stores() { return {} };
+    constructor() { this.items = []; }
+    stores() { return {}; };
     async getall() {
-        return [
+        this.items = [
             { id: "Color", value: "<b>Color</b><br>Color information" },
             { id: "Contact", value: "<b>Contact</b><br>Read-only status of contacts, e.g. door/window contacts." },
             { id: "DateTime", value: "<b>DateTime</b><br>Stores date and time" },
@@ -13,7 +14,8 @@ class StoreView {
             { id: "Rollershutter", value: "<b>Rollershutter</b><br>Roller shutter Item, typically used for blinds" },
             { id: "String", value: "<b>String</b><br>Stores texts" },
             { id: "Switch", value: "<b>Switch</b><br>Used for anything that needs to be switched ON and OFF" },
-        ]
+        ];
+        return this.items;
     }
     dispose() {
     }

@@ -23,10 +23,6 @@ class TextControl extends Rete.Control {
         this.setValue(e.target.value);
     }
 
-    update() {
-        this.emitter.trigger('process');
-    }
-
     mounted() {
         this.setValue(this.msg);
     }
@@ -37,7 +33,6 @@ class TextControl extends Rete.Control {
             return;
         }
         this.vueContext.value = val;
-        this.update();
     }
 }
 
@@ -58,12 +53,16 @@ class OHRuleComponent extends Rete.Component {
         if (this.moduletype.inputs)
             for (const input of this.moduletype.inputs) {
                 if (!input.type) return;
-                node.addInput(new Rete.Input(input.name, input.label, new Rete.Socket(input.type, { hint: input.description })));
+                const socket = new Rete.Socket(input.type, { hint: input.description });
+                socket.combineWith("java.lang.Object");
+                node.addInput(new Rete.Input(input.name, input.label, socket));
             }
         if (this.moduletype.outputs)
             for (const output of this.moduletype.outputs) {
                 if (!output.type) return;
-                node.addOutput(new Rete.Output(output.name, output.label, new Rete.Socket(output.type, { hint: output.description })));
+                const socket = new Rete.Socket(output.type, { hint: output.description });
+                socket.combineWith("java.lang.Object");
+                node.addOutput(new Rete.Output(output.name, output.label, socket));
             }
         if (this.moduletype.configDescriptions)
             for (const configDesc of this.moduletype.configDescriptions) {

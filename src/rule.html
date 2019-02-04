@@ -96,7 +96,8 @@
     <template id="rulenode">
       <div class="node" :class="classes" :title="node.data.description">
         <a href="#" @click="remove" class="remove"><i class="fas fa-times-circle"></i></a>
-        <div class="title">{{node.data.label}}</div>
+        <div class="title">{{node.data.label}}<br><small>{{node.data.description}}</small></div>
+
         <!-- Outputs-->
         <div class="output" v-for="output in outputs()" :key="output.key">
           <div class="output-title">{{output.name}}</div>

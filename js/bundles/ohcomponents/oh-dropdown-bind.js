@@ -1,5 +1,5 @@
 import { store } from './app.js'; // Pre-bundled, external reference
-
+import { importModule } from "./oh-vue/importModule";
 /**
  * This is a non-visible data binding component and serves as *Controller*
  * in the MVA (Model-View-Adapter) concept.
@@ -33,7 +33,7 @@ class OhDropdownBind extends HTMLElement {
             return;
         }
         const listadapter = this.getAttribute("listadapter");
-        import('./listadapter/' + listadapter + '.js')
+        importModule('./js/listadapter/' + listadapter + '.js')
             .then(this.startList.bind(this)).catch(e => {
                 console.log("list bind failed", e);
                 this.target.error = e;
@@ -59,9 +59,9 @@ class OhDropdownBind extends HTMLElement {
     }
 
     async connected() {
-        await this.modeladapter.getall();
+        let list = await this.modeladapter.getall();
         let dropdownItems = {};
-        for (let item of this.modeladapter.list) {
+        for (let item of list) {
             dropdownItems[item[this.viewkey]] = item[this.viewvalue];
         };
         this.target.options = dropdownItems;
