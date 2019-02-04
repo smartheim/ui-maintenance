@@ -190,12 +190,14 @@ async function addScriptTypes(tx) {
     const data = [
         {
             "id": "javascript",
+            "mime": "application/javascript",
             "extension": "js",
             "label": "Javascript ES6 (Nashorn)",
             "description": ""
         },
         {
             "id": "jython",
+            "mime": "application/python",
             "extension": "py",
             "label": "Jython (Python 2.6 dialect)",
             "description": ""

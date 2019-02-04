@@ -32,6 +32,10 @@ class TextControl extends Rete.Control {
     }
 
     setValue(val) {
+        if (!this.vueContext) {
+            this.msg = val;
+            return;
+        }
         this.vueContext.value = val;
         this.update();
     }
@@ -64,7 +68,9 @@ class OHRuleComponent extends Rete.Component {
         if (this.moduletype.configDescriptions)
             for (const configDesc of this.moduletype.configDescriptions) {
                 if (!configDesc.type) return;
-                let control = new TextControl(this.editor, configDesc.name, configDesc.name, configDesc.description, "test");
+                const label = configDesc.label ? configDesc.label : configDesc.name;
+                let control = new TextControl(this.editor, configDesc.name, label,
+                    configDesc.description, "test");
                 node.addControl(control);
             }
     }
@@ -83,6 +89,16 @@ class ImportExport {
         node.id = entry.id;
         node.data.label = entry.label;
         node.data.description = entry.description;
+        if (entry.configuration) {
+            Object.keys(entry.configuration).forEach(controlKey => {
+                let control = node.controls.get(controlKey);
+                if (control) {
+                    const value = entry.configuration[controlKey];
+                    control.setValue(value);
+                }
+            });
+        }
+
         nodeEditor.addNode(c);
         return node;
     }
