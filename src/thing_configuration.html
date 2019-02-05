@@ -43,8 +43,8 @@
         <div class="form-group row" v-if="!value.UID">
           <label for="timerid" class="col-sm-2 col-form-label">Thing Type</label>
           <div class="col-sm-10">
-            <oh-dropdown-bind viewkey="UID" viewvalue="label" listadapter="thing-types"></oh-dropdown-bind>
-            <ui-dropdown title="Thing types" label="Select a thing type"></ui-dropdown>
+            <oh-dropdown-bind listadapter="thing-types"></oh-dropdown-bind>
+            <ui-dropdown title="Thing types" viewkey="label" valuekey="UID" label="Select a thing type"></ui-dropdown>
           </div>
         </div>
         <div class="config" v-if="!configuration()">No further configuration available</div>

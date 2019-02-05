@@ -32,8 +32,8 @@
         <div class="form-group row">
           <label for="scripttype" class="col-sm-2 col-form-label">Script language</label>
           <div class="col-sm-10">
-            <oh-dropdown-bind listadapter="script-types" viewkey="id" viewvalue="label"></oh-dropdown-bind>
-            <ui-dropdown btnclass="btn btn-sm" name="type" id="scripttype" label="Script type"></ui-dropdown>
+            <oh-dropdown-bind listadapter="script-types"></oh-dropdown-bind>
+            <ui-dropdown btnclass="btn btn-sm" name="type" viewkey="label" valuekey="id" id="scripttype" label="Script type"></ui-dropdown>
           </div>
         </div>
       </form>

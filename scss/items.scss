@@ -44,6 +44,9 @@
         border: 1px solid rgba(0, 0, 0, .125);
         border-radius: .25rem;
         margin-bottom: 1.5rem;
+        &.withtabs {
+            margin-bottom: 3rem;
+        }
         &.haschanges {
             .body>.title {
                 background-color: rgb(255, 214, 214);
@@ -157,12 +160,13 @@
                     abbr[title] {
                         text-decoration: none;
                     }
-                    border-top: 1px solid #dee2e6;
                     display: flex;
                     flex-wrap: wrap;
                     padding-left: 0;
-                    margin-bottom: 0;
+                    margin-bottom: -35px;
                     list-style: none;
+                    position: absolute;
+                    bottom: 0;
                     li {
                         margin-top: -1px;
                     }

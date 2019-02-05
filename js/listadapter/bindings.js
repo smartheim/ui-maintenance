@@ -27,15 +27,6 @@ const BindingsMixin = {
                 cancelable: true
             }));
         },
-        getAuxiliaries: function () {
-            const custom = this.item.custompages;
-            let options = {};
-            if (!custom) return options;
-            for (let page of custom) {
-                options[page.uri] = page.label;
-            }
-            return options;
-        },
         hasCustomPages: function () {
             return this.item.custompages && this.item.custompages.length > 0;
         }

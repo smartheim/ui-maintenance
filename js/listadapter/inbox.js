@@ -9,7 +9,7 @@ class StoreView {
             .then(() => store.get("rest/bindings", "bindings"))
             .then(json => this.bindings = json)
             .then(() => store.get("rest/inbox", "inbox"))
-            .then(list => this.list = list);
+            .then(items => this.items = items);
     }
     getThingTypeFor(uid) {
         for (const type of this.thingtypes) {

@@ -24,6 +24,27 @@ export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) 
             }
             break;
         }
+        case "things": {
+            entry.actions = [
+                { id: "disable", label: "Disable", description: "Disable this thing" },
+                { id: "pair", label: "Start pairing", description: "This thing requires a special pairing method" },
+                { id: "unpair", label: "Unpair", description: "Removes the association to the remote device" },
+            ];
+            break;
+        }
+        case "profile-types": {
+            switch (entry.uid) {
+                case "system:default":
+                    entry.description = "Just pass new Channel values to the linked Item";
+                    break;
+                case "system:follow":
+                    entry.description = "The Link will also pass Item state updates to the connected Channel. You usually want that to synchronize two or more different Binding Channels.";
+                    break;
+                default:
+                    entry.description = "";
+            }
+            break;
+        }
         case "extensions": {
             entry.availableVersions = [
                 "2.4 - Stable",

@@ -26,8 +26,7 @@
     <oh-form-bind adapter="thing" objectFromURL></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
-      <h4 class="text-center pt-5" v-if="pendingwait"> Loading </h4>
-      <div class="text-center pt-5" v-else-if="error"> {{error}} </div>
+      <partial src="vuelisterrors.html"></partial>
       <div v-else>
         <div id="listcontainer" @click="updateSelectCounter">
           <div v-if="!value.channels || value.channels.length==0">No channels found</div>
@@ -48,8 +47,8 @@
               </details>
               <details class="mb-2">
                 <summary>Configuration</summary>
-                <div v-if="configurations().length==0">No configuration available</div>
-                <div class="elements">
+                <div v-if="!configuration()">No fuher configuration available</div>
+                <div class="elements" v-else>
                   <vue-config-element v-for="config in configuration().parameters" :config="config"></vue-config-element>
                 </div>
               </details>
@@ -58,19 +57,20 @@
                 <tr>
                   <td>An item <small>(item id)</small></td>
                   <td>
-                    <oh-dropdown-bind viewkey="uid" viewvalue="label" listadapter="profiles"></oh-dropdown-bind>
-                    <ui-dropdown title="Profile" :value="'Whatever'"></ui-dropdown>
+                    <oh-dropdown-bind listadapter="profiles"></oh-dropdown-bind>
+                    <ui-dropdown title="Profile" viewkey="label" desckey="description" valuekey="uid" label="Profile"></ui-dropdown>
                     <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
                   </td>
                   <td><button class="btn btn-danger-hover btn-sm"><i class="fas fa-trash"></i> Remove</button></td>
                 </tr>
                 <tr class="newitem">
                   <td>
-                    <ui-dropdown label="Item" options="Item1:item1name,Item2:item2name" value="Add new link"></ui-dropdown>
+                    <oh-dropdown-bind listadapter="items"></oh-dropdown-bind>
+                    <ui-dropdown label="Item" viewkey="label" desckey="name" valuekey="name" label="Select item"></ui-dropdown>
                   </td>
                   <td>
-                    <oh-dropdown-bind viewkey="uid" viewvalue="label" listadapter="profiles"></oh-dropdown-bind>
-                    <ui-dropdown title="Profile" value="system:default"></ui-dropdown>
+                    <oh-dropdown-bind listadapter="profiles"></oh-dropdown-bind>
+                    <ui-dropdown title="Profile" viewkey="label" desckey="description" valuekey="uid" value="system:default"></ui-dropdown>
                   </td>
                   <td><button class="btn btn-success-hover btn-sm"><i class="fas fa-check"></i> Add</button></td>
                 </tr>

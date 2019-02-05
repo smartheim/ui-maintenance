@@ -52,7 +52,7 @@
             <a target="_blank" :href="'https://github.com/openhab/openhab2-addons/issues/new?title=['+item.id+']&nbsp;Your-&nbsp;title'">Report
               a bug</a>
             <ui-dropdown btnclass="btn btn-primary-hover btn-sm p-0" v-if="hasCustomPages()" class="ml-2" nostate
-              novalue label="Auxiliaries" :options.prop="getAuxiliaries()" @input="showAuxiliary"></ui-dropdown>
+              novalue label="Auxiliaries" viewkey="label" valuekey="uri" :options.prop="this.item.custompages" @input="showAuxiliary"></ui-dropdown>
           </div>
         </section>
       </template>

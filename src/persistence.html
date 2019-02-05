@@ -34,8 +34,8 @@
             <vue-inprogress></vue-inprogress>
             <section class="description">
               Database: <br>
-              <oh-dropdown-bind listadapter="persistence-services" viewkey="id" viewvalue="label"></oh-dropdown-bind>
-              <ui-dropdown btnclass="form-control" :value="item.serviceid" label="Select database"></ui-dropdown>
+              <oh-dropdown-bind listadapter="persistence-services"></oh-dropdown-bind>
+              <ui-dropdown btnclass="form-control" :value="item.serviceid" viewkey="label" valuekey="id" label="Select database"></ui-dropdown>
               Stategies: <ui-multiselect :options="item.strategy" :value="item.strategy" placeholder="Select strategy"></ui-multiselect>
               Items: <ui-multiselect options="Item1,Item2,Item3" placeholder="Select items"></ui-multiselect>
             </section>

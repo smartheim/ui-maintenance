@@ -25,7 +25,7 @@ const tables = [
     { id: "things", key: "UID" },
     { id: "voice-interpreters", key: "id" },
 ];
-const dbversion = 13;
+const dbversion = 15;
 var tableToId = {};
 for (let t of tables) if (!Array.isArray(t.key)) tableToId[t.id] = t.key;
 export { tables, tableToId, dbversion };

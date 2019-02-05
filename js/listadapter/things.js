@@ -71,13 +71,6 @@ const ThingsMixin = {
             if (thingType) return thingType.description;
             return "No Thing description available";
         },
-        getActions() {
-            return {
-                "Disable": "Disable this thing",
-                "Start pairing": "This thing requires a special pairing method",
-                "Unpair": "Removes the association to the remote device",
-            }
-        },
         triggerAction(actionEvent) {
             console.log("triggered", actionEvent.target.dataset.uid, actionEvent.detail);
             this.message = null;
@@ -96,7 +89,7 @@ const ThingsMixin = {
 
 const mixins = [ThingsMixin];
 const listmixins = [];
-const runtimekeys = ["link", "editable", "statusInfo", "properties"];
+const runtimekeys = ["link", "editable", "statusInfo", "properties", "actions"];
 const ID_KEY = "UID";
 
 export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

@@ -101,8 +101,9 @@
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Type</label>
                 <div class="col-sm-10">
-                  <oh-dropdown-bind listadapter="item-types" viewkey="id" viewvalue="value"></oh-dropdown-bind>
-                  <ui-dropdown name="type" class="w-100" btnclass="btn btn-sm" icons="itemtypes" :value="type" @input="this.type=$event.target.value"></ui-dropdown>
+                  <oh-dropdown-bind listadapter="item-types"></oh-dropdown-bind>
+                  <ui-dropdown name="type" class="w-100" btnclass="btn btn-sm" icons="itemtypes" viewkey="id" valuekey="label"
+                    desckey="desc" :value="type" @input="this.type=$event.target.value"></ui-dropdown>
                 </div>
               </div>
             </div>
@@ -125,17 +126,18 @@
     <oh-vue-list id="itemlist" filtercriteria="label">
       <partial src="vuelistbasics.html" key="item.name"></partial>
       <template slot="item">
-        <section class="listitem" :id="item.name" :class="[{haschanges: changed}]">
-          <div class="body ui-dropdown">
+        <section class="listitem withtabs" :id="item.name" :class="[{haschanges: changed}]">
+          <div class="body">
             <div class="title">
-              <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>{{item.label}}
+              <span :title="item.label">{{item.label}}
               </span>
               <span class="actions unsaved btn-group">
                 <button class="btn btn-success" title="Save changes" @click="saveItem()"><i class="fas fa-save"></i></button>
                 <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
               </span>
               <span class="actions btn-group">
-                <i class="btn btn-info disabled btn-sm itemstate">{{item.state}}</i>
+                <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showInfo()"><i
+                    class="fas fa-info"></i></button>
                 <button class="btn btn-danger-hover" title="Remove item" @click="removeItem()"><i class="fas fa-trash"></i></button>
               </span>
             </div>
@@ -157,25 +159,31 @@
                 <li class="nav-item"><a class="nav-link" href="#">Control</a></li>
               </ul>
               <div class="tab-content" slot="tabs">
-                <section class="grid">
-                  <div class="keyname">Type:</div>
-                  <oh-dropdown-bind listadapter="item-types" viewkey="id" viewvalue="value"></oh-dropdown-bind>
-                  <ui-dropdown btnclass="btn btn-sm" icons="itemtypes" class="itemtype" :value="itemtype" @input="setType($event.target.value)"></ui-dropdown>
-                  <div class="keyname">Icon:</div>
-                  <input list="itemCategories" type="text" class="category" @input="$set(item,'category',$event.target.value)"
-                    :value="item.category"></input>
-                  <ui-switch class="span2" label="Group item" title="Item to nest other items / collect them in groups"
-                    :value.prop="isGroup" @input="setGroup($event.target.value)"></ui-switch>
+                <section>
+                  <div class="badge badge-pill badge-info itemstate">{{item.state}}</div>
+                  <div>This is a
+                    <oh-dropdown-bind listadapter="item-types"></oh-dropdown-bind>
+                    <ui-dropdown btnclass="btn link" icons="itemtypes" class="itemtype" viewkey="id" valuekey="label"
+                      desckey="desc" :value="itemtype" @input="setType($event.target.value)"></ui-dropdown>
+                    item of category (icon)
+                    <input style="max-width: 100px;" list="itemCategories" placeholder="no icon" @input="$set(item,'category',$event.target.value)"
+                      :value="item.category">
+                  </div>
                 </section>
                 <section>
+                  <ui-switch label="Group item" title="Item to nest other items / collect them in groups" :value.prop="isGroup"
+                    @input="setGroup($event.target.value)"></ui-switch>
                   <ui-tags :value.prop="item.groupNames" @input="item.groupNames = $event.target.value"></ui-tags>
                 </section>
                 <section>
                   <ui-tags suggestions="Switchable,Lighting,ColorLighting" :value.prop="item.tags" @input="item.tags = $event.target.value"></ui-tags>
                 </section>
                 <section>
-                  <input list="itemCommands" class="commandInput">
-                  <button class="btn btn-primary-hover" @click="sendCommand">Send</button>
+                  <div class="badge badge-pill badge-info itemstate">{{item.state}}</div>
+                  <div>
+                    <input list="itemCommands" class="commandInput">
+                    <button class="btn btn-primary-hover" @click="sendCommand">Send</button>
+                  </div>
                 </section>
               </div>
             </ui-tabs>

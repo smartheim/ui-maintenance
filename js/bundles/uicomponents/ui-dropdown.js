@@ -12,24 +12,19 @@ import { html, render } from 'lit-html';
 class UiDropdown extends HTMLElement {
     constructor() {
         super();
-        this._options = {};
     }
     connectedCallback() {
+        if (this.hasAttribute("viewkey")) this.viewkey = this.getAttribute("viewkey");
+        if (this.hasAttribute("desckey")) this.desckey = this.getAttribute("desckey");
+        if (this.hasAttribute("valuekey")) this.valuekey = this.getAttribute("valuekey");
         this.novalue = this.hasAttribute("novalue");
         this.nostate = this.hasAttribute("nostate");
         this.icons = this.hasAttribute("icons") ? this.getAttribute("icons") : null;
-        const classes = this.hasAttribute("btnclass") ? this.getAttribute("btnclass") : "btn btn-primary-hover btn-sm";
+
         this.bodyClickBound = (e) => this.bodyClicked(e);
         this.addEventListener("click", e => e.stopPropagation());
         this.classList.add("dropdown");
-        if (!Object.keys(this._options).length && this.hasAttribute("options")) {
-            var items = this.getAttribute("options").split(",");
-            for (var item of items) {
-                const data = item.split(":");
-                if (data.length == 1) this._options[item] = item;
-                else this._options[data[0].trim()] = data[1].trim();
-            }
-        }
+        const classes = this.hasAttribute("btnclass") ? this.getAttribute("btnclass") : "btn btn-primary-hover btn-sm";
         render(html`
         <button class="${classes} dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false"
             @click=${this.toggleShow.bind(this)}>
@@ -38,15 +33,28 @@ class UiDropdown extends HTMLElement {
         <div class="dropdown-menu"></div>`, this);
         this.dropdownEl = this.querySelector(".dropdown-menu");
         this.labelEl = this.querySelector(".label");
-        this.options = this._options; // will call the setter which renders the options
         if (this.hasAttribute("label")) this.labelEl.innerHTML = this.getAttribute("label");
-        this.value = this.hasAttribute("value") ? this.getAttribute("value") : null; // calls the setter
+
+        if (this._options) this.options = this._options;
+        if (this._value) this.value = this._value;
+        if (this.hasAttribute("options")) this.attributeChangedCallback("options");
+        if (this.hasAttribute("value")) this.attributeChangedCallback("value");
     }
     static get observedAttributes() {
         return ['value'];
     }
     attributeChangedCallback(name, oldValue, newValue) {
         if (name == "value") this.value = this.getAttribute("value");
+        if (name == "options") {
+            var options = {};
+            var items = this.getAttribute("options").split(",");
+            for (var item of items) {
+                const data = item.split(":");
+                if (data.length == 1) options[item] = { label: item };
+                else options[data[0].trim()] = { label: data[1].trim() };
+            }
+            this.options = options;
+        }
     }
     toggleShow() {
         if (this.dropdownEl.classList.contains("show")) this.close(); else this.open();
@@ -63,8 +71,8 @@ class UiDropdown extends HTMLElement {
         this.dropdownEl.classList.add("show");
     }
     set value(key) {
-        if (!this.novalue && this._options[key]) {
-            this.labelEl.innerHTML = this._options[key];
+        if (!this.novalue && this._options && this._options[key]) {
+            this.labelEl.innerHTML = this._options[key].label;
         }
         this._value = key;
         if (this.dropdownEl) {
@@ -78,21 +86,43 @@ class UiDropdown extends HTMLElement {
     get value() {
         return this._value;
     }
+    get options() {
+        return this._options;
+    }
+    // We allow arrays as well as object(key:{label,desc}) mappings
     set options(newValue) {
         this._options = newValue;
         if (!this.dropdownEl) return;
 
+        if (Array.isArray(newValue)) {
+            if (!this.viewkey || !this.valuekey) {
+                console.warn("No viewkey/valuekey set!");
+                return;
+            }
+            var options = {};
+            for (let entry of newValue) {
+                const key = entry[this.valuekey];
+                const label = entry[this.viewkey];
+                const desc = entry[this.desckey];
+                options[key] = { label, desc };
+            }
+            newValue = options;
+        }
+        this._options = newValue;
+
         while (this.dropdownEl.firstChild) { this.dropdownEl.firstChild.remove(); }
         for (var key of Object.keys(this._options)) {
+            const option = this._options[key];
             const a = document.createElement("a");
             a.href = "#";
             a.classList.add("dropdown-item");
             a.dataset.key = key;
             a.addEventListener("click", (event) => this.select(event.target.dataset.key, event));
-            if (this.icons)
-                a.innerHTML = `<div><img src="img/${this.icons}/${key}.png">${this._options[key]}</div>`;
+            let img = this.icons ? `<img src="img/${this.icons}/${key}.png">` : "";
+            if (option.desc)
+                a.innerHTML = `<div>${img}<b>${option.label}</b><br><small>${option.desc}</small></div>`;
             else
-                a.innerHTML = `<div>${this._options[key]}</div>`;
+                a.innerHTML = `<div>${img}${option.label}</div>`;
             this.dropdownEl.appendChild(a);
         }
 

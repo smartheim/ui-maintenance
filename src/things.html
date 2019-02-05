@@ -93,7 +93,8 @@
               :context.prop='item.properties'>
               <i class="fas fa-clipboard-list"></i> <span>Properties</span>
             </oh-doc-link>
-            <ui-dropdown nostate novalue label="Actions" :options.prop="getActions()" @input="triggerAction"></ui-dropdown>
+            <ui-dropdown nostate novalue label="Actions" valuekey="id" viewkey="label" desckey="description"
+              :options.prop="item.actions" @input="triggerAction"></ui-dropdown>
           </div>
         </section>
       </template>
