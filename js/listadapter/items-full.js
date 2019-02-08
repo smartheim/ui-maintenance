@@ -130,7 +130,6 @@ const ItemsMixin = {
                 const namespace = this.item.metadata[namespaceName];
                 const config = configs ? configs.find(e => e.uri == "metadata:" + namespaceName) : null;
                 const values = config ? config.parameters : [];
-                console.warn("VALUE", configs, config, values);
                 for (let value of values) {
                     if (namespace[value.name]) {
                         value.value = namespace[value.name];

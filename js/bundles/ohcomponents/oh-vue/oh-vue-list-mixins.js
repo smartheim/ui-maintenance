@@ -7,27 +7,28 @@ const ItemSelectionMixin = {
         }
     },
     mounted: function () {
-        this.filterbar = document.querySelector("ui-filter");
-        if (this.filterbar) {
-            this.selectmode = this.filterbar.selectmode;
-            this.clickSelectedBound = () => {
-                if (!this.$root.selectmode) return;
-                this.selected = !this.selected;
-                if (this.selected) {
-                    this.$el.classList.add("selected");
-                    this.$root.selectedcounter += 1;
-                } else {
-                    this.$el.classList.remove("selected");
-                    this.$root.selectedcounter -= 1;
-                }
-            }
-            this.$el.addEventListener("click", this.clickSelectedBound);
+        this.clickSelectedBound = () => {
+            if (!this.$root.selectmode) return;
+            this.selected = !this.selected;
+            this.updateSelection();
         }
+        this.$el.addEventListener("click", this.clickSelectedBound);
     },
     beforeDestroy: function () {
         this.$el.removeEventListener("click", this.clickSelectedBound);
         if (this.selected) this.$root.selectedcounter -= 1;
     },
+    methods: {
+        updateSelection() {
+            if (this.selected) {
+                this.$el.classList.add("selected");
+                this.$root.selectedcounter += 1;
+            } else {
+                this.$el.classList.remove("selected");
+                this.$root.selectedcounter -= 1;
+            }
+        }
+    }
 }
 
 const ListViewSelectionModeMixin = {
@@ -66,17 +67,17 @@ const ListViewSelectionModeMixin = {
                 // There is one transition-group child and then all the item children
                 const selected = this.$root.$children[0].$children.filter(e => e.selected);
                 for (let child of selected) {
-                    console.log("action child", action, child);
                     if (child[action]) child[action]();
                 }
             }
-            if (event.detail.selectmode) {
+            if (event.detail.selectmode !== undefined) {
                 this.selectmode = event.detail.selectmode;
                 if (this.selectWatcher) {
                     this.selectWatcher();
                     delete this.selectWatcher;
                 }
                 if (this.selectmode) {
+                    // The return value is a function to dispose the watcher again
                     this.selectWatcher = this.$watch('items', this.itemsChangedInSelectionMode);
                     let count = 0;
                     var items = document.querySelectorAll("#listcontainer .listitem");
