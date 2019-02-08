@@ -9,8 +9,13 @@
   <link rel="stylesheet" href="css/items.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Actions</h4>
-    <ul class="exact">
+    <ul>
       <li><a href="rule.html"><i class="fas fa-plus"></i> New Rule</a></li>
+      <li>
+        <hr>
+      </li>
+      <li><a href="ruletemplates.html"><i class="fas fa-file-alt"></i> Rule templates</a></li>
+      <li><a href="scripts.html"><i class="fas fa-terminal"></i> Standalone Scripts</a></li>
     </ul>
   </nav>
   <partial src="mainnav.html"></partial>
@@ -18,44 +23,46 @@
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
       select="Selection mode">
-      <div class="btn-group ml-3" role="group">
-        <button class="btn btn-danger">
-          <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
+      <div class="btn-group" role="group">
+        <button class="btn btn-danger" data-action="remove">
+          <i class="fas fa-trash"></i> Remove
+          <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+          <span class="badge badge-light ml-2">0</span>
         </button>
-        <button class="btn btn-success">
-          <i class="fas fa-check"></i> <span>Run <span class="badge badge-light selectcounter">0</span></span>
+        <button class="btn btn-success" data-action="run">
+          <i class="fas fa-check"></i> Run
+          <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+          <span class="badge badge-light ml-2">0</span>
         </button>
       </div>
     </ui-filter>
-    <oh-list-bind for="ruleslist" listadapter="rules"></oh-list-bind>
-    <oh-vue-list id="ruleslist" filtercriteria="name">
-      <partial src="vuelistbasics.html" key="item.uid"></partial>
+    <oh-list-bind for="ruleslist" listadapter="rules" filtercriteria="name"></oh-list-bind>
+    <oh-vue-list id="ruleslist">
+      <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/rules"></partial>
       <template slot="item">
         <section class="listitem" :id="item.uid">
-          <div class="body ui-dropdown">
+          <div class="body">
             <div class="title">
-              <span class="secondLevelBtn" :title="item.name" onclick='this.parentNode.parentNode.classList.toggle("show");'>
-                {{item.name}} </span>
+              <span :title="item.name"> {{item.name}} </span>
               <span class="actions btn-group">
-                <button class="btn btn-success-hover btn-sm" @click="run($event.target)">
-                  <i class="fas fa-check"></i> <span>Run <i :title="rulesStatusDetails()" :class="rulesStatusBadge()">{{rulesStatusinfo()}}</i>
-                  </span>
-                </button>
-                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
+                    class="fas fa-info"></i></button>
+                <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
               </span>
             </div>
-            <div class="secondlevel">
-              <div class="bg-danger text-white">{{rulesStatusmessage()}}</div>
-              <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
-              <span @click="copyClipboard($event, item.uid)">{{item.uid}}</span>
-              <div>Storage association: <input value="openhab"></div>
-            </div>
+            <vue-metainfo :uniqueid="item.uid"></vue-metainfo>
             <vue-inprogress></vue-inprogress>
-            <section class="description"> {{item.description}} </section>
+            <section class="description">
+              {{item.description}}
+              <div class="bg-danger text-white">{{rulesStatusmessage()}}</div>
+            </section>
           </div>
-          <div class="footer small py-1 px-3">
-            <span>Runs: {{item.runcounter}}</span>
-            <a class="ml-auto" :href="'rule.html?uid='+encodeURIComponent(item.uid)"><i class="fas fa-cog"></i> <span>Edit</span></a>
+          <div class="footer py-1 px-3">
+            <i :title="rulesStatusDetails()" :class="rulesStatusBadge()">{{rulesStatusinfo()}}</i>
+
+            <a class="ml-auto btn btn-info-hover btn-sm text-nowrap" :href="'rule.html?uid='+encodeURIComponent(item.uid)"><i
+                class="fas fa-cog"></i> <span>Configure</span></a>
+            <button class="btn btn-primary-hover btn-sm text-nowrap" @click="run($event.target)">Run</button>
           </div>
         </section>
       </template>

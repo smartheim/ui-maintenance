@@ -1,15 +1,13 @@
 import { store } from '../app.js';
 
-const ID_KEY = "id";
-
 class StoreView {
     constructor() { this.value = {}; }
     stores() { return { "bindings": "value" } };
-    async get(bindingid) {
-        return store.get("rest/bindings", "bindings", bindingid, ID_KEY)
+    get(bindingid, options = null) {
+        return store.get("bindings", bindingid, options)
             .then(v => this.value = v)
             .then(() => this.value.configDescriptionURI ?
-                store.get("rest/config-descriptions", "config-descriptions", this.value.configDescriptionURI, "uri") : null)
+                store.get(this.value.configDescriptionURI) : null)
             .then(v => this.config = v)
             .then(() => this.value);
     }
@@ -33,5 +31,6 @@ const BindingsMixin = {
 const mixins = [BindingsMixin];
 const runtimekeys = [];
 const schema = null;
+const ID_KEY = "id";
 
 export { mixins, schema, runtimekeys, StoreView, ID_KEY };

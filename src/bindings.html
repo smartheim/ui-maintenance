@@ -13,6 +13,7 @@
       <ui-nav-auto-link></ui-nav-auto-link>
       <li><a data-no-reload="nav" href="bindings.html">Installed Add-ons</a></li>
       <li><a data-no-reload="nav" href="addon_files.html">Manage file Add-ons</a></li>
+      <li><a data-no-reload="nav" href="addon_repositories.html">Add-on Repositories</a></li>
       <li><a href="addon_install.html">Install Add-ons</a></li>
     </ul>
   </nav>
@@ -20,13 +21,16 @@
   <partial src="pagetitleheader.html" title="Install official, marketplace and manuall addons and configure them"></partial>
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
-      <a href="#" class="btn btn-danger ml-3">
-        <i class="fas fa-trash"></i> <span>Uninstall <span class="badge badge-light selectcounter">0</span></span>
-      </a>
+      <button class="btn btn-danger" data-action="remove">
+        <i class="fas fa-trash"></i> Uninstall
+        <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+        <span class="badge badge-light ml-2">0</span>
+      </button>
     </ui-filter>
-    <oh-list-bind for="bindingslist" listadapter="bindings"></oh-list-bind>
-    <oh-vue-list id="bindingslist" filtercriteria="name">
-      <partial src="vuelistbasics.html" key="item.id"></partial>
+
+    <oh-list-bind for="bindingslist" listadapter="bindings" filtercriteria="name"></oh-list-bind>
+    <oh-vue-list id="bindingslist">
+      <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addons"></partial>
       <template slot="item">
         <section class="listitem" :id="item.id">
           <div class="body">

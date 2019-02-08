@@ -15,13 +15,13 @@
       </li>
     </ul>
     <p>Start manuall discovery</p>
-    <oh-list-bind for="serviceslist" listadapter="discovery"></oh-list-bind>
-    <oh-vue-list id="serviceslist" filtercriteria="id" maxFilteredItems="1000" style="display: block;max-width: 250px;">
+    <oh-list-bind for="serviceslist" listadapter="discovery" filtercriteria="id"></oh-list-bind>
+    <oh-vue-list id="serviceslist" style="display: block;max-width: 250px;">
       <div slot="app"></div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
         <ul slot="app" v-else>
-          <oh-vue-listitem v-for="item in filtered" :key="item.id" :listitem="item"></oh-vue-listitem>
+          <oh-vue-listitem v-for="item in items" :key="item.id" :listitem="item"></oh-vue-listitem>
         </ul>
       </template>
       <template slot="item">
@@ -43,23 +43,27 @@
   <partial src="pagetitleheader.html" title="Find all devices that are auto discoverable with your current set of add-ons."></partial>
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
-      <div class="btn-group ml-3" role="group">
-        <button class="btn btn-info">
-          <i class="fas fa-eye-slash"></i> <span>Hide <span class="badge badge-light selectcounter">0</span></span>
+      <div class="btn-group" role="group">
+        <button class="btn btn-info" data-action="hide">
+          <i class="fas fa-eye-slash"></i> Hide
+          <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+          <span class="badge badge-light ml-2">0</span>
         </button>
-        <button class="btn btn-success">
-          <i class="fas fa-check"></i> <span>Accept <span class="badge badge-light selectcounter">0</span></span>
+        <button class="btn btn-success" data-action="accept">
+          <i class="fas fa-check"></i> Accept
+          <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+          <span class="badge badge-light ml-2">0</span>
         </button>
       </div>
     </ui-filter>
-    <oh-list-bind for="inboxlist" listadapter="inbox"></oh-list-bind>
-    <oh-vue-list id="inboxlist" filtercriteria="label">
+    <oh-list-bind for="inboxlist" listadapter="inbox" filtercriteria="label"></oh-list-bind>
+    <oh-vue-list id="inboxlist">
       <div slot="app"></div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
         <div v-else class="w-100" slot="app">
-          <transition-group name="fade" tag="div" id="listcontainer" @click="updateSelectCounter" :class="containerclasses">
-            <oh-vue-listitem v-for="item in filtered" :key="item.thingUID" :listitem="item"></oh-vue-listitem>
+          <transition-group name="fade" tag="div" id="listcontainer" :class="[{selectionmode:selectmode},viewmode]">
+            <oh-vue-listitem v-for="item in items" :key="item.thingUID" :listitem="item"></oh-vue-listitem>
           </transition-group>
           <portal name="testname" target-el="#clearresults" breakshadow slim>
             <a href="#" @click.prevent="clear" :class="{disabled:empty}">Clear Inbox</a>

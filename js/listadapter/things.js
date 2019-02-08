@@ -3,11 +3,14 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.items = []; this.thingtypes = []; }
     stores() { return { "things": "items" } };
-    async getall() {
-        return store.get("rest/thing-types", "thing-types")
+    sortStore() { return "things" };
+    getall(options = null) {
+        return store.get("thing-types")
             .then(list => this.thingtypes = list)
-            .then(() => store.get("rest/things", "things"))
-            .then(items => this.items = items);
+            .then(() => this.get(options))
+    }
+    get(options = null) {
+        return store.get("things", null, options).then(items => this.items = items);
     }
     getThingTypeFor(uid) {
         for (const thingType of this.thingtypes) {
@@ -48,6 +51,9 @@ const schema = {
 
 const ThingsMixin = {
     methods: {
+        commontags: function () {
+            return [];
+        },
         statusinfo: function () {
             return this.item.statusInfo ? this.item.statusInfo.status.toLowerCase().replace(/^\w/, c => c.toUpperCase()) : "Unknown";
         },
@@ -83,7 +89,19 @@ const ThingsMixin = {
         },
         haschannels() {
             return this.item.channels.length > 0;
-        }
+        },
+        save: function () {
+            this.message = null;
+            this.messagetitle = "Saving...";
+            this.inProgress = true;
+            this.changed = false;
+            setTimeout(() => this.inProgress = false, 1000);
+        },
+        remove: function () {
+            this.message = null;
+            this.messagetitle = "Removing...";
+            this.inProgress = true;
+        },
     }
 }
 

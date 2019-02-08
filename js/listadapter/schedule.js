@@ -5,8 +5,11 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.items = []; }
     stores() { return { "schedule": "items" } };
-    async getall() {
-        return store.get("rest/schedule", "schedule").then(items => this.items = items);
+    getall(options = null) {
+        return this.get(options);
+    }
+    get(options = null) {
+        return store.get("schedule", null, options).then(items => this.items = items);
     }
     dispose() {
     }
@@ -46,11 +49,14 @@ const schema = {
 
 const ScheduleMixin = {
     methods: {
+        commontags: function () {
+            return [];
+        },
         timerStatusinfo: function () {
             return (this.item.lastrun + 5000) > Date.now() ? "Running" : "Idle";
         },
         timerStatusBadge: function () {
-            return (this.item.lastrun + 5000) > Date.now() ? "badge badge-success" : "badge badge-light";
+            return (this.item.lastrun + 5000) > Date.now() ? "badge badge-success" : "badge badge-info";
         },
         timerDescription: function () {
             if (this.item.type == "cron") {
@@ -64,7 +70,19 @@ const ScheduleMixin = {
             } else {
                 return "Unsupported timer type";
             }
-        }
+        },
+        save: function () {
+            this.message = null;
+            this.messagetitle = "Saving...";
+            this.inProgress = true;
+            this.changed = false;
+            setTimeout(() => this.inProgress = false, 1000);
+        },
+        remove: function () {
+            this.message = null;
+            this.messagetitle = "Removing...";
+            this.inProgress = true;
+        },
     }
 }
 

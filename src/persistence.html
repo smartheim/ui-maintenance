@@ -13,15 +13,15 @@
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
       select="Selection mode">
-      <div class="btn-group ml-3" role="group">
-        <a href="#" class="btn btn-danger">
-          <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
-        </a>
-      </div>
+      <button class="btn btn-danger" data-action="remove">
+        <i class="fas fa-trash"></i> Remove
+        <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+        <span class="badge badge-light ml-2">0</span>
+      </button>
     </ui-filter>
-    <oh-list-bind listadapter="persistence"></oh-list-bind>
-    <oh-vue-list filtercriteria="label">
-      <partial src="vuelistbasics.html" key="item.uid"></partial>
+    <oh-list-bind listadapter="persistence" filtercriteria="label"></oh-list-bind>
+    <oh-vue-list>
+      <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/persistence"></partial>
       <template slot="item">
         <section class="listitem" :id="item.uid">
           <div class="body">
@@ -37,7 +37,9 @@
               <oh-dropdown-bind listadapter="persistence-services"></oh-dropdown-bind>
               <ui-dropdown btnclass="form-control" :value="item.serviceid" viewkey="label" valuekey="id" label="Select database"></ui-dropdown>
               Stategies: <ui-multiselect :options="item.strategy" :value="item.strategy" placeholder="Select strategy"></ui-multiselect>
-              Items: <ui-multiselect options="Item1,Item2,Item3" placeholder="Select items"></ui-multiselect>
+              Items:
+              <oh-dropdown-bind listadapter="items"></oh-dropdown-bind>
+              <ui-multiselect viewkey="label" valuekey="name" desckey="name" placeholder="Select items"></ui-multiselect>
             </section>
           </div>
         </section>
@@ -45,7 +47,7 @@
     </oh-vue-list>
   </main>
   <footer></footer>
-  <partial src="contexthelp.html" help="logview"></partial>
+  <partial src="contexthelp.html" help="persistence"></partial>
 </body>
 
 </html>

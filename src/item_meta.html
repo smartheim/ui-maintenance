@@ -1,0 +1,57 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="items.html" />
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <nav class="sidebar leftright"> </nav>
+  <partial src="mainnav.html"></partial>
+  <partial src="pagetitleheader.html" title="Item Meta Data"></partial>
+  <main>
+    <nav-breadcrumb parent="Items"></nav-breadcrumb>
+
+    <form class="mb-4" action="#">
+      <div class="form-group row">
+        <label for="timername" class="col-sm-2 col-form-label">Meta Namespace</label>
+        <div class="col-sm-10">
+          <input autofocus type="text" class="form-control" name="timername" id="timername" pattern=".{1,}" required
+            placeholder="Namespace">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="timername" class="col-sm-2 col-form-label">Item</label>
+        <div class="col-sm-10">
+          <oh-dropdown-bind listadapter="items"></oh-dropdown-bind>
+          <ui-dropdown class="w-100" btnclass="form-control" label="Item" viewkey="label" desckey="name" valuekey="name"
+            label="Select item"></ui-dropdown>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-12 text-right">
+          <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Request</button>
+        </div>
+      </div>
+    </form>
+
+    <div>Meta data in JSON Format:</div>
+    <textarea><pre>
+{
+  "US_DiningRoom_Dimmer" : {
+      "Morning"    : {"Low_Lux_Trigger" : 20, "Level" : 30},
+      "Day"        : {"Low_Lux_Trigger" : 90, "Level" : 30},
+      "Evening"    : {"Low_Lux_Trigger" : 90, "Level" : 30},
+      "Night"      : {"Low_Lux_Trigger" : 90, "Level" : 30},
+      "Late"       : {"Low_Lux_Trigger" : 90, "Level" : 1}
+}
+        </pre></textarea>
+    <button type="submit" class="btn btn-primary-hover disabled"><i class="fas fa-check"></i> Assign</button>
+  </main>
+  <footer></footer>
+  <partial src="contexthelp.html" help="itemmeta"></partial>
+</body>
+
+</html>

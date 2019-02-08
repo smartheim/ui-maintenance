@@ -18,7 +18,7 @@
     <p>Rule components</p>
 
     <oh-list-bind for="componentslist" listadapter="modules"></oh-list-bind>
-    <oh-vue-list id="componentslist" filtercriteria="label" maxFilteredItems="1000" style="display: block;">
+    <oh-vue-list id="componentslist" filtercriteria="label" style="display: block;">
       <div slot="app"></div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
@@ -27,7 +27,7 @@
             title="Enter a search string or filter by type:trigger,condition,action or label:labeltext, description:description-text"
             @input="updateFilter($event.target.value.trim())">
           <input class="form-control py-2" style="visibility: hidden;">
-          <oh-vue-listitem v-for="item in filtered" v-if="item.visibility!='HIDDEN'" :key="item.uid" :listitem="item"></oh-vue-listitem>
+          <oh-vue-listitem v-for="item in items" v-if="item.visibility!='HIDDEN'" :key="item.uid" :listitem="item"></oh-vue-listitem>
         </ul>
       </template>
       <template slot="item">

@@ -4,9 +4,9 @@ class StoreView {
     constructor() { this.items = []; }
     stores() { return { "persistence": "items" } };
     async getall() {
-        return store.get("rest/persistence-services", "persistence-services")
+        return store.get("persistence-services")
             .then(json => this.services = json)
-            .then(() => store.get("rest/persistence", "persistence"))
+            .then(() => store.get("persistence"))
             .then(items => this.items = items);
     }
     dispose() {
@@ -26,6 +26,18 @@ const ServicesMixin = {
             const service = this.$root.store.getService(this.item.serviceid);
             if (service) return service.label;
             return this.item.serviceid;
+        },
+        save: function () {
+            this.message = null;
+            this.messagetitle = "Saving...";
+            this.inProgress = true;
+            this.changed = false;
+            setTimeout(() => this.inProgress = false, 1000);
+        },
+        remove: function () {
+            this.message = null;
+            this.messagetitle = "Removing...";
+            this.inProgress = true;
         },
     }
 }

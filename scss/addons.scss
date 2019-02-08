@@ -175,3 +175,12 @@ oh-vue-list {
         flex-direction: column;
     }
 }
+
+.emptylist {
+    align-self: center;
+    max-width: 700px;
+    margin-top: 10px;
+    oh-context-help {
+        padding: 10px;
+    }
+}

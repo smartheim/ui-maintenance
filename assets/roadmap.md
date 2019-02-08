@@ -15,8 +15,11 @@ in openHAB core.
   - New interface to implement for those services (OSGI bundles)
   - Rest endpoint extension to retrieve those extended stati.
 * Things/Items/Rules/Scheduled-Tasks
-  - Storage association for the backup service.
+  - Storage association+position for the backup service.
   - Generic "comment"/"annotation" field for the user to leave notes and annotations.
+* Item handling requires a lot of knowdledge in clients. Allow static data fetches via more REST endpoints for
+  - "item-types"
+  - "item-group-functions" (AND, OR, AVG etc)
 
 ## Maintenance page
 
@@ -134,12 +137,12 @@ in openHAB core.
 |---|----------|----------|
 | List rules | ✓ | |
 | Create/Edit/Remove rules | ✓ |  |
-
-## Scripts page
-
-|  | Working? | Comments |
-|---|----------|----------|
-| List scripts | ✓ | |
+| List standalone scripts | ✓ | |
 | Create/Edit/Remove scripts | – |  |
+
+* Rule templates require some more information to be used as distribution format:
+  - Authors
+  - Required bindings
+  - Version
 
 * Script files REST service: Alter files on disk via the REST API.

@@ -1,0 +1,49 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <nav class="sidebar leftright">
+    <h4>Navigation</h4>
+    <ul>
+      <ui-nav-auto-link></ui-nav-auto-link>
+      <li><a data-no-reload="nav" href="bindings.html">Installed Add-ons</a></li>
+      <li><a data-no-reload="nav" href="addon_files.html">Manage file Add-ons</a></li>
+      <li><a data-no-reload="nav" href="addon_repositories.html">Add-on Repositories</a></li>
+      <li><a href="addon_install.html">Install Add-ons</a></li>
+    </ul>
+  </nav>
+  <partial src="mainnav.html"></partial>
+  <partial src="pagetitleheader.html" title="Add-ons Repositories"></partial>
+  <main>
+    <ui-filter class="mt-4" placeholder="Filter..." mode="grid"></ui-filter>
+
+    <oh-list-bind listadapter="addon-repositories" filtercriteria="label" maxItems="100"></oh-list-bind>
+    <oh-vue-list>
+      <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addon_repositories"></partial>
+      <template slot="item">
+        <section class="listitem" :id="item.id" style="width: 100%;">
+          <div class="body">
+            <div class="title"><span>{{item.label}}</span></div>
+            <vue-inprogress></vue-inprogress>
+            <section class="description">{{item.description}}</section>
+            <section class="actions showinlist">
+              <span class="btn-group" role="group">
+                <button class="btn btn-success" @click="enable()"><i class="fas fa-trash"></i> <span>Enable</span></button>
+                <button class="btn btn-danger" @click="disable()"><i class="fas fa-trash"></i> <span>Disable</span></button>
+              </span>
+            </section>
+          </div>
+        </section>
+      </template>
+    </oh-vue-list>
+  </main>
+  <footer></footer>
+  <partial src="contexthelp.html" help="addon_repositories"></partial>
+</body>
+
+</html>

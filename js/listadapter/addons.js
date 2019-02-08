@@ -3,8 +3,11 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.items = []; }
     stores() { return { "extensions": "items" } };
-    async getall() {
-        return store.get("rest/extensions", "extensions").then(items => this.items = items);
+    getall(options = null) {
+        return this.get(options);
+    }
+    get(options = null) {
+        return store.get("extensions", null, options).then(items => this.items = items);
     }
     dispose() {
     }
@@ -21,7 +24,12 @@ const AddonsMixin = {
             this.message = null;
             this.messagetitle = "Changing version";
             this.inProgress = true;
-        }
+        },
+        remove: function () {
+            this.message = null;
+            this.messagetitle = "Removing...";
+            this.inProgress = true;
+        },
     }
 }
 

@@ -8,10 +8,10 @@ class UiTags extends HTMLElement {
     connectedCallback() {
         this.classList.add("ui-tags");
         if (this.hasAttribute("suggestions")) {
-            this.suggestionsDomID = Math.random().toString(36);
+            this.suggestionsDomID = Math.random().toString(36).slice(2);
             var suggestionsEl = document.createElement("datalist");
             suggestionsEl.id = this.suggestionsDomID;
-            var items =  this.getAttribute("suggestions").split(",");
+            var items = this.getAttribute("suggestions").split(",");
             for (var item of items) {
                 var openEL = document.createElement("option");
                 openEL.setAttribute("value", item);
@@ -47,7 +47,7 @@ class UiTags extends HTMLElement {
         setTimeout(() => sourceInput.focus(), 50);
         this.dispatchEvent(new Event("input"));
     }
-    removeTag(tagname,e) {
+    removeTag(tagname, e) {
         if (e) e.preventDefault();
         this.tags = this.tags.filter(t => t != tagname);
         console.log("remove", tagname, this.tags);
@@ -63,14 +63,15 @@ class UiTags extends HTMLElement {
     render() {
         const tagsEl = this.tags.map((tag) =>
             html`<div class="ui-tag-list"><span>${tag}</span>
-                <button @click="${(e) => this.removeTag(tag,e)}" class="btn btn-danger-hover p-0"><i class="fas fa-times"></i></button>
+                <button @click="${(e) => this.removeTag(tag, e)}" class="btn btn-danger-hover p-0"><i class="fas fa-times"></i></button>
             </div>`
         );
-        render(html`${tagsEl}<div style="min-width:120px"><div class="ui-tags-add btn btn-success-hover p-0">
-                <i class="fas fa-plus" @click=${(event) => this.addTag(event.target.nextElementSibling)}></i>
-                <input list="${this.suggestionsDomID}" placeholder="Add" oninput="event.stopPropagation()"
-                    @keypress="${(event) => this.inputKey(event)}">
-            </div></div>`, this);
+        render(html`${tagsEl}
+        <div style="min-width:120px"><div class="ui-tags-add btn btn-success-hover p-0">
+            <input list="${this.suggestionsDomID}" placeholder="Add" oninput="event.stopPropagation()"
+                @keypress="${(event) => this.inputKey(event)}">
+            <i class="fas fa-plus" @click=${(event) => this.addTag(event.target.previousElementSibling)}></i>
+        </div></div>`, this);
     }
 }
 

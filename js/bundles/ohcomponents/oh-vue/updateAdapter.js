@@ -58,12 +58,16 @@ export class UpdateAdapter {
         let value = val(adapterField, this);
         if (Array.isArray(value)) {
             const id = e.value[this.ID_KEY];
+            if (!id) {
+                console.warn("listEntryChanged: No key property. Expected", this.ID_KEY);
+                return;
+            }
             // Find entry in adapters list
             for (let i = 0; i < value.length; ++i) {
                 let entry = value[i];
                 if (entry[this.ID_KEY] == id) {
-                    console.debug("listEntryChanged->update view", e.storename, e.value);
                     value.splice(i, 1, e.value);
+                    console.warn(value);
                     return;
                 }
             }

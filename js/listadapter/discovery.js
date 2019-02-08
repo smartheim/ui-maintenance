@@ -3,11 +3,13 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.items = []; this.bindings = []; }
     stores() { return { "discovery": "items" } };
-    async getall() {
-        return store.get("rest/bindings", "bindings")
+    getall(options = null) {
+        return store.get("bindings")
             .then(json => this.bindings = json)
-            .then(() => store.get("rest/discovery", "discovery"))
-            .then(items => this.items = items);
+            .then(() => this.get(options))
+    }
+    get(options = null) {
+        return store.get("discovery", null, options).then(items => this.items = items);
     }
     dispose() {
     }

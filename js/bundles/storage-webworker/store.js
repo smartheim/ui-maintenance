@@ -1,9 +1,9 @@
-import { openDb, deleteDb } from 'idb';
+import { openDb } from 'idb';
 import { hack_addNotYetSupportedStoreData, blockLiveDataFromTables } from './addNotYetSupportedStoreData';
 import { hack_rewriteEntryToNotYetSupportedStoreLayout, hack_rewriteTableToNotYetSupportedStoreLayout } from './rewriteToNotYetSupportedStoreLayout';
 import { fetchWithTimeout } from '../../common/fetch';
 import { CompareTwoDataSets } from './compareTwoDatasets';
-import { tables, tableToId, dbversion } from './openhabStoreLayout';
+import { tables, tableToId, tableToURL, tableNoSingleSupport, dbversion } from './openhabStoreLayout';
 
 export class StateWhileRevalidateStore extends EventTarget {
     constructor() {
@@ -39,14 +39,6 @@ export class StateWhileRevalidateStore extends EventTarget {
 
         if (this.evtSource) { this.evtSource.onerror = null; this.evtSource.onmessage = null; this.evtSource.close(); }
 
-        const refreshStores = [
-            { storename: "items", uri: "rest/items" },
-            { storename: "things", uri: "rest/things" },
-            { storename: "bindings", uri: "rest/bindings" },
-            { storename: "thing-types", uri: "rest/thing-types" },
-            { storename: "channel-types", uri: "rest/channel-types" }
-        ];
-
         if (openhabHost == "demo") {
             return fetchWithTimeout("../dummydata/demodata.json")
                 .then(response => response.json())
@@ -66,10 +58,14 @@ export class StateWhileRevalidateStore extends EventTarget {
         }
 
         // Fetch all endpoints in parallel, replace the stores with the received data
-        const requests = refreshStores.map(item => fetchWithTimeout(this.openhabHost + "/" + item.uri)
-            .catch(e => { console.warn("Failed to fetch", this.openhabHost + "/" + item.uri); throw e; })
-            .then(response => response.json())
-            .then(json => this.initialStoreFill(this.db, item.storename, json, true)));
+        const requests = tables
+            .filter(item => item.onstart)
+            .map(item => fetchWithTimeout(this.openhabHost + "/" + item.uri)
+                .catch(e => { console.warn("Failed to fetch", this.openhabHost + "/" + item.uri); throw e; })
+                .then(response => response.json())
+                .then(json => this.initialStoreFill(this.db, item.id, json, true))
+                .catch(e => { console.warn("Failed to fill", item.id); throw e; })
+            );
 
         // Wait for all promises to complete and start server-send-events
         return Promise.all(requests).then(() => {
@@ -91,7 +87,19 @@ export class StateWhileRevalidateStore extends EventTarget {
             throw e;
         });
     }
+    /**
+     * First retrieve fresh data for all tables, then dump the entire indexeddb.
+     */
     async dump() {
+        const requests = tables.filter(item => item.url);
+        for (let item of requests) {
+            await fetchWithTimeout(this.openhabHost + "/" + item.uri)
+                .catch(e => { console.warn("Failed to fetch", this.openhabHost + "/" + item.uri); throw e; })
+                .then(response => response.json())
+                .then(json => this.initialStoreFill(this.db, item.id, json, true))
+                .catch(e => { console.warn("Failed to fill", item.id); throw e; })
+        }
+
         var dumpobject = {};
         const stores = tables.map(e => e.id);
         const tx = this.db.transaction(stores, 'readonly');
@@ -106,30 +114,41 @@ export class StateWhileRevalidateStore extends EventTarget {
         this.expireDurationMS = expireDurationMS;
         return true;
     }
-    async sort(storename, criteria, direction) {
-        console.log("Sorting request for", storename, criteria, direction);
-    }
-    async getAll(uri, storename) {
-        const tx = this.db.transaction(storename, 'readonly');
-        var val = tx.objectStore(storename).getAll();
 
-        return tx.complete.catch(e => {
-            console.warn("Failed to read", storename)
+    async getAll(storename) {
+        const tx = this.db.transaction(storename, 'readonly');
+        let val = tx.objectStore(storename).getAll();
+
+        try {
+            await tx.complete
+        } catch (e) {
+            console.warn("Failed to read", storename, objectid)
             val = null;
-        }).then(() => {
-            if (this.blockRESTrequest(storename)) return val;
-            if (this.cacheStillValid(uri)) {
-                console.debug("cache blocked", uri);
-                return val;
-            }
-            const newVal = this.performRESTandNotify(uri)
-                .catch(e => { console.warn("Failed to fetch", uri); throw e; })
-                .then(json => { if (!Array.isArray(json)) throw new Error("Returned value is not an array"); return json; })
-                .then(json => this.replaceStore(this.db, storename, json))
-            return val || newVal;
-        })
+        };
+
+        if (this.blockRESTrequest(storename))
+            return val;
+
+        const uri = tableToURL[storename];
+        if (!uri) {
+            console.warn("No URI for", storename);
+            throw new Error("No URI for " + storename);
+        }
+
+        if (this.cacheStillValid(uri)) {
+            console.debug("cache blocked", uri);
+            return val;
+        }
+
+        // Return cached value but also request a new value. If cached==null return only new value
+        const newVal = this.performRESTandNotify(uri)
+            .catch(e => { console.warn("Failed to fetch", uri); throw e; })
+            .then(json => { if (!Array.isArray(json)) throw new Error("Returned value is not an array"); return json; })
+            .then(json => this.replaceStore(this.db, storename, json))
+        return val || newVal;
     }
-    async get(uri, storename, objectid, id_key) {
+
+    async get(storename, objectid) {
         const tx = this.db.transaction(storename, 'readonly');
         var val = tx.objectStore(storename).get(objectid);
 
@@ -140,37 +159,49 @@ export class StateWhileRevalidateStore extends EventTarget {
             val = null;
         };
 
-        if (this.blockRESTrequest(storename)) return val;
+        if (this.blockRESTrequest(storename))
+            return val;
 
-        let newVal = this.fetchNewValue(uri, storename, objectid, id_key);
+        const uri = tableToURL[storename];
+        if (!uri) {
+            console.warn("No URI for", storename);
+            throw new Error("No URI for " + storename);
+        }
+
+        if (this.cacheStillValid(uri)) {
+            console.debug("cache blocked", uri);
+            return val;
+        }
+
+        // Return cached value but also request a new value. If cached==null return only new value
+        let newVal = this.performRESTandNotify(uri)
+            .catch(e => { console.warn("Fetch failed for", uri); throw e; })
+            .then(json => tableNoSingleSupport[storename] ? this.extractFromArray(storename, objectid, json) : json)
+            .then(json => this.insertIntoStore(this.db, storename, json));
         return val || newVal;
     }
 
-    async fetchNewValue(uri, storename, objectid, id_key) {
-        let json;
-        try {
-            json = await this.performRESTandNotify(uri);
-        } catch (e) {
-            console.warn("Fetch failed for", uri);
-            throw e;
+    extractFromArray(storename, objectid, json) {
+        if (!Array.isArray(json)) return json;
+
+        const id_key = tableToId[storename];
+        if (!id_key) {
+            console.warn("No ID known for", storename);
+            return;
         }
-        if (Array.isArray(json)) {
-            let found = false;
-            if (id_key) {
-                for (var item of json) {
-                    if (item[id_key] == objectid) {
-                        json = item;
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (!found) {
-                console.warn("Returned value is an array. Couldn't extract single value", json, uri, objectid, id_key)
-                throw new Error("Returned value is an array. Couldn't extract single value");
+
+        let found = false;
+        for (var item of json) {
+            if (item[id_key] == objectid) {
+                json = item;
+                found = true;
+                break;
             }
         }
-        return await this.insertIntoStore(this.db, storename, json);
+        if (!found) {
+            console.warn("Returned value is an array. Couldn't extract single value", json, uri, objectid, id_key)
+            throw new Error("Returned value is an array. Couldn't extract single value");
+        }
     }
 
     sseMessageReceived(e) {
@@ -182,8 +213,11 @@ export class StateWhileRevalidateStore extends EventTarget {
         const topic = data.topic.split("/");
         const storename = topic[1];
         let newState;
+        console.debug("SSE", data);
         switch (data.type) {
+            // -- Added --
             case "ItemAddedEvent":
+            case "RuleAddedEvent":
                 newState = JSON.parse(data.payload);
                 this.insertIntoStore(this.db, storename, newState);
                 return;
@@ -191,12 +225,15 @@ export class StateWhileRevalidateStore extends EventTarget {
                 newState = JSON.parse(data.payload)[0];
                 this.insertIntoStore(this.db, storename, newState);
                 return;
+            // -- Removed --
+            case "ItemRemovedEvent":
+            case "RuleRemovedEvent":
+                this.removeFromStore(this.db, storename, JSON.parse(data.payload));
+                return;
+            // -- State info changed --
             case "ItemStateEvent":
                 newState = JSON.parse(data.payload);
-                this.changeItemState(this.db, storename, topic[2], newState.value);
-                return;
-            case "ItemRemovedEvent":
-                this.removeFromStore(this.db, storename, JSON.parse(data.payload));
+                this.changeItemState(this.db, storename, topic[2], newState.value, "state");
                 return;
             case "RuleStatusInfoEvent":
                 newState = JSON.parse(data.payload);
@@ -204,6 +241,7 @@ export class StateWhileRevalidateStore extends EventTarget {
                 return;
             //Ignore the following events
             case "ItemStateChangedEvent":
+            case "ItemStatePredicatedEvent":
             case "ItemCommandEvent":
                 return;
         }
@@ -347,7 +385,7 @@ export class StateWhileRevalidateStore extends EventTarget {
         return null;
     }
 
-    async changeItemState(db, storename, itemid, value, fieldname = "state") {
+    async changeItemState(db, storename, itemid, value, fieldname) {
         const store = db.transaction(storename, 'readwrite').objectStore(storename);
         var item = await store.get(itemid);
         if (!item) {

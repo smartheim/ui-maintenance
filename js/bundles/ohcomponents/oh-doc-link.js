@@ -85,9 +85,9 @@ class OhDocLink extends HTMLElement {
       else
         el.url = this.href;
     } else if (this.home) {
-      el.checkCacheAndLoad();
+      el.home();
     } else if (this.reload) {
-      el.reset();
+      el.reload();
     }
   }
 }

@@ -1,40 +1,200 @@
 import style from './ui-multiselect.scss';
 import { html, render } from 'lit-html';
 
+/**
+ * TODO: Convert to lit-html web-component
+ */
 class UImultiSelect extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.selected = {};
+        this.items = [];
     }
     connectedCallback() {
         this._options = {
             placeholder: this.getAttribute("placeholder") || 'Select'
         };
-        this.render();
-        this._root = this.shadowRoot;
-        this._control = this._root.querySelector('.multiselect');
-        this._field = this._root.querySelector('.multiselect-field');
-        this._popup = this._root.querySelector('.multiselect-popup');
-        this._list = this._root.querySelector('.multiselect-list');
+        if (this.hasAttribute("viewkey")) this.viewkey = this.getAttribute("viewkey");
+        if (this.hasAttribute("desckey")) this.desckey = this.getAttribute("desckey");
+        if (this.hasAttribute("valuekey")) this.valuekey = this.getAttribute("valuekey");
+        render(html`<style>${style}</style>
+        <slot><input></slot>
+        <div class="multiselect-popup">
+            <ul class="multiselect-list" role="listbox" aria-multiselectable="true"></ul>
+        </div>
+        `, this.shadowRoot);
 
-        this._field.addEventListener('click', this.fieldClickHandler.bind(this));
-        this._control.addEventListener('keydown', this.keyDownHandler.bind(this));
-        this._list.addEventListener('click', this.listClickHandler.bind(this));
+        let slot = this.shadowRoot.querySelector('slot').assignedNodes();
+        let input = (slot.length > 0) ? slot[0] : this.shadowRoot.querySelector('input');
+        if (this.hasAttribute("required")) input.setAttribute("required", "required");
+        input.style.color = "transparent";
+        input.style.height = "initial";
+        input.addEventListener("click", e => e.preventDefault());
+        input.setAttribute("autocomplete", "off");
+        this.input = input;
+        this.style.height = "initial";
+        this._field = this.shadowRoot;
+        this._popup = this.shadowRoot.querySelector('.multiselect-popup');
+        this._list = this.shadowRoot.querySelector('.multiselect-list');
+
+        this.fieldClickHandlerBound = e => this.fieldClickHandler(e);
+        this.shadowRoot.addEventListener('click', this.fieldClickHandlerBound);
+        this.shadowRoot.addEventListener('keydown', this.keyDownHandler.bind(this));
+
+        this._field.appendChild(this.createPlaceholder());
 
         if (this.hasAttribute("options")) {
-            const items = this.getAttribute("options").split(",");
-            for (var item of items) {
-                var liEl = document.createElement("li");
-                liEl.value = item;
-                liEl.textContent = item;
-                this._list.appendChild(liEl);
+            this.items = this.getAttribute("options").split(",").map(e => { return { "id": e, "label": e } });
+            this.renderOptionsList();
+        } else if (this.cachedOptions) {
+            this.options = this.cachedOptions;
+            delete this.cachedOptions;
+        }
+
+        if (this.cachedValue) {
+            this.value = this.cachedValue;
+            delete this.cachedValue;
+        }
+    }
+    disconnectedCallback() {
+        this.shadowRoot.removeEventListener('click', this.fieldClickHandlerBound);
+    }
+    attributeChangedCallback(optionName, oldValue, newValue) {
+        this._options[optionName] = newValue;
+        if (optionName == "options") this.renderOptionsList();
+    };
+    set options(newValue) {
+        if (!this._list) {
+            this.cachedOptions = newValue;
+            return;
+        }
+        if (!this.viewkey || !this.valuekey) {
+            console.warn("No viewkey/valuekey set!", newValue);
+            return;
+        }
+        var options = [];
+        for (let entry of newValue) {
+            const id = entry[this.valuekey];
+            const label = entry[this.viewkey];
+            const desc = entry[this.desckey];
+            options.push({ id, label, desc });
+        }
+        this.items = options;
+        this.renderOptionsList();
+        this.renderField();
+    }
+    get value() {
+        return Object.keys(this.selected).join(",");
+    }
+    set value(newVal) {
+        if (!this._list) {
+            this.cachedValue = newVal;
+            return;
+        }
+
+        if (!newVal || !newVal.length) newVal = [];
+
+        let keys = newVal.split(",");
+        for (let key of keys) {
+            if (this.selected[key]) continue;
+            let found = false;
+            for (let item of this.items) {
+                if (item.id === key) {
+                    this.selected[key] = item;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                this.selected[key] = { id: key, label: key };
+            }
+        }
+        // Remove entries form this.selected that are not in keys
+        let oldKeys = Object.keys(this.selected);
+        for (let oldKey of oldKeys) {
+            if (!keys.includes(oldKey)) {
+                delete this.selected[oldKey];
             }
         }
 
-        this.refreshField();
-        this.refreshItems();
+        this.renderField();
     }
-    disconnectedCallback() {
+    renderOptionsList() {
+        while (this._list.firstChild) { this._list.firstChild.remove(); }
+        for (var item of this.items) {
+            var liEl = document.createElement("li");
+            liEl.setAttribute("role", "option");
+            liEl.setAttribute("tabindex", -1);
+            liEl.dataset.id = item.id;
+            liEl.dataset.label = item.label;
+            if (item.desc) {
+                liEl.dataset.desc = item.desc;
+                liEl.innerHTML = `<b>${item.label}</b><br><small>${item.desc}</small>`;
+            } else liEl.innerHTML = item.label;
+            // Selected?
+            if (this.selected[item.id]) {
+                liEl.setAttribute('selected', 'selected');
+                liEl.setAttribute('aria-selected', true);
+                this.selected[item.id] = { id: item.id, label: item.label, desc: item.desc };
+            }
+
+            liEl = this._list.appendChild(liEl);
+            liEl.addEventListener("click", (e) => this.selectItem(e.target.closest("li"), e));
+        }
+    }
+    renderField() {
+        let keys = Object.keys(this.selected);
+
+        // Placeholder
+        if (!keys.length) {
+            this._field.querySelectorAll(".multiselect-tag").forEach(e => e.remove());
+            if (!this._field.querySelector(".multiselect-field-placeholder"))
+                this._field.appendChild(this.createPlaceholder());
+            this.input.removeAttribute("value");
+            return;
+        } else {
+            let placeholder = this._field.querySelector(".multiselect-field-placeholder");
+            if (placeholder) placeholder.remove();
+            this.input.setAttribute("value", "-");
+        }
+
+        var foundItems = {};
+        var nodes = this._field.querySelectorAll(".multiselect-tag");
+        for (let node of nodes) {
+            const id = node.dataset.id;
+            if (!keys.includes(id)) { // Remove
+                node.remove();
+            } else { // Update
+                let tagInfo = this.selected[id];
+                if (!tagInfo.label) continue;
+                node.querySelector(".multiselect-tag-text").textContent = tagInfo.label;
+                foundItems[id] = true;
+            }
+        }
+
+        // Add
+        for (let tagKey of keys) {
+            const newTagInfo = this.selected[tagKey];
+            const id = newTagInfo.id;
+            if (!id || foundItems[id]) continue;
+
+            var tag = document.createElement('div');
+            tag.dataset.id = id;
+            tag.className = 'multiselect-tag';
+            var content = document.createElement('div');
+            content.className = 'multiselect-tag-text';
+            content.textContent = newTagInfo.label;
+            if (newTagInfo.desc) content.title = newTagInfo.desc;
+            var removeButton = document.createElement('div');
+            removeButton.className = 'multiselect-tag-remove-button';
+            removeButton.dataset.id = id;
+            removeButton.addEventListener('click', (e) => this.removeClick(e));
+            tag.appendChild(content);
+            tag.appendChild(removeButton);
+
+            this._field.appendChild(tag);
+        }
     }
     fieldClickHandler() {
         this._isOpened ? this.close() : this.open();
@@ -61,137 +221,102 @@ class UImultiSelect extends HTMLElement {
         }
         event.preventDefault();
     }
-
     handleEnterKey() {
         if (this._isOpened) {
-            var focusedItem = this.itemElements[this._focusedItemIndex];
-            this.selectItem(focusedItem);
+            var focusedItem = this.shadowRoot.querySelectorAll('li')[this._focusedItemIndex];
+            if (focusedItem) this.selectItem(focusedItem);
         }
-    };
+    }
     handleArrowDownKey() {
-        this._focusedItemIndex = (this._focusedItemIndex < this.itemElements.length - 1)
+        this._focusedItemIndex = (this._focusedItemIndex < this.shadowRoot.querySelectorAll('li').length - 1)
             ? this._focusedItemIndex + 1
             : 0;
         this.refreshFocusedItem();
-    };
+    }
     handleArrowUpKey() {
         this._focusedItemIndex = (this._focusedItemIndex > 0)
             ? this._focusedItemIndex - 1
-            : this.itemElements.length - 1;
+            : this.shadowRoot.querySelectorAll('li').length - 1;
         this.refreshFocusedItem();
-    };
+    }
     handleAltArrowDownKey() {
         this.open();
-    };
+    }
     handleAltArrowUpKey() {
         this.close();
-    };
+    }
     refreshFocusedItem() {
-        var el = this.itemElements[this._focusedItemIndex];
+        var el = this.shadowRoot.querySelectorAll('li')[this._focusedItemIndex];
         if (el) el.focus();
-    };
+    }
     handleBackspaceKey() {
-        var selectedItemElements = this._root.querySelectorAll("li[selected]");
+        var selectedItemElements = this.shadowRoot.querySelectorAll("li[selected]");
         if (selectedItemElements.length) {
-            this.unselectItem(selectedItemElements[selectedItemElements.length - 1]);
+            const item = selectedItemElements[selectedItemElements.length - 1];
+            const itemID = item.dataset.id;
+            delete this.selected[itemID];
+            item.removeAttribute('selected');
+            item.setAttribute('aria-selected', false);
+            this.renderField();
+            this.fireChangeEvent();
+            this.unselectItem();
         }
-    };
+    }
     handleEscapeKey() {
         this.close();
-    };
-    listClickHandler(event) {
-        var item = event.target;
-        while (item && item.tagName !== 'LI') {
-            item = item.parentNode;
-        }
-        this.selectItem(item);
-    };
-    selectItem(item) {
+    }
+    selectItem(item, event) {
+        if (event) event.stopPropagation();
         if (!item.hasAttribute('selected')) {
             item.setAttribute('selected', 'selected');
             item.setAttribute('aria-selected', true);
+            this.selected[item.dataset.id] = { id: item.dataset.id, label: item.dataset.label, desc: item.dataset.desc };
+            this.renderField();
             this.fireChangeEvent();
-            this.refreshField();
         }
         this.close();
-    };
+    }
     fireChangeEvent() {
         var event = new CustomEvent("change");
         this.dispatchEvent(event);
-    };
+    }
     togglePopup(show) {
         this._isOpened = show;
         this._popup.style.display = show ? 'block' : 'none';
-        this._control.setAttribute("aria-expanded", show);
-    };
-    refreshField() {
-        this._field.innerHTML = '';
-        var selectedItems = this._root.querySelectorAll('li[selected]');
-        if (!selectedItems.length) {
-            this._field.appendChild(this.createPlaceholder());
-            return;
+        this.setAttribute("aria-expanded", show);
+    }
+    removeClick(event) {
+        event.stopPropagation();
+        const id = event.target.dataset.id;
+        delete this.selected[id];
+        var item = this._list.querySelector('li[data-id="' + id + '"]');
+        if (item) {
+            item.removeAttribute('selected');
+            item.setAttribute('aria-selected', false);
         }
-        for (var i = 0; i < selectedItems.length; i++) {
-            this._field.appendChild(this.createTag(selectedItems[i]));
-        }
-    };
-    refreshItems() {
-        var itemElements = this.itemElements;
-        for (var i = 0; i < itemElements.length; i++) {
-            var itemElement = itemElements[i];
-            itemElement.setAttribute("role", "option");
-            itemElement.setAttribute("aria-selected", itemElement.hasAttribute("selected"));
-            itemElement.setAttribute("tabindex", -1);
-        }
+        let fieldItem = event.target.parentElement;
+        fieldItem.remove();
+        this.fireChangeEvent();
         this._focusedItemIndex = 0;
-    };
-    get itemElements() {
-        return this._root.querySelectorAll('li');
-    };
+        if (Object.keys(this.selected).length == 0) this.renderField();
+    }
     createPlaceholder() {
         var placeholder = document.createElement('div');
         placeholder.className = 'multiselect-field-placeholder';
         placeholder.textContent = this._options.placeholder;
         return placeholder;
-    };
-    createTag(item) {
-        var tag = document.createElement('div');
-        tag.className = 'multiselect-tag';
-        var content = document.createElement('div');
-        content.className = 'multiselect-tag-text';
-        content.textContent = item.textContent;
-        var removeButton = document.createElement('div');
-        removeButton.className = 'multiselect-tag-remove-button';
-        removeButton.addEventListener('click', this.removeTag.bind(this, tag, item));
-        tag.appendChild(content);
-        tag.appendChild(removeButton);
-        return tag;
-    };
-    removeTag(tag, item, event) {
-        this.unselectItem(item);
-        event.stopPropagation();
-    };
-    unselectItem(item) {
-        item.removeAttribute('selected');
-        item.setAttribute('aria-selected', false);
-        this.fireChangeEvent();
-        this.refreshField();
-    };
-    attributeChangedCallback(optionName, oldValue, newValue) {
-        this._options[optionName] = newValue;
-        this.refreshField();
-    };
+    }
     open() {
         this.togglePopup(true);
         this.refreshFocusedItem();
-    };
+    }
     close() {
         this.togglePopup(false);
-        this._field.focus();
-    };
+        //this.shadowRoot.focus();
+    }
     selectedItems() {
         var result = [];
-        var selectedItems = this._root.querySelectorAll('li[selected]');
+        var selectedItems = this.shadowRoot.querySelectorAll('li[selected]');
         for (var i = 0; i < selectedItems.length; i++) {
             var selectedItem = selectedItems[i];
             result.push(selectedItem.hasAttribute('value')
@@ -199,18 +324,6 @@ class UImultiSelect extends HTMLElement {
                 : selectedItem.textContent);
         }
         return result;
-    };
-    render() {
-        render(html`<style>${style}</style>
-        <div class="multiselect" role="combobox">
-            <div class="multiselect-field" tabindex="0"></div>
-            <div class="multiselect-popup">
-                <ul class="multiselect-list" role="listbox" aria-multiselectable="true">
-                    
-                </ul>
-            </div>
-        </div>
-        `, this.shadowRoot);
     }
 }
 

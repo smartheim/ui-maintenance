@@ -3,8 +3,11 @@ import { store, fetchMethodWithTimeout, createNotification } from '../app.js';
 class StoreView {
     constructor() { this.items = []; }
     stores() { return { "rules": "items" } };
-    async getall() {
-        return store.get("rest/rules", "rules").then(items => this.items = items);
+    getall(options = null) {
+        return this.get(options);
+    }
+    get(options = null) {
+        return store.get("rules", null, options).then(items => this.items = items);
     }
     dispose() {
     }
@@ -38,6 +41,9 @@ const schema = {
 
 const RulesMixin = {
     methods: {
+        commontags: function () {
+            return [];
+        },
         rulesStatusinfo: function () { return this.item.status ? this.item.status.status.toLowerCase().replace(/^\w/, c => c.toUpperCase()) : "Unknown"; },
         rulesStatusDetails: function () { return this.item.status ? this.item.status.statusDetail : ""; },
         rulesStatusmessage: function () { return this.item.status ? this.item.status.description : ""; }, //TODO
@@ -62,12 +68,32 @@ const RulesMixin = {
                     createNotification(null, `Failed ${this.item.name}: ${e}`, false, 4000);
                 })
         },
+        save: function () {
+            this.message = null;
+            this.messagetitle = "Saving...";
+            this.inProgress = true;
+            this.changed = false;
+            setTimeout(() => this.inProgress = false, 1000);
+        },
+        remove: function () {
+            this.message = null;
+            this.messagetitle = "Removing...";
+            this.inProgress = true;
+            setTimeout(() => {
+                fetchMethodWithTimeout(store.host + "/rest/rules/" + this.item.uid, "DELETE", null)
+                    .then(r => {
+                        this.message = "Rule '" + this.item.name + "' removed";
+                    }).catch(e => {
+                        this.message = e.toString();
+                    })
+            }, 500);
+        },
     }
 }
 
 const mixins = [RulesMixin];
 const listmixins = [];
 const runtimekeys = ["link", "editable", "status", "runcounter"];
-const ID_KEY = "UID";
+const ID_KEY = "uid";
 
 export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };

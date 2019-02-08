@@ -3,9 +3,12 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.items = []; }
     stores() { return { "services": "items" } };
-    async getall() {
-        return store.get("rest/services", "services")
-            .then(items => this.items = items);
+    sortStore() { return "services" };
+    getall(options = null) {
+        return this.get(options);
+    }
+    get(options = null) {
+        return store.get("services", null, options).then(items => this.items = items);
     }
     dispose() {
     }

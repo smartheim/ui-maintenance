@@ -20,11 +20,12 @@ class UiSwitch extends HTMLElement {
     }
   }
   set value(newValue) {
-    if (newValue instanceof String) newValue = (newValue == 'true');
+    var nv = (newValue == 'true');
+
     if (this.input)
-      this.setCheck(newValue, true);
+      this.setCheck(nv, true);
     else
-      this._value = newValue;
+      this._value = nv;
   }
   get value() {
     return this.input && this.input.checked;
@@ -56,7 +57,7 @@ class UiSwitch extends HTMLElement {
     if (this.disabled) this.classList.add("disabled"); else this.classList.remove("disabled");
 
     this.attributeChangedCallback("showid");
-    var isChecked = this.hasAttribute("checked") ? this.getAttribute("checked") == "true" : false;
+    var isChecked = this.hasAttribute("checked") ? this.getAttribute("checked") == "true" : this._value;
     var cached = this.storekey ? localStorage.getItem(this.storekey) == "true" : this._value;
     window.requestAnimationFrame(() => this.setCheck(isChecked || cached, true));
   }

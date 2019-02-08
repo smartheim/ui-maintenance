@@ -22,13 +22,13 @@ const marked = new Marked();
 class OhContextHelp extends HTMLElement {
   constructor() {
     super();
-    if (!this.style.display || this.style.display.length == 0)
-      this.style.display = "block";
   }
   static get observedAttributes() {
     return ['url', 'cachetime'];
   }
   connectedCallback() {
+    if (!this.style.display || this.style.display.length == 0)
+      this.style.display = "block";
     this.loading = this.getAttribute("loading") || "Loading... ";
     this.error = this.getAttribute("error") || "Failed to fetch! ";
     this.attributeChangedCallback();
@@ -37,38 +37,41 @@ class OhContextHelp extends HTMLElement {
   }
   set contenturl(val) {
     this.innerHTML = this.loading;
-    this.checkCacheAndLoad(val);
+    this.url = val;
+    this.checkCacheAndLoad();
   }
   get contenturl() {
     return this.url;
   }
   attributeChangedCallback(name, oldValue, newValue) {
     this.cachetime = this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : 600; // One day in minutes
-    this.url = this.getAttribute("url");
-    if (this.initdone) this.checkCacheAndLoad(this.url);
+    if (name == "url") {
+      this.originalurl = this.getAttribute("url");
+      this.url = this.originalurl;
+    }
+    if (this.initdone) this.checkCacheAndLoad();
   }
-  checkCacheAndLoad(contenturl = null) {
-    if (!contenturl) contenturl = this.url;
-    if (!contenturl) {
+  checkCacheAndLoad() {
+    if (!this.url) {
       this.innerHTML = "No url given!";
       return;
     }
-    var cacheTimestamp = localStorage.getItem("timestamp_" + contenturl);
+    var cacheTimestamp = localStorage.getItem("timestamp_" + this.url);
     var cachedData = null;
     if (cacheTimestamp && parseInt(cacheTimestamp) + this.cachetime * 60 * 1000 > Date.now()) {
-      cachedData = localStorage.getItem(contenturl);
+      cachedData = localStorage.getItem(this.url);
     }
     if (cachedData) {
-      this.renderData(cachedData, contenturl);
+      this.renderData(cachedData);
     } else {
-      this.reset(contenturl);
+      this.reload();
     }
   }
-  reset(contenturl = null) {
-    if (!contenturl) contenturl = this.url;
-    localStorage.removeItem("timestamp_" + contenturl);
-    this.innerHTML = this.loading;
-    this.load(contenturl);
+  home() {
+    this.contenturl = this.originalurl;
+  }
+  reload() {
+    this.load(this.url);
   }
   load(contenturl) {
     fetchWithTimeout(contenturl)
@@ -77,19 +80,20 @@ class OhContextHelp extends HTMLElement {
       .then(html => {
         localStorage.setItem(contenturl, html);
         localStorage.setItem("timestamp_" + contenturl, Date.now());
-        this.renderData(html, contenturl);
+        this.renderData(html);
       }).catch(e => {
         this.innerHTML = this.error + e;
       })
   }
-  renderData(data, contenturl) {
-    this.innerHTML = data;
-    if (contenturl != this.url) {
-      // this.dispatchEvent(new CustomEvent("contextchanged", { detail: data }));
+  renderData(data) {
+    let additional = '<oh-doc-link class="link float-right" reload>Reload</oh-doc-link>';
+    if (this.originalurl != this.url) {
+      additional += '<p><oh-doc-link class="link" home>Page help</oh-doc-link> → <a class="disabled">Specific help</a></p>';
       this.setAttribute("nothome", "");
     } else {
       this.removeAttribute('nothome');
     }
+    this.innerHTML = additional + data;
   }
 }
 

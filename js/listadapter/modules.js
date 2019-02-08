@@ -3,8 +3,11 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.items = []; }
     stores() { return { "module-types": "items" } };
-    async getall() {
-        return store.get("rest/module-types", "module-types").then(items => this.items = items);
+    getall(options = null) {
+        return this.get(options);
+    }
+    get(options = null) {
+        return store.get("module-types", null, options).then(items => this.items = items);
     }
     dispose() {
     }

@@ -5,9 +5,9 @@
 class OhAttributeBind extends HTMLElement {
     constructor() {
         super();
-        this.style.display = "none";
     }
     connectedCallback() {
+        this.style.display = "none";
         const forid = this.getAttribute("for");
         this.target = document.getElementById(forid);
         if (!this.target) {

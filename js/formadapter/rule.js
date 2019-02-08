@@ -3,13 +3,13 @@ import { store, fetchMethodWithTimeout, createNotification } from '../app.js';
 class StoreView {
     constructor() { this.value = {}; this.moduletypes = []; }
     stores() { return { "rules": "value", "module-types": "moduletypes" } };
-    async get(ruleuid) {
-        return store.get("rest/rules/" + ruleuid, "rules", ruleuid)
+    get(ruleuid, options = null) {
+        return store.get("rules", ruleuid, options)
             .then(v => this.value = v)
             .then(() => this.value.configDescriptions && this.value.configDescriptions.length > 0 ?
-                store.get("rest/config-descriptions", "config-descriptions", this.value.configDescriptions[0], "uri") : null)
+                store.get("config-descriptions", this.value.configDescriptions[0], "uri") : null)
             .then(v => this.config = v)
-            .then(() => store.get("rest/module-types", "module-types"))
+            .then(() => store.get("module-types"))
             .then(v => this.moduletypes = v);
     }
     dispose() {

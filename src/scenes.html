@@ -1,0 +1,117 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <nav class="sidebar leftright">
+    <h4>Actions</h4>
+    <ul class="exact">
+      <li><a href="#new-item"><i class="fas fa-plus"></i> New Scene</a></li>
+    </ul>
+  </nav>
+  <partial src="mainnav.html"></partial>
+  <partial src="pagetitleheader.html" title="Manage, add, remove and modify your automation rules"></partial>
+  <main>
+
+    <div id="new-item" class="modal" role="dialog">
+      <div class="modal-dialog" role="document">
+        <oh-vue-bind adapter="newscene"></oh-vue-bind>
+        <oh-vue></oh-vue>
+        <template>
+          <form class="modal-content was-validated" @submit="create">
+            <vue-inprogress></vue-inprogress>
+            <div class="modal-header">
+              <h5 class="modal-title">New Scene</h5>
+              <a href="#" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </a>
+            </div>
+            <div class="modal-body">
+              <p>The state of the selected items will be restored when the Scene is executed.</p>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label"><abbr title="Reference this Item via this identifier">UID</abbr></label>
+                <div class="col-sm-10">
+                  <input class="form-control" v-model="uid" name="name" pattern=".{2,}" required placeholder="Item UID">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Label</label>
+                <div class="col-sm-10">
+                  <input class="form-control" v-model="label" name="label" pattern=".{2,}" required placeholder="Label">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-10">
+                  <input class="form-control" v-model="description" name="description" pattern=".{2,}" placeholder="Optional description">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Items</label>
+                <div class="col-sm-10">
+                  <ui-multiselect name="items" class="form-control" btnclass="btn btn-sm" viewkey="label" valuekey="name"
+                    desckey="name" :value.prop="selectedItems" :options.prop="items" @change="selectedItems = $event.target.value"><input
+                      name="items" required class="form-control"></ui-multiselect>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" :class="{disabled:notready}" class="btn btn-primary">Create</button>
+              <a class="btn btn-secondary" href="#">Close</a>
+            </div>
+          </form>
+        </template>
+      </div>
+    </div>
+
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
+      select="Selection mode">
+      <div class="btn-group" role="group">
+        <button class="btn btn-danger" data-action="remove">
+          <i class="fas fa-trash"></i> Remove
+          <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+          <span class="badge badge-light ml-2">0</span>
+        </button>
+        <button class="btn btn-success" data-action="run">
+          <i class="fas fa-check"></i> Run
+          <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+          <span class="badge badge-light ml-2">0</span>
+        </button>
+      </div>
+    </ui-filter>
+
+    <oh-list-bind listadapter="rules" fixedfilter="tags:scene" maxItems="100" filtercriteria="name"></oh-list-bind>
+    <oh-vue-list>
+      <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/scenes"></partial>
+      <template slot="item">
+        <section class="listitem" :id="item.uid" style="min-height: initial">
+          <div class="body">
+            <div class="title">
+              <span :title="item.name"> {{item.name}} </span>
+              <span class="actions btn-group">
+                <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
+              </span>
+            </div>
+            <vue-inprogress></vue-inprogress>
+            <section class="description">
+              {{item.description}}
+              <div class="bg-danger text-white">{{rulesStatusmessage()}}</div>
+            </section>
+          </div>
+          <div class="footer py-1 px-3">
+            <i :title="rulesStatusDetails()" :class="rulesStatusBadge()">{{rulesStatusinfo()}}</i>
+            <button class="ml-auto btn btn-primary-hover btn-sm text-nowrap" @click="run($event.target)">Execute</button>
+          </div>
+        </section>
+      </template>
+    </oh-vue-list>
+  </main>
+  <footer></footer>
+  <partial src="contexthelp.html" help="scenes"></partial>
+</body>
+
+</html>

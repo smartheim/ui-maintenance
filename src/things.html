@@ -49,39 +49,34 @@
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
       select="Selection mode">
-      <a href="#" class="btn btn-danger ml-3">
-        <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
-      </a>
+      <button class="btn btn-danger" data-action="remove">
+        <i class="fas fa-trash"></i> Remove
+        <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+        <span class="badge badge-light ml-2">0</span>
+      </button>
     </ui-filter>
-    <oh-list-bind for="thinglist" listadapter="things"></oh-list-bind>
-    <oh-vue-list id="thinglist" filtercriteria="label">
-      <partial src="vuelistbasics.html" key="item.UID"></partial>
+
+    <oh-list-bind for="thinglist" listadapter="things" filtercriteria="label" maxItems="100"></oh-list-bind>
+    <oh-vue-list id="thinglist">
+      <partial src="vuelistbasics.html" key="item.UID" help="contexthelp/things"></partial>
       <template slot="item">
         <section class="listitem" :id="item.UID">
-          <div class="body ui-dropdown">
+          <div class="body">
             <div class="title">
-              <span class="secondLevelBtn" :title="item.label" onclick='this.parentNode.parentNode.classList.toggle("show");'>
-                {{item.label}} </span>
-              <span class="actions unsaved btn-group">
-                <button class="btn btn-success" title="Save changes" @click="save()"><i class="fas fa-save"></i></button>
-                <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
-              </span>
+              <span :title="item.label"> {{item.label}} </span>
               <span class="actions btn-group">
                 <a v-if="haschannels()" title="Edit channels" :href="'thing_channels.html?title='+encodeURIComponent(item.label)+'&UID='+encodeURIComponent(item.UID)"
-                  class="btn btn-secondary-hover btn-sm text-nowrap">
+                  class="btn btn-secondary-hover text-nowrap">
                   <i class="fas fa-sitemap"></i></a>
                 <a title="Edit configuration" :href="'thing_configuration.html?title='+encodeURIComponent(item.label)+'&UID='+encodeURIComponent(item.UID)"
-                  class="btn btn-secondary-hover btn-sm text-nowrap">
+                  class="btn btn-secondary-hover text-nowrap">
                   <i class="fas fa-cog"></i></a>
-                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
+                    class="fas fa-info"></i></button>
+                <button class="btn btn-danger-hover" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
               </span>
             </div>
-            <div class="secondlevel">
-              <div>{{statusmessage()}}</div>
-              <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
-              <span @click="copyClipboard($event, item.UID)">{{item.UID}}</span>
-              <div>Storage association: <input value="openhab"></div>
-            </div>
+            <vue-metainfo :uniqueid="item.UID"></vue-metainfo>
             <vue-inprogress></vue-inprogress>
             <section class="description">
               <span>{{description()}}</span>

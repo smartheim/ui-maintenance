@@ -3,11 +3,11 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.value = {}; }
     stores() { return { "services": "value" } };
-    async get(serviceid) {
-        return store.get("rest/services/" + serviceid, "services", serviceid)
+    get(serviceid, options = null) {
+        return store.get("services", serviceid, options)
             .then(v => this.value = v)
             .then(() => this.value.configDescriptionURI ?
-                store.get("rest/config-descriptions", "config-descriptions", this.value.configDescriptionURI, "uri") : null)
+                store.get("config-descriptions", this.value.configDescriptionURI) : null)
             .then(v => this.config = v)
             .then(() => this.value);
     }

@@ -5,8 +5,8 @@ const ID_KEY = "id";
 class StoreView {
   constructor() { this.value = []; }
   stores() { return { "inbox": "value" } };
-  async get() {
-    return store.get("rest/inbox", "inbox")
+  get(options = null) {
+    return store.get("inbox", null, options)
       .then(v => this.value = v);
   }
   dispose() {

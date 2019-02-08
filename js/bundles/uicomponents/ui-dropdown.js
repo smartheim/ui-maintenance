@@ -17,6 +17,7 @@ class UiDropdown extends HTMLElement {
         if (this.hasAttribute("viewkey")) this.viewkey = this.getAttribute("viewkey");
         if (this.hasAttribute("desckey")) this.desckey = this.getAttribute("desckey");
         if (this.hasAttribute("valuekey")) this.valuekey = this.getAttribute("valuekey");
+        this.editable = this.hasAttribute("editable");
         this.novalue = this.hasAttribute("novalue");
         this.nostate = this.hasAttribute("nostate");
         this.icons = this.hasAttribute("icons") ? this.getAttribute("icons") : null;
@@ -25,20 +26,28 @@ class UiDropdown extends HTMLElement {
         this.addEventListener("click", e => e.stopPropagation());
         this.classList.add("dropdown");
         const classes = this.hasAttribute("btnclass") ? this.getAttribute("btnclass") : "btn btn-primary-hover btn-sm";
-        render(html`
-        <button class="${classes} dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false"
-            @click=${this.toggleShow.bind(this)}>
-          <span class="label"></span>
-        </button>
-        <div class="dropdown-menu"></div>`, this);
+        if (this.editable) {
+            render(html`
+            <input class="${classes} dropdown-toggle label" aria-haspopup="true" aria-expanded="false"
+                @click=${this.toggleShow.bind(this)}>
+            <div class="dropdown-menu"></div>`, this);
+        } else {
+            render(html`
+            <button class="${classes} dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false"
+                @click=${this.toggleShow.bind(this)}>
+              <span class="label"></span>
+            </button>
+            <div class="dropdown-menu"></div>`, this);
+        }
         this.dropdownEl = this.querySelector(".dropdown-menu");
         this.labelEl = this.querySelector(".label");
-        if (this.hasAttribute("label")) this.labelEl.innerHTML = this.getAttribute("label");
 
         if (this._options) this.options = this._options;
-        if (this._value) this.value = this._value;
         if (this.hasAttribute("options")) this.attributeChangedCallback("options");
-        if (this.hasAttribute("value")) this.attributeChangedCallback("value");
+        if (this.hasAttribute("value"))
+            this.attributeChangedCallback("value");
+        else
+            this.value = this._value;
     }
     static get observedAttributes() {
         return ['value'];
@@ -71,17 +80,33 @@ class UiDropdown extends HTMLElement {
         this.dropdownEl.classList.add("show");
     }
     set value(key) {
+
+        this._value = key;
+        if (!this.dropdownEl) return;
+
+        if (key == null || key == undefined || key == "" || !this._options) {
+            if (this.editable) {
+                this.labelEl.placeholder = this.getAttribute("label");
+                this.labelEl.value = "";
+            } else
+                this.labelEl.innerHTML = this.getAttribute("label");
+            return;
+        }
+
         if (!this.novalue && this._options && this._options[key]) {
-            this.labelEl.innerHTML = this._options[key].label;
+            const option = this._options[key];
+            if (this.editable)
+                this.labelEl.value = option.label;
+            else
+                this.labelEl.innerHTML = option.label;
+            this.labelEl.title = option.desc || "";
         }
         this._value = key;
-        if (this.dropdownEl) {
-            // Change active marker
-            var selectedEl = this.dropdownEl.querySelector(".active");
-            if (selectedEl) selectedEl.classList.remove("active");
-            selectedEl = this.dropdownEl.querySelector("a[data-key='" + key + "']");
-            if (selectedEl) selectedEl.classList.add("active");
-        }
+        // Change active marker
+        var selectedEl = this.dropdownEl.querySelector(".active");
+        if (selectedEl) selectedEl.classList.remove("active");
+        selectedEl = this.dropdownEl.querySelector("a[data-key='" + key + "']");
+        if (selectedEl) selectedEl.classList.add("active");
     }
     get value() {
         return this._value;
@@ -120,9 +145,9 @@ class UiDropdown extends HTMLElement {
             a.addEventListener("click", (event) => this.select(event.target.dataset.key, event));
             let img = this.icons ? `<img src="img/${this.icons}/${key}.png">` : "";
             if (option.desc)
-                a.innerHTML = `<div>${img}<b>${option.label}</b><br><small>${option.desc}</small></div>`;
+                a.innerHTML = `${img}<div><b>${option.label}</b><br><div class="small">${option.desc}</div></div>`;
             else
-                a.innerHTML = `<div>${img}${option.label}</div>`;
+                a.innerHTML = `${img}<div>${option.label}</div>`;
             this.dropdownEl.appendChild(a);
         }
 

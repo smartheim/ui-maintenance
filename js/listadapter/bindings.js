@@ -3,8 +3,11 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.items = []; }
     stores() { return { "bindings": "items" } };
-    async getall() {
-        return store.get("rest/bindings", "bindings").then(items => this.items = items);
+    getall(options = null) {
+        return this.get(options);
+    }
+    get(options = null) {
+        return store.get("bindings", null, options).then(items => this.items = items);
     }
     dispose() {
     }
@@ -29,7 +32,12 @@ const BindingsMixin = {
         },
         hasCustomPages: function () {
             return this.item.custompages && this.item.custompages.length > 0;
-        }
+        },
+        remove: function () {
+            this.message = null;
+            this.messagetitle = "Removing...";
+            this.inProgress = true;
+        },
     },
     computed: {
         documentationlink: function () {

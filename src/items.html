@@ -69,7 +69,6 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add &amp; remove Items. Change tags, titles and Group affiliations"></partial>
   <main>
-    <partial src="itemcommands.html"></partial>
     <partial src="itemcategories.html"></partial>
 
     <div id="new-item" class="modal" role="dialog">
@@ -102,8 +101,8 @@
                 <label class="col-sm-2 col-form-label">Type</label>
                 <div class="col-sm-10">
                   <oh-dropdown-bind listadapter="item-types"></oh-dropdown-bind>
-                  <ui-dropdown name="type" class="w-100" btnclass="btn btn-sm" icons="itemtypes" viewkey="id" valuekey="label"
-                    desckey="desc" :value="type" @input="this.type=$event.target.value"></ui-dropdown>
+                  <ui-dropdown name="type" class="w-100" btnclass="btn btn-sm" icons="itemtypes" viewkey="label"
+                    valuekey="id" desckey="desc" :value="type" @input="this.type=$event.target.value"></ui-dropdown>
                 </div>
               </div>
             </div>
@@ -118,13 +117,16 @@
 
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
       select="Selection mode">
-      <a href="#" class="btn btn-danger ml-3">
-        <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
-      </a>
+      <button class="btn btn-danger" data-action="remove">
+        <i class="fas fa-trash"></i> Remove
+        <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+        <span class="badge badge-light ml-2">0</span>
+      </button>
     </ui-filter>
-    <oh-list-bind for="itemlist" listadapter="items"></oh-list-bind>
-    <oh-vue-list id="itemlist" filtercriteria="label">
-      <partial src="vuelistbasics.html" key="item.name"></partial>
+
+    <oh-list-bind listadapter="items-full" maxItems="100" filtercriteria="label"></oh-list-bind>
+    <oh-vue-list>
+      <partial src="vuelistbasics.html" key="item.name" help="contexthelp/items"></partial>
       <template slot="item">
         <section class="listitem withtabs" :id="item.name" :class="[{haschanges: changed}]">
           <div class="body">
@@ -132,62 +134,107 @@
               <span :title="item.label">{{item.label}}
               </span>
               <span class="actions unsaved btn-group">
-                <button class="btn btn-success" title="Save changes" @click="saveItem()"><i class="fas fa-save"></i></button>
+                <button class="btn btn-success" title="Save changes" @click="save()"><i class="fas fa-save"></i></button>
                 <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
               </span>
               <span class="actions btn-group">
-                <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showInfo()"><i
+                <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
                     class="fas fa-info"></i></button>
-                <button class="btn btn-danger-hover" title="Remove item" @click="removeItem()"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-danger-hover" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
               </span>
             </div>
             <vue-inprogress></vue-inprogress>
-            <div class="secondlevel">
-              <abbr title="This is the item ID. Reference an Item in Rules and Scripts via the ID.">ID:</abbr>
-              <span @click="copyClipboard($event, item.name)">{{item.name}}</span>
-              <div>Storage association: <input value="openhab"></div>
-            </div>
+            <vue-metainfo :uniqueid="item.name"></vue-metainfo>
+
             <ui-tabs upsidedown class="description">
+
               <ul class="tablinks" slot="links">
+                <li><a class="nav-link" href="#">Control</a></li>
                 <li><a class="nav-link" href="#">Item Type</a></li>
                 <li><a class="nav-link" href="#">
-                    <abbr title="If you want to switch items at the same time, group them together. You need to create group items first.">Groups</abbr>
+                    <abbr title="If you want to switch items with one command, group them together.">Groups</abbr>
                   </a></li>
                 <li><a class="nav-link" href="#">
-                    <abbr title="Tags are used for Rules and Scripts, but also for exposing Items to Amazon Alexa, Google Home and so on">Tags</abbr>
+                    <abbr title="Items can have meta data attachted to them">Meta</abbr>
                   </a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Control</a></li>
               </ul>
+
               <div class="tab-content" slot="tabs">
+
                 <section>
-                  <div class="badge badge-pill badge-info itemstate">{{item.state}}</div>
-                  <div>This is a
-                    <oh-dropdown-bind listadapter="item-types"></oh-dropdown-bind>
-                    <ui-dropdown btnclass="btn link" icons="itemtypes" class="itemtype" viewkey="id" valuekey="label"
-                      desckey="desc" :value="itemtype" @input="setType($event.target.value)"></ui-dropdown>
-                    item of category (icon)
+                  <img v-if="iconpath" :src="iconpath" class="float-left pr-2" style="width: 60px">
+                  <div v-if="item.type=='Group' && !item.groupType">
+                    This is a group without a type. No controlling allowed!
+                  </div>
+                  <template v-else>
+                    <div v-if="item.type=='Group'" class="mb-2 text-truncate">State: Not available (Group item!)</div>
+                    <div v-else class="mb-2 text-truncate">State: {{item.state}}</div>
+                    <div style="display: flex">
+                      <ui-dropdown v-if="itemcommands" btnclass="btn btn-primary-hover" style="flex:1" :options="itemcommands"
+                        label="Command" class="commandInput"></ui-dropdown>
+                      <input v-else class="commandInput" style="flex:1">
+                      <button class="btn btn-primary-hover ml-2" @click="sendCommand">Send</button>
+                    </div>
+                  </template>
+                </section>
+
+                <section>
+                  <div>
+                    This is a
+                    <ui-dropdown btnclass="btn btn-sm link" icons="itemtypes" viewkey="label" valuekey="id" desckey="description"
+                      :value="item.type" :options.prop="$root.itemtypes" label="No type" @input="item.type = $event.target.value"></ui-dropdown>
+                    <template v-if="isGroup">
+                      of type
+                      <ui-dropdown btnclass="btn btn-sm link" icons="itemtypes" viewkey="label" valuekey="id" desckey="description"
+                        :options.prop="$root.grouptypes" :value="item.groupType" label="Unknown" @input="setGroup($event.target.value)"></ui-dropdown>,
+                      <div v-if="item.groupType && item.groupType.length">
+                        with 𝒇
+                        <ui-dropdown btnclass="btn btn-sm link" viewkey="label" valuekey="id" desckey="description"
+                          :options.prop="groupfunctions" :value="item.function ? item.function.name : null" label="No function"
+                          @input="$set(item,'function',{name:$event.target.value,params:[]})"></ui-dropdown>
+                        <oh-doc-link title="About group functions" show href="contexthelp/itemgroupfunctions.md" class="link ml-2 mr-2"><i
+                            class="far fa-question-circle"></i></oh-doc-link>
+                        <span v-if="hasFunctionParameters">
+                          with parameters
+                          <label v-for="(param, index) of functionparameters" :key="param.label" :title="param.description">
+                            {{param.label}}
+                            <ui-dropdown v-if="param.type=='allowedState'" btnclass="btn btn-sm link" :options="param.allowedStates"
+                              :value="param.value" label="Select" @input="setFunctionParameter(index, $event.target.value)"></ui-dropdown>
+                            <input v-else style="max-width: 60px" :value="param.value" :placeholder="param.description">
+
+                          </label>
+                        </span>
+                      </div>
+                      and category
+                    </template>
+                    <template v-else>
+                      with category
+                    </template>
                     <input style="max-width: 100px;" list="itemCategories" placeholder="no icon" @input="$set(item,'category',$event.target.value)"
                       :value="item.category">
                   </div>
                 </section>
+
                 <section>
-                  <ui-switch label="Group item" title="Item to nest other items / collect them in groups" :value.prop="isGroup"
-                    @input="setGroup($event.target.value)"></ui-switch>
-                  <ui-tags :value.prop="item.groupNames" @input="item.groupNames = $event.target.value"></ui-tags>
+                  <ui-multiselect viewkey="label" desckey="name" valuekey="name" :options.prop="$root.groupItems"
+                    placeholder="Add this item to other Groups" :value.prop="item.groupNames" @input="item.groupNames = $event.target.value"></ui-multiselect>
                 </section>
-                <section>
-                  <ui-tags suggestions="Switchable,Lighting,ColorLighting" :value.prop="item.tags" @input="item.tags = $event.target.value"></ui-tags>
-                </section>
-                <section>
-                  <div class="badge badge-pill badge-info itemstate">{{item.state}}</div>
-                  <div>
-                    <input list="itemCommands" class="commandInput">
-                    <button class="btn btn-primary-hover" @click="sendCommand">Send</button>
+
+                <section style="overflow-y: auto;max-height: 120px;">
+                  <div v-for="namespace of namespaces">
+                    <h6>Namespace: {{namespace.name}}</h6>
+                    <ul>
+                      <li v-for="values of namespace.values">
+                        {{values.description}}: {{values.value}}
+                      </li>
+                    </ul>
                   </div>
+                  <a href="item_meta.html" class="btn btn-primary-hover">Modify meta data</a>
                 </section>
               </div>
             </ui-tabs>
           </div>
+          <div class="footer py-1 px-3">&nbsp;</div>
         </section>
       </template>
     </oh-vue-list>

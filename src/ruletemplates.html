@@ -1,0 +1,62 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <nav class="sidebar leftright">
+    <h4>Actions</h4>
+    <ul class="exact">
+      <li><a href="ruletemplate.html"><i class="fas fa-plus"></i> New Template</a></li>
+      <li>
+        <hr>
+      </li>
+      <li><a href="rules.html"><i class="fas fa-undo"></i> Back to Rules</a></li>
+    </ul>
+  </nav>
+  <partial src="mainnav.html"></partial>
+  <partial src="pagetitleheader.html" title="Create and share Rule Templates"></partial>
+  <main>
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
+      <div class="btn-group ml-3" role="group">
+        <button class="btn btn-danger ml-3" data-action="remove">
+          <i class="fas fa-trash"></i> Remove
+          <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+          <span class="badge badge-light ml-2">0</span>
+        </button>
+      </div>
+    </ui-filter>
+    <oh-list-bind listadapter="ruletemplates"></oh-list-bind>
+    <oh-vue-list filtercriteria="name">
+      <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/ruletemplates"></partial>
+      <template slot="item">
+        <section class="listitem" :id="item.uid">
+          <div class="body">
+            <div class="title">
+              <span :title="item.label">{{item.label}}</span>
+              <span class="actions btn-group">
+                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
+              </span>
+            </div>
+            <vue-inprogress></vue-inprogress>
+            <section class="description">{{item.description}}
+            </section>
+          </div>
+          <div class="footer small py-1 px-3">
+            <a class="ml-auto btn btn-info-hover btn-sm text-nowrap" :href="'ruletemplate.html?uid='+encodeURIComponent(item.uid)"><i
+                class="fas fa-cog"></i> <span>Edit</span></a>
+            <a class="btn btn-info-hover btn-sm text-nowrap" :href="'rule.html?fromTemplate='+encodeURIComponent(item.uid)"><i
+                class="fas fa-cog"></i> <span>Create new Rule</span></a>
+          </div>
+        </section>
+      </template>
+    </oh-vue-list>
+  </main>
+  <footer></footer>
+  <partial src="contexthelp.html" help="ruletemplates"></partial>
+</body>
+
+</html>

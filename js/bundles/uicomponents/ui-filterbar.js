@@ -51,7 +51,7 @@ class UiFilter extends HTMLElement {
     this.grid = this.getAttribute("grid");
     this.list = this.getAttribute("list");
     this.textual = this.getAttribute("textual");
-    this.select = this.getAttribute("select") || "Select";
+    this.select = this.getAttribute("select");
     this.selectmode = this.getAttribute("selectmode") || false;
 
     // Non-shadow-dom but still slots magic - Part 1
@@ -63,11 +63,12 @@ class UiFilter extends HTMLElement {
 
     render(html`
         <form @submit="${this.search.bind(this)}" name="filterform" class="ui-filterbar">
-          <button type="button" title="${this.select}" @click="${this.selectChanged.bind(this)}" class="btn ${this.selectmode ? "btn-primary" : "btn-secondary"}">
+        ${!this.select ? '' : html`<button type="button" title="${this.select}" @click="${this.selectChanged.bind(this)}" class="mr-3 btn ${this.selectmode ? "btn-primary" : "btn-secondary"}">
             <i class="fas fa-check-double"></i>
           </button>
-          <div style="display:none" class="selectcomponents"></div>
-          <div class="input-group ml-3">
+          <div style="display:none" class="selectcomponents mr-3"></div>
+          `}
+          <div class="input-group">
             <input class="form-control py-2 filterinput" type="search" name="filter" placeholder="${this.placeholder}"
               value="${this.value}" @input="${this.searchI.bind(this)}">
             <span class="input-group-append">
@@ -86,6 +87,16 @@ class UiFilter extends HTMLElement {
     for (var el of slotElements) {
       slot.appendChild(el);
     }
+
+    // Wire up all buttons that have a data-action to dispatch an event
+    // This is for the selection mode only.
+    slot.querySelectorAll("*[data-action]").forEach(button => {
+      button.addEventListener("click", e => {
+        e.preventDefault();
+        const action = e.target.dataset.action;
+        this.dispatchEvent(new CustomEvent('selection', { detail: { action } }));
+      });
+    });
 
     // Don't show the mode button group if no mode changes allowed
     if (!this.grid && !this.list && !this.textual) {
@@ -121,9 +132,11 @@ class UiFilter extends HTMLElement {
   selectChanged(event) {
     event.preventDefault();
     this.selectmode = !this.selectmode;
-    if (this.selectmode) this.querySelector(".selectcomponents").style.display = "block";
-    else this.querySelector(".selectcomponents").style.display = "none";
-    this.dispatchEvent(new CustomEvent('selectmode', { detail: { selectmode: this.selectmode } }));
+    if (this.selectmode)
+      this.querySelector(".selectcomponents").style.display = "block";
+    else
+      this.querySelector(".selectcomponents").style.display = "none";
+    this.dispatchEvent(new CustomEvent('selection', { detail: { selectmode: this.selectmode } }));
   }
   renderViewMode() {
     render(html`${!this.grid ? '' : html`<button type="button" title="${this.grid} (Alt+g)" accesskey="g" data-mode="grid" @click="${this.modeChange.bind(this)}"

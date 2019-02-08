@@ -1,150 +1,126 @@
 import Yaml from '../yaml/yaml';
 
-const UIFilterbarMixin = {
+const ItemSelectionMixin = {
+    data: function () {
+        return {
+            selected: false
+        }
+    },
+    mounted: function () {
+        this.filterbar = document.querySelector("ui-filter");
+        if (this.filterbar) {
+            this.selectmode = this.filterbar.selectmode;
+            this.clickSelectedBound = () => {
+                if (!this.$root.selectmode) return;
+                this.selected = !this.selected;
+                if (this.selected) {
+                    this.$el.classList.add("selected");
+                    this.$root.selectedcounter += 1;
+                } else {
+                    this.$el.classList.remove("selected");
+                    this.$root.selectedcounter -= 1;
+                }
+            }
+            this.$el.addEventListener("click", this.clickSelectedBound);
+        }
+    },
+    beforeDestroy: function () {
+        this.$el.removeEventListener("click", this.clickSelectedBound);
+        if (this.selected) this.$root.selectedcounter -= 1;
+    },
+}
+
+const ListViewSelectionModeMixin = {
     data: function () {
         return {
             selectedcounter: 0,
-            viewmode: "list",
             selectmode: false,
-            filtered: [],
-            hasMore: false,
         }
     },
-    created: function () {
-        // this.ignoreWatch = true;
-        this.props = ['filtercriteria'];
-        this.filter = null;
-        this.customcriteria = null;
-        if (!this.maxFilteredItems) this.maxFilteredItems = 100;
+    watch: {
+        selectedcounter: function () {
+            document.dispatchEvent(new CustomEvent("selectionchanged", { detail: this.selectedcounter }));
+        }
+    },
+    mounted: function () {
+        this.filterbar = document.querySelector("ui-filter");
+        if (this.filterbar) {
+            this.selectmode = this.filterbar.selectmode;
+            this.updateSelectModeBound = (event) => this.updateSelectMode(event);
+            this.filterbar.addEventListener("selection", this.updateSelectModeBound);
+        }
+    },
+    beforeDestroy: function () {
+        if (this.filterbar) {
+            this.filterbar.removeEventListener("selection", this.updateSelectModeBound);
+            delete this.filterbar;
+        }
+    },
+    methods: {
+        itemsChangedInSelectionMode() {
+            console.log("items changed while in selection mode");
+        },
+        updateSelectMode: function (event) {
+            if (event.detail.action) {
+                const action = event.detail.action;
+                // There is one transition-group child and then all the item children
+                const selected = this.$root.$children[0].$children.filter(e => e.selected);
+                for (let child of selected) {
+                    console.log("action child", action, child);
+                    if (child[action]) child[action]();
+                }
+            }
+            if (event.detail.selectmode) {
+                this.selectmode = event.detail.selectmode;
+                if (this.selectWatcher) {
+                    this.selectWatcher();
+                    delete this.selectWatcher;
+                }
+                if (this.selectmode) {
+                    this.selectWatcher = this.$watch('items', this.itemsChangedInSelectionMode);
+                    let count = 0;
+                    var items = document.querySelectorAll("#listcontainer .listitem");
+                    for (var item of items)
+                        if (item.classList.contains("selected"))++count;
+                    this.selectedcounter = count;
+                }
+            }
+        },
+    }
+}
+
+const ListModeMixin = {
+    data: function () {
+        return {
+            viewmode: "list",
+            hasMore: false
+        }
     },
     mounted: function () {
         this.filterbar = document.querySelector("ui-filter");
         if (this.filterbar) {
             this.viewmode = this.filterbar.mode;
-            this.selectmode = this.filterbar.selectmode;
             this.updateViewModeBound = (event) => this.updateViewMode(event);
-            this.updateSelectModeBound = (event) => this.updateSelectMode(event);
-            this.updateFilterBound = (event) => this.updateFilter(event.detail.value.trim());
-            this.filterbar.addEventListener("filter", this.updateFilterBound);
             this.filterbar.addEventListener("mode", this.updateViewModeBound);
-            this.filterbar.addEventListener("selectmode", this.updateSelectModeBound);
         }
     },
     beforeDestroy: function () {
         if (this.filterbar) {
-            this.filterbar.removeEventListener("filter", this.updateFilterBound);
             this.filterbar.removeEventListener("mode", this.updateViewModeBound);
-            this.filterbar.removeEventListener("selectmode", this.updateSelectModeBound);
             delete this.filterbar;
-        }
-    },
-    computed: {
-        containerclasses: function () {
-            var classes = [this.viewmode];
-            if (this.selectmode) classes.push("selectionmode");
-            return classes;
-        }
-    },
-    watch: {
-        items: {
-            handler: function (newVal, oldVal) {
-                if (this.ignoreWatch) {
-                    console.debug("list change ignored", newVal.length);
-                    this.ignoreWatch = false;
-                    return;
-                }
-                console.debug("list changed", newVal.length);
-                this.rebuildList();
-            }
         }
     },
     methods: {
         showMore: function () {
-            this.maxFilteredItems += 50;
-            this.rebuildList();
-        },
-        updateFilter: function (filter) {
-            if (filter.length == 0)
-                this.filter = null;
-            else {
-                var parts = filter.split(":");
-                if (parts.length > 1) {
-                    this.customcriteria = parts[0];
-                    this.filter = parts[1].trim().toLowerCase();
-                } else {
-                    this.customcriteria = null;
-                    this.filter = filter.toLowerCase();
-                }
-            }
-
-            if (this.filterThrottleTimer) {
-                clearTimeout(this.filterThrottleTimer);
-            }
-            this.filterThrottleTimer = setTimeout(() => {
-                delete this.filterThrottleTimer;
-                this.rebuildList();
-            }, 80);
-        },
-        rebuildList: function () {
-            if (!this.filter) {
-                this.hasMore = this.items.length > this.maxFilteredItems;
-                this.filtered = this.items.slice(0, this.maxFilteredItems);
-                return;
-            }
-            const criteria = this.customcriteria ? this.customcriteria : this.filtercriteria;
-            var c = 0;
-            var filtered = [];
-            // Filter list. The criteria item property can be an array in which case we check
-            // if the filter string is within the array
-            for (var item of this.items) {
-                var value = item[criteria];
-                if (!value) continue;
-                if (Array.isArray(value)) {
-                    if (!value.some(element => element.toLowerCase().match(this.filter)))
-                        continue;
-                } else if (value instanceof Object) {
-                    if (!Object.keys(value).some(key => value[key].toLowerCase().match(this.filter)))
-                        continue;
-                } else if (!value.toLowerCase().match(this.filter))
-                    continue;
-                c += 1;
-                if (c > this.maxFilteredItems) break;
-                filtered.push(item);
-            }
-            this.hasMore = c >= this.maxFilteredItems;
-            this.filtered = filtered;
-        },
-        updateSelectMode: function (event) {
-            this.selectmode = event.detail.selectmode;
-            this.updateSelectCounter();
+            if (this.filterbar) this.filterbar.dispatchEvent(new Event("showmore"));
         },
         updateViewMode: function (event) {
             this.viewmode = event.detail.mode;
         },
-        updateSelectCounter: function (event) {
-            if (!this.selectmode) return;
-            var item = event ? event.target.closest('.listitem') : null;
-            if (item) {
-                if (item.classList.contains("selected")) {
-                    item.classList.remove("selected");
-                    this.selectedcounter = this.selectedcounter - 1;
-                } else {
-                    item.classList.add("selected");
-                    this.selectedcounter = this.selectedcounter + 1;
-                }
-            } else {
-                this.selectedcounter = 0;
-                var items = document.querySelectorAll("#listcontainer .listitem");
-                for (var item of items)
-                    if (item.classList.contains("selected"))++this.selectedcounter;
-            }
-            document.querySelectorAll(".selectcounter").forEach(e => e.textContent = this.selectedcounter);
-        }
-
     }
 };
 
-const UIEditorMixin = {
+const EditorMixin = {
     data: function () {
         return {
             editorstate: "original"
@@ -161,7 +137,7 @@ const UIEditorMixin = {
         },
         toTextual: function () {
             // First get all filtered items
-            var items = JSON.parse(JSON.stringify(this.filtered));
+            var items = JSON.parse(JSON.stringify(this.items));
             // Then filter out the runtime keys in each item
             if (this.runtimeKeys) {
                 for (var item of items) {
@@ -178,4 +154,4 @@ const UIEditorMixin = {
     }
 };
 
-export { UIFilterbarMixin, UIEditorMixin };
+export { ListModeMixin, EditorMixin, ListViewSelectionModeMixin, ItemSelectionMixin };

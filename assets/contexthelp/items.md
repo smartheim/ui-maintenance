@@ -3,15 +3,20 @@
 
 Find all your configured *Items* listed here.
 
-Click the *Items* name to show or modify the storage association (e.g. filename),
-see the <abbr title="The ID is used by Rules and Scripts">unique ID</abbr>, and change
-the icon category.
-
 ## Icons
 
 An *Item* can have an icon assigned that is used for presentation in some user interfaces.
 For all available icons have a look at
 [the classic icon theme](https://www.openhab.org/docs/configuration/iconsets/classic/).
+
+## Groups
+
+*Items* can be assigned to groups. A group is just another *Item* that is of type "Group".
+A group can have a state on its own (On, Off, Open, Closed), but only if it is of any type
+like for example a Switch type or Number type.
+
+The groups state depends on the selected group-state-function.
+For example a group can appear as ON if any of its switch-based members are one.
 
 ## Filter
 
@@ -38,14 +43,3 @@ Synopsis:
 
 <mark>Please note</mark>: The textual mode is powerful.
 Hit save with an emptied text field and everything is gone. Act responsible!
-
-<details>
-<summary>Storage</summary>
-
-openHAB internally stores your data a little different than what you see 
-here in the textual mode representation. The [backup service](maintenance.html) however
-will create files that match this format and imports same-like files again.
-
-Change the storage association to store the data item into a different
-file.
-</details>

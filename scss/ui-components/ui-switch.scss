@@ -2,6 +2,7 @@
 ui-switch {
     display: block;
 }
+
 .ui-switch {
     position: relative;
     display: flex;
@@ -16,9 +17,9 @@ ui-switch {
         display: block;
         height: 18px;
         width: 44px;
+        min-width: 44px;
         background-color: var(--ui-bg);
-        -webkit-transition: .4s;
-        transition: .4s;
+        transition: transform .4s;
         border-radius: 34px;
         margin-right: 10px;
     }
@@ -34,11 +35,10 @@ ui-switch {
         margin-top: 1px;
         margin-left: 1px;
         background-color: var(--background-color);
-        -webkit-transition: .4s;
-        transition: .4s;
+        transition: transform .4s;
         border-radius: 50%;
     }
-    &.big >span:before {
+    &.big>span:before {
         height: 26px;
         width: 26px;
         left: 4px;
@@ -51,8 +51,6 @@ ui-switch {
         box-shadow: 0 0 1px var(--primary);
     }
     input:checked+span:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
         transform: translateX(26px);
     }
 }

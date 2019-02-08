@@ -5,11 +5,9 @@ you can do in Rules and Scripts, and to make openHAB
 available to other services like Amazon Alexa, Google Home,
 Apple HomeKit and so on.
 
-You can install add-ons from:
-
-* the official repository
-* from the Eclipse Marketplace,
-* directly from the repository of a developer, via a `.jar` file.
+You can install add-ons from multiple sources. We call those
+sources "Repositories". Check installed repositories via the
+repository screen, linked in the navigation menu on the left.
 
 ## Terminology
 
@@ -36,7 +34,7 @@ Each binding has a maintenance status:
 
 New [Add-ons](addons.html) usually require a new runtime version.
 If you want to gain access to those, you need to keep your openHAB version
-up-to-date. If you need a fix for a specific add-on, you can also
+up-to-date. If you need a fix for a specific add-on only, you can also
 be adventurous and change the version to "Snapshot".
 
 > A snapshot version contains the latest fixes but might also break at any time.

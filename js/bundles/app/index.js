@@ -5,6 +5,7 @@
 import { register, unregister } from 'register-service-worker'
 import { StorageConnector } from './store';
 export * from '../../common/fetch';
+export * from './oh-data-bind'
 
 // Service worker for caching
 // register('./sw.js', {
@@ -24,7 +25,7 @@ window.toggleSidebar = (event) => {
   event.preventDefault();
 }
 
-function openhabHost() {
+export function openhabHost() {
   var host = localStorage.getItem("host");
   if (!host) host = "demo"; //host = window.location.origin;
   return host;

@@ -1,5 +1,4 @@
 import { Vue } from '../vue.js'; // Pre-bundled, external reference
-import { UIFilterbarMixin, UIEditorMixin } from './oh-vue-list-mixins';
 import { OhListStatus } from './oh-vue-list-status'
 import VueConfigElement from './vue-config-element';
 
@@ -54,7 +53,7 @@ class OhVueForm extends HTMLElement {
                 this.modelschema = schema;
                 this.ignoreWatch = false;
             },
-            mixins: [UIFilterbarMixin, UIEditorMixin, ...mixins],
+            mixins: [...mixins],
             components: {
                 'vue-config-element': VueConfigElement
             },

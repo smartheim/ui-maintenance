@@ -28,7 +28,7 @@
     <template>
       <partial src="vuelisterrors.html"></partial>
       <div v-else>
-        <div id="listcontainer" @click="updateSelectCounter">
+        <div id="listcontainer">
           <div v-if="!value.channels || value.channels.length==0">No channels found</div>
           <section v-else v-for="item in value.channels" :key="item.id" :id="item.id">
             <h4 contenteditable="true" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</h4>

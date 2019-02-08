@@ -3,13 +3,15 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.items = []; }
     stores() { return { "inbox": "items" } };
-    async getall() {
-        return store.get("rest/thing-types", "thing-types")
+    getall(options = null) {
+        return store.get("thing-types")
             .then(json => this.thingtypes = json)
-            .then(() => store.get("rest/bindings", "bindings"))
+            .then(() => store.get("bindings"))
             .then(json => this.bindings = json)
-            .then(() => store.get("rest/inbox", "inbox"))
-            .then(items => this.items = items);
+            .then(() => this.get(options));
+    }
+    get(options = null) {
+        return store.get("inbox", null, options).then(items => this.items = items);
     }
     getThingTypeFor(uid) {
         for (const type of this.thingtypes) {

@@ -13,6 +13,7 @@
       <ui-nav-auto-link></ui-nav-auto-link>
       <li><a href="bindings.html">Installed Add-ons</a></li>
       <li><a href="addon_files.html">Manage file Add-ons</a></li>
+      <li><a href="addon_repositories.html">Add-on Repositories</a></li>
       <li><a href="addon_install.html">Install Add-ons</a></li>
     </ul>
     <p title="Official and Marketplace addons">Filter</p>
@@ -37,27 +38,21 @@
         <oh-change-filter target="ui-filter" filter="type:voice">Voice service</oh-change-filter>
       </li>
     </ul>
-    <p>Settings</p>
-    <ul>
-      <li>
-        <ui-switch storekey="enabletest" title="Snapshot repo"></ui-switch>
-      </li>
-      <li>
-        <ui-switch storekey="enabletest" title="Legacy repo"></ui-switch>
-      </li>
-    </ul>
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Install new Add-ons"></partial>
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
-      <a href="#" class="btn btn-success ml-3">
-        <i class="fas fa-check"></i> <span>Install <span class="badge badge-light selectcounter">0</span></span>
-      </a>
+      <button class="btn btn-success" data-action="install">
+        <i class="fas fa-check"></i> Install
+        <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+        <span class="badge badge-light ml-2">0</span>
+      </button>
     </ui-filter>
-    <oh-list-bind for="bindingslist" listadapter="addons"></oh-list-bind>
-    <oh-vue-list id="bindingslist" filtercriteria="label" class="listwithouteditor">
-      <partial src="vuelistbasics.html" key="item.id"></partial>
+
+    <oh-list-bind listadapter="addons" filtercriteria="label" maxItems="100"></oh-list-bind>
+    <oh-vue-list>
+      <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addons_install"></partial>
       <template slot="item">
         <section class="listitem" :id="item.id">
           <div class="body">

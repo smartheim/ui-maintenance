@@ -3,11 +3,7 @@
 
 See your current rules in this list. 
 
-Click the *Rules* name to show or modify the storage association (e.g. filename),
-see the <abbr title="The ID is used by Rules and Scripts">unique ID</abbr>, and change
-the icon category.
-
-### Rules vs Scripts
+### Rules vs Standalone Scripts
 
 With *Rules*, *Profiles* and *Transformations* you can handle about 98% of your automation needs.
 Very advanced, unusual or complex scenarios might require a scripted solution though.
@@ -35,14 +31,3 @@ Synopsis:
 
 <mark>Please note</mark>: The textual mode is powerful.
 Hit save with an emptied text field and everything is gone. Act responsible!
-
-<details>
-<summary>Storage</summary>
-
-openHAB internally stores your data a little different than what you see 
-here in the textual mode representation. The [backup service](maintenance.html) however
-will create files that match this format and imports same-like files again.
-
-Change the storage association to store the data item into a different
-file.
-</details>

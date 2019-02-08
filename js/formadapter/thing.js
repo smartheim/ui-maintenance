@@ -7,14 +7,14 @@ class StoreView {
         this.channeltypes = [];
         this.value = {};
     }
-    async get(thinguid) {
-        return store.get("rest/things/" + thinguid, "things", thinguid)
+    get(thinguid, options = null) {
+        return store.get("things", thinguid, options)
             .then(v => this.value = v)
-            .then(() => store.get("rest/thing-types", "thing-types", this.value.thingTypeUID, "UID"))
+            .then(() => store.get("thing-types", this.value.thingTypeUID))
             .then(json => this.thingtype = json)
-            .then(() => store.get("rest/channel-types", "channel-types"))
+            .then(() => store.get("channel-types"))
             .then(json => this.channeltypes = json)
-            .then(() => store.get("rest/config-descriptions", "config-descriptions", "thing-type:" + this.value.thingTypeUID, "uri"))
+            .then(() => store.get("config-descriptions", "thing-type:" + this.value.thingTypeUID))
             .then(v => this.config = v);
     }
     getChannelTypeFor(uid) {

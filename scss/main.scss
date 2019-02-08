@@ -66,6 +66,25 @@ details[open] summary~* {
     animation: swinginxr .5s ease-in-out;
 }
 
+::selection {
+    background: var(--primary);
+    color: var(--color-btn);
+}
+
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background: #ddd;
+    border-radius: 20px;
+}
+
 /* Webkit/Chrome/Firefox: Remove combo box arrow symbol */
 
 .custom-select {
@@ -108,6 +127,7 @@ html {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
+    scrollbar-color: var(--primary) #ddd;
 }
 
 body {

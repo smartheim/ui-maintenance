@@ -18,6 +18,7 @@ import { OhListStatus } from './oh-vue-list-status'
 class OhListBind extends HTMLElement {
     constructor() {
         super();
+        this.viewOptions = {};
         this.style.display = "none";
         this.connectedBound = (e) => this.connected(e.detail);
         this.connectingBound = (e) => this.connecting(e.detail);
@@ -34,6 +35,27 @@ class OhListBind extends HTMLElement {
             return;
         }
 
+        const maxItems = this.hasAttribute("maxItems") ? parseInt(this.getAttribute("maxItems")) : null;
+        if (maxItems) {
+            this.viewOptions.limit = maxItems;
+        }
+
+        this.fixedfilter = this.hasAttribute("fixedfilter") ? this.getAttribute("fixedfilter") : null;
+        if (this.fixedfilter) {
+            this.viewOptions.filter = this.fixedfilter;
+        }
+
+        this.filtercriteria = this.hasAttribute("filtercriteria") ? this.getAttribute("filtercriteria") : null;
+
+        this.filterbar = document.querySelector("ui-filter");
+        if (this.filterbar) {
+            this.filterBound = (event) => this.filter(event.detail.value.trim());
+            this.increaseLimitBound = () => this.increaseLimit();
+            this.filterbar.addEventListener("filter", this.filterBound);
+            this.filterbar.addEventListener("showmore", this.increaseLimitBound);
+        }
+
+
         const listadapter = this.getAttribute("listadapter");
         importModule('./js/listadapter/' + listadapter + '.js')
             .then(this.startList.bind(this)).catch(e => {
@@ -42,6 +64,10 @@ class OhListBind extends HTMLElement {
             });
     }
     disconnectedCallback() {
+        if (this.filterbar) {
+            this.filterbar.removeEventListener("filter", this.filterBound);
+            delete this.filterbar;
+        }
         store.removeEventListener("connectionEstablished", this.connectedBound, false);
         store.removeEventListener("connecting", this.connectingBound, false);
         store.removeEventListener("connectionLost", this.disconnectedBound, false);
@@ -66,11 +92,12 @@ class OhListBind extends HTMLElement {
     }
     async connected() {
         if (this.updateAdapter) this.updateAdapter.dispose();
-        this.updateAdapter = new UpdateAdapter(this.modeladapter, store);
+        this.updateAdapter = new UpdateAdapter(this.modeladapter, store, this.module.ID_KEY);
 
-        await this.modeladapter.getall();
+        console.log("REQUEST", this.viewOptions);
+        await this.modeladapter.getall(this.viewOptions);
         this.target.vue.status = OhListStatus.READY;
-        console.debug("OhListBind", this.modeladapter.items);
+        console.debug("OhListBind", this.modeladapter.items, this.modeladapter.items.hasmore);
     }
     connecting() {
         this.target.connectionState(true, store.host);
@@ -88,9 +115,44 @@ class OhListBind extends HTMLElement {
      *  Need to match with a database entries property. E.g. "label" or "category".
      * @param {Enumerator<String>} direction The sorting direction. Usually ↓ or ↑.
      */
-    sort(criteria, direction = "↓") {
+    async sort(criteria, direction = "↓") {
         if (!this.modeladapter) return;
-        store.sort(this.modeladapter.mainStore(), criteria, direction);
+
+        console.log("new sort", criteria);
+        this.viewOptions.sort = criteria;
+        this.viewOptions.direction = direction;
+        await this.modeladapter.getall(this.viewOptions);
+    }
+
+    async increaseLimit() {
+        if (!this.modeladapter) return;
+        if (!this.viewOptions.limit) return;
+
+        this.viewOptions.limit += 50;
+        console.log("increaseLimit", this.viewOptions.limit);
+        await this.modeladapter.getall(this.viewOptions);
+    }
+
+    filter(filter) {
+        if (!this.modeladapter || !this.filtercriteria) return;
+
+        if (!filter.includes(":"))
+            filter = this.filtercriteria + ":" + filter;
+
+        if (this.filterThrottleTimer) {
+            clearTimeout(this.filterThrottleTimer);
+        }
+        this.filterThrottleTimer = setTimeout(async () => {
+            delete this.filterThrottleTimer;
+
+            if (this.fixedfilter) {
+                filter += "&&" + this.fixedfilter;
+            }
+
+            this.viewOptions.filter = filter;
+            console.log("new filter", this.viewOptions.filter);
+            await this.modeladapter.getall(this.viewOptions);
+        }, 120);
     }
 }
 

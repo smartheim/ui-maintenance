@@ -1,4 +1,4 @@
-import { store, fetchMethodWithTimeout, FetchError } from '../app.js';
+import { store, fetchMethodWithTimeout } from '../app.js';
 
 const Mixin = {
     mounted: function () {

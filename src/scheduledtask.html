@@ -12,7 +12,6 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit a timer"></partial>
   <main>
-    <partial src="itemcommands.html"></partial>
     <nav-breadcrumb parent="Scheduler list" useParamAsHash="uid"></nav-breadcrumb>
     <form class="mb-4" action="#">
       <div class="form-group row">
@@ -49,7 +48,7 @@
           <div id="triggeritemcommand" class="hidden">
             <ui-dropdown id="triggereditem" name="triggereditem" label="Select item"></ui-dropdown>
             <oh-dropdown-bind for="triggereditem" viewkey="name" viewvalue="label" listadapter="items"></oh-dropdown-bind>
-            <input name="itemcommand" list="itemCommands">
+            <input name="itemcommand">
           </div>
         </div>
       </div>

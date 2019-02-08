@@ -3,8 +3,11 @@ import { store } from '../app.js';
 class StoreView {
     constructor() { this.items = []; }
     stores() { return { "persistence-services": "items" } };
-    async getall() {
-        return store.get("rest/persistence-services", "persistence-services").then(items => this.items = items);
+    getall(options = null) {
+        return this.get(options);
+    }
+    get(options = null) {
+        return store.get("persistence-services", null, options).then(items => this.items = items);
     }
     dispose() {
     }

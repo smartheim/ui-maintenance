@@ -1,5 +1,9 @@
 @import "partials/variables";
 .sidebar {
+    hr {
+        padding: 0;
+        margin: 0;
+    }
     contain: content;
     z-index: 20;
     min-width: 220px;

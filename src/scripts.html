@@ -11,39 +11,44 @@
     <h4>Actions</h4>
     <ul class="exact">
       <li><a href="script.html"><i class="fas fa-plus"></i> New Script</a></li>
+      <li>
+        <hr>
+      </li>
+      <li><a href="rules.html"><i class="fas fa-undo"></i> Back to Rules</a></li>
     </ul>
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Manage, add, remove and modify your automation rules"></partial>
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
-      <div class="btn-group ml-3" role="group">
-        <a href="#" class="btn btn-danger">
-          <i class="fas fa-trash"></i> <span>Remove <span class="badge badge-light selectcounter">0</span></span>
-        </a>
-        <a href="#" class="btn btn-success ">
-          <i class="fas fa-check"></i> <span>Run <span class="badge badge-light selectcounter">0</span></span>
-        </a>
+      <div class="btn-group" role="group">
+        <button class="btn btn-danger" data-action="remove">
+          <i class="fas fa-trash"></i> Remove
+          <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+          <span class="badge badge-light ml-2">0</span>
+        </button>
       </div>
     </ui-filter>
-    <oh-list-bind for="scriptslist" listadapter="scripts"></oh-list-bind>
-    <oh-vue-list id="scriptslist" filtercriteria="name">
-      <partial src="vuelistbasics.html" key="item.filename"></partial>
+
+    <oh-list-bind listadapter="scripts" maxItems="100" filtercriteria="name"></oh-list-bind>
+    <oh-vue-list>
+      <partial src="vuelistbasics.html" key="item.filename" help="contexthelp/scripts"></partial>
       <template slot="item">
         <section class="listitem" :id="item.filename">
           <div class="body">
             <div class="title">
               <span :title="item.label">{{item.name}}</span>
               <span class="actions btn-group">
-                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove(item)"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
               </span>
             </div>
             <vue-inprogress></vue-inprogress>
             <section class="description"> Filename: <code>{{item.filename}}</code>
             </section>
           </div>
-          <div class="footer small py-1 px-3">
-            <a class="ml-auto" :href="'script.html?file='+encodeURIComponent(item.filename)"><i class="fas fa-cog"></i>
+          <div class="footer py-1 px-3">
+            <a class="ml-auto btn btn-info-hover btn-sm text-nowrap" :href="'script.html?file='+encodeURIComponent(item.filename)"><i
+                class="fas fa-cog"></i>
               <span>Edit</span></a>
           </div>
         </section>

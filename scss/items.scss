@@ -19,6 +19,39 @@
     overflow: hidden;
 }
 
+.secondlevel {
+    position: absolute;
+    background-color: var(--card-bg);
+    box-shadow: 0 0 5px 0 #000;
+    border-radius: .25rem;
+    top: 45px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 10;
+    opacity: 0;
+    padding: 10px;
+    z-index: -1;
+    transition: all 0.5s;
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
+.secondlevel.show {
+    opacity: .9;
+    z-index: 1;
+    transform: translateY(0px);
+}
+
+.emptylist {
+    align-self: center;
+    max-width: 700px;
+    margin-top: 10px;
+    oh-context-help {
+        padding: 10px;
+    }
+}
+
 #listcontainer {
     align-self: flex-start;
     width: 100%;
@@ -34,6 +67,7 @@
     &.grid .listitem {
         margin-right: 10px; //flex-basis: calc(50% - 10px);
         //min-width: 420px;
+        min-height: 220px;
         width: 355px;
         position: relative;
         display: flex;
@@ -64,45 +98,12 @@
                 display: none;
             }
         }
-        .ui-dropdown .secondLevelBtn {
-            position: relative;
-            z-index: 2;
-            cursor: pointer;
-            &::before {
-                content: '⯈';
-                display: inline-block;
-                min-width: 20px;
-                transition: all 0.5s;
-                transform: rotate(0deg);
-            }
-        }
-        .ui-dropdown.show {
-            .secondLevelBtn::before {
-                transform: rotate(90deg);
-            }
-            .secondlevel {
-                opacity: 1;
-                z-index: 1;
-                transform: translateY(0px);
-            }
-        }
         .body {
             flex: 1 1 auto;
             flex-direction: column;
             padding: 1rem;
             display: flex;
             flex-direction: column;
-            .secondlevel {
-                height: calc(100% - 60px);
-                top: 45px;
-                width: calc(100% - 30px);
-                background-color: var(--card-bg);
-                position: absolute;
-                z-index: -1;
-                transition: all 0.5s;
-                transform: translateY(-20px);
-                opacity: 0;
-            }
             &>.title {
                 font-size: 1.5rem;
                 font-family: inherit;
@@ -131,6 +132,7 @@
                 }
             }
             &>.description {
+                flex: 1;
                 padding-top: 1rem;
                 display: flex;
                 flex-direction: column;
@@ -153,9 +155,6 @@
                         background-color: #f3f3f3;
                     }
                 }
-                .tab-content {
-                    padding-bottom: 1rem;
-                }
                 .tablinks {
                     abbr[title] {
                         text-decoration: none;
@@ -163,18 +162,15 @@
                     display: flex;
                     flex-wrap: wrap;
                     padding-left: 0;
-                    margin-bottom: -35px;
+                    margin-bottom: 0;
                     list-style: none;
                     position: absolute;
                     bottom: 0;
-                    li {
-                        margin-top: -1px;
-                    }
                     .nav-link {
                         padding: 5px;
-                        border: 1px solid transparent;
-                        border-bottom-left-radius: .25rem;
-                        border-bottom-right-radius: .25rem;
+                        border-left: 1px solid transparent;
+                        border-right: 1px solid transparent; //border-bottom-left-radius: .25rem;
+                        //border-bottom-right-radius: .25rem;
                     }
                     .nav-link.active {
                         color: #495057;
@@ -287,6 +283,7 @@ oh-vue-list {
         // The "app" div
         flex: 1;
         display: flex;
+        flex-direction: column;
     }
 }
 

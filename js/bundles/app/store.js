@@ -44,7 +44,7 @@ export class StorageConnector extends EventTarget {
             const e = msgEvent.data;
             if (e.msgid) {
                 const queueItem = this.queue[e.msgid];
-                //console.debug("received response from webworker", queueItem);
+                console.debug("received response from webworker", e);
                 if (queueItem) {
                     if (e.iserror)
                         queueItem.accept(new Error(e.result));
@@ -95,27 +95,18 @@ export class StorageConnector extends EventTarget {
         this.port.postMessage({ type, msgid, expireDurationMS, throttleTimeMS });
         return qitem.promise;
     }
-    sort(storename, criteria, direction) {
-        const type = "sort";
-        const qitem = new QueueItem(this, type);
-        const msgid = qitem.id;
-        this.port.postMessage({ type, msgid, storename, criteria, direction });
-        return qitem.promise;
-    }
     /**
      * Get a value from the database (and fetch a refreshed copy in the background).
      * 
-     * @param uri The uri for the refetch
      * @param storename The store name
      * @param objectid If an object id is given, that specific object is returned from the table.
-     * @param id_key Some REST endpoints do not allow single list item retrivals. In that case
-     *     you need to specify the index-key to extract the refreshed value from the REST list response.
+     * @param options An options object (sort:"criteria",direction:"",filter:"abc",filterKey:"name",limit: 100)
      */
-    get(uri, storename, objectid = null, id_key = null) {
+    get(storename, objectid = null, options = null) {
         const type = "get";
         const qitem = new QueueItem(this, type);
         const msgid = qitem.id;
-        this.port.postMessage({ type, msgid, uri, storename, objectid, id_key });
+        this.port.postMessage({ type, msgid, storename, objectid, options });
         return qitem.promise;
     }
 }

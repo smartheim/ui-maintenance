@@ -1,104 +1,13 @@
 import { Vue } from '../vue.js'; // Pre-bundled, external reference
-import { createNotification } from '../app.js'; // Pre-bundled, external reference
-import { UIFilterbarMixin, UIEditorMixin } from './oh-vue-list-mixins';
+import { ListModeMixin, EditorMixin, ListViewSelectionModeMixin } from './oh-vue-list-mixins';
 import { OhListStatus } from './oh-vue-list-status'
-import VueInProgress from './vue-inprogress';
 import PortalVue from './portal-vue.mjs'
+import { createItemComponent } from './oh-vue-list-item';
 
 Vue.use(PortalVue);
 Vue.config.ignoredElements = [
     /^oh-/, /^ui-/
 ]
-
-function createItemComponent(mixins, template) {
-    return {
-        ignoreWatch: false,
-        props: ["listitem"],
-        // Explicitly set the defaults, otherwise vue will do strange things with web-components
-        model: { // Influences v-model behaviour: See https://vuejs.org/v2/api/#model
-            prop: 'value',
-            event: 'input'
-        },
-        template: template,
-        data: function () {
-            return {
-                item: Object.assign({}, this.listitem),
-                original: this.listitem,
-                changed: false,
-                inProgress: false,
-                message: null,
-                messagetitle: null,
-            }
-        },
-        mixins: [...mixins],
-        components: {
-            'vue-inprogress': VueInProgress
-        },
-        methods: {
-            save: function () {
-                this.message = null;
-                this.messagetitle = "Saving...";
-                this.inProgress = true;
-                this.changed = false;
-                setTimeout(() => this.inProgress = false, 1000);
-            },
-            remove: function () {
-                this.message = null;
-                this.messagetitle = "Removing...";
-                this.inProgress = true;
-            },
-            discard: function () {
-                this.ignoreWatch = true;
-                this.item = Object.assign({}, this.original);
-                this.inProgress = false;
-                this.changed = false;
-                console.log("discarded");
-            },
-            copyClipboard: function (event, itemid) {
-                var range = document.createRange();
-                range.selectNode(event.target);
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-                document.execCommand("copy");
-
-                createNotification("clipboard", `Copied ${itemid} to clipboard`, false, 3000);
-            }
-        },
-        watch: {
-            // The database entry has changed -> warn the user if he has made changes
-            listitem: {
-                handler: function (newVal, oldVal) {
-                    this.original = newVal;
-                    if (!this.changed) {
-                        this.ignoreWatch = true;
-                        this.item = Object.assign({}, this.original);
-                        this.inProgress = false;
-                        this.changed = false;
-                    } else {
-                        this.message = "If you save your changes, you'll overwrite the newer version.";
-                        this.messagetitle = "Warning: Update received";
-                        this.inProgress = true;
-                    }
-                }, deep: true, immediate: true,
-            },
-            item: {
-                handler: function (newVal, oldVal) {
-                    if (this.ignoreWatch) {
-                        this.ignoreWatch = false;
-                        console.debug("ignore watch");
-                        return;
-                    }
-                    console.debug("list item changed", newVal);
-                    this.changed = true;
-                }, deep: true, immediate: true,
-            }
-        },
-        created: function () {
-            this.changed = false;
-            this.inProgress = false;
-        }
-    }
-};
 
 /**
  * A vue rendered list of items components. Several mixins are included
@@ -152,7 +61,7 @@ class OhViewList extends HTMLElement {
         if (!this.ok) return;
 
         const filtercriteria = this.getAttribute("filtercriteria");
-        const maxFilteredItems = this.hasAttribute("maxFilteredItems") ? this.getAttribute("maxFilteredItems") : null;
+        const fixedfilterAttr = this.hasAttribute("fixedfilter") ? this.getAttribute("fixedfilter") : null;
         this.vue = new Vue({
             created: function () {
                 this.OhListStatus = OhListStatus;
@@ -160,9 +69,9 @@ class OhViewList extends HTMLElement {
                 this.runtimeKeys = runtimeKeys;
                 this.filtercriteria = filtercriteria;
                 this.modelschema = schema;
-                if (maxFilteredItems) this.maxFilteredItems = parseInt(maxFilteredItems);
+                this.fixedfilter = fixedfilterAttr;
             },
-            mixins: [UIFilterbarMixin, UIEditorMixin, ...listmixins],
+            mixins: [ListModeMixin, EditorMixin, ListViewSelectionModeMixin, ...listmixins],
             template: this.listTmpl,
             data: function () {
                 return Object.assign(adapter, {

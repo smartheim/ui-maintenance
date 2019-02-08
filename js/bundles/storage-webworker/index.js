@@ -1,4 +1,5 @@
 import { StateWhileRevalidateStore } from './store';
+import { process } from './sortFilterLimit';
 
 const store = new StateWhileRevalidateStore;
 
@@ -35,12 +36,12 @@ class StorageWorker {
                     break;
                 case "get":
                     if (e.objectid)
-                        r = await store.get(e.uri, e.storename, e.objectid, e.id_key);
+                        r = await store.get(e.storename, e.objectid);
                     else
-                        r = await store.getAll(e.uri, e.storename);
-                    break;
-                case "sort":
-                    r = await store.sort(e.storename, e.criteria, e.direction);
+                        r = await store.getAll(e.storename, e.options);
+                    if (e.options && Array.isArray(r)) {
+                        r = process(r, e.options);
+                    }
                     break;
                 default:
                     r = new Error("Type not supported");
