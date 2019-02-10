@@ -10,11 +10,11 @@ class StoreView {
     get(thinguid, options = null) {
         return store.get("things", thinguid, options)
             .then(v => this.value = v)
-            .then(() => store.get("thing-types", this.value.thingTypeUID))
+            .then(() => store.get("thing-types", this.value.thingTypeUID, { force: true }))
             .then(json => this.thingtype = json)
-            .then(() => store.get("channel-types"))
+            .then(() => store.get("channel-types", null, { force: true }))
             .then(json => this.channeltypes = json)
-            .then(() => store.get("config-descriptions", "thing-type:" + this.value.thingTypeUID))
+            .then(() => store.get("config-descriptions", "thing-type:" + this.value.thingTypeUID, { force: true }))
             .then(v => this.config = v);
     }
     getChannelTypeFor(uid) {

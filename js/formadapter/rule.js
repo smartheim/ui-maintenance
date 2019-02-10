@@ -7,9 +7,9 @@ class StoreView {
         return store.get("rules", ruleuid, options)
             .then(v => this.value = v)
             .then(() => this.value.configDescriptions && this.value.configDescriptions.length > 0 ?
-                store.get("config-descriptions", this.value.configDescriptions[0], "uri") : null)
+                store.get("config-descriptions", this.value.configDescriptions[0], { force: true }) : null)
             .then(v => this.config = v)
-            .then(() => store.get("module-types"))
+            .then(() => store.get("module-types", null, { force: true }))
             .then(v => this.moduletypes = v);
     }
     dispose() {

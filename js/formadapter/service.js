@@ -7,9 +7,8 @@ class StoreView {
         return store.get("services", serviceid, options)
             .then(v => this.value = v)
             .then(() => this.value.configDescriptionURI ?
-                store.get("config-descriptions", this.value.configDescriptionURI) : null)
-            .then(v => this.config = v)
-            .then(() => this.value);
+                store.get("config-descriptions", this.value.configDescriptionURI, { force: true }) : null)
+            .then(v => this.config = v);
     }
     dispose() {
     }

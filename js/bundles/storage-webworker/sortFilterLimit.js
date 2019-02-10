@@ -1,76 +1,12 @@
-
-function isGreater(item1, item2, sortCriteria) {
-    return item1[sortCriteria] > item2[sortCriteria];
-}
-
 /**
- * Inserts a new item into a collection by using insertion sort with
- * a binary search on bigger collections and small collection size
- * manually handling otherwise.
+ * Process a collection of items and returns the processed collection.
  * 
- * This sort is not stable, because we use `isGreater` which can't
- * make an assertment about item equality.
+ * @param {Object[]} data The collection of items to sort / filter / limit
+ * @param {Object} options Options for sorting, filtering, limiting
+ * @param {Number} options.limit Optional: Limit for the resulting collection. Is applied after sorting of course.
+ * @param {String} options.sort Optional: Sort criteria (aka collection item property).
+ * @param {String} options.filter Optional: A filter query like "label:living room" or "tags:abc && label:def"
  */
-function insertInto(collection, newItem, sortCriteria, reverse) {
-    // Handle small sizes manually
-    switch (collection.length) {
-        case 0: // Just add
-            collection.push(newItem);
-            return;
-        case 1: // One comparison
-            if (isGreater(collection[0], newItem, sortCriteria)) {
-                collection.unshift(newItem);
-            } else {
-                collection.push(newItem);
-            }
-            return;
-        case 2: // linear insertion sort
-        case 3:
-        case 4:
-        case 5:
-            for (let c = 0; c < collection.length; ++c) {
-                if (isGreater(collection[c], newItem, sortCriteria)) {
-                    collection.splice(c, 0, newItem);
-                    return;
-                }
-            }
-            collection.push(newItem);
-            return;
-    }
-
-    var left = 0;
-    var right = collection.length;
-    var middle = Math.floor((left + right) / 2);
-    while (left <= right) {
-        if (isGreater(newItem, collection[middle], sortCriteria)) {
-            left = middle + 1;
-        } else if (isGreater(collection[middle], newItem, sortCriteria)) {
-            right = middle - 1;
-        } else {
-            break;
-        }
-        middle = Math.floor((right + left) / 2);
-    }
-    collection.splice(left, 0, newItem);
-}
-
-function applyFilter(filters, item) {
-    for (let filter of filters) {
-        let value = item[filter.c];
-        if (!value) return false;
-        if (Array.isArray(value)) {
-            if (!value.some(element => element.toLowerCase().match(filter.f)))
-                return false;
-        } else if (value instanceof Object) {
-            if (!Object.keys(value).some(key => value[key].toLowerCase().match(filter.f)))
-                return false;
-        } else if (!value.toLowerCase().match(filter.f)) {
-            return false;
-        }
-    }
-    return true;
-}
-
 export function process(data, options) {
     const limit = options.limit;
     const hasmore = limit && limit < data.length;
@@ -129,4 +65,95 @@ export function process(data, options) {
         filtered.hasmore = true;
     }
     return filtered;
+}
+
+/**
+ * Returns true if item1 is greater than item2
+ * 
+ * @param {Object} item1 Item to compare
+ * @param {Object} item2 Item to compare
+ * @param {String} sortCriteria A property name that must exist on both items
+ */
+function isGreater(item1, item2, sortCriteria) {
+    return item1[sortCriteria] > item2[sortCriteria];
+}
+
+/**
+ * Inserts a new item into a collection by using insertion sort with
+ * a binary search on bigger collections and small collection size
+ * manually handling otherwise.
+ * 
+ * This sort is not stable, because we use `isGreater` which can't
+ * make an assertment about item equality.
+ *
+ * @param {Object[]} collection A sorted collection
+ * @param {Object} newItem The new item to be inserted into the sorted collection
+ * @param {String} sortCriteria The sort criteria
+ * @param {Boolean} reverse Reverses the sort
+ */
+function insertInto(collection, newItem, sortCriteria, reverse) {
+    // Handle small sizes manually
+    switch (collection.length) {
+        case 0: // First item: Just add
+            collection.push(newItem);
+            return;
+        case 1: // Two items: One comparison
+            if (isGreater(collection[0], newItem, sortCriteria)) {
+                collection.unshift(newItem);
+            } else {
+                collection.push(newItem);
+            }
+            return;
+        case 2: // linear insertion sort
+        case 3:
+        case 4:
+        case 5:
+            for (let c = 0; c < collection.length; ++c) {
+                if (isGreater(collection[c], newItem, sortCriteria)) {
+                    collection.splice(c, 0, newItem);
+                    return;
+                }
+            }
+            collection.push(newItem);
+            return;
+    }
+
+    var left = 0;
+    var right = collection.length;
+    var middle = Math.floor((left + right) / 2);
+    while (left <= right) {
+        if (isGreater(newItem, collection[middle], sortCriteria)) {
+            left = middle + 1;
+        } else if (isGreater(collection[middle], newItem, sortCriteria)) {
+            right = middle - 1;
+        } else {
+            break;
+        }
+        middle = Math.floor((right + left) / 2);
+    }
+    collection.splice(left, 0, newItem);
+}
+
+/**
+ * Returns true if the filter pattern matches with the item.
+ * @param {Object[]} filters The filter arguments
+ * @param {String} filters[].c The property name (for instance "id","label")
+ * @param {String} filters[].f The filter term (for instance ("living room"))
+ * @param {*} item The item
+ */
+function applyFilter(filters, item) {
+    for (let filter of filters) {
+        let value = item[filter.c];
+        if (!value) return false;
+        if (Array.isArray(value)) {
+            if (!value.some(element => element.toLowerCase().match(filter.f)))
+                return false;
+        } else if (value instanceof Object) {
+            if (!Object.keys(value).some(key => value[key].toLowerCase().match(filter.f)))
+                return false;
+        } else if (!value.toLowerCase().match(filter.f)) {
+            return false;
+        }
+    }
+    return true;
 }

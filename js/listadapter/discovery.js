@@ -4,7 +4,7 @@ class StoreView {
     constructor() { this.items = []; this.bindings = []; }
     stores() { return { "discovery": "items" } };
     getall(options = null) {
-        return store.get("bindings")
+        return store.get("bindings", null, { force: true })
             .then(json => this.bindings = json)
             .then(() => this.get(options))
     }

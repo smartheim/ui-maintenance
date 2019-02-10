@@ -49,6 +49,11 @@ var config = {
             js_bundles_watch: './js/bundles/**/*',
             assets: [
                 './assets/**/*',
+                './package.json',
+                './README.md',
+                './LICENSE'
+            ],
+            assetsDoc: [
                 './docs/*'
             ]
         },
@@ -111,6 +116,12 @@ const copyAssets = () =>
         .pipe(connect.reload());
 copyAssets.displayName = "Copy assets"
 
+const copyDocAssets = () =>
+    gulp.src(config.paths.src.assetsDoc)
+        .pipe(gulp.dest(config.paths.dist + "/docs"))
+        .pipe(connect.reload());
+copyDocAssets.displayName = "Copy doc assets"
+
 const minifyUnbundledScripts = () =>
     gulp.src(config.paths.src.js).pipe(uglify()).pipe(gulp.dest(config.paths.distjs)).pipe(connect.reload());
 minifyUnbundledScripts.displayName = "Minify unbundled scripts"
@@ -168,6 +179,7 @@ const watchTask = () => { // Watch the file system and rebuild automatically
     gulp.watch(config.paths.src.scss_watch, compileStyles);
     gulp.watch(config.paths.src.js, minifyUnbundledScripts);
     gulp.watch(config.paths.src.assets, copyAssets);
+    gulp.watch(config.paths.src.assetsDoc, copyDocAssets);
     var filename = ""; // Only rebuild the bundle where a file changed
     const rebuildOneBundle = (callback) => {
         var bundlename = filename.match(/bundles\/(.*?)\//);
@@ -186,7 +198,7 @@ watchTask.displayName = "Start watching files"
 const lint = gulp.parallel(lintStyles, lintStylesCss)
 lint.displayName = 'Lint all source'
 
-const compile = gulp.series(clean, gulp.parallel(copyHtml, minifyUnbundledScripts, compileBundles, copyAssets, compileStyles), generateServiceWorker)
+const compile = gulp.series(clean, gulp.parallel(copyHtml, minifyUnbundledScripts, compileBundles, copyAssets, copyDocAssets, compileStyles), generateServiceWorker)
 
 gulp.task('build', compile);
 gulp.task('serveonly', gulp.series(compile, gulp.parallel(watchTask, startLocalWebserver)));

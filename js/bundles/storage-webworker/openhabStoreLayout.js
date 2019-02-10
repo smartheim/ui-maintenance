@@ -7,8 +7,8 @@
  * Some stores are pre-loaded on application start, annotated with "onstart: true".
  */
 const tables = [
-    { id: "bindings", uri: "rest/bindings", key: "id", onstart: true },// ALTERED
-    { id: "binding-config", uri: null, key: "id" },
+    { id: "bindings", uri: "rest/bindings", key: "id", singleRequests: false, onstart: true },// ALTERED
+    { id: "binding-config", uri: "rest/bindings", urlsuffix: "/config", wrapkey: "config", key: "id" },
     { id: "channel-types", uri: "rest/channel-types", key: "UID", onstart: true },
     { id: "config-descriptions", uri: "rest/config-descriptions", key: "uri" },
     { id: "discovery", uri: "rest/discovery", key: "id", singleRequests: false },// ALTERED
@@ -29,23 +29,19 @@ const tables = [
     { id: "profile-types", uri: "rest/profile-types", key: "uid", singleRequests: false },
     { id: "rules", uri: "rest/rules", key: "uid" },
     { id: "services", uri: "rest/services", key: "id" },
-    { id: "service-config", uri: null, key: "id" },
+    { id: "service-config", uri: "rest/services", urlsuffix: "/config", wrapkey: "config", key: "id" },
     { id: "ruletemplates", uri: "rest/templates", key: "uid" },
     { id: "thing-types", uri: "rest/thing-types", key: "UID", onstart: true },
     { id: "things", uri: "rest/things", key: "UID", onstart: true },
     { id: "voice-interpreters", uri: "rest/voice", key: "id" },
 ];
 const dbversion = 20;
-var tableToId = {};
-var tableToURL = {};
-var tableNoSingleSupport = {};
-for (let t of tables) {
-    if (!Array.isArray(t.key))
-        tableToId[t.id] = t.key;
-    if (t.uri)
-        tableToURL[t.id] = t.uri;
-    if (t.singleRequests)
-        tableNoSingleSupport[t.id] = true;
-}
 
-export { tables, tableToId, tableToURL, tableNoSingleSupport, dbversion };
+/** 
+ * This is an associative map of storenames to store-layout descriptions.
+ * @const
+ */
+var tableIDtoEntry = {};
+for (let t of tables) tableIDtoEntry[t.id] = t;
+
+export { tables, tableIDtoEntry, dbversion };

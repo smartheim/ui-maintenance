@@ -4,7 +4,7 @@ class StoreView {
     constructor() { this.items = []; }
     stores() { return { "persistence": "items" } };
     async getall() {
-        return store.get("persistence-services")
+        return store.get("persistence-services", null, { force: true })
             .then(json => this.services = json)
             .then(() => store.get("persistence"))
             .then(items => this.items = items);

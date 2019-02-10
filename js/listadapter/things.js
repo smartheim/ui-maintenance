@@ -5,7 +5,7 @@ class StoreView {
     stores() { return { "things": "items" } };
     sortStore() { return "things" };
     getall(options = null) {
-        return store.get("thing-types")
+        return store.get("thing-types", null, { force: true })
             .then(list => this.thingtypes = list)
             .then(() => this.get(options))
     }

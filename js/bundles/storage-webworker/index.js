@@ -3,6 +3,12 @@ import { process } from './sortFilterLimit';
 
 const store = new StateWhileRevalidateStore;
 
+/**
+ * This is meant to be used as a web-worker or as a shared-web-worker.
+ * In this main entry point file the web-worker message channel is established
+ * and incoming messages are proxied to the store and store responses
+ * as well as events are marshalled into outgoing messages.
+ */
 class StorageWorker {
     constructor() {
         store.addEventListener("storeChanged", (e) => this.postMessage({ type: e.type, msg: e.detail }));
@@ -36,9 +42,9 @@ class StorageWorker {
                     break;
                 case "get":
                     if (e.objectid)
-                        r = await store.get(e.storename, e.objectid);
+                        r = await store.get(e.storename, e.objectid, e.options || {});
                     else
-                        r = await store.getAll(e.storename, e.options);
+                        r = await store.getAll(e.storename, e.options || {});
                     if (e.options && Array.isArray(r)) {
                         r = process(r, e.options);
                     }

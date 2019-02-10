@@ -1,16 +1,21 @@
 {
-  "name": "paper-ui-ng",
-  "version": "1.0.0",
+  "name": "openhab-paper-ui-ng",
+  "keywords": [
+    "openhab",
+    "ui"
+  ],
+  "version": "1.0.2",
   "description": "Configuration and maintenance interface for openHAB",
   "author": "David Graeff",
-  "private": true,
-  "main": "index.js",
+  "email": "davgraeff@gmail.com",
+  "private": false,
   "scripts": {
     "build": "gulp build",
     "lint": "gulp lint",
     "dev": "gulp serve",
     "devno": "gulp serveonly"
   },
+  "homepage": "https://github.com/davidgraeff/paper-ui-ng",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/davidgraeff/paper-ui-ng.git"
@@ -48,9 +53,7 @@
     "rollup-plugin-sass": "^1.1.0",
     "rollup-plugin-vue": "^4.4.0",
     "vinyl-sourcemaps-apply": "^0.2.1",
-    "workbox-build": "^3.6.3"
-  },
-  "dependencies": {
+    "workbox-build": "^3.6.3",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "bootstrap": "^4.2.1",
     "flatpickr": "^4.5.2",

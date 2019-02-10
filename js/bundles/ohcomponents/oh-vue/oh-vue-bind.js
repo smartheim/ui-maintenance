@@ -5,12 +5,11 @@ import { importModule } from "./importModule";
  * in the MVA (Model-View-Adapter) concept.
  * 
  * It waits for the target, identified by the "for" attribute
- * to be ready and then loads the "listadapter" es6 module.
+ * to be ready and then loads the "adapter" es6 module.
+ * 
  * The helper module is expected to export:
  * - mixins: A list of mixins to apply to list-item components
- * - schema: An optional json-schema for the text-editor
- * - runtimekeys: A list of keys that should be filtered out for the text-editor
- * - StoreView: This serves as *Adapter* in our MVA architecture.
+ * - components: An optional json-schema for the text-editor
  */
 class OhVueBind extends HTMLElement {
     constructor() {
@@ -28,8 +27,10 @@ class OhVueBind extends HTMLElement {
             return;
         }
 
+        const usebundle = this.hasAttribute("usebundle");
         const adapter = this.getAttribute("adapter");
-        importModule('./js/mixins/' + adapter + '.js')
+        const path = usebundle ? './js/' : './js/mixins/';
+        importModule(path + adapter + '.js')
             .then(async (module) => {
                 target.start(module.mixins);
             })

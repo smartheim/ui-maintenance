@@ -56,6 +56,7 @@
         </button>
       </div>
     </ui-filter>
+
     <oh-list-bind for="inboxlist" listadapter="inbox" filtercriteria="label"></oh-list-bind>
     <oh-vue-list id="inboxlist">
       <div slot="app"></div>
@@ -68,7 +69,7 @@
           <portal name="testname" target-el="#clearresults" breakshadow slim>
             <a href="#" @click.prevent="clear" :class="{disabled:empty}">Clear Inbox</a>
           </portal>
-          <div v-if="hasMore" class="text-center">
+          <div v-if="items.hasmore" class="text-center">
             <button class="btn btn-primary-hover" @click="showMore()">Show 50 more &hellip;</button>
           </div>
         </div>
@@ -90,6 +91,7 @@
         </section>
       </template>
     </oh-vue-list>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="inbox"></partial>

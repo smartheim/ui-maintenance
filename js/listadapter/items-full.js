@@ -52,11 +52,11 @@ class StoreView {
     stores() { return { "items": "items" } };
     sortStore() { return "items" };
     getall(options = null) {
-        return store.get("item-types")
+        return store.get("item-types", null, { force: true })
             .then(json => this.itemtypes = json)
-            .then(() => store.get("item-group-function-types"))
+            .then(() => store.get("item-group-function-types", null, { force: true }))
             .then(v => this.functiontypes = v)
-            .then(() => store.get("config-descriptions", null, { filter: "uri:metadata" }))
+            .then(() => store.get("config-descriptions", null, { filter: "uri:metadata", force: true }))
             .then(v => this.config = v)
             .then(() => this.get(options))
     }

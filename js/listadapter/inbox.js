@@ -4,9 +4,9 @@ class StoreView {
     constructor() { this.items = []; }
     stores() { return { "inbox": "items" } };
     getall(options = null) {
-        return store.get("thing-types")
+        return store.get("thing-types", null, { force: true })
             .then(json => this.thingtypes = json)
-            .then(() => store.get("bindings"))
+            .then(() => store.get("bindings", null, { force: true }))
             .then(json => this.bindings = json)
             .then(() => this.get(options));
     }

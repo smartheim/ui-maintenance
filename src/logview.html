@@ -26,86 +26,66 @@
     </form>
 
     <div class="wrapper">
-      <div class="as-console">
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-error">
-        [nal.common.AbstractInvocationHandler] - An error occurred while calling method
-        'ThingHandler.handleCommand()' on
-        'org.eclipse.smarthome.binding.mqtt.generic.internal.handler.GenericThingHandler@1efbae2': Value ON not within
-        range
-        java.lang.IllegalArgumentException: Value ON not within range
-        at org.eclipse.smarthome.binding.mqtt.generic.internal.values.EnumSwitchValue.update(EnumSwitchValue.java:57)
-        ~[?:?]
-        at org.eclipse.smarthome.binding.mqtt.generic.internal.ChannelState.setValue(ChannelState.java:200) ~[?:?]
-        at
-        org.eclipse.smarthome.binding.mqtt.generic.internal.handler.AbstractMQTTThingHandler.handleCommand(AbstractMQTTThingHandler.java:122)
-        ~[?:?]
-        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
-        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
-        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
-        at java.lang.reflect.Method.invoke(Method.java:498) ~[?:?]
-        at
-        org.eclipse.smarthome.core.internal.common.AbstractInvocationHandler.invokeDirect(AbstractInvocationHandler.java:153)
-        [101:org.eclipse.smarthome.core:0.10.0.201809271800]
-        at org.eclipse.smarthome.core.internal.common.InvocationHandlerSync.invoke(InvocationHandlerSync.java:59)
-        [101:org.eclipse.smarthome.core:0.10.0.201809271800]
-        at com.sun.proxy.$Proxy151.handleCommand(Unknown Source)
-        [241:org.eclipse.smarthome.binding.mqtt.generic:0.10.0.201810051534]
-        at
-        org.eclipse.smarthome.core.thing.internal.profiles.ProfileCallbackImpl.handleCommand(ProfileCallbackImpl.java:75)
-        [107:org.eclipse.smarthome.core.thing:0.10.0.201809271800]
-        at
-        org.eclipse.smarthome.core.thing.internal.profiles.SystemDefaultProfile.onCommandFromItem(SystemDefaultProfile.java:49)
-        [107:org.eclipse.smarthome.core.thing:0.10.0.201809271800]
-        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
-        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
-        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
-        at java.lang.reflect.Method.invoke(Method.java:498) ~[?:?]
-        at
-        org.eclipse.smarthome.core.internal.common.AbstractInvocationHandler.invokeDirect(AbstractInvocationHandler.java:153)
-        [101:org.eclipse.smarthome.core:0.10.0.201809271800]
-        at org.eclipse.smarthome.core.internal.common.Invocation.call(Invocation.java:53)
-        [101:org.eclipse.smarthome.core:0.10.0.201809271800]
-        at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:?]
-        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:?]
-        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:?]
-        at java.lang.Thread.run(Thread.java:748) [?:?]</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-warn">[moquette.spi.impl.SessionsRepository] - Session does not exist. CId=test</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-warn">[moquette.spi.impl.SessionsRepository] - Session does not exist. CId=test</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[g.discovery.internal.PersistentInbox] - Added new thing 'mqtt:broker:127_0_0_1_1883' to inbox.</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-warn">[moquette.spi.impl.SessionsRepository] - Session does not exist. CId=test</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-warn">[moquette.spi.impl.SessionsRepository] - Session does not exist. CId=test</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[g.discovery.internal.PersistentInbox] - Added new thing 'mqtt:broker:192_168_1_8_1883' to inbox.</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[al.discovery.NetworkDiscoveryService] - Found 2 Mqtt Broker Connections</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[basic.internal.servlet.WebAppServlet] - Stopped Basic UI</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[arthome.ui.paper.internal.PaperUIApp] - Stopped Paper UI</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[panel.internal.HABPanelDashboardTile] - Stopped HABPanel</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[.dashboard.internal.DashboardService] - Stopped Dashboard</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[.internal.GenericScriptEngineFactory] - Activated scripting support for ECMAScript</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-warn">[.MqttBrokerConnectionServiceInstance] - MqttBroker connection configuration faulty: host : You need to provide a hostname/IP!</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[panel.internal.HABPanelDashboardTile] - Started HABPanel at /habpanel</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[.dashboard.internal.DashboardService] - Started Dashboard at http://192.168.1.8:8080</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[.dashboard.internal.DashboardService] - Started Dashboard at https://192.168.1.8:8443</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[thome.model.lsp.internal.ModelServer] - Started Language Server Protocol (LSP) service on port 5007</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[basic.internal.servlet.WebAppServlet] - Started Basic UI at /basicui/app</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[arthome.ui.paper.internal.PaperUIApp] - Started Paper UI at /paperui</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[ulation.internal.HueEmulationServlet] - Started Hue Emulation service at /api</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-warn">[r.internal.EmbeddedBrokerServiceImpl] - Embedded broker offline - Reason unknown</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-warn">[moquette.spi.impl.SessionsRepository] - Session does not exist. CId=embedded-mqtt-broker</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-warn">[moquette.spi.impl.SessionsRepository] - Session does not exist. CId=embedded-mqtt-broker</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[.dashboard.internal.DashboardService] - Stopped Dashboard</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[arthome.ui.paper.internal.PaperUIApp] - Stopped Paper UI</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[basic.internal.servlet.WebAppServlet] - Stopped Basic UI</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[panel.internal.HABPanelDashboardTile] - Stopped HABPanel</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[.dashboard.internal.DashboardService] - Started Dashboard at http://192.168.1.8:8080</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[.dashboard.internal.DashboardService] - Started Dashboard at https://192.168.1.8:8443</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[arthome.ui.paper.internal.PaperUIApp] - Started Paper UI at /paperui</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[.internal.GenericScriptEngineFactory] - Activated scripting support for ECMAScript</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[thome.model.lsp.internal.ModelServer] - Started Language Server Protocol (LSP) service on port 5007</code></div>
-        <div class="as-console-row" data-date="2019-01-07 01:43:03.601"><code class="as-console-row-code as-console-info">[panel.internal.HABPanelDashboardTile] - Started HABPanel at /habpanel</code></div>
-        <div class="as-console-row" data-date="2019-01-07 22:31:21.046"><code class="as-console-row-code as-console-info">[ulation.internal.HueEmulationServlet] - Started Hue Emulation service at /api</code></div>
-        <div class="as-console-row" data-date="2019-01-07 22:31:21.782"><code class="as-console-row-code as-console-info">[basic.internal.servlet.WebAppServlet] - Started Basic UI at /basicui/app</code></div>
+      <style>
+        .user {
+          height: 32%;
+          padding: 0 12px;
+          display: flex;
+          align-items: center;
+        }
+
+      </style>
+      <div class="as-console w-100">
+        <div slot="before-container" class="as-console-row">
+          <div class="as-console-cell-date">Timestamp</div>
+          <div class="as-console-cell-loglevel">Loglevel</div>
+          <div class="as-console-cell-code">Source</div>
+          <div class="as-console-cell-code">Message</div>
+        </div>
       </div>
+      <oh-vue-bind adapter="logview" usebundle></oh-vue-bind>
+      <oh-vue class="w-100"></oh-vue>
+      <template>
+        <dynamic-scroller :items="items" key-field="_id" :min-item-height="54" ref="scroller">
+          <template slot-scope="{ item, index, active }">
+            <dynamic-scroller-item :item="item" :active="active" :data-index="index" class="moveup">
+              <div class="as-console-cell-date" :class="loglevelClass(item)">{{ datetime(item) }}</div>
+              <div class="as-console-cell-loglevel" :class="loglevelClass(item)">{{ item.level }}</div>
+              <div class="as-console-cell-code" :class="loglevelClass(item)">{{ item.source }}</div>
+              <div class="as-console-cell-code" :class="loglevelClass(item)">{{ item.message }}</div>
+            </dynamic-scroller-item>
+          </template>
+        </dynamic-scroller>
+      </template>
     </div>
+    <!--
+            <recycle-scroller :items="items" :item-height="32" container-tag="table" content-tag="tbody">
+        <div slot-scope="{ item }" class="user">
+          {{ item.message }}
+        </div>
+      </recycle-scroller>
+    -->
+    <!--
+          <div slot="before-container">
+            <thead>
+              <tr>
+                <td>Timestamp</td>
+                <td>Loglevel</td>
+                <td>Source</td>
+                <td>Message</td>
+              </tr>
+            </thead>
+          </div>
+          <slot>
+              <tr slot-scope="{ item }" class="as-console-row-code" :class="loglevelClass(item)" style="height: 32px">
+                  <td>{{datetime(item)}}</td>
+                  <td>{{item.level}}</td>
+                  <td>{{item.source}}</td>
+                  <td>{{item.message}}</td>
+                </tr>      
+          </slot>
+      -->
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="logview"></partial>

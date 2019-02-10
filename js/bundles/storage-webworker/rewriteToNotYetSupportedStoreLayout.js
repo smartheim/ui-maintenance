@@ -1,3 +1,8 @@
+/**
+ * This file contains hacks!
+ * It contains REST receive rewrite operations to support features that are not yet in
+ * the mainline openHAB.
+ */
 import { fetchWithTimeout } from '../../common/fetch';
 
 export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) {
@@ -52,6 +57,7 @@ export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) 
             ];
             entry.status = entry.installed ? "installed" : "notinstalled";
             delete entry.installed;
+            entry.repository = "oh2addons"
             break;
         }
         case "discovery": {

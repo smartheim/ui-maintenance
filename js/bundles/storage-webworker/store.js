@@ -3,8 +3,53 @@ import { hack_addNotYetSupportedStoreData, blockLiveDataFromTables } from './add
 import { hack_rewriteEntryToNotYetSupportedStoreLayout, hack_rewriteTableToNotYetSupportedStoreLayout } from './rewriteToNotYetSupportedStoreLayout';
 import { fetchWithTimeout } from '../../common/fetch';
 import { CompareTwoDataSets } from './compareTwoDatasets';
-import { tables, tableToId, tableToURL, tableNoSingleSupport, dbversion } from './openhabStoreLayout';
+import { tables, tableIDtoEntry, dbversion } from './openhabStoreLayout';
 
+/**
+ * This is the frontends backend storage / cache for the OH REST interface. It is implemented
+ * in a state-while-revalidate strategy, so for each get/getAll we first return what we have
+ * in the database and perform a REST request as well. The REST response is inserted into the
+ * database asynchronously at receive time and if any changes are detected, those are
+ * propagated via events.
+ * 
+ * A connection to the Server-Send-Events endpoint is also established (/rest/events). Received
+ * changes are also inserted into the database and propagated via events.
+ * 
+ * ## Events
+ * 
+ * The following events are dispatched:
+ * 
+ * - "connectionEstablished"
+ * - "connectionLost"
+ * - "storeItemChanged" (Event details: value, storename)
+ * - "storeItemAdded" (Event details: value, storename)
+ * - "storeItemRemoved" (Event details: value, storename)
+ * - "storeChanged" (Event details: value, storename)
+ * 
+ * ## Sorting / Filtering
+ * 
+ * Sorting / Filtering / Limiting is not performed in here, because indexed DB does not provide
+ * those features. Those operations are performed on a full getAll() data set. Find it performed in "index.js".
+ * 
+ * ## Change detection / Diffing
+ * 
+ * If we first return a cached list of items in `getAll` and soon after notify about the received list of items
+ * we cause double work for the Views. To implement the state-while-revalidate strategy in a more optimal
+ * way, we perform a change-detection between the received list of items and the stored one.
+ * 
+ * A received REST response might have json properties stored in a different order than what we have
+ * in the database. A naive object comparision will always find the cache and REST response to be different.
+ * 
+ * Therefore received data and cached data are diff'ed by hand, see `CompareTwoDataSets`.
+ * That way we can tell the view exactly which item in a list of items has changed.
+ * 
+ * In average that leads to a fast retrival of data on a `get` and `getAll` call and one or
+ * two notifications afterwards about a changed single item in the potentially huge list.
+ * 
+ * **TODO:** This store class contains the indexedDB interface ("get","getAll") code as well
+ * as http database refresh code ("performRESTandNotify" etc). To honour separation of
+ * concerns this should be split into those two parts.
+ */
 export class StateWhileRevalidateStore extends EventTarget {
     constructor() {
         super();
@@ -91,7 +136,7 @@ export class StateWhileRevalidateStore extends EventTarget {
      * First retrieve fresh data for all tables, then dump the entire indexeddb.
      */
     async dump() {
-        const requests = tables.filter(item => item.url);
+        const requests = tables.filter(item => item.url !== undefined && !item.urlsuffix);
         for (let item of requests) {
             await fetchWithTimeout(this.openhabHost + "/" + item.uri)
                 .catch(e => { console.warn("Failed to fetch", this.openhabHost + "/" + item.uri); throw e; })
@@ -115,7 +160,7 @@ export class StateWhileRevalidateStore extends EventTarget {
         return true;
     }
 
-    async getAll(storename) {
+    async getAll(storename, options) {
         const tx = this.db.transaction(storename, 'readonly');
         let val = tx.objectStore(storename).getAll();
 
@@ -129,28 +174,36 @@ export class StateWhileRevalidateStore extends EventTarget {
         if (this.blockRESTrequest(storename))
             return val;
 
-        const uri = tableToURL[storename];
+        const uri = tableIDtoEntry[storename].uri;
         if (!uri) {
             console.warn("No URI for", storename);
             throw new Error("No URI for " + storename);
         }
 
         if (this.cacheStillValid(uri)) {
-            console.debug("cache blocked", uri);
             return val;
         }
 
-        // Return cached value but also request a new value. If cached==null return only new value
+        // Return cached value but also request a new value
         const newVal = this.performRESTandNotify(uri)
             .catch(e => { console.warn("Failed to fetch", uri); throw e; })
             .then(json => { if (!Array.isArray(json)) throw new Error("Returned value is not an array"); return json; })
             .then(json => this.replaceStore(this.db, storename, json))
-        return val || newVal;
+
+        if (options.force) { // forced: if no cached OR empty cache value, return http promise
+            if (!val || val.length == 0) return newVal;
+        }
+        return val || newVal; // If no cached value return http promise
     }
 
-    async get(storename, objectid) {
+    async get(storename, objectid, options) {
+        if (!objectid) throw new Error("No object id set for " + storename);
         const tx = this.db.transaction(storename, 'readonly');
         var val = tx.objectStore(storename).get(objectid);
+
+        const tableLayout = tableIDtoEntry[storename];
+
+        val = this.unwrapIfRequired(tableLayout, val);
 
         try {
             await tx.complete
@@ -162,46 +215,70 @@ export class StateWhileRevalidateStore extends EventTarget {
         if (this.blockRESTrequest(storename))
             return val;
 
-        const uri = tableToURL[storename];
+        let uri = tableLayout.uri;
         if (!uri) {
             console.warn("No URI for", storename);
             throw new Error("No URI for " + storename);
         }
 
+        if (tableLayout.singleRequests !== false) {
+            uri += "/" + objectid;
+        }
+
+        if (tableLayout.urlsuffix) {
+            uri += tableLayout.urlsuffix;
+        }
+
         if (this.cacheStillValid(uri)) {
-            console.debug("cache blocked", uri);
             return val;
         }
 
         // Return cached value but also request a new value. If cached==null return only new value
         let newVal = this.performRESTandNotify(uri)
             .catch(e => { console.warn("Fetch failed for", uri); throw e; })
-            .then(json => tableNoSingleSupport[storename] ? this.extractFromArray(storename, objectid, json) : json)
-            .then(json => this.insertIntoStore(this.db, storename, json));
-        return val || newVal;
+            .then(json => tableLayout.singleRequests === false ? this.extractFromArray(storename, objectid, json) : json)
+            .then(json => this.insertIntoStore(this.db, storename, this.wrapIfRequired(tableLayout, objectid, json)))
+            .then(json => this.unwrapIfRequired(tableLayout, json));
+
+        if (options.force) { // forced: if no cached OR empty cache value, return http promise
+            if (!val || val[tableLayout.key] != objectid) return newVal;
+        }
+        return val || newVal; // If no cached value return http promise
+    }
+
+    wrapIfRequired(tableLayout, objectid, json) {
+        if (tableLayout.wrapkey) {
+            let r = { id: objectid };
+            r[tableLayout.wrapkey] = json;
+            console.log("wrapIfRequired", json, r);
+            return r;
+        }
+        return json;
+    }
+
+    unwrapIfRequired(tableLayout, json) {
+        if (json && tableLayout.wrapkey && json.id) {
+            return json[tableLayout.wrapkey];
+        }
+        return json;
     }
 
     extractFromArray(storename, objectid, json) {
         if (!Array.isArray(json)) return json;
 
-        const id_key = tableToId[storename];
+        const id_key = tableIDtoEntry[storename].key;
         if (!id_key) {
             console.warn("No ID known for", storename);
-            return;
+            throw new Error("No ID known for " + storename);
         }
 
-        let found = false;
         for (var item of json) {
             if (item[id_key] == objectid) {
-                json = item;
-                found = true;
-                break;
+                return item;
             }
         }
-        if (!found) {
-            console.warn("Returned value is an array. Couldn't extract single value", json, uri, objectid, id_key)
-            throw new Error("Returned value is an array. Couldn't extract single value");
-        }
+        console.warn("Returned value is an array. Couldn't extract single value", json, uri, objectid, id_key)
+        throw new Error("Returned value is an array. Couldn't extract single value");
     }
 
     sseMessageReceived(e) {
@@ -221,6 +298,7 @@ export class StateWhileRevalidateStore extends EventTarget {
                 newState = JSON.parse(data.payload);
                 this.insertIntoStore(this.db, storename, newState);
                 return;
+            // -- Updated --
             case "ItemUpdatedEvent":
                 newState = JSON.parse(data.payload)[0];
                 this.insertIntoStore(this.db, storename, newState);
@@ -239,7 +317,7 @@ export class StateWhileRevalidateStore extends EventTarget {
                 newState = JSON.parse(data.payload);
                 this.changeItemState(this.db, storename, topic[2], newState, "status");
                 return;
-            //Ignore the following events
+            // -- Ignored events
             case "ItemStateChangedEvent":
             case "ItemStatePredicatedEvent":
             case "ItemCommandEvent":
@@ -276,9 +354,16 @@ export class StateWhileRevalidateStore extends EventTarget {
         return this.db;
     }
 
-
+    /**
+     * Returns true if a http request for a specific store should be blocked.
+     * Useful for stores that have no direct REST endpoints like design study
+     * invented ones.
+     * 
+     * This method always returns true if `openhabHost` is "demo".
+     * 
+     * @param {String} storename The store name
+     */
     blockRESTrequest(storename) {
-        console.log("block?", this.openhabHost);
         if (this.openhabHost == "demo") return true;
         if (blockLiveDataFromTables.includes(storename)) return true;
         return false;
@@ -316,8 +401,10 @@ export class StateWhileRevalidateStore extends EventTarget {
     }
 
     cacheStillValid(uri) {
-        var d = this.lastRefresh[uri];
-        return (!!d && (d + this.expireDurationMS > Date.now()));
+        const d = this.lastRefresh[uri];
+        const r = (!!d && (d + this.expireDurationMS > Date.now()));
+        if (r) console.log("Cache only response for", uri);
+        return r;
     }
 
     async initialStoreFill(db, storename, jsonList, requireRewrite) {
@@ -343,7 +430,7 @@ export class StateWhileRevalidateStore extends EventTarget {
         jsonList = await hack_rewriteTableToNotYetSupportedStoreLayout(storename, jsonList, this);
         const tx = db.transaction(storename, 'readwrite');
         const store = tx.objectStore(storename);
-        const key_id = tableToId[storename];
+        const key_id = tableIDtoEntry[storename].key;
         const compare = new CompareTwoDataSets(key_id, storename, await store.getAll(), jsonList);
 
         // Clear and add entry per entry
@@ -378,7 +465,7 @@ export class StateWhileRevalidateStore extends EventTarget {
             return;
         }
         const store = db.transaction(storename, 'readwrite').objectStore(storename);
-        const id_key = tableToId[storename];
+        const id_key = tableIDtoEntry[storename].key;
         const id = jsonEntry[id_key];
         await store.delete(id);
         this.dispatchEvent(new CustomEvent("storeItemRemoved", { detail: { "value": jsonEntry, "storename": storename } }));
@@ -398,12 +485,12 @@ export class StateWhileRevalidateStore extends EventTarget {
     }
     async insertIntoStore(db, storename, jsonEntry) {
         if (!jsonEntry || typeof jsonEntry !== 'object' || jsonEntry.constructor !== Object) {
-            console.warn("insertIntoStore must be called with an object", jsonEntry);
+            console.warn("insertIntoStore must be called with an object", storename, jsonEntry);
             return;
         }
         jsonEntry = hack_rewriteEntryToNotYetSupportedStoreLayout(storename, jsonEntry);
         const store = db.transaction(storename, 'readwrite').objectStore(storename);
-        const id_key = tableToId[storename];
+        const id_key = tableIDtoEntry[storename].key;
         var old = await store.get(jsonEntry[id_key]);
         await store.put(jsonEntry);
         if (!old) {

@@ -12,6 +12,7 @@ export * from './oh-vue/index'
 export * from './oh-dropdown-bind'
 export * from './oh-attribute-bind'
 export * from './oh-event-bind'
+export * from './oh-prop-bind'
 export * from './oh-login-status-link'
 
 export { fetchWithTimeout } from '../../common/fetch';

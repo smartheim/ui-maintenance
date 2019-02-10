@@ -3,6 +3,8 @@
 This repository contains a design theme study for a new generation of openHAB paper UI.
 See https://davidgraeff.github.io/paperui-ng/.
 
+![Application screenshot](docs/screenshot.png "Application screenshot")
+
 Please participate by editing files in this repository and make pull requests.
 Especially the help texts and introduction text, graphics and potential videos require help.
 

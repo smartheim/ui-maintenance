@@ -1,3 +1,8 @@
+/**
+ * This file contains hacks!
+ * It contains REST endpoints that are not yet in the mainline openHAB.
+ */
+
 async function addManualExtensions(tx) {
     const store = tx.objectStore('manualextensions');
     await store.clear();

@@ -44,7 +44,6 @@ export class StorageConnector extends EventTarget {
             const e = msgEvent.data;
             if (e.msgid) {
                 const queueItem = this.queue[e.msgid];
-                console.debug("received response from webworker", e);
                 if (queueItem) {
                     if (e.iserror)
                         queueItem.accept(new Error(e.result));
@@ -52,7 +51,7 @@ export class StorageConnector extends EventTarget {
                         queueItem.accept(e.result);
                 }
             } else {
-                console.debug("received notification from webworker", e);
+                // console.debug("received notification from webworker", e);
                 switch (e.type) {
                     case "connectionLost":
                         this.connected = false;

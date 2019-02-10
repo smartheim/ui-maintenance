@@ -53,10 +53,15 @@
           </div>
           <div class="footer">
             <small>Authors: {{item.author}}</small>
-            <a target="_blank" :href="'https://github.com/openhab/openhab2-addons/issues/new?title=['+item.id+']&nbsp;Your-&nbsp;title'">Report
+            <a class="ml-auto" target="_blank" :href="'https://github.com/openhab/openhab2-addons/issues/new?title=['+item.id+']&nbsp;Your-&nbsp;title'">Report
               a bug</a>
-            <ui-dropdown btnclass="btn btn-primary-hover btn-sm p-0" v-if="hasCustomPages()" class="ml-2" nostate
-              novalue label="Auxiliaries" viewkey="label" valuekey="uri" :options.prop="this.item.custompages" @input="showAuxiliary"></ui-dropdown>
+            <oh-doc-link show class="btn btn-info-hover btn-sm text-nowrap ml-2" href="binding_supported_things.fragment.html"
+              :context.prop="'UID:'+item.id" title="Supported Things">
+              <i class="fas fa-clipboard-list"></i> <span>Things</span>
+            </oh-doc-link>
+            <ui-dropdown btnclass="btn btn-primary-hover btn-sm text-nowrap" v-if="hasCustomPages()" class="ml-2"
+              nostate novalue label="Auxiliaries" viewkey="label" valuekey="uri" :options.prop="this.item.custompages"
+              @input="showAuxiliary"></ui-dropdown>
           </div>
         </section>
       </template>
