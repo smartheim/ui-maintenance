@@ -8,6 +8,10 @@
     opacity: 0;
 }
 
+.fadein {
+    animation: fadein 0.5s;
+}
+
 @keyframes fadein {
     from {
         opacity: 0;
@@ -98,5 +102,57 @@
     to {
         border-color: #ff7214;
         background-color: #ecbb77;
+    }
+}
+
+.ripple {
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, .5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%);
+        transform-origin: 50% 50%;
+    }
+    &:focus:not(:active)::after {
+        animation: ripple 1s ease-out;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
+.pulseAnimation {
+    animation-name: pulse;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
     }
 }

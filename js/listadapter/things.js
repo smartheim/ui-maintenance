@@ -1,29 +1,8 @@
 import { store } from '../app.js';
+import { Vue } from '../vue.js';
+import { generateThingTemplate, Yaml } from '../ohcomponents.js';
 
-class StoreView {
-    constructor() { this.items = []; this.thingtypes = []; }
-    stores() { return { "things": "items" } };
-    sortStore() { return "things" };
-    getall(options = null) {
-        return store.get("thing-types", null, { force: true })
-            .then(list => this.thingtypes = list)
-            .then(() => this.get(options))
-    }
-    get(options = null) {
-        return store.get("things", null, options).then(items => this.items = items);
-    }
-    getThingTypeFor(uid) {
-        for (const thingType of this.thingtypes) {
-            if (thingType.UID == uid)
-                return thingType;
-        }
-        return null;
-    }
-    dispose() {
-    }
-}
-
-const schema = {
+let schema = {
     uri: 'http://openhab.org/schema/things-schema.json',
     fileMatch: ["http://openhab.org/schema/things-schema.json"],
     schema: {
@@ -32,21 +11,102 @@ const schema = {
         definitions: {
             item: {
                 type: "object",
-                description: "An openHAB thing",
+                description: "openHAB thing",
                 required: ["UID", "thingTypeUID", "label"],
                 properties: {
-                    link: { type: "string", description: "Internal URI information for openHAB REST clients" },
-                    editable: { type: "boolean", description: "Items defined via old .item files are not editable" },
                     UID: { type: "string", description: "A unique ID for this thing", minLength: 2 },
                     label: { type: "string", description: "A friendly name", minLength: 2 },
-                    tags: { type: "array", "uniqueItems": true, description: "Tags of this item" },
-                    // config: { // reference the second schema.. demo
-                    //     $ref: 'http://myserver/bar-schema.json', 
-                    // },
+                    tags: {
+                        type: "array", "uniqueItems": true, description: "Tags of this thing",
+                        items: {
+                            "type": "string"
+                        }
+                    },
+                    thingTypeUID: { type: "string", description: "The type of this thing. Provided by a binding.", enum: [] },
+                    channels: {
+                        type: "array", uniqueItems: true, description: "Thing channels",
+                        items: {
+                            type: "object",
+                            properties: {
+                                required: ["uid", "id", "channelTypeUID"],
+                                uid: { type: "string", description: "A unique ID for this channel", minLength: 2 },
+                                id: { type: "string", description: "The id part of the unique ID. Must match with UID", minLength: 2 },
+                                channelTypeUID: { type: "string", description: "The channel type" },
+                                linkedItems: { type: "array", uniqueItems: true, description: "The items that are linked to this channel" },
+                                configuration: {
+                                    type: "object",
+                                    description: "A channel might have optional or required configuration",
+                                    properties: {}
+                                },
+                                properties: {
+                                    type: "object",
+                                    description: "Properties are runtime informations",
+                                    properties: {}
+                                },
+                                defaultTags: {
+                                    type: "array", "uniqueItems": true, description: "Tags that will be copied to a linked Item",
+                                    items: {
+                                        "type": "string"
+                                    }
+                                },
+                                label: { type: "string", description: "A friendly name", minLength: 2 },
+                                kind: { type: "string", description: "A channel can be a state channel or a trigger channel", enum: ["STATE", "TRIGGER"] },
+                                itemType: {
+                                    type: "string", description: "The item type for this channel",
+                                    enum: ['String', 'Number', 'Switch', 'Color', 'Contact', 'DateTime', 'Dimmer', 'Image', 'Location', 'Player',
+                                        'Rollershutter', 'Group']
+                                },
+                            }
+                        }
+                    },
+                    configuration: {
+                        type: "object",
+                        description: "A thing might have optional or required configuration",
+                        properties: {}
+                    },
                 }
             }
         }
     },
+}
+
+
+class StoreView {
+    constructor() { this.items = []; this.thingtypes = []; }
+    stores() { return { "things": "items" } };
+    sortStore() { return "things" };
+    getall(options = null) {
+        return store.get("thing-types", null, { force: true })
+            .then(v => this.thingtypes = v)
+            .then(() => this.get(options))
+    }
+    get(options = null) {
+        return store.get("things", null, options).then(items => this.items = items).then(() => this.adaptSchema());
+    }
+    getThingTypeFor(uid) {
+        for (const thingType of this.thingtypes) {
+            if (thingType.UID == uid)
+                return thingType;
+        }
+        return null;
+    }
+    getExtendedThingTypeFor(uid) {
+        return store.get("thing-types-extended", uid, { force: true });
+    }
+    getThingTypeConfigDescriptionsFor(uid) {
+        return store.get("config-descriptions", "thing-type:" + uid, { force: true });
+    }
+    getChannelTypesConfigDescriptionsFor(bindingID) {
+        return store.get("config-descriptions", null, { filter: "uri:channel-type:" + bindingID, force: true });
+    }
+    getChannelTypes(bindingID) {
+        return store.get("channel-types", null, { filter: "UID:" + bindingID + ":", force: true });
+    }
+    dispose() {
+    }
+    adaptSchema() {
+        schema.schema.definitions.item.properties.thingTypeUID.enum = this.thingtypes.map(i => i.UID);
+    }
 }
 
 const ThingsMixin = {
@@ -105,8 +165,140 @@ const ThingsMixin = {
     }
 }
 
+function symbolChainEqual(chain1, chain2) {
+    if (chain1.length != chain2.length) return false;
+    for (let i = 0; i < chain1.length; ++i) {
+        if (chain1[i] != chain2[i]) return false;
+    }
+    return true;
+}
+
+const ItemListMixin = {
+    mounted: function () {
+        this.symbolSelectedBound = (symbol) => this.symbolSelected(symbol);
+    },
+    beforeDestroy: function () {
+        if (this.$refs.editor) {
+            this.$refs.editor.setCompletionHelper();
+            this.$refs.editor.removeEventListener("selected", this.symbolSelectedBound);
+        }
+    },
+    methods: {
+        saveAll: function (items) {
+            //TODO
+            console.log("save all", items);
+        },
+        async editorCompletion(symbols, trigger) {
+            if (symbols.length == 1) {
+                let content = generateThingTemplate(schema.schema.definitions.item.properties,
+                    null, null, null, null, null, true);
+                content = Yaml.dump([content], 10, 4).replace(/-     /g, "-\n    ");
+
+                if (trigger) content = content.replace("-", "");
+                return [{
+                    label: 'New ' + schema.schema.definitions.item.description,
+                    documentation: 'Creates a new object template',
+                    insertText: content,
+                }];
+            }
+            const context = this.last.context;
+            if (context && (symbols.length == 2 || symbols.length == 4) && symbols[1] == "channels") {
+                let channels = generateThingTemplate(context.schema,
+                    context.thingType, context.channelConfigTypes, context.channelTypes,
+                    context.focus, context.focusChannelindex, true);
+
+                let suggestions = [];
+                for (let channel of channels) {
+                    let content = Yaml.dump([channel], 10, 4).replace(/-     /g, "-\n    ");
+                    if (trigger) content = content.replace("-", "");
+
+                    suggestions.push({
+                        label: 'New ' + channel.label + " channel",
+                        documentation: 'Creates a new object template',
+                        insertText: content,
+                    })
+                }
+                return suggestions;
+            } else {
+                console.log("NO AUTOCOMPLETE", symbols);
+            }
+
+            return [];
+        },
+        // Editor symbol selected
+        async symbolSelected(event) {
+            const symbolChain = event.detail;
+            if (this.last && symbolChainEqual(this.last.symbol, symbolChain)) return;
+            if (!this.last) this.last = {};
+            this.last.symbol = symbolChain;
+            const thingTypeUID = symbolChain[0];
+            if (thingTypeUID && thingTypeUID.includes(" ")) return; // Whitespace? Early exit
+            let context;
+            if (this.last.thingTypeUID != thingTypeUID) {
+                this.last.thingTypeUID = thingTypeUID;
+                const bindingID = thingTypeUID.split(":")[0];
+                const thingType = await this.$root.store.getExtendedThingTypeFor(thingTypeUID);
+                //   const configurationType = await this.$root.store.getThingTypeConfigDescriptionsFor(thingTypeUID);
+                const channelConfigTypes = await this.$root.store.getChannelTypesConfigDescriptionsFor(bindingID) || [];
+                const channelTypes = await this.$root.store.getChannelTypes(bindingID) || [];
+                let thingSchema = JSON.parse(JSON.stringify(schema.schema.definitions.item.properties));
+                thingSchema.thingTypeUID.enum = [];
+                context = { thingType, channelConfigTypes, channelTypes, schema: thingSchema }; // configurationType
+                this.last.context = context;
+            } else {
+                context = this.last.context;
+            }
+
+            if (!context.thingType) return;
+
+            if (symbolChain.length > 1 && symbolChain[1] == "configuration") { // thing config
+                context.focus = "thingconfig";
+            } else if (symbolChain.length > 1 && symbolChain[1] == "channels") {
+                if (symbolChain.length > 3 && symbolChain[3] == "configuration") { // channel config
+                    context.focus = "channelconfig";
+                    context.focusChannelindex = symbolChain[2];
+                } else {
+                    context.focus = "channels";
+                }
+            } else {
+                context.focus = null;
+            }
+
+            if (this.ohcontexthelp === undefined) {
+                this.ohcontexthelp = document.querySelector("oh-context-help");
+                if (!this.ohcontexthelp) {
+                    console.warn("Did not find context help element");
+                    return;
+                }
+            }
+
+            this.ohcontexthelp.contenturl = null;
+            this.ohcontexthelp.contextdata = context;
+            this.ohcontexthelp.contenturl = "thing_type.fragment.html";
+
+            if (!this.showcontext) {
+                this.showcontext = true;
+                document.querySelector('body').classList.add('showcontext');
+            }
+        }
+    },
+    watch: {
+        viewmode(val) {
+            if (val !== "textual") {
+                delete this.lastSymbol;
+                return;
+            }
+            Vue.nextTick(() => {
+                if (!this.$refs.editor) return;
+                this.$refs.editor.setCompletionHelper((symbols, trigger) => this.editorCompletion(symbols, trigger));
+                this.$refs.editor.addEventListener("selected", this.symbolSelectedBound);
+            });
+        }
+    }
+};
+
 const mixins = [ThingsMixin];
-const listmixins = [];
+const listmixins = [ItemListMixin];
 const runtimekeys = ["link", "editable", "statusInfo", "properties", "actions"];
 const ID_KEY = "UID";
 

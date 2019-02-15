@@ -11,7 +11,7 @@
 <link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-700.woff2"
     as="font" type="font/woff2" crossorigin="anonymous">
 <link rel="preload" href="img/pattern_opacity.png" as="image">
-<link rel="preload" href="img/openhab-logo.png" as="image">
+<link rel="preload" href="img/openhab-logo.svg" as="image">
 <link rel="stylesheet" href="css/main.css" type="text/css" />
 <link rel="prefetch" href="js/vue.js" as="script">
 <!-- firefox issue <link rel="preload" href="css/main_async.css" as="style" onload="this.rel='stylesheet'"> -->
@@ -20,7 +20,7 @@
 <script type="module" src="js/ohcomponents.js"></script>
 <script type="module" src="js/uicomponents.js"></script>
 <script type="module">
-    function checkDarkTheme() {
+    function applyTheme() {
         if (localStorage.getItem("darktheme") === "true") {
             let css = document.getElementById("darkthemecss");
             if (css) return;
@@ -35,13 +35,28 @@
             let css = document.getElementById("darkthemecss");
             if (css) css.remove();
         }
+        if (localStorage.getItem("widetheme") === "true") {
+            window.requestAnimationFrame(() => {
+                document.querySelector("body").classList.add("wide");
+            });
+        } else {
+            window.requestAnimationFrame(() => {
+                document.querySelector("body").classList.remove("wide");
+            });
+        }
     }
-    checkDarkTheme();
+    window.toggleWideTheme = function (event) {
+        event.preventDefault();
+        let isEnabled = localStorage.getItem("widetheme") === "true";
+        localStorage.setItem("widetheme", !isEnabled);
+        applyTheme();
+    }
+    applyTheme();
     window.addEventListener('storage', e => {
         console.log("changed", e.key);
-        if (e.key == "darktheme") checkDarkTheme();
+        if (e.key == "darktheme") applyTheme();
     });
     document.addEventListener('themechange', e => {
-        checkDarkTheme();
+        applyTheme();
     });
 </script>

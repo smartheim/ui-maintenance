@@ -42,8 +42,17 @@ const ServicesMixin = {
     }
 }
 
+const ItemListMixin = {
+    methods: {
+        saveAll: function (items) {
+            //TODO
+            console.log("save all", items);
+        }
+    }
+};
+
 const mixins = [ServicesMixin];
-const listmixins = [];
+const listmixins = [ItemListMixin];
 const runtimekeys = [];
 const schema = null;
 const ID_KEY = "uid";

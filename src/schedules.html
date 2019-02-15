@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -22,6 +22,7 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Setup recurring and one-shot timers"></partial>
   <main>
+
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
       select="Selection mode">
       <button class="btn btn-danger" data-action="remove">
@@ -35,31 +36,29 @@
     <oh-vue-list id="schedulelist">
       <partial src="vuelistbasics.html" key="item.UID" help="contexthelp/scheduler"></partial>
       <template slot="item">
-        <section class="listitem" :id="item.UID">
-          <div class="body">
-            <div class="title">
-              <span :title="item.label"> {{item.label}} </span>
-              <span class="actions btn-group">
-                <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
-                    class="fas fa-info"></i></button>
-                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
-              </span>
-            </div>
-            <vue-metainfo uniqueid="item.UID"></vue-metainfo>
-            <vue-inprogress></vue-inprogress>
-            <section class="description">
-              <span>{{timerDescription(item)}}</span>
-              <span class="small muted">Runs: {{item.totalRuns}}<span v-if="item.remainingRuns">,
-                  Remaining: {{item.remainingRuns}}</span></span>
-            </section>
-          </div>
-          <div class="footer py-1 px-3">
+        <article :id="item.UID">
+          <vue-metainfo :uniqueid="item.UID"></vue-metainfo>
+          <vue-inprogress></vue-inprogress>
+          <header class="title">
+            <span :title="item.label"> {{item.label}} </span>
+          </header>
+          <section class="actions btn-group">
+            <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
+                class="fas fa-info"></i></button>
+            <button class="btn btn-danger-hover" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
+          </section>
+          <section class="description">
+            <span>{{timerDescription(item)}}</span>
+            <span class="small muted">Runs: {{item.totalRuns}}<span v-if="item.remainingRuns">,
+                Remaining: {{item.remainingRuns}}</span></span>
+          </section>
+          <footer>
             <i :class="timerStatusBadge()">{{timerStatusinfo()}}</i>
-            <a class="ml-auto btn btn-info-hover btn-sm text-nowrap" :href="'scheduledtask.html?uid='+encodeURIComponent(item.UID)"><i
-                class="fas fa-cog"></i> <span>Configure</span></a>
-            <button class="btn btn-primary-hover btn-sm text-nowrap" @click="run()">Run</button>
-          </div>
-        </section>
+            <a class="ml-auto btn btn-outline-secondary text-nowrap" :href="'scheduledtask.html?uid='+encodeURIComponent(item.UID)">
+              <span>Configure</span></a>
+            <button class="btn btn-outline-success text-nowrap" @click="run()">Run</button>
+          </footer>
+        </article>
       </template>
     </oh-vue-list>
   </main>

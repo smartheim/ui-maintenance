@@ -26,21 +26,27 @@ class UiDropdown extends HTMLElement {
         this.addEventListener("click", e => e.stopPropagation());
         this.classList.add("dropdown");
         const classes = this.hasAttribute("btnclass") ? this.getAttribute("btnclass") : "btn btn-primary-hover btn-sm";
-        if (this.editable) {
-            render(html`
-            <input class="${classes} dropdown-toggle label" aria-haspopup="true" aria-expanded="false"
-                @click=${this.toggleShow.bind(this)}>
-            <div class="dropdown-menu"></div>`, this);
+
+        let controlChild = null;
+        if (this.firstElementChild == null) {
+            controlChild = document.createElement("div");
+            if (this.editable) {
+                render(html`
+            <input class="${classes} dropdown-toggle label" aria-haspopup="true" aria-expanded="false">`, controlChild);
+            } else {
+                render(html`
+            <button class="${classes} dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false"><span class="label"></span></button>`, controlChild);
+            }
+            controlChild = this.appendChild(controlChild.firstElementChild)
         } else {
-            render(html`
-            <button class="${classes} dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false"
-                @click=${this.toggleShow.bind(this)}>
-              <span class="label"></span>
-            </button>
-            <div class="dropdown-menu"></div>`, this);
+            controlChild = this.firstElementChild;
         }
-        this.dropdownEl = this.querySelector(".dropdown-menu");
+        controlChild.addEventListener("click", this.toggleShow.bind(this));
+
+        const el = document.createElement("div"); el.classList.add("dropdown-menu");
+        this.dropdownEl = this.appendChild(el);
         this.labelEl = this.querySelector(".label");
+        if (!this.labelEl) throw new Error("Render failed");
 
         if (this._options) this.options = this._options;
         if (this.hasAttribute("options")) this.attributeChangedCallback("options");

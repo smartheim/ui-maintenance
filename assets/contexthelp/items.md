@@ -3,6 +3,11 @@
 
 Find all your configured *Items* listed here.
 
+## Name
+
+An *Item* has a name to identify it easily. Click on the name and change it.
+Press enter or leave the name field to confirm.
+
 ## Icons
 
 An *Item* can have an icon assigned that is used for presentation in some user interfaces.
@@ -12,11 +17,11 @@ For all available icons have a look at
 ## Groups
 
 *Items* can be assigned to groups. A group is just another *Item* that is of type "Group".
-A group can have a state on its own (On, Off, Open, Closed), but only if it is of any type
-like for example a Switch type or Number type.
 
-The groups state depends on the selected group-state-function.
-For example a group can appear as ON if any of its switch-based members are one.
+A group tries to merge the states of its children and present this accumulated state.
+You need to tell openHAB though how to perform the state merge and how to present the state.
+
+Consult further help on this topic in the "Type" tab after you have set the item type to "Group".
 
 ## Filter
 

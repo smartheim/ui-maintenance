@@ -124,6 +124,10 @@ class OhVueForm extends HTMLElement {
     set runtimeKeys(val) {
         this.vue.runtimeKeys = val;
     }
+
+    updateContext(context) {
+        this.vue.context = context;
+    }
 }
 
 customElements.define('oh-vue-form', OhVueForm);

@@ -1,21 +1,27 @@
 /**
- * Embeds the VS code editor.
- * TODO: yaml/toml plugin e.g. https://github.com/pengx17/monaco-yaml for a textual
- * representation of Things, Items and Rules.
+ * Embeds the VS code editor. There are some workarounds in place,
+ * because the monaco editor is a no ES6-module RequireJS package.
+ * 
+ * That hopefully changes in the future. (Microsoft is working on it)
  */
-
 import { fetchWithTimeout } from '../../common/fetch'
+
+const NEVER_CANCEL_TOKEN = {
+    isCancellationRequested: false,
+    onCancellationRequested: () => Event.NONE,
+};
 
 /**
  * A VS-Code base editor component. 
- * The VS-Code editor is unfortunately not packed as ES6 module.
- * The requirejs loader is used within this component to load 
- * the editor on-demand.
  * 
  * Properties:
  * - scriptfile: A URL to show in the editor
  * - content: A content object: {value:"text",language:"javascript|yaml",modeluri:"optional_schema_uri"}
  * - modelschema: A model schema object
+ * - haschanges: A boolean that is true if the editor content has been altered
+ * 
+ * Events:
+ * - "state": Emited as soon as the editor content has been altered
  */
 class OhCodeEditor extends HTMLElement {
     constructor() {
@@ -37,12 +43,26 @@ class OhCodeEditor extends HTMLElement {
     }
 
     set content(data) {
+        if (!data) {
+            return;
+        }
+
         if (this.editor) {
+            this.haschanges = false;
+            this.removeAttribute("haschanges");
             this.editor.setModel(null);
             if (this.model) this.model.dispose();
+            this.raw = data.raw;
             this.model = this.monaco.editor.createModel(data.value, data.language, data.modeluri);
+            this.model.onDidChangeContent(() => {
+                if (this.haschanges) return;
+                this.haschanges = true;
+                this.setAttribute("haschanges", "true");
+                this.dispatchEvent(new Event("state"));
+            });
             this.editor.setModel(this.model);
             if (data.language == "yaml") this.loadYamlHighlightSupport();
+            this.updateSchema();
             delete this.cached;
         }
         else
@@ -50,27 +70,57 @@ class OhCodeEditor extends HTMLElement {
     }
 
     get content() {
-        return "";
+        if (this.model) {
+            return this.model.getValue();
+        }
+        return null;
     }
 
-    get modelschema() {
-        return this._modelschema;
-    }
-
-    set modelschema(val) {
-        this._modelschema = val;
-        this.updateSchema();
+    set readonly(val) {
+        if (this.editor) {
+            this.editor.updateOptions({ readOnly: val })
+            if (val) {
+                this.editor.addOverlayWidget(this.overlayWidget);
+            } else {
+                this.editor.removeOverlayWidget(this.overlayWidget);
+            }
+        }
     }
 
     updateSchema() {
-        if (!this._modelschema || !this.monaco || !this.monaco.languages.yaml) return;
+        if (!this.modelschema || !this.monaco || !this.monaco.languages.yaml) return;
         this.monaco.languages.yaml.yamlDefaults.setDiagnosticsOptions({
             enableSchemaRequest: false,
             validate: true,
             schemas: [
-                this._modelschema
+                this.modelschema
             ],
         });
+        if (this.yamlCompletionProvider) {
+            this.yamlCompletionProvider.dispose();
+            delete this.yamlCompletionProvider;
+        }
+        this.yamlCompletionProvider = this.monaco.languages.registerCompletionItemProvider('yaml', {
+            triggerCharacters: ["-"],
+            provideCompletionItems: async (model, position, context, token) => {
+                const symbols = await this.getSymbolsForPosition(position);
+                let suggestions = [];
+                if (this.completionHelper) {
+                    // Must return "label","documentation","insertText"
+                    let prefilledArray = await this.completionHelper(symbols, context.triggerCharacter);
+                    for (let prefilled of prefilledArray) {
+                        prefilled.kind = monaco.languages.CompletionItemKind.Snippet;
+                        prefilled.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
+                        suggestions.push(prefilled);
+                    }
+                }
+                return { suggestions: suggestions };
+            }
+        });
+    }
+
+    setCompletionHelper(helper) {
+        this.completionHelper = helper;
     }
 
     loadRequireJS() {
@@ -94,62 +144,54 @@ class OhCodeEditor extends HTMLElement {
         });
     }
 
+    async getSymbolsForPosition(position) {
+        if (!this.quickOpen) return null;
+        let symbols = await this.quickOpen.getDocumentSymbols(
+            this.model,
+            true,
+            NEVER_CANCEL_TOKEN
+        );
+
+        symbols = symbols.filter(symbol =>
+            symbol.range.containsPosition(position)
+        );
+        if (symbols.length) {
+            // this.model.getLineContent()
+            let uidLine = null;
+            for (let i = symbols[0].range.startLineNumber; i < symbols[0].range.endLineNumber; ++i) {
+                let t = this.model.getLineContent(i);
+                t = t.match(" thingTypeUID: [']+(.*)[']+");
+                if (t && t.length > 0) {
+                    uidLine = t[1];
+                    break;
+                }
+            }
+            if (!uidLine) return null;
+            symbols[0] = { name: uidLine };
+        }
+        symbols = symbols.map(symbol => {
+            const makeNumber = parseInt(symbol.name);
+            if (makeNumber) return makeNumber;
+            return symbol.name;
+        });
+
+        return symbols;
+    }
+
+    async cursorChangeListener(selection) {
+        const position = selection.getPosition();
+        let symbols = await this.getSymbolsForPosition(position);
+        if (symbols && symbols.length) {
+            this.dispatchEvent(new CustomEvent("selected", { detail: symbols }));
+        }
+    }
+
     loadYamlHighlightSupport() {
         if (this.yamlquickopen) return Promise.resolve("");
         return new Promise((resolve, reject) => {
             require(['vs/editor/contrib/quickOpen/quickOpen'], async quickOpen => {
-                const NEVER_CANCEL_TOKEN = {
-                    isCancellationRequested: false,
-                    onCancellationRequested: () => Event.NONE,
-                };
-
-                let oldDecorations = [];
-
-                async function _getSymbolForPosition(model, position) {
-                    const symbols = await quickOpen.getDocumentSymbols(
-                        model,
-                        false,
-                        NEVER_CANCEL_TOKEN
-                    );
-
-                    function _recur(symbol) {
-                        let target = symbol;
-                        if (symbol && symbol.children && symbol.children.length) {
-                            target =
-                                _recur(
-                                    symbol.children.find(child =>
-                                        child.range.containsPosition(position)
-                                    )
-                                ) || symbol;
-                        }
-
-                        return target;
-                    }
-
-                    return _recur({ children: symbols });
-                }
-
-                this.editor.onDidChangeCursorSelection(async ({ selection }) => {
-                    const model = this.editor.getModel();
-                    const position = selection.getPosition();
-                    const symbol = await _getSymbolForPosition(model, position);
-
-                    console.log(`${symbol.name}: ${symbol.range}`);
-                    if (symbol && symbol.range) {
-                        const decoration = {
-                            range: symbol.range,
-                            options: {
-                                isWholeLine: false,
-                                className: 'x-highlight-range',
-                            },
-                        };
-
-                        oldDecorations = this.editor.deltaDecorations(
-                            oldDecorations,
-                            decoration ? [decoration] : []
-                        );
-                    }
-                });
+                this.quickOpen = quickOpen;
+                this.editor.onDidChangeCursorSelection(event => this.cursorChangeListener(event.selection));
                 resolve();
             })
         });
@@ -205,11 +247,11 @@ class OhCodeEditor extends HTMLElement {
 
     startEditor() {
         const el = this;
-        if (this.model) this.model.dispose();
-        this.model = this.monaco.editor.createModel("", "javascript");
+        //if (this.model) this.model.dispose();
+        // this.model = this.monaco.editor.createModel("", "javascript");
         this.monaco.editor.setTheme(localStorage.getItem("darktheme") == "true" ? "vs-dark" : "vs");
         while (this.firstChild) { this.firstChild.remove(); }
-        this.editor = this.monaco.editor.create(el, this.model);
+        this.editor = this.monaco.editor.create(el);
         let offset = { width: el.offsetWidth, height: el.offsetHeight - 50 }
         this.editor.layout(offset);
         if (this.resizeTimer) clearInterval(this.resizeTimer);
@@ -220,10 +262,30 @@ class OhCodeEditor extends HTMLElement {
                 this.editor.layout(offset);
             }
         }, 2000);
-
         if (this.cached) {
             this.content = this.cached;
+        } else {
+            this.content = { value: "", language: "javascript", modeluri: null };
         }
+
+        this.overlayWidget = {
+            domNode: null,
+            getId: function () {
+                return 'my.overlay.widget';
+            },
+            getDomNode: function () {
+                if (!this.domNode) {
+                    this.domNode = document.createElement('div');
+                    this.domNode.innerHTML = 'Read-only mode. Storing data &hellip;';
+                    this.domNode.classList.add("editoroverlay");
+                }
+                return this.domNode;
+            },
+            getPosition: function () {
+                return null;
+            }
+        };
+
         return Promise.resolve("");
     }
 }

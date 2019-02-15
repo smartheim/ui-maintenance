@@ -10,7 +10,7 @@ class StoreView {
     get(thinguid, options = null) {
         return store.get("things", thinguid, options)
             .then(v => this.value = v)
-            .then(() => store.get("thing-types", this.value.thingTypeUID, { force: true }))
+            .then(() => store.get("thing-types-extended", this.value.thingTypeUID, { force: true }))
             .then(json => this.thingtype = json)
             .then(() => store.get("channel-types", null, { force: true }))
             .then(json => this.channeltypes = json)
@@ -24,6 +24,23 @@ class StoreView {
         }
         return null;
     }
+    /**
+     * ThingTypeDTO {
+        UID (string, optional),
+        label (string, optional),
+        description (string, optional),
+        category (string, optional),
+        listed (boolean, optional),
+        supportedBridgeTypeUIDs (Array[string], optional),
+        bridge (boolean, optional),
+        channels (Array[ChannelDefinitionDTO], optional),
+        channelGroups (Array[ChannelGroupDefinitionDTO], optional),
+        configParameters (Array[ConfigDescriptionParameterDTO], optional),
+        parameterGroups (Array[ConfigDescriptionParameterGroupDTO], optional),
+        properties (object, optional),
+        extensibleChannelTypeIds (Array[string], optional)
+        }
+     */
     getThingType() {
         return this.thingtype;
     }

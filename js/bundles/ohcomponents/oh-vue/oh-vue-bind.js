@@ -27,16 +27,32 @@ class OhVueBind extends HTMLElement {
             return;
         }
 
-        const usebundle = this.hasAttribute("usebundle");
-        const adapter = this.getAttribute("adapter");
-        const path = usebundle ? './js/' : './js/mixins/';
-        importModule(path + adapter + '.js')
-            .then(async (module) => {
-                target.start(module.mixins);
-            })
-            .catch(e => console.log("adapter bind failed", e));
+        this.target = target;
+
+        let contextdata = {};
+        if (this.hasAttribute("contextfrom") && this.hasAttribute("sourceproperty")) {
+            const targetNode = document.querySelector(this.getAttribute("contextfrom"));
+            const sourceProperty = this.getAttribute("sourceproperty") || "contextdata";
+            contextdata = targetNode[sourceProperty];
+        }
+
+        if (this.hasAttribute("adapter")) {
+            const usebundle = this.hasAttribute("usebundle");
+            const adapter = this.getAttribute("adapter");
+            const path = usebundle ? './js/' : './js/mixins/';
+            importModule(path + adapter + '.js')
+                .then(async (module) => {
+                    target.start(module.mixins, contextdata);
+                })
+                .catch(e => console.log("adapter bind failed", e));
+        } else {
+            target.start([], contextdata);
+        }
     }
     disconnectedCallback() {
+    }
+    set context(data) {
+        if (this.target) this.target.updateContext(data);
     }
 }
 

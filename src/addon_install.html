@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/addons.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Navigation</h4>
     <ul>
@@ -42,6 +42,7 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Install new Add-ons"></partial>
   <main>
+
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
       <button class="btn btn-success" data-action="install">
         <i class="fas fa-check"></i> Install
@@ -54,31 +55,35 @@
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addons_install"></partial>
       <template slot="item">
-        <section class="listitem" :id="item.id">
-          <div class="body">
-            <div class="title"><span>{{item.label}}</span> <small>{{item.version}}</small>
-              <select class="ml-2 custom-select form-control-sm" @input="changeVersion($event.target.value)">
+        <article :id="item.id">
+          <vue-inprogress></vue-inprogress>
+          <header><span>{{item.label}}</span></header>
+          <section class="actions">
+          </section>
+          <section class="description">
+            <span>{{item.description}}
+              <oh-doc-link v-if="item.url_doc" show title="Show full documentation page" :href="item.url_doc" class="ml-2 link">
+                <i class="fas fa-external-link-alt"></i></oh-doc-link>
+            </span>
+            <div style="display: flex;justify-content: space-between;">
+              <small style="white-space: nowrap;text-overflow: ellipsis;">&ndash; By {{item.author}}
+              </small>
+              <select class="ml-2 custom-select form-control-sm" style="max-width: 150px;" @input="changeVersion($event.target.value)"
+                :value="item.version">
                 <option v-for="ver in item.availableVersions" :value="ver">{{ver}}</option>
               </select>
             </div>
-            <vue-inprogress></vue-inprogress>
-            <section class="description"> Create broker connections, connect Things/Channels to MQTT Topics. <small>&ndash;
-                By Author1, Author2</small>
-            </section>
-            <section class="actions">
-              <span class="btn-group" role="group">
-                <button class="btn btn-success" @click="install()"><i class="fas fa-check"></i> <span>Install</span></button>
-              </span>
-              <span class="btn-group" role="group">
-                <oh-doc-link show :href="item.link" class="btn btn-info"><i class="fas fa-book"></i> <span>Documentation</span></oh-doc-link>
-                <oh-doc-link show href="https://raw.githubusercontent.com/eclipse/smarthome/master/extensions/binding/org.eclipse.smarthome.binding.mqtt/changelog.md"
-                  class="btn btn-secondary"><i class="fas fa-file-alt"></i> <span>Changelog</span></oh-doc-link>
-              </span>
-            </section>
-          </div>
-        </section>
+          </section>
+          <footer>
+            <oh-doc-link v-if="item.url_changelog" show :href="item.url_changelog" class="btn btn-outline-secondary text-nowrap">
+              <span>Changelog</span></oh-doc-link>
+            <button class="ml-auto btn btn-outline-success text-nowrap" @click="install()"><i class="fas fa-check"></i>
+              <span>Install</span></button>
+          </footer>
+        </article>
       </template>
     </oh-vue-list>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="addons_install"></partial>

@@ -31,14 +31,22 @@ class OhVue extends HTMLElement {
         this.ok = true;
         this.dispatchEvent(new Event("load"));
     }
-    start(mixins) {
+    start(mixins, context) {
         if (!this.ok) return;
 
         this.vue = new Vue({
+            data: function () {
+                return {
+                    context: context
+                }
+            },
             mixins: [...mixins],
             template: this.tmpl,
             components: { 'vue-inprogress': VueInProgress },
         }).$mount(this.appendChild(document.createElement("div")));
+    }
+    updateContext(context) {
+        this.vue.context = context;
     }
 }
 

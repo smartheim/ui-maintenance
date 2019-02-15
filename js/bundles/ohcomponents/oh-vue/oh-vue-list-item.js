@@ -1,8 +1,10 @@
 
+import { Vue } from '../vue.js'; // Pre-bundled, external reference
 import VueInProgress from './vue-inprogress';
 import VueMetaInfo from './vue-meta-info';
 import { createNotification } from '../app.js'; // Pre-bundled, external reference
 import { ItemSelectionMixin } from './oh-vue-list-mixins';
+import VueConfigElement from './vue-config-element';
 
 export function createItemComponent(mixins, template) {
     return {
@@ -16,20 +18,22 @@ export function createItemComponent(mixins, template) {
         template: template,
         data: function () {
             return {
-                item: Object.assign({}, this.listitem),
-                original: this.listitem,
-                changed: false,
-                inProgress: false,
-                message: null,
-                messagetitle: null,
-                showmeta: false,
-                selected: false
+                original: this.listitem, // The original item. We need the "item" copy to implement "discard".
+                item: Object.assign({}, this.listitem), // A copy of the database item entry
+                changed: false, // True if user has changed "item"
+                inProgress: false, // Shows an overlay layer if true. Set message+messagetitle also!
+                message: null, // Overlay layer: Message
+                messagetitle: null, // Overlay layer: Message title
+                showmeta: false, // The meta data layer is shown if true
+                selected: false, // Item is selected: Influences the shadow color
+                pulseAnimation: false // A pulsing animation -> used if new values have been received
             }
         },
         mixins: [ItemSelectionMixin, ...mixins],
         components: {
             'vue-inprogress': VueInProgress,
-            'vue-metainfo': VueMetaInfo
+            'vue-metainfo': VueMetaInfo,
+            'vue-config-element': VueConfigElement
         },
         methods: {
             discard: function () {
@@ -47,6 +51,19 @@ export function createItemComponent(mixins, template) {
                 document.execCommand("copy");
 
                 createNotification("clipboard", `Copied ${itemid} to clipboard`, false, 3000);
+            },
+            // Play pulse animation for some milliseconds
+            changeNotification() {
+                Vue.nextTick(() => {
+                    window.requestAnimationFrame(() => {
+                        this.pulseAnimation = true;
+                        if (this.pulseAnimationTimer) clearTimeout(this.pulseAnimationTimer);
+                        this.pulseAnimationTimer = setTimeout(() => {
+                            this.pulseAnimation = false;
+                            delete this.pulseAnimationTimer;
+                        }, 700);
+                    });
+                });
             }
         },
         watch: {
@@ -56,9 +73,10 @@ export function createItemComponent(mixins, template) {
                     this.original = newVal;
                     if (!this.changed) {
                         this.ignoreWatch = true;
-                        this.item = Object.assign({}, this.original);
+                        this.item = JSON.parse(JSON.stringify(this.original));
                         this.inProgress = false;
                         this.changed = false;
+                        this.changeNotification();
                     } else {
                         this.message = "If you save your changes, you'll overwrite the newer version.";
                         this.messagetitle = "Warning: Update received";

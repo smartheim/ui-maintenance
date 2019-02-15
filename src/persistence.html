@@ -6,11 +6,12 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <partial src="maintenancenav.html"></partial>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Persistence"></partial>
   <main>
+
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
       select="Selection mode">
       <button class="btn btn-danger" data-action="remove">
@@ -19,32 +20,32 @@
         <span class="badge badge-light ml-2">0</span>
       </button>
     </ui-filter>
+
     <oh-list-bind listadapter="persistence" filtercriteria="label"></oh-list-bind>
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/persistence"></partial>
       <template slot="item">
-        <section class="listitem" :id="item.uid">
-          <div class="body">
-            <div class="title">
-              <span :title="item.label">{{item.label}}</span>
-              <span class="actions btn-group">
-                <button class="btn btn-danger-hover btn-sm" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
-              </span>
-            </div>
-            <vue-inprogress></vue-inprogress>
-            <section class="description">
-              Database: <br>
-              <oh-dropdown-bind listadapter="persistence-services"></oh-dropdown-bind>
-              <ui-dropdown btnclass="form-control" :value="item.serviceid" viewkey="label" valuekey="id" label="Select database"></ui-dropdown>
-              Stategies: <ui-multiselect :options="item.strategy" :value="item.strategy" placeholder="Select strategy"></ui-multiselect>
-              Items:
-              <oh-dropdown-bind listadapter="items"></oh-dropdown-bind>
-              <ui-multiselect viewkey="label" valuekey="name" desckey="name" placeholder="Select items"></ui-multiselect>
-            </section>
-          </div>
-        </section>
+        <article :id="item.uid">
+          <vue-inprogress></vue-inprogress>
+          <header>
+            <span :title="item.label">{{item.label}}</span>
+          </header>
+          <section class="actions btn-group">
+            <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
+          </section>
+          <section class="description mb-2">
+            Database: <br>
+            <oh-dropdown-bind listadapter="persistence-services"></oh-dropdown-bind>
+            <ui-dropdown btnclass="form-control" :value="item.serviceid" viewkey="label" valuekey="id" label="Select database"></ui-dropdown>
+            Stategies: <ui-multiselect :options="item.strategy" :value="item.strategy" placeholder="Select strategy"></ui-multiselect>
+            Items:
+            <oh-dropdown-bind listadapter="items"></oh-dropdown-bind>
+            <ui-multiselect viewkey="label" valuekey="name" desckey="name" placeholder="Select items"></ui-multiselect>
+          </section>
+        </article>
       </template>
     </oh-vue-list>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="persistence"></partial>

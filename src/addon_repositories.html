@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Navigation</h4>
     <ul>
@@ -26,21 +26,20 @@
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addon_repositories"></partial>
       <template slot="item">
-        <section class="listitem" :id="item.id" style="width: 100%;">
-          <div class="body">
-            <div class="title"><span>{{item.label}}</span></div>
-            <vue-inprogress></vue-inprogress>
-            <section class="description">{{item.description}}</section>
-            <section class="actions showinlist">
-              <span class="btn-group" role="group">
-                <button class="btn btn-success" @click="enable()"><i class="fas fa-trash"></i> <span>Enable</span></button>
-                <button class="btn btn-danger" @click="disable()"><i class="fas fa-trash"></i> <span>Disable</span></button>
-              </span>
-            </section>
-          </div>
-        </section>
+        <article :id="item.id" style="width: 100%;">
+          <vue-inprogress></vue-inprogress>
+          <header><span>{{item.label}}</span></header>
+          <section class="actions showinlist">
+            <span class="btn-group" role="group">
+              <button class="btn btn-success" @click="enable()"><i class="fas fa-check"></i> <span>Enable</span></button>
+              <button class="btn btn-danger" @click="disable()"><i class="fas fa-trash"></i> <span>Disable</span></button>
+            </span>
+          </section>
+          <section class="description mb-2">{{item.description}}</section>
+        </article>
       </template>
     </oh-vue-list>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="addon_repositories"></partial>

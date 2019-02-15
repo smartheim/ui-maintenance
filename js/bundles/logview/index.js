@@ -40,7 +40,15 @@ const Mixin = {
             copy._id = this._incid;
             this._incid++;
             this.items.push(copy);
-            this.scrollToBottom(item, true);
+            // isScrollBottom is a boolean prop which is true if the user is scrolled at the bottom before the new message is added
+            if (!this.$_scrollingToBottom && this.isScrollBottom) {
+                this.$_scrollingToBottom = true;
+                this.scrollToPosition(999999999)
+                console.log("scroll");
+            }
+        },
+        scrollDown(startIndex, endIndex, maxIndex) {
+            this.isScrollBottom = endIndex == maxIndex;
         },
         datetime(item) {
             return this.dateTimeFormat.format(new Date(item.timestamp));
@@ -55,16 +63,6 @@ const Mixin = {
             }
             return "as-console-warn";
         },
-        scrollToBottom(item, force = true) {
-            // isScrollBottom is a boolean prop which is true if the user is scrolled at the bottom before the new message is added
-            if (!this.$_scrollingToBottom && (force || this.isScrollBottom)) {
-                //this.scrollToPosition(999999999)
-                // this.$_scrollingToBottom = true;
-                this.$refs.scroller.scrollToItem(100);
-                console.log("scroll");
-            }
-        },
-
         scrollToPosition(position) {
             const scroller = this.$refs.scroller.$el
             scroller.scrollTop = position

@@ -5,7 +5,7 @@ const ID_KEY = "id";
 class StoreView {
   constructor() { this.value = []; }
   stores() { return { "inbox": "value" } };
-  get(options = null) {
+  get(id, options = null) {
     return store.get("inbox", null, options)
       .then(v => this.value = v);
   }

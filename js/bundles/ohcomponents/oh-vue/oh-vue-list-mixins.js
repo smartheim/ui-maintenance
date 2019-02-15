@@ -122,27 +122,52 @@ const ListModeMixin = {
 };
 
 const EditorMixin = {
-    data: function () {
-        return {
-            editorstate: "original"
+    mounted: function () {
+        this.editorActionsBar = document.querySelector("ui-filter");
+        if (this.editorActionsBar) {
+            this.editorEventBound = (event) => this.updateSelectMode(event);
+            this.editorActionsBar.addEventListener("editor", this.filterbarEditorEvent);
         }
     },
-    computed: {
-        editorclasses: function () {
-            return this.editorstate == "original" ? "" : "changed";
-        },
+    beforeDestroy: function () {
+        if (this.editorActionsBar) {
+            this.editorActionsBar.removeEventListener("editor", this.editorEventBound);
+            delete this.editorActionsBar;
+        }
     },
     methods: {
-        editorstateChanged: function (state) {
-            this.editorstate = state;
+        filterbarEditorEvent: async function (event) {
+            if (event.detail.discard) {
+                this.$refs.editor.haschanges = false;
+                this.$refs.editor.content = this.toTextual();
+                this.editorActionsBar.setEditorContentChanged(false);
+            } else if (event.detail.save) {
+                try {
+                    const jsonData = Yaml.parse(this.$refs.editor.content);
+                    this.$refs.editor.readonly = true;
+                    await this.saveAll(jsonData);
+                    this.$refs.editor.readonly = false;
+                } catch (e) {
+                    this.$refs.editor.readonly = false;
+                    const msg = `YAML is not valid! ${e}`;
+                    this.editorActionsBar.setEditorContentChanged(true, msg);
+                }
+            }
         },
-        toTextual: function () {
-            // First get all filtered items
+        editorContentChanged(editor) {
+            const msg = `The selected ${editor.raw.length} objects are now protected from external changes. Submit when you are ready.`;
+            this.editorActionsBar.setEditorContentChanged(true, msg);
+        },
+        toTextual() {
+            if (this.$refs.editor && this.$refs.editor.haschanges) {
+                console.warn("Editor content protected from change!");
+                return null;
+            }
+
             var items = JSON.parse(JSON.stringify(this.items));
-            // Then filter out the runtime keys in each item
+            // Filter out the runtime keys in each item
             if (this.runtimeKeys) {
                 for (var item of items) {
-                    delete item.changed_; // We annotate UI changed items.
                     for (const runtimeKey of this.runtimeKeys)
                         delete item[runtimeKey];
                 }

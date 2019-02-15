@@ -1,4 +1,4 @@
-@import "partials/variables";
+@import "partials/_variables";
 main .logo {
     max-width: calc(100% - 40px);
     padding: 20px 0;
@@ -17,6 +17,11 @@ body {
     &>aside {
         grid-row: 2 !important;
     }
+}
+
+body.wide main.mainhome {
+    max-width: 1400px;
+    margin: auto;
 }
 
 header .logo {

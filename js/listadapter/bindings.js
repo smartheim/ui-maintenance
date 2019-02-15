@@ -44,6 +44,10 @@ const BindingsMixin = {
             var source = this.item.source;
             source = source.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("tree/master", "master");
             return source + '/README.md';
+        },
+        bugreportlink: function () {
+            const githuburl = "https://github.com/openhab/openhab2-addons/issues/new";
+            return githuburl + '?title=[' + this.item.id + '][' + this.item.version + '] Your-title';
         }
     }
 }

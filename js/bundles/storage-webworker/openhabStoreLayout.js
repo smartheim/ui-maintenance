@@ -17,6 +17,7 @@ const tables = [
     { id: "manualextensions", uri: "rest/manualextensions", key: "id" }, // NEW
     { id: "scripts", uri: "rest/scripts", key: "filename" }, // NEW
     { id: "script-types", uri: "rest/script-types", key: "id" }, // NEW
+    { id: "icon-set", uri: "rest/icon-set", key: null }, // NEW
     { id: "schedule", uri: "rest/schedule", key: "UID" }, // NEW
     { id: "inbox", uri: "rest/inbox", key: "thingUID", singleRequests: false },
     { id: "items", uri: "rest/items?metadata=.*", key: "name", onstart: true },
@@ -32,10 +33,11 @@ const tables = [
     { id: "service-config", uri: "rest/services", urlsuffix: "/config", wrapkey: "config", key: "id" },
     { id: "ruletemplates", uri: "rest/templates", key: "uid" },
     { id: "thing-types", uri: "rest/thing-types", key: "UID", onstart: true },
+    { id: "thing-types-extended", uri: "rest/thing-types", key: "UID" }, // Extended variant for single requested data
     { id: "things", uri: "rest/things", key: "UID", onstart: true },
     { id: "voice-interpreters", uri: "rest/voice", key: "id" },
 ];
-const dbversion = 20;
+const dbversion = 28;
 
 /** 
  * This is an associative map of storenames to store-layout descriptions.

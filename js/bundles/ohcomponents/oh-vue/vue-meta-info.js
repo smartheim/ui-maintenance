@@ -6,13 +6,14 @@ const template = `
     <oh-doc-link title="About unique IDs" show href="contexthelp/uniqueid.md" class="link ml-2"><i class="far fa-question-circle"></i></oh-doc-link>
   </div>
   <hr class="m-0">
-  <template v-if="$parent.item.storage">
+  <div class="storage" v-if="$parent.item.storage">
     <h5>Storage <oh-doc-link show href="contexthelp/storage.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link></h5>
     <div>Association: <input value="$parent.item.storage"> @ <input value="$parent.item.storage" type="number" placeholder="Position"></div>
-  </template>
-
-  <h5>Tags <oh-doc-link show href="contexthelp/tags.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link></h5>
-  <ui-tags v-if="$parent.item.tags" :suggestions="$parent.commontags()" :value.prop="$parent.item.tags" @input="$parent.item.tags = $event.target.value"></ui-tags>
+  </div>
+  <div class="tags">
+    <h5>Tags <oh-doc-link show href="contexthelp/tags.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link></h5>
+    <ui-tags v-if="$parent.item.tags" :suggestions="$parent.commontags()" :value.prop="$parent.item.tags" @input="$parent.item.tags = $event.target.value"></ui-tags>
+  </div>
 </div>
 `;
 

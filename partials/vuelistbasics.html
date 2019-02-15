@@ -1,8 +1,8 @@
 <div slot="app"></div>
 <template slot="list">
     <partial src="vuelisterrors.html"></partial>
-    <oh-codeeditor slot="app" v-else-if="viewmode=='textual'" :class="editorclasses" :modelschema.prop="modelschema"
-        :content.prop="toTextual()" @state="editorstateChanged"></oh-codeeditor>
+    <oh-codeeditor slot="app" v-else-if="viewmode=='textual'" :modelschema.prop="modelschema" ref="editor"
+        :content.prop="toTextual()" @state="editorContentChanged($event.target)"></oh-codeeditor>
     <div v-else class="w-100" slot="app">
         <div v-if="status==OhListStatus.READY && items.length==0" class="emptylist">
             <p>No content found. You might find the help text interesting.</p>

@@ -56,7 +56,7 @@ const ScheduleMixin = {
             return (this.item.lastrun + 5000) > Date.now() ? "Running" : "Idle";
         },
         timerStatusBadge: function () {
-            return (this.item.lastrun + 5000) > Date.now() ? "badge badge-success" : "badge badge-info";
+            return (this.item.lastrun + 5000) > Date.now() ? "badge badge-success" : "badge badge-secondary";
         },
         timerDescription: function () {
             if (this.item.type == "cron") {
@@ -86,8 +86,17 @@ const ScheduleMixin = {
     }
 }
 
+const ItemListMixin = {
+    methods: {
+        saveAll: function (items) {
+            //TODO
+            console.log("save all", items);
+        }
+    }
+};
+
 const mixins = [ScheduleMixin];
-const listmixins = [];
+const listmixins = [ItemListMixin];
 const runtimekeys = ["link", "editable", "remainingRuns", "totalRuns", "lastrun"];
 const ID_KEY = "UID";
 

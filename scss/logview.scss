@@ -1,5 +1,5 @@
 .wrapper {
-    overflow: auto;
+    overflow: hidden;
     position: absolute;
     top: 70px;
     bottom: 10px;
@@ -7,10 +7,16 @@
     left: 0;
 }
 
-.as-console {
+.log-container {
+    height: calc(100% - 30px);
+    width: 100%;
+    display: block;
     border: 1px solid #ccc;
-    display: table;
     border-collapse: collapse;
+}
+
+.as-console {
+    display: table;
 }
 
 .as-console-row {
@@ -22,7 +28,6 @@
 .as-console-cell-date {
     display: table-cell;
     padding: 3px 6px;
-    color: rgba(0, 0, 0, .35);
     width: 200px;
 }
 
@@ -35,11 +40,9 @@
 }
 
 .as-console-cell-code {
-    white-space: pre-wrap;
     padding: 3px 5px;
     display: table-cell;
     font-family: monospace;
-    font-size: 13px;
     min-width: 200px;
 }
 
@@ -113,7 +116,8 @@
 }
 
 .vue-recycle-scroller {
-    position: relative
+    position: relative;
+    height: 100%;
 }
 
 .vue-recycle-scroller:not(.page-mode) {
@@ -121,13 +125,8 @@
 }
 
 .vue-recycle-scroller__item-wrapper {
-    box-sizing: border-box;
     width: 100%;
-    overflow: hidden;
     position: relative;
-    border: 1px solid #ccc;
-    display: table;
-    border-collapse: collapse;
 }
 
 .vue-recycle-scroller.ready .vue-recycle-scroller__item-view {

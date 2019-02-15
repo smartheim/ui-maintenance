@@ -1,296 +1,41 @@
-@import "partials/variables";
-.span2 {
-    grid-area: span 1 / span 2;
-}
-
-.span3 {
-    grid-area: span 1 / span 3;
-}
-
-.span4 {
-    grid-area: span 1 / span 4;
-}
-
-.itemstate {
-    min-width: 60px;
-    max-width: 150px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.secondlevel {
-    position: absolute;
-    background-color: var(--card-bg);
-    box-shadow: 0 0 5px 0 #000;
-    border-radius: .25rem;
-    top: 45px;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    z-index: 10;
-    opacity: 0;
-    padding: 10px;
-    z-index: -1;
-    transition: all 0.5s;
-    transform: translateY(-20px);
-    opacity: 0;
-}
-
-.secondlevel.show {
-    opacity: .9;
-    z-index: 1;
-    transform: translateY(0px);
-}
-
-.emptylist {
-    align-self: center;
-    max-width: 700px;
-    margin-top: 10px;
-    oh-context-help {
-        padding: 10px;
-    }
-}
-
-#listcontainer {
-    align-self: flex-start;
-    width: 100%;
-    margin-top: 1.5rem;
-    &.grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-    }
-    &.selectionmode .listitem.selected {
-        box-shadow: 0px 0px 15px 0px theme-color("orange");
-    }
-    &.grid .listitem {
-        margin-right: 10px; //flex-basis: calc(50% - 10px);
-        //min-width: 420px;
-        min-height: 220px;
-        width: 355px;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        word-wrap: break-word;
-        background-color: var(--card-bg);
-        background-clip: border-box;
-        border: 1px solid rgba(0, 0, 0, .125);
-        border-radius: .25rem;
-        margin-bottom: 1.5rem;
-        &.withtabs {
-            margin-bottom: 3rem;
-        }
-        &.haschanges {
-            .body>.title {
-                background-color: rgb(255, 214, 214);
-            }
-            .itemstate,
-            .actions {
-                display: none;
-            }
-            .actions.unsaved {
-                display: flex;
-            }
-        }
-        &:not(.haschanges) {
-            .actions.unsaved {
-                display: none;
-            }
-        }
-        .body {
-            flex: 1 1 auto;
-            flex-direction: column;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            &>.title {
-                font-size: 1.5rem;
-                font-family: inherit;
-                font-weight: 500;
-                line-height: 1.2;
-                color: inherit;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-                flex-wrap: nowrap;
-                display: flex;
-                align-items: center;
-                &>i {
-                    // i is used for status badges
-                    font-size: 0.7rem;
-                }
-                span:nth-child(1) {
-                    // Show the title streched
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    flex: 1;
-                }
-                .actions {
-                    margin-left: 10px;
-                    white-space: nowrap;
-                }
-            }
-            &>.description {
-                flex: 1;
-                padding-top: 1rem;
-                display: flex;
-                flex-direction: column;
-                &>span:nth-child(1) {
-                    flex: 1;
-                }
-                .grid {
-                    display: grid;
-                    grid-gap: 5px;
-                    grid-template-columns: 60px 1fr;
-                    &>.keyname {
-                        font-weight: bolder;
-                        align-self: center;
-                    }
-                    &>.keyname+* {
-                        border: none;
-                        max-width: 220px;
-                    }
-                    &>input {
-                        background-color: #f3f3f3;
-                    }
-                }
-                .tablinks {
-                    abbr[title] {
-                        text-decoration: none;
-                    }
-                    display: flex;
-                    flex-wrap: wrap;
-                    padding-left: 0;
-                    margin-bottom: 0;
-                    list-style: none;
-                    position: absolute;
-                    bottom: 0;
-                    .nav-link {
-                        padding: 5px;
-                        border-left: 1px solid transparent;
-                        border-right: 1px solid transparent; //border-bottom-left-radius: .25rem;
-                        //border-bottom-right-radius: .25rem;
-                    }
-                    .nav-link.active {
-                        color: #495057;
-                        background-color: var(--card-bg);
-                        border-color: #fff #dee2e6 #dee2e6 #dee2e6;
-                        text-decoration: none;
-                    }
-                }
-            }
-            &>.actions {
-                flex: 1;
-                padding-top: 1rem;
-                display: flex;
-                align-items: flex-end;
-            }
-        }
-        .footer {
-            display: flex;
-            align-items: center;
-            border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
-            padding: 0px 5px;
-            background-color: rgba(0, 0, 0, .03);
-            border-top: 1px solid rgba(0, 0, 0, .125);
-        }
-    }
-    &.list .listitem {
-        position: relative;
-        display: block;
-        padding: .2rem 1.25rem;
-        margin-bottom: -1px;
-        background-color: var(--card-bg);
-        border: 1px solid rgba(0, 0, 0, .125);
-        &.haschanges {
-            .body>.title {
-                background-color: rgb(255, 214, 214);
-            }
-        }
-        .warnDialog {
-            flex-direction: row;
-            h4 {
-                font-size: 1.3rem;
-                margin: 0;
-            }
-            .loader {
-                top: -25px;
-                left: 50px;
-            }
-        }
-        .body {
-            display: flex;
-            font-size: 20pt;
-            align-items: center;
-            flex-direction: row;
-            .title {
-                width: 100%;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                span:first-child {
-                    flex: 1;
-                }
-                &>*:not(:last-child) {
-                    margin-right: 10px;
-                }
-            }
-            .actions.unsaved,
-            &>.secondlevel,
-            &>.description,
-            &>.itemname,
-            &>.actions:not(.showinlist) {
-                display: none;
-            }
-            &>.actions.showinlist {
-                white-space: nowrap;
-                &>*:not(:last-child) {
-                    margin-right: 5px;
-                }
-            }
-        }
-        .footer {
-            display: none;
-        }
-    }
-    .listitem.list:last-child {
-        margin-bottom: 0;
-        border-bottom-right-radius: .25rem;
-        border-bottom-left-radius: .25rem;
-    }
-    .listitem.list:first-child {
-        border-top-left-radius: .25rem;
-        border-top-right-radius: .25rem;
-    }
-}
-
-oh-vue-list {
-    display: flex;
-    flex-direction: column;
-}
-
-oh-codeeditor {
-    margin-top: 10px;
-    display: flex;
-    flex: 1;
-    width: 100%;
-}
-
-oh-vue-list {
-    flex: 1;
-    &>div {
-        // The "app" div
+@import "partials/_variables";
+#listcontainer.grid article {
+    ui-tabs {
         flex: 1;
         display: flex;
         flex-direction: column;
+        margin-bottom: 10px;
+    }
+    .tab-content {
+        flex: 1;
+    }
+    .tablinks {
+        abbr[title] {
+            text-decoration: none;
+        }
+        display: flex;
+        margin-top:10px;
+        button.btn.active {
+            color: var(--primary);
+        }
     }
 }
 
-@media (max-width: get-breakpoints("xl")) {
-    #listcontainer {
-        &.grid .listitem {
-            min-width: 200px;
+// For the control tab of an item
+.itemcontrol {
+    display: flex;
+    a.icon img {
+        width: 80px;
+        height: 80px;
+        margin-right: 20px; //border: 1px solid black;
+        border-radius: 50%;
+        box-shadow: 0 0 8px 0 #00000052;
+        &:hover {
+            box-shadow: 0 0 8px 0 #000000;
+            cursor: pointer;
         }
+    }
+    .cmdwrapper {
+        flex: 1;
     }
 }

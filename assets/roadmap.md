@@ -17,7 +17,7 @@ in openHAB core.
 * Things/Items/Rules/Scheduled-Tasks
   - Storage association+position for the backup service.
   - Generic "comment"/"annotation" field for the user to leave notes and annotations.
-* Item handling requires a lot of knowdledge in clients. Allow static data fetches via more REST endpoints for
+* Item handling requires a lot of knowledge in clients. Allow static data fetches via more REST endpoints for
   - "item-types"
   - "item-group-functions" (AND, OR, AVG etc)
 
@@ -77,6 +77,10 @@ in openHAB core.
     html pages. For MQTT an auxilary page could be a "MQTT Traffic Monitor", for ZWave it could be "ZWave Network Diagram".
   - Add "source" link, e.g. "https://github.com/openhab/openhab2-addons/tree/master/addons/binding/org.openhab.binding.network"
   - Add "loglevel" (trace, info, debug, warn, error)
+  - Add "versioninformation":
+    Should contain "known bugs" etc with a specific version, so that a user does not report something known and is able to decided
+    if he/she needs to update to a newer version for his/her specific needs.
+    <mark>Important:</mark> This is something that the OH core need to periodically refresh. This is nothing that can just be shipped.
 
 ## Inbox page
 
@@ -104,7 +108,7 @@ in openHAB core.
 | Thing actions | – |  |
 
 * Thing Handler actions: For example to have a "Start pairing" or "Firmware reset" action.
-  - This includes a simple "web-link" action: Some bindings like the Alexa-Echo one require
+  - This includes simple "web-link" actions: Some bindings like the Alexa-Echo one require
     an external OAuth login page for "pairing".
 
 * Things REST interface: Unify with addons REST interface. Either remove "configurations" and put it under a
@@ -112,12 +116,7 @@ in openHAB core.
 
 ## Items page
 
-|  | Working? | Comments |
-|---|----------|----------|
-| List Items | ✓ |  |
-| Create/Edit/Remove Items | ✓ |  |
-| Item Meta-info | – |  |
-| Group Items | – |  |
+Done. Nothing required on the core.
 
 ## Scheduler page
 

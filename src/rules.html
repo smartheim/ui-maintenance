@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -21,6 +21,7 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Manage, add, remove and modify your automation rules"></partial>
   <main>
+
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
       select="Selection mode">
       <div class="btn-group" role="group">
@@ -36,37 +37,37 @@
         </button>
       </div>
     </ui-filter>
+
     <oh-list-bind for="ruleslist" listadapter="rules" filtercriteria="name"></oh-list-bind>
     <oh-vue-list id="ruleslist">
       <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/rules"></partial>
       <template slot="item">
-        <section class="listitem" :id="item.uid">
-          <div class="body">
-            <div class="title">
-              <span :title="item.name"> {{item.name}} </span>
-              <span class="actions btn-group">
-                <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
-                    class="fas fa-info"></i></button>
-                <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
-              </span>
-            </div>
-            <vue-metainfo :uniqueid="item.uid"></vue-metainfo>
-            <vue-inprogress></vue-inprogress>
-            <section class="description">
-              {{item.description}}
-              <div class="bg-danger text-white">{{rulesStatusmessage()}}</div>
-            </section>
-          </div>
-          <div class="footer py-1 px-3">
-            <i :title="rulesStatusDetails()" :class="rulesStatusBadge()">{{rulesStatusinfo()}}</i>
+        <article :id="item.uid">
+          <vue-metainfo :uniqueid="item.uid"></vue-metainfo>
+          <vue-inprogress></vue-inprogress>
+          <header>
+            <span :title="item.name"> {{item.name}} </span>
+          </header>
+          <section class="actions btn-group">
+            <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
+                class="fas fa-info"></i></button>
+            <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
+          </section>
 
-            <a class="ml-auto btn btn-info-hover btn-sm text-nowrap" :href="'rule.html?uid='+encodeURIComponent(item.uid)"><i
-                class="fas fa-cog"></i> <span>Configure</span></a>
-            <button class="btn btn-primary-hover btn-sm text-nowrap" @click="run($event.target)">Run</button>
-          </div>
-        </section>
+          <section class="description">
+            {{item.description}}
+            <div class="bg-danger text-white">{{rulesStatusmessage()}}</div>
+          </section>
+          <footer>
+            <i :title="rulesStatusDetails()" :class="rulesStatusBadge()">{{rulesStatusinfo()}}</i>
+            <a class="ml-auto  btn btn-outline-secondary text-nowrap" :href="'rule.html?uid='+encodeURIComponent(item.uid)">
+              <span>Configure</span></a>
+            <button class="btn btn-outline-success text-nowrap" @click="run($event.target)">Run</button>
+          </footer>
+        </article>
       </template>
     </oh-vue-list>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="rules"></partial>

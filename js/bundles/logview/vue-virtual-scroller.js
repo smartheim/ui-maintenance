@@ -836,23 +836,22 @@ var RecycleScroller = {
       if (this.ready) this.updateVisibleItems(false);
     },
     handleScroll: function handleScroll(event) {
-      var _this2 = this;
 
       if (!this.$_scrollDirty) {
         this.$_scrollDirty = true;
-        requestAnimationFrame(function () {
-          _this2.$_scrollDirty = false;
+        requestAnimationFrame(() => {
+          this.$_scrollDirty = false;
 
-          var _updateVisibleItems = _this2.updateVisibleItems(false),
+          var _updateVisibleItems = this.updateVisibleItems(false),
             continuous = _updateVisibleItems.continuous;
 
+          this.$emit('scrolled', this.$_startIndex, this.$_endIndex, this.items.length);
           // It seems sometimes chrome doesn't fire scroll event :/
           // When non continous scrolling is ending, we force a refresh
 
-
           if (!continuous) {
-            clearTimeout(_this2.$_refreshTimout);
-            _this2.$_refreshTimout = setTimeout(_this2.handleScroll, 100);
+            clearTimeout(this.$_refreshTimout);
+            this.$_refreshTimout = setTimeout(this.handleScroll, 100);
           }
         });
       }

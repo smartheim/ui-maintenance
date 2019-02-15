@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Navigation</h4>
     <ul>
@@ -43,18 +43,16 @@
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addons_files"></partial>
       <template slot="item">
-        <section class="listitem" :id="item.id">
-          <div class="body">
-            <div class="title"><span>{{item.filepath}}</span></div>
-            <vue-inprogress></vue-inprogress>
-            <section class="description muted small">{{getInstallDate()}}</section>
-            <section class="actions showinlist">
-              <span class="btn-group" role="group">
-                <button class="btn btn-danger" @click="remove()"><i class="fas fa-trash"></i> <span>Remove</span></button>
-              </span>
-            </section>
-          </div>
-        </section>
+        <article :id="item.id">
+          <vue-inprogress></vue-inprogress>
+          <header><span>{{item.filepath}}</span></header>
+          <section class="actions showinlist">
+            <span class="btn-group" role="group">
+              <button class="btn btn-danger" @click="remove()"><i class="fas fa-trash"></i> <span>Remove</span></button>
+            </span>
+          </section>
+          <section class="description muted small">{{getInstallDate()}}</section>
+        </article>
       </template>
     </oh-vue-list>
   </main>

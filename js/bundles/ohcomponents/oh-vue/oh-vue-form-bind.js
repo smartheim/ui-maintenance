@@ -103,6 +103,9 @@ class OhVueFormBind extends HTMLElement {
         delete this.updateAdapter;
         if (this.target) this.target.connectionState(false, store.connectionErrorMessage);
     }
+    set context(data) {
+        if (this.target && this.target.updateContext) this.target.updateContext(data);
+    }
 }
 
 customElements.define('oh-form-bind', OhVueFormBind);

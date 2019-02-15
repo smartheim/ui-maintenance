@@ -29,8 +29,8 @@ export function process(data, options) {
     if (filterString) {
         var queryParts = filterString.split("&&");
         for (let queryPart of queryParts) {
-            var criteriaAndQuery = queryPart.split(":");
-            if (criteriaAndQuery.length == 2) {
+            var criteriaAndQuery = queryPart.split(/:(.+)/);
+            if (criteriaAndQuery.length >= 2) {
                 filters.push({ c: criteriaAndQuery[0], f: criteriaAndQuery[1].trim().toLowerCase() });
             } else {
                 console.warn("Filter query must be criteria:filterQuery");

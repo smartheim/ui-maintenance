@@ -62,45 +62,63 @@ class UiFilter extends HTMLElement {
     while (this.firstChild) { this.firstChild.remove(); }
 
     render(html`
-        <form @submit="${this.search.bind(this)}" name="filterform" class="ui-filterbar">
-        ${!this.select ? '' : html`<button type="button" title="${this.select}" @click="${this.selectChanged.bind(this)}" class="mr-3 btn ${this.selectmode ? "btn-primary" : "btn-secondary"}">
+        <form @submit="${this.search.bind(this)}" class="ui-filterbar">
+        ${!this.select ? '' : html`<button type="button" title="${this.select}" @click="${this.selectChanged.bind(this)}" class="selectbtn mr-3 btn ${this.selectmode ? "btn-primary" : "btn-secondary"}">
             <i class="fas fa-check-double"></i>
           </button>
-          <div style="display:none" class="selectcomponents mr-3"></div>
+          <div class="hidden selectcomponents mr-3"></div>
           `}
           <div class="input-group">
             <input class="form-control py-2 filterinput" type="search" name="filter" placeholder="${this.placeholder}"
               value="${this.value}" @input="${this.searchI.bind(this)}">
             <span class="input-group-append">
-              <button class="btn btn-outline-secondary" type="submit">
+              <button class="btn btn-outline-secondary btn-outline-visible" type="submit">
                 <i class="fa fa-search"></i>
               </button>
             </span>
           </div>
-          <div class="btn-group ml-3 viewmode" role="group" aria-label="Change view mode"></div></form>
-          `, this);
+          <div class="btn-group ml-3 viewmode" role="group" aria-label="Change view mode"></div>
+        </form>
+        <div class="ui-editorbar">
+          <span class="editorHintMessage"></span>
+          <div class="ml-auto btn-group" role="group" aria-label="Editor bar">
+            <button class="btn btn-success" @click="${this.editorSave.bind(this)}">Submit</button>
+            <button class="btn btn-danger" @click="${this.editorDiscard.bind(this)}">Discard</button>
+          </div>
+        </div>
+        `, this);
 
     this.input = this.querySelector("input");
+    this.filterbar = this.querySelector(".ui-filterbar");
+    this.editorbar = this.querySelector(".ui-editorbar");
+    this.selectbtn = this.querySelector(".selectbtn");
+    this.selectcomponents = this.querySelector(".selectcomponents");
+    this.editorHintMessage = this.querySelector(".editorHintMessage");
+
+    this.editorbar.classList.add("hidden");
 
     // Non-shadow-dom but still slots magic - Part 2
-    var slot = this.querySelector(".selectcomponents");
-    for (var el of slotElements) {
-      slot.appendChild(el);
-    }
+    if (slotElements.length) {
+      var slot = this.selectcomponents;
 
-    // Wire up all buttons that have a data-action to dispatch an event
-    // This is for the selection mode only.
-    slot.querySelectorAll("*[data-action]").forEach(button => {
-      button.addEventListener("click", e => {
-        e.preventDefault();
-        const action = e.target.dataset.action;
-        this.dispatchEvent(new CustomEvent('selection', { detail: { action } }));
+      for (var el of slotElements) {
+        slot.appendChild(el);
+      }
+
+      // Wire up all buttons that have a data-action to dispatch an event
+      // This is for the selection mode only.
+      slot.querySelectorAll("*[data-action]").forEach(button => {
+        button.addEventListener("click", e => {
+          e.preventDefault();
+          const action = e.target.dataset.action;
+          this.dispatchEvent(new CustomEvent('selection', { detail: { action } }));
+        });
       });
-    });
+    }
 
     // Don't show the mode button group if no mode changes allowed
     if (!this.grid && !this.list && !this.textual) {
-      this.querySelector(".viewmode").style.display = "none";
+      this.querySelector(".viewmode").classList.add("hidden");
     } else
       this.renderViewMode();
   }
@@ -127,15 +145,37 @@ class UiFilter extends HTMLElement {
     this.mode = event.target.dataset.mode;
     this.renderViewMode();
     this.dispatchEvent(new CustomEvent('mode', { detail: { mode: this.mode } }));
+    if (this.mode == "textual") {
+      this.selectmode = false;
+      this.selectbtn.classList.add("hidden");
+    } else {
+      this.selectbtn.classList.remove("hidden");
+    }
+  }
+  setEditorContentChanged(val, message = "") {
+    if (val) {
+      this.editorHintMessage.innerHTML = message;
+      this.editorbar.classList.remove("hidden");
+      this.filterbar.classList.add("hidden");
+    } else {
+      this.editorbar.classList.add("hidden");
+      this.filterbar.classList.remove("hidden");
+    }
+  }
+  editorSave() {
+    this.dispatchEvent(new CustomEvent('editor', { detail: { save: true } }));
+  }
+  editorDiscard() {
+    this.dispatchEvent(new CustomEvent('editor', { detail: { discard: true } }));
   }
 
   selectChanged(event) {
     event.preventDefault();
     this.selectmode = !this.selectmode;
     if (this.selectmode)
-      this.querySelector(".selectcomponents").style.display = "block";
+      this.selectcomponents.classList.remove("hidden");
     else
-      this.querySelector(".selectcomponents").style.display = "none";
+      this.selectcomponents.classList.add("hidden");
     this.dispatchEvent(new CustomEvent('selection', { detail: { selectmode: this.selectmode } }));
   }
   renderViewMode() {

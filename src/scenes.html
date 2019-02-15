@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul class="exact">
@@ -88,25 +88,24 @@
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/scenes"></partial>
       <template slot="item">
-        <section class="listitem" :id="item.uid" style="min-height: initial">
-          <div class="body">
-            <div class="title">
-              <span :title="item.name"> {{item.name}} </span>
-              <span class="actions btn-group">
-                <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
-              </span>
-            </div>
-            <vue-inprogress></vue-inprogress>
-            <section class="description">
-              {{item.description}}
-              <div class="bg-danger text-white">{{rulesStatusmessage()}}</div>
-            </section>
-          </div>
-          <div class="footer py-1 px-3">
+        <article class="hasimage" :id="item.uid">
+          <vue-inprogress></vue-inprogress>
+          <header :title="item.name"> <span> {{item.name}} </span></header>
+          <aside :style="'background-image:url('+image+')'"></aside>
+          <section class="actions btn-group">
+            <button class="btn btn-danger-hover text-nowrap" title="Remove item" @click="remove"><i class="fas fa-trash"></i><span
+                class="ml-2">Remove</span></button>
+          </section>
+          <section class="description">
+            {{item.description}}
+            <div class="bg-danger text-white">{{rulesStatusmessage()}}</div>
+          </section>
+          <footer>
             <i :title="rulesStatusDetails()" :class="rulesStatusBadge()">{{rulesStatusinfo()}}</i>
-            <button class="ml-auto btn btn-primary-hover btn-sm text-nowrap" @click="run($event.target)">Execute</button>
-          </div>
-        </section>
+            <button class="ml-auto btn btn-outline-success text-nowrap" @click="run($event.target)"><i class="fas fa-check"></i><span
+                class="ml-2">Execute</span></button>
+          </footer>
+        </article>
       </template>
     </oh-vue-list>
   </main>

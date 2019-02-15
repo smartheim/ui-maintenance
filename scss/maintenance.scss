@@ -25,9 +25,17 @@ section.bundles {
         opacity: 0;
     }
     ui-time-graph {
-        transition: opacity 0.5s;
+        transition: opacity 0.5s, transform 0.5s, box-shadow 0.5s;
         opacity: 1;
         width: 30%;
         height: 300px;
+        background-color: white;
+        z-index: 100;
+        position: relative;
+    }
+    ui-time-graph:hover {
+        transform: scale(1.2);
+        transition: transform 0.5s;
+        box-shadow: 0 0 10px rgba(26, 26, 26, .25);
     }
 }

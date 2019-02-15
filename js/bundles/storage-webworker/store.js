@@ -1,7 +1,7 @@
 import { openDb } from 'idb';
 import { hack_addNotYetSupportedStoreData, blockLiveDataFromTables } from './addNotYetSupportedStoreData';
 import { hack_rewriteEntryToNotYetSupportedStoreLayout, hack_rewriteTableToNotYetSupportedStoreLayout } from './rewriteToNotYetSupportedStoreLayout';
-import { fetchWithTimeout } from '../../common/fetch';
+import { fetchWithTimeout, FetchError } from '../../common/fetch';
 import { CompareTwoDataSets } from './compareTwoDatasets';
 import { tables, tableIDtoEntry, dbversion } from './openhabStoreLayout';
 
@@ -234,7 +234,7 @@ export class StateWhileRevalidateStore extends EventTarget {
         }
 
         // Return cached value but also request a new value. If cached==null return only new value
-        let newVal = this.performRESTandNotify(uri)
+        let newVal = this.performRESTandNotify(uri, false)
             .catch(e => { console.warn("Fetch failed for", uri); throw e; })
             .then(json => tableLayout.singleRequests === false ? this.extractFromArray(storename, objectid, json) : json)
             .then(json => this.insertIntoStore(this.db, storename, this.wrapIfRequired(tableLayout, objectid, json)))
@@ -345,7 +345,8 @@ export class StateWhileRevalidateStore extends EventTarget {
                 db.deleteObjectStore(ojs);
             }
             for (let table of tables) {
-                db.createObjectStore(table.id, { keyPath: table.key });
+                if (table.key) db.createObjectStore(table.id, { keyPath: table.key });
+                else db.createObjectStore(table.id, { autoIncrement: true });
             }
         }).then(db => {
             hack_addNotYetSupportedStoreData(db);
@@ -369,7 +370,7 @@ export class StateWhileRevalidateStore extends EventTarget {
         return false;
     }
 
-    performRESTandNotify(uri) {
+    performRESTandNotify(uri, disconnectIfFail = true) {
         const alreadyRunning = this.activeRESTrequests[uri];
         if (alreadyRunning) return alreadyRunning;
         return this.activeRESTrequests[uri] = fetchWithTimeout(this.openhabHost + "/" + uri)
@@ -385,7 +386,7 @@ export class StateWhileRevalidateStore extends EventTarget {
             })
             .then(response => response.json())
             .catch(e => {
-                if (this.connected) {
+                if (!(e instanceof FetchError) && !disconnectIfFail && this.connected) {
                     this.connected = false;
                     const message = e.toString();
                     var type = 404;
@@ -395,7 +396,6 @@ export class StateWhileRevalidateStore extends EventTarget {
                     console.warn("REST access failed", uri, e);
                     this.dispatchEvent(new CustomEvent("connectionLost", { detail: { type, message } }));
                 }
-                this.connected = false;
                 throw e;
             });
     }

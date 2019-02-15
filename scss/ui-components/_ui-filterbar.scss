@@ -1,18 +1,18 @@
-.ui-filterbar > form {
+.ui-filterbar>form {
     display: flex;
     margin: 0;
     color: inherit;
 }
 
-.ui-filterbar > form>.input-group {
+.ui-filterbar>form>.input-group {
     flex: 1;
 }
 
-.ui-filterbar > form i {
+.ui-filterbar>form i {
     pointer-events: none;
 }
 
-.ui-filterbar > form input::before {
+.ui-filterbar>form input::before {
     content: ' ';
     position: absolute;
     top: 0;
@@ -21,4 +21,13 @@
     right: 0;
     animation: bgconfirm 1s ease-in-out 0s 1;
     animation-play-state: paused;
+}
+
+.ui-filterbar .hidden,
+.ui-editorbar .hidden {
+    display: none;
+}
+
+.ui-editorbar {
+    display: flex;
 }

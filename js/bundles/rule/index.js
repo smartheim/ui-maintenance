@@ -55,6 +55,18 @@ class OHRuleComponent extends Rete.Component {
                 if (!input.type) return;
                 const socket = new Rete.Socket(input.type, { hint: input.description });
                 socket.combineWith("java.lang.Object");
+                if (input.type = "org.openhab.core.types.Command") {
+                    socket.combineWith("org.openhab.core.types.State");
+                }
+                else if (input.type = "org.openhab.core.types.State") {
+                    socket.combineWith("org.openhab.core.types.Command");
+                }
+                else if (input.type = "org.eclipse.smarthome.core.types.Command") {
+                    socket.combineWith("org.eclipse.smarthome.core.types.State");
+                }
+                else if (input.type = "org.eclipse.smarthome.core.types.State") {
+                    socket.combineWith("org.eclipse.smarthome.core.types.Command");
+                }
                 node.addInput(new Rete.Input(input.name, input.label, socket));
             }
         if (this.moduletype.outputs)

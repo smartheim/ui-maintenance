@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/items.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <link rel="stylesheet" href="css/inbox.css" type="text/css" />
   <nav class="sidebar leftright">
     <h4>Actions</h4>
@@ -42,6 +42,7 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Find all devices that are auto discoverable with your current set of add-ons."></partial>
   <main>
+
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode">
       <div class="btn-group" role="group">
         <button class="btn btn-info" data-action="hide">
@@ -59,7 +60,9 @@
 
     <oh-list-bind for="inboxlist" listadapter="inbox" filtercriteria="label"></oh-list-bind>
     <oh-vue-list id="inboxlist">
+
       <div slot="app"></div>
+
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
         <div v-else class="w-100" slot="app">
@@ -74,21 +77,20 @@
           </div>
         </div>
       </template>
+
       <template slot="item">
-        <section class="listitem" :id="item.thingUID">
-          <div class="body">
-            <div class="title">
-              <span :title="item.label">{{item.label}}</span>
-              <span class="actions btn-group">
-                <button class="btn btn-info btn-sm" title="Hide" @click="hide()"><i class="fas fa-eye-slash"></i></button>
-                <button class="btn btn-success btn-sm" title="Accept" @click="accept()"><i class="fas fa-check"></i></button>
-              </span>
-            </div>
-            <vue-inprogress></vue-inprogress>
-            <section class="description"> {{description(item)}} </section>
-          </div>
-          <div class="footer small py-1 px-3"> {{binding(item)}} </div>
-        </section>
+        <article :id="item.thingUID" :class="[{pulseAnimation: pulseAnimation}]">
+          <vue-inprogress></vue-inprogress>
+          <header class="title">
+            <span :title="item.label">{{item.label}}</span>
+          </header>
+          <section class="actions btn-group">
+            <button class="btn btn-info-hover" title="Hide" @click="hide()"><i class="fas fa-eye-slash"></i></button>
+            <button class="btn btn-success" title="Accept" @click="accept()"><i class="fas fa-check"></i></button>
+          </section>
+          <section class="description"> {{description(item)}} </section>
+          <footer><small class="text-muted"> {{binding(item)}} </small></footer>
+        </article>
       </template>
     </oh-vue-list>
 

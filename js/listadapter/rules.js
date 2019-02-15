@@ -40,6 +40,11 @@ const schema = {
 }
 
 const RulesMixin = {
+    computed: {
+        image() {
+            return "./img/scene_dummy.jpg";
+        }
+    },
     methods: {
         commontags: function () {
             return [];
@@ -52,7 +57,7 @@ const RulesMixin = {
             switch (status) {
                 case "RUNNING": return "badge badge-success";
                 case "UNINITIALIZED": return "badge badge-danger";
-                case "IDLE": return "badge badge-info";
+                case "IDLE": return "badge badge-secondary";
             }
             return "badge badge-light";
         },
@@ -79,20 +84,27 @@ const RulesMixin = {
             this.message = null;
             this.messagetitle = "Removing...";
             this.inProgress = true;
-            setTimeout(() => {
-                fetchMethodWithTimeout(store.host + "/rest/rules/" + this.item.uid, "DELETE", null)
-                    .then(r => {
-                        this.message = "Rule '" + this.item.name + "' removed";
-                    }).catch(e => {
-                        this.message = e.toString();
-                    })
-            }, 500);
+            fetchMethodWithTimeout(store.host + "/rest/rules/" + this.item.uid, "DELETE", null)
+                .then(r => {
+                    this.message = "Rule '" + this.item.name + "' removed";
+                }).catch(e => {
+                    this.message = e.toString();
+                })
         },
     }
 }
 
+const ItemListMixin = {
+    methods: {
+        saveAll: function (items) {
+            //TODO
+            console.log("save all", items);
+        }
+    }
+};
+
 const mixins = [RulesMixin];
-const listmixins = [];
+const listmixins = [ItemListMixin];
 const runtimekeys = ["link", "editable", "status", "runcounter"];
 const ID_KEY = "uid";
 

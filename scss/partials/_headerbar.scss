@@ -34,6 +34,11 @@
             width: 100%;
         }
     }
+    .home:hover {
+        animation-name: pulse;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+    }
     nav {
         box-sizing: border-box;
         white-space: nowrap;
@@ -57,10 +62,13 @@
             color: inherit;
             padding: 0;
             text-decoration: none;
+            border-color: transparent;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: border-color 0.5s;
         }
         a.active,
         a:hover {
-            margin-bottom: -2px;
             border-bottom: 2px solid theme-color("primary");
         }
     }
@@ -82,6 +90,47 @@
         }
         .home {
             display: none;
+        }
+    }
+}
+
+body.wide .navbarui {
+    box-shadow: 0 0 10px rgba(26, 26, 26, .25);
+    z-index: 20;
+}
+
+section.header {
+    background-color: var(--primary-light);
+    color: var(--color);
+    text-align: center;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h4 {
+        margin: 0;
+        padding: 0;
+        flex: 1;
+    }
+}
+
+body:not(.wide) section.header {
+    background-image: url("../img/pattern_opacity.png");
+    background-color: var(--primary-light);
+    background-attachment: fixed;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+header .logo {
+    background-image: url(../img/openhab-logo.svg);
+}
+
+@media (max-width: get-breakpoints("md")) {
+    section.header {
+        padding: 10px;
+        h4 {
+            font-size: 1.2em;
         }
     }
 }

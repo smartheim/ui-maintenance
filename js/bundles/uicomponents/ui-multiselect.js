@@ -95,7 +95,7 @@ class UImultiSelect extends HTMLElement {
 
         if (!newVal || !newVal.length) newVal = [];
 
-        let keys = newVal.split(",");
+        let keys = Array.isArray(newVal) ? newVal : newVal.split(",");
         for (let key of keys) {
             if (this.selected[key]) continue;
             let found = false;
@@ -277,7 +277,7 @@ class UImultiSelect extends HTMLElement {
         this.close();
     }
     fireChangeEvent() {
-        var event = new CustomEvent("change");
+        var event = new CustomEvent("input");
         this.dispatchEvent(event);
     }
     togglePopup(show) {

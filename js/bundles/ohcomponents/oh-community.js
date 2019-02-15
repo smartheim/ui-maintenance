@@ -68,7 +68,7 @@ class OhCommunityTopics extends HTMLElement {
       this.reset();
     }
   }
-  reset() {
+  reload() {
     if (!this.contenturl) {
       while (this.firstChild) { this.firstChild.remove(); }
       this.innerHTML = "No url given!";

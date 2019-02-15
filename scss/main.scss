@@ -8,54 +8,26 @@
     --background-large-screen: #ececec;
     --border-btn: #f8f9fa;
     --primary: #ff7214;
+    --primary-light: #ff72146b;
 }
 
-@import "partials/variables";
+@import "partials/_variables";
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
-@import "partials/bootstrap_callouts";
-@import "partials/headerbar";
-@import "partials/animations";
-@import "partials/subnavigation";
-@import "partials/maingrid";
-@import "partials/contexthelp";
-@import "ui-components/loader";
-@import "ui-components/ui-switch";
-@import "ui-components/ui-radio";
-@import "ui-components/ui-tags";
-@import "ui-components/ui-dropdown";
-@import "ui-components/ui-filterbar";
-@import "ui-components/ui-radio-button-group";
-// Bootstrap extensions
-@each $color,
-$value in $theme-colors {
-    .btn-#{$color}-hover {
-        @include button-variant(theme-color(light), theme-color(light), $hover-background: lighten($value, 7.5%), $hover-border: lighten($value, 10%), $active-background: lighten($value, 10%), $active-border: lighten($value, 12.5%));
-        &:focus,
-        &:active,
-        &:not(:disabled):not(.disabled):active:focus {
-            box-shadow: initial;
-        }
-        & {
-            background-color: var(--light);
-            color: var(--color-btn);
-            border-color: var(--border-btn);
-        }
-    }
-    .btn-#{$color}-underline {
-        @include button-variant(transparent, transparent, $hover-background: lighten($value, 7.5%), $hover-border: lighten($value, 10%), $active-background: lighten($value, 10%), $active-border: lighten($value, 12.5%));
-        &:focus,
-        &:active,
-        &:not(:disabled):not(.disabled):active:focus {
-            box-shadow: initial;
-        }
-        & {
-            border: none;
-            border-bottom: 1px solid rgba(0, 0, 0, .125);
-            color: inherit;
-        }
-    }
-}
-
+@import "partials/_bootstrap_callouts";
+@import "partials/_bootstrap_buttons";
+@import "partials/_headerbar";
+@import "partials/_animations";
+@import "partials/_subnavigation";
+@import "partials/_maingrid";
+@import "partials/_contexthelp";
+@import "partials/_dialogs";
+@import "ui-components/_loader";
+@import "ui-components/_ui-switch";
+@import "ui-components/_ui-radio";
+@import "ui-components/_ui-tags";
+@import "ui-components/_ui-dropdown";
+@import "ui-components/_ui-filterbar";
+@import "ui-components/_ui-radio-button-group";
 .btn-primary {
     background-color: var(--primary);
     color: var(--background-color);
@@ -150,33 +122,6 @@ main>* {
     margin-right: 20px;
 }
 
-section.header {
-    background-color: theme-color("orange");
-    background-attachment: fixed;
-    background-position: center top;
-    background-repeat: no-repeat;
-    color: white;
-    text-align: center;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    h4 {
-        margin: 0;
-        padding: 0;
-        flex: 1;
-    }
-}
-
-@media (max-width: get-breakpoints("md")) {
-    section.header {
-        padding: 10px;
-        h4 {
-            font-size: 1.2em;
-        }
-    }
-}
-
 .centeredsmallcard {
     margin: 10px auto 30px;
     width: 70%;
@@ -208,10 +153,6 @@ a.disabled {
     color: gray;
     pointer-events: none;
     opacity: 0.8;
-}
-
-.fadein {
-    animation: fadein 0.5s;
 }
 
 // Notifications
@@ -262,73 +203,4 @@ nav-breadcrumb {
 oh-vue-list:not(:defined),
 oh-community-topics:not(:defined) {
     display: none;
-}
-
-.modal {
-    margin: 0;
-    position: fixed;
-    background-color: rgba(0, 0, 0, .25);
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 999;
-    opacity: 0;
-    display: none;
-    pointer-events: none;
-    &:target {
-        animation: display-none-transition 1s both;
-        display: initial;
-        opacity: 1;
-        pointer-events: initial;
-    }
-    &>div {
-        width: 400px;
-        position: absolute;
-        top: 350px;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-}
-
-@keyframes display-none-transition {
-    0% {
-        opacity: 0;
-    }
-}
-
-.modal-close {
-    color: #aaa;
-    line-height: 50px;
-    font-size: 80%;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    top: 0;
-    width: 70px;
-    text-decoration: none;
-    &:hover {
-        color: #000;
-    }
-}
-
-.warnDialog {
-    position: absolute;
-    background-color: var(--card-bg);
-    box-shadow: 0 0 5px 0 #000;
-    border-radius: .25rem;
-    top: 10px;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    z-index: 10;
-    opacity: 0.9;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    .loader {
-        top: -10px;
-    }
 }

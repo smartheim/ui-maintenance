@@ -26,15 +26,6 @@
     </form>
 
     <div class="wrapper">
-      <style>
-        .user {
-          height: 32%;
-          padding: 0 12px;
-          display: flex;
-          align-items: center;
-        }
-
-      </style>
       <div class="as-console w-100">
         <div slot="before-container" class="as-console-row">
           <div class="as-console-cell-date">Timestamp</div>
@@ -44,9 +35,9 @@
         </div>
       </div>
       <oh-vue-bind adapter="logview" usebundle></oh-vue-bind>
-      <oh-vue class="w-100"></oh-vue>
+      <oh-vue class="log-container"></oh-vue>
       <template>
-        <dynamic-scroller :items="items" key-field="_id" :min-item-height="54" ref="scroller">
+        <dynamic-scroller :items="items" key-field="_id" :min-item-height="54" ref="scroller" @scrolled="scrollDown">
           <template slot-scope="{ item, index, active }">
             <dynamic-scroller-item :item="item" :active="active" :data-index="index" class="moveup">
               <div class="as-console-cell-date" :class="loglevelClass(item)">{{ datetime(item) }}</div>

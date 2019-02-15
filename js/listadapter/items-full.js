@@ -1,6 +1,6 @@
 import { store, fetchMethodWithTimeout, openhabHost } from '../app.js';
 
-const schema = {
+let schema = {
     uri: 'http://openhab.org/schema/items-schema.json', // id of the item schema
     fileMatch: ["http://openhab.org/schema/items-schema.json"], // associate with our model
     schema: {
@@ -15,10 +15,14 @@ const schema = {
                     link: { type: "string", description: "Internal URI information for openHAB REST clients" },
                     type: {
                         enum: ['String', 'Number', 'Switch', 'Color', 'Contact', 'DateTime', 'Dimmer', 'Image', 'Location', 'Player',
-                            'Rollershutter'],
+                            'Rollershutter', 'Group'],
                         description: "The item type"
                     },
-                    category: { type: "string", description: "The item category. Some are predefined, but you can have your own as well" },
+                    category: {
+                        type: "string",
+                        description: "The item icon",
+                        enum: []
+                    },
                     editable: { type: "boolean", description: "Items defined via old .item files are not editable" },
                     state: {
                         type: ["integer", "string", "boolean"],
@@ -34,13 +38,35 @@ const schema = {
                             options: { type: "array", description: "Options" },
                         }
                     },
+                    metadata: {
+                        type: "object",
+                        description: "An item can have metadata. Metadata is organized in namespaces",
+                        properties: {}
+                    },
+                    function: {
+                        type: "object",
+                        description: "A group item can have a function assigned to compute an overall state for all items",
+                        required: ["name"],
+                        properties: {
+                            name: { type: "string", description: "The function name" },
+                            params: { type: "array", description: "Parameters for the function" },
+                        }
+                    },
                     name: { type: "string", description: "A unique ID for this item", minLength: 2 },
                     label: { type: "string", description: "A friendly name", minLength: 2 },
-                    tags: { type: "array", "uniqueItems": true, description: "Tags of this item" },
-                    groupNames: { type: "array", "uniqueItems": true, description: "Assign this item to groups" },
-                    // config: { // reference the second schema.. demo
-                    //     $ref: 'http://myserver/bar-schema.json', 
-                    // },
+                    tags: {
+                        type: "array", "uniqueItems": true, description: "Tags of this item",
+                        items: {
+                            "type": "string"
+                        }
+                    },
+                    groupNames: {
+                        type: "array", "uniqueItems": true, description: "Assign this item to groups",
+                        items: {
+                            "type": "string",
+                            "enum": []
+                        }
+                    },
                 }
             }
         }
@@ -58,12 +84,53 @@ class StoreView {
             .then(v => this.functiontypes = v)
             .then(() => store.get("config-descriptions", null, { filter: "uri:metadata", force: true }))
             .then(v => this.config = v)
+            .then(() => store.get("icon-set", null, { force: true }))
+            .then(v => this.iconset = v)
             .then(() => this.get(options))
     }
     get(options = null) {
-        return store.get("items", null, options).then(items => this.items = items);
+        return store.get("items", null, options).then(items => this.items = items).then(() => this.adaptSchema());
     }
     dispose() {
+    }
+    adaptSchema() {
+        // Add all known metadata namespaces and their properties to the json schema
+        let metadata = schema.schema.definitions.item.properties.metadata;
+        metadata.properties = {};
+        for (let config of this.config) {
+            const namespace = config.uri.split("metadata:")[1];
+            metadata.properties[namespace] = { type: "object", description: "The metadata namespace " + namespace, properties: {} };
+            for (let param of config.parameters) {
+                metadata.properties[namespace].properties[param.name] = {};
+                let o = metadata.properties[namespace].properties[param.name];
+                o.description = param.description || param.name;
+                switch (param.type) {
+                    case "BOOLEAN":
+                        o.type = "boolean";
+                        break;
+                    case "DECIMAL":
+                    case "INTEGER":
+                        o.type = "number";
+                        break;
+                    default:
+                        o.type = "string";
+                }
+                if (param.options && param.options.length && param.limitToOptions) {
+                    o.enum = param.options.map(e => e.value);
+                }
+            }
+        }
+
+        // Add all allowed function types to the schema
+        let functiontypes = schema.schema.definitions.item.properties.function;
+        functiontypes.properties.name.enum = this.functiontypes.map(e => e.id);
+
+        // Add all possible group items to the schema
+        schema.schema.definitions.item.properties.groupNames.items.enum = this.items.filter(i => i.type === "Group").map(i => i.name);
+
+        // Add icon set options
+        schema.schema.definitions.item.properties.category.enum = this.iconset;
+        schema.schema.definitions.item.properties.category.enum.push("");
     }
     getAllowedStates(itemtype) {
         for (let t of this.itemtypes) {
@@ -89,8 +156,11 @@ const ItemsMixin = {
             return this.item.type == "Group";
         },
         iconpath: function () {
-            if (this.item.category) {
+            const host = openhabHost();
+            if (host != "demo" && this.item.category) {
                 return openhabHost() + "/icon/" + this.item.category;
+            } else {
+                return "./img/scene_dummy.jpg";
             }
             return null;
         },
@@ -122,27 +192,80 @@ const ItemsMixin = {
             return params;
         },
         namespaces: function () {
-            if (!this.item.metadata) return []
             let result = [];
-            const configs = this.$root.store.config;
-            let namespaces = Object.keys(this.item.metadata);
+            const configs = this.$root.store.config || [];
+            const metadata = this.item.metadata || {};
+
+            for (let config of configs) {
+                if (!config.uri.startsWith("metadata:") || !config.parameters) continue;
+                const namespace = config.uri.split("metadata:")[1];
+                const data = metadata[namespace] || {};
+                result.push({ name: namespace, values: Object.assign({}, data), parameters: config.parameters, hasconfig: true })
+            }
+
+            let namespaces = Object.keys(metadata);
             for (const namespaceName of namespaces) {
+                const config = configs.find(e => e.uri == "metadata:" + namespaceName);
+                if (config) continue; // Raw namespace data: No configuration associated
                 const namespace = this.item.metadata[namespaceName];
-                const config = configs ? configs.find(e => e.uri == "metadata:" + namespaceName) : null;
-                const values = config ? config.parameters : [];
-                for (let value of values) {
-                    if (namespace[value.name]) {
-                        value.value = namespace[value.name];
-                        const option = value.options ? value.options.find(o => o.value === value.value) : null;
-                        if (option) value.value = option.label;
-                    }
+                let values = [];
+                const rawData = Object.keys(namespace);
+                for (let key of rawData) {
+                    values.push({ description: key, value: Object.assign({}, rawData[key]) });
                 }
-                result.push({ name: namespaceName, values: values })
+
+                result.push({ name: namespaceName, values: values, hasconfig: false })
             }
             return result;
         }
     },
     methods: {
+        setMeta(namespace, param, value) {
+            let data = this.item.metadata || {};
+            data = data[namespace.name] || {};
+            switch (param.type) {
+                case "BOOLEAN":
+                    data[param.name] = value === "true";
+                    break;
+                case "DECIMAL":
+                    data[param.name] = parseFloat(value);
+                    break;
+                case "INTEGER":
+                    data[param.name] = parseInt(value);
+                    break;
+                default:
+                    data[param.name] = value;
+            }
+            if (value == null) {
+                delete data[param.name];
+            }
+            data = JSON.stringify(data);
+            this.message = null;
+            this.messagetitle = "Write meta: '" + namespace.name + "'";
+            this.inProgress = true;
+            let promise;
+            if (data.length == 2) // Empty object "{}"
+                promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespace.name, "DELETE");
+            else
+                promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespace.name, "PUT", data);
+
+            promise.then(r => {
+                this.messagetitle = "Success '" + namespace.name + "'";
+                this.changeNotification();
+                setTimeout(() => {
+                    this.inProgress = false;
+                }, 500);
+            }).catch(e => {
+                console.log(e);
+                if (e.status && e.status == 400) {
+                    this.message = "Meta writing failed!";
+                } else
+                    this.message = e.toString();
+            })
+        },
+        showIconDialog() {
+            document.getElementById('change-icon-source').context = this.item;
+        },
         commontags: function () {
             return ["Switchable", "Lighting", "ColorLighting"];
         },
@@ -159,11 +282,16 @@ const ItemsMixin = {
                 this.$delete(this.item, "function");
         },
         setFunctionParameter(index, value) {
-            if (!this.item.function) return;
+            if (!this.item.function) {
+                console.warn("No function in setFunctionParameter");
+                return;
+            }
             if (!this.item.function.params)
-                $set(this.item.function, 'params', [].fill(null, 0, index));
+                this.$set(this.item.function, 'params', []);
+            while (this.item.function.params.length < index + 1) this.item.function.params.push(null);
 
-            this.item.function.params[index] = value;
+            console.log("setFunctionParameter set", value, index);
+            this.$set(this.item.function.params, index, value);
         },
         sendCommand: function () {
             const command = this.$el.querySelector(".commandInput").value;
@@ -173,9 +301,7 @@ const ItemsMixin = {
             fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "POST", command, "text/plain")
                 .then(r => {
                     this.messagetitle = "Success '" + command + "'";
-                    setTimeout(() => {
-                        this.inProgress = false;
-                    }, 700);
+                    this.inProgress = false;
                 }).catch(e => {
                     console.log(e);
                     if (e.status && e.status == 400) {
@@ -189,29 +315,27 @@ const ItemsMixin = {
             this.message = null;
             this.messagetitle = "Removing item...";
             this.inProgress = true;
-            setTimeout(() => {
-                fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "DELETE", null)
-                    .then(r => {
-                        this.message = "Item '" + this.item.label + "' removed";
-                    }).catch(e => {
-                        this.message = e.toString();
-                    })
-            }, 500);
+            fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "DELETE", null)
+                .then(r => {
+                    this.message = "Item '" + this.item.label + "' removed";
+                    this.inProgress = false;
+                }).catch(e => {
+                    this.message = e.toString();
+                })
         },
         save: function () {
             this.message = null;
             this.messagetitle = "Saving item...";
             this.inProgress = true;
             this.changed = false;
-            setTimeout(() => {
-                fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "PUT", JSON.stringify(this.item))
-                    .then(r => {
-                        this.message = "Item '" + this.item.label + "' saved";
-                    }).catch(e => {
-                        this.message = e.toString();
-                    })
-            }, 500);
-        },
+            fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "PUT", JSON.stringify(this.item))
+                .then(r => {
+                    this.message = "Item '" + this.item.label + "' saved";
+                    this.inProgress = false;
+                }).catch(e => {
+                    this.message = e.toString();
+                })
+        }
     }
 }
 
@@ -225,8 +349,14 @@ const ItemListMixin = {
         },
         grouptypes() {
             return this.store.itemtypes.filter(e => e.group);
-        }
+        },
     },
+    methods: {
+        saveAll: function (items) {
+            //TODO
+            console.log("save all", items);
+        }
+    }
 };
 
 const mixins = [ItemsMixin];
