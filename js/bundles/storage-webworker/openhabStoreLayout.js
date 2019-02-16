@@ -23,6 +23,7 @@ const tables = [
     { id: "items", uri: "rest/items?metadata=.*", key: "name", onstart: true },
     { id: "links", uri: "rest/links", key: ["itemName", "channelUID"], singleRequests: false },
     { id: "module-types", uri: "rest/module-types", key: "uid" },
+    { id: "user-interfaces", uri: "rest/user-interfaces", key: "id" }, // NEW
     { id: "item-types", uri: "rest/item-types", key: "id" }, // NEW
     { id: "item-group-function-types", uri: "rest/item-group-function-types", key: "id" }, // NEW
     { id: "persistence", uri: "rest/persistence", key: "uid", singleRequests: false }, // ALTERED
@@ -37,7 +38,7 @@ const tables = [
     { id: "things", uri: "rest/things", key: "UID", onstart: true },
     { id: "voice-interpreters", uri: "rest/voice", key: "id" },
 ];
-const dbversion = 28;
+const dbversion = 31;
 
 /** 
  * This is an associative map of storenames to store-layout descriptions.

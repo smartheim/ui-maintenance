@@ -14,9 +14,6 @@ class StoreView {
 }
 
 const InboxCounterMixin = {
-  mounted: function () {
-    console.log("InboxCounterMixin started");
-  },
   computed: {
     inboxcounter: function () {
       return this.value.length;

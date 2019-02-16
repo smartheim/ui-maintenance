@@ -1,0 +1,148 @@
+@import "partials/_variables";
+main .logo {
+    max-width: calc(100% - 40px);
+    padding: 20px 0;
+    animation: fadein 1s linear 0.2s 1 normal both;
+    margin: 0 auto;
+}
+
+main {
+    .card .btn-secondary {
+        min-width: 190px;
+    }
+}
+
+body {
+    &>nav,
+    &>main,
+    &>aside {
+        grid-row: 2 !important;
+    }
+}
+
+footer {
+    grid-row: 3 !important;
+    display: flex;
+    flex-direction: column;
+    a {
+        margin-top: 10px;
+        margin-left: auto;
+    }
+}
+
+body>nav {
+    max-width: 150px;
+    margin-right: 10px;
+    text-align: center;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    &:hover {
+        opacity: 1;
+    }
+    a {
+        filter: grayscale(1);
+        transition: filter 0.2s;
+    }
+    a:hover {
+        filter: grayscale(0);
+    }
+    .first {
+        opacity: 0;
+        animation: swingin 1s ease-in-out 1s 1 normal forwards;
+    }
+    .second,
+    hr {
+        opacity: 0;
+        animation: swingin 1s ease-in-out 1.5s 1 normal forwards;
+    }
+    img {
+        width: 100%;
+    }
+}
+
+@media (min-width: get-breakpoints("xxxl")) {
+    body>nav {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: get-breakpoints("xxl")) {
+    body>nav {
+        display: none;
+    }
+}
+
+body.wide main.mainhome {
+    max-width: 1400px;
+    margin: auto;
+}
+
+header .logo {
+    animation: fadein 1s linear 0s 1 reverse forwards;
+}
+
+aside {
+    opacity: 0;
+    animation: swinginxr 1s ease-in-out 0.5s 1 normal forwards;
+    max-width: 300px;
+    min-width: 270px;
+    margin-right: 10px;
+    h4 {
+        padding: 10px;
+        display: flex;
+        span {
+            flex: 1;
+        }
+    }
+    li {
+        display: flex;
+        a {
+            flex: 1;
+        }
+    }
+}
+
+@media (min-width: get-breakpoints("xxxl")) {
+    .introcard {
+        margin: 0 100px;
+    }
+}
+
+#userinterfaces {
+    width: 100%;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    a {
+        transition: box-shadow 135ms cubic-bezier(.4, 0, .2, 1), width 235ms cubic-bezier(.4, 0, .2, 1);
+        color: #5f6368;
+        box-shadow: 0 1px 1px 0 rgba(60, 64, 67, .08), 0 1px 3px 1px rgba(60, 64, 67, .16);
+        margin-right: 10px;
+        width: 355px;
+        background-color: var(--card-bg); //  border: 1px solid var(--color);
+        border-radius: 3px;
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        filter: grayscale(1);
+        transition: filter 0.2s, box-shadow 0.2;
+        header {
+            background-color: var(--primary-light);
+            color: var(--color);
+            text-align: center;
+            font-size: 1.5rem;
+            padding: 5px;
+        }
+        &:hover {
+            box-shadow: 0 1px 3px 1px rgba(60, 64, 67, .2), 0 2px 8px 4px rgba(60, 64, 67, .1);
+            filter: grayscale(0);
+        }
+        img {
+            width: 350px;
+            min-height: 200px;
+            flex: 1;
+            align-self: center;
+        }
+    }
+}

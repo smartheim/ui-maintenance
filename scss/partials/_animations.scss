@@ -21,6 +21,19 @@
     }
 }
 
+.bouncyFadeOut {
+    animation: bouncyFadeOut 0.5s linear 0s 1 normal both;
+}
+
+@keyframes bouncyFadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 @keyframes swingin {
     from {
         opacity: 0;

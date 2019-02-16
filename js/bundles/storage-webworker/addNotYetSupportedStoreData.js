@@ -619,8 +619,38 @@ async function addIconSet(tx) {
     for (let d of data) await store.add(d);
 }
 
+async function addUserInterfaces(tx) {
+    const store = tx.objectStore('user-interfaces');
+    await store.clear();
+    const data = [
+        {
+            "id": "restapidoc",
+            "image": "./doc/images/dashboardtile.png",
+            "link": "./doc/index.html",
+            "label": "REST Api",
+            "description": "Interact with the openHAB REST API"
+        },
+        {
+            "id": "habpanel",
+            "image": "./habpanel/tile.png",
+            "link": "./habpanel/index.html",
+            "label": "HABPanel",
+            "description": "HABPanel shines on larger screens like tablets. It is a widget based user interface."
+        },
+        {
+            "id": "paperui",
+            "image": "./paperui/img/dashboardtile.png",
+            "link": "./paperui/index.html",
+            "label": "Paper UI",
+            "description": "The veteran of setup interfaces"
+        }
+    ];
+    for (let d of data) await store.add(d);
+}
+
+
 export const blockLiveDataFromTables = ['manualextensions', 'scripts', 'schedule', 'persistence-services',
-    'persistence', 'script-types', "item-types", "item-group-function-types", "extension-repositories", "icon-set"];
+    'persistence', 'script-types', "item-types", "item-group-function-types", "extension-repositories", "icon-set", "user-interfaces"];
 
 export async function hack_addNotYetSupportedStoreData(db) {
     const tx = db.transaction(blockLiveDataFromTables, 'readwrite');
@@ -634,5 +664,6 @@ export async function hack_addNotYetSupportedStoreData(db) {
     addItemTypes(tx);
     addItemGroupFunctionTypes(tx);
     addIconSet(tx);
+    addUserInterfaces(tx);
     return tx.complete;
 }

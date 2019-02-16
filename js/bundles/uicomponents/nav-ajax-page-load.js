@@ -25,11 +25,14 @@ class NavAjaxPageLoad extends HTMLElement {
         this.nav = new Navigator((loader, event) => {
             event.target.classList.add("disabled");
             loader.load()
-                .then(page => page.replaceStyles("body"))
+                .then(page => page.addNewStyles("body"))
                 .then(page => this.checkReload(event.target, "aside") ? page.replaceContent('aside') : page)
                 .then(page => this.checkReload(event.target, "nav") ? page.replaceContent('body>nav') : page)
-                .then(page => page.replaceNavReferences().replaceContent('footer').replaceContent('section.header'))
-                .then(page => page.replaceContent('main'))
+                .then(page => page.replaceNavReferences())
+                .then(page => page.replaceContent('footer'))
+                .then(page => page.replaceContent('section.header'))
+                .then(page => page.replaceContent('main', { animationClass: "bouncyFadeOut", duration: 0.7 }))
+                .then(page => page.removeOldStyles("body"))
                 .then(page => page.replaceScripts("body"))
                 .then(() => this.prepareLoadedContent(event))
                 .catch(e => { // Connection lost? Check login
@@ -54,7 +57,7 @@ class NavAjaxPageLoad extends HTMLElement {
             document.dispatchEvent(new Event('DOMContentLoaded'));
         }, 50);
     }
-    
+
     checkReload(target, section) {
         var d = target.dataset.noReload ? target.dataset.noReload.split(",") : [];
         return !d.includes(section);

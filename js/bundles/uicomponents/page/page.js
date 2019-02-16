@@ -57,6 +57,10 @@ export default class Page {
         return this;
     }
 
+    async timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     /**
      * Replace an element in the document by an element in the page
      * Optionally, it can execute a callback to the new inserted element
@@ -66,13 +70,29 @@ export default class Page {
      *
      * @return {this}
      */
-    replaceContent(selector = 'body', callback = undefined) {
+    async replaceContent(selector = 'body', options = null) {
         const content = this.querySelector(selector);
 
-        this.querySelector(selector, document).replaceWith(content);
+        if (!options || !options.animationClass)
+            this.querySelector(selector, document).replaceWith(content);
+        else {
+            try {
+                const oldMain = this.querySelector(selector, document);
+                const duration = options.duration || 1;
+                // First insert the new element, just before the old one.
+                // The grid layout will make sure the old one is still at the front
+                oldMain.parentNode.insertBefore(content, oldMain);
+                // Add animation class and remove old after timeout
+                oldMain.classList.add(options.animationClass);
+                await this.timeout(duration * 1000)
+                oldMain.remove();
+            } catch (e) {
+                console.warn("ANIM failed", e);
+            }
+        }
 
-        if (typeof callback === 'function') {
-            callback(content);
+        if (options && typeof options.callback === 'function') {
+            options.callback(content);
         }
 
         return this;
@@ -123,41 +143,33 @@ export default class Page {
         return this;
     }
 
-    /**
-     * Change the css of the current page
-     *
-     * @param {string} context
-     *
-     * @return Promise
-     */
-    replaceStyles(context = 'head') {
-        const documentContext = this.querySelector(context, document);
-        const pageContext = this.querySelector(context);
-        const oldLinks = Array.from(
-            documentContext.querySelectorAll('link[rel="stylesheet"]')
-        );
-        const newLinks = Array.from(
-            pageContext.querySelectorAll('link[rel="stylesheet"]')
-        );
+    addNewStyles(context = 'head') {
+        const currentPage = this.querySelector(context, document);
+        const newPage = this.querySelector(context);
 
-        oldLinks.forEach(link => {
-            const index = newLinks.findIndex(
-                newLink => newLink.href === link.href
-            );
-
-            if (index === -1) {
-                link.remove();
-            } else {
-                newLinks.splice(index, 1);
-            }
-        });
-
-        documentContext
+        // Inline styles are perfomed immediately
+        currentPage
             .querySelectorAll('style')
             .forEach(style => style.remove());
-        pageContext
+        newPage
             .querySelectorAll('style')
-            .forEach(style => documentContext.append(style));
+            .forEach(style => currentPage.append(style));
+
+
+        this.oldLinks = Array.from(
+            currentPage.querySelectorAll('link[rel="stylesheet"]')
+        );
+
+        const newLinks = Array.from(
+            newPage.querySelectorAll('link[rel="stylesheet"]')
+        ).filter(newLink => {
+            let found = this.oldLinks.findIndex(oldLink => oldLink.href == newLink.href);
+            if (found != -1) {
+                this.oldLinks.splice(found, 1);
+                return false;
+            }
+            return true;
+        });
 
         return Promise.all(
             newLinks.map(
@@ -165,10 +177,18 @@ export default class Page {
                     new Promise((resolve, reject) => {
                         link.addEventListener('load', resolve);
                         link.addEventListener('error', reject);
-                        documentContext.append(link);
+                        currentPage.append(link);
                     })
             )
-        ).then(() => Promise.resolve(this));
+        ).then(() => this);
+    }
+
+    removeOldStyles(context = 'head') {
+        for (let link of this.oldLinks) {
+            link.remove();
+        }
+        delete this.oldLinks;
+        return this;
     }
 
     /**

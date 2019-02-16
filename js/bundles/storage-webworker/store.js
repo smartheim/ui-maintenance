@@ -145,6 +145,21 @@ export class StateWhileRevalidateStore extends EventTarget {
                 .catch(e => { console.warn("Failed to fill", item.id); throw e; })
         }
 
+        let thingTypes = await this.getAll("thing-types", { force: true });
+        for (let thingType of thingTypes) {
+            await this.get("thing-types-extended", thingType.UID, { force: true });
+        }
+
+        let bindings = await this.getAll("bindings", { force: true });
+        for (let binding of bindings) {
+            await this.get("binding-config", binding.id, { force: true });
+        }
+
+        let services = await this.getAll("services", { force: true });
+        for (let service of services) {
+            await this.get("service-config", service.id, { force: true });
+        }
+
         var dumpobject = {};
         const stores = tables.map(e => e.id);
         const tx = this.db.transaction(stores, 'readonly');
@@ -338,8 +353,10 @@ export class StateWhileRevalidateStore extends EventTarget {
             delete this.db;
         }
 
+        let hasPerformedUpdate = false;
         this.db = await openDb(hostname, dbversion, db => {
             console.log("Upgrading database to version", dbversion);
+            hasPerformedUpdate = true;
             const objs = db.objectStoreNames;
             for (let ojs of objs) {
                 db.deleteObjectStore(ojs);
@@ -348,8 +365,8 @@ export class StateWhileRevalidateStore extends EventTarget {
                 if (table.key) db.createObjectStore(table.id, { keyPath: table.key });
                 else db.createObjectStore(table.id, { autoIncrement: true });
             }
-        }).then(db => {
-            hack_addNotYetSupportedStoreData(db);
+        }).then(async db => {
+            if (hasPerformedUpdate) await hack_addNotYetSupportedStoreData(db);
             return db;
         });
         return this.db;
