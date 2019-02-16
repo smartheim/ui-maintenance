@@ -61,6 +61,9 @@
             </div>
           </details>
         </div>
+        <div class="row">
+          <a class="mr-4 ml-auto" href="about.html">About | Open Source Attributions</a>
+        </div>
       </div>
     </div>
 
@@ -76,22 +79,14 @@
       </div>
     </template>
 
-    <span style="flex:1"></span>
+    <oh-login-status-link class="ml-auto invisible" style="min-width: 220px;min-height: 31px">
+      <a class="btn btn-primary-hover btn-sm" slot="connected" href="login.html">Logout from <span class="hostname"></span></a>
+      <div slot="disconnected"><span class="hostname"></span> - <a class="btn btn-primary-hover btn-sm" href="login.html">Connection
+          failed</a></div>
+    </oh-login-status-link>
 
-    <div style="display:flex;align-items: center;" class="mb-4">
-      <ui-switch storekey="skiphome" label="Show
-        the 'Maintenance' screen by default" title="You will not start on this screen but the maintenance screen instead"></ui-switch>
-      <span style="flex:1"></span>
-      <oh-login-status-link class="invisible" style="min-width: 220px;min-height: 31px">
-        <a class="btn btn-primary-hover btn-sm" slot="connected" href="login.html">Logout from <span class="hostname"></span></a>
-        <div slot="disconnected"><span class="hostname"></span> - <a class="btn btn-primary-hover btn-sm" href="login.html">Connection
-            failed</a></div>
-      </oh-login-status-link>
-    </div>
   </main>
-  <footer>
-    <a href="about.html">About | Open Source Attributions</a>
-  </footer>
+  <footer></footer>
   <aside>
     <h4>
       <span>Latest announcements</span>

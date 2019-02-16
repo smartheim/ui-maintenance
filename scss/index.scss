@@ -6,7 +6,8 @@ main .logo {
     margin: 0 auto;
 }
 
-main {
+body>main {
+    box-shadow: none;
     .card .btn-secondary {
         min-width: 190px;
     }

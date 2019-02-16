@@ -15,6 +15,9 @@
         <li>
             <ui-dropdown style="width:calc(100% - 2rem)" class="mt-2 d-block" value="English" options="English,German,French"></ui-dropdown>
         </li>
+        <li>
+            <ui-switch storekey="skiphome" label="Start on 'Maintenance' screen" title="You will start on the maintenance screen instead of the home screen"></ui-switch>
+        </li>
     </ul>
     <p>Service config</p>
     <oh-list-bind for="serviceslist" listadapter="services"></oh-list-bind>
