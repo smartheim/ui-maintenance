@@ -1,6 +1,4 @@
-*Items* can be assigned to groups. A group is just another *Item* that is of type "Group".
-A group can have a state on its own (On, Off, Open, Closed), but only if it is of any type
-like for example a Switch type or Number type.
+*Items* can be assigned to groups. A group is an *Item* of type "Group".
 
 Group Items can derive their own state from their member Items. To derive a state the Group Item must be constructed using a base Item type and a Group function. When calculating the state, Group functions recursively traverse the Group's members and also take members of subgroups into account. If a subgroup however defines a state on its own (having base Item & Group function set) traversal stops and the state of the subgroup member is taken.
 

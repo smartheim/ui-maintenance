@@ -1,4 +1,4 @@
-import './chart.js';
-const Chart = window.Chart;
+import chart from './Chart.js';
+const Chart = chart;
 export default Chart;
-export {Chart};
+export { chart as Chart }; 

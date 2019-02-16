@@ -32,7 +32,7 @@ class UITimeGraph extends HTMLElement {
                     borderColor: this.color,
                     data: [],
                     fill: false,
-                },{
+                }, {
                     streaming: { duration: 1000 * 60, delay: 2000 },
                     label: 'Minute',
                     backgroundColor: this.color,
@@ -68,8 +68,8 @@ class UITimeGraph extends HTMLElement {
                 legend: {
                     onClick: (e, legendItem) => this.show(e, legendItem),
                     labels: {
-                        filter: function(item, chart) {
-                            return item.text!='';
+                        filter: function (item, chart) {
+                            return item.text != '';
                         }
                     }
                 },
@@ -141,8 +141,11 @@ class UITimeGraph extends HTMLElement {
             -webkit-user-select: none;
             -ms-user-select: none;
         }</style>`;
+
         // Private API use: ShadowDom style encapsulation workaround
-        root.appendChild(Chart.platform._style.cloneNode(true));
+        Chart.platform._ensureLoaded();
+        root.appendChild(Chart.platform.getStyle().cloneNode(true));
+
         this.canvas = document.createElement("canvas");
         var ctx = this.canvas.getContext('2d');
         this.charts = new Chart(ctx, this.config);
@@ -152,7 +155,7 @@ class UITimeGraph extends HTMLElement {
     }
 
     show(e, legendItem) {
-        for (var i=1;i<this.config.data.datasets.length;++i) {
+        for (var i = 1; i < this.config.data.datasets.length; ++i) {
             var dataset = this.config.data.datasets[i];
             dataset.backgroundColor = "lightgray";
             dataset.borderColor = "lightgray";

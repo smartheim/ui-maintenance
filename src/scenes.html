@@ -88,7 +88,7 @@
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/scenes"></partial>
       <template slot="item">
-        <article class="hasimage" :id="item.uid">
+        <article class="hasimage" :id="item.uid" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>
           <header :title="item.name"> <span> {{item.name}} </span></header>
           <aside :style="'background-image:url('+image+')'"></aside>

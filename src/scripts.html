@@ -38,7 +38,7 @@
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.filename" help="contexthelp/scripts"></partial>
       <template slot="item">
-        <article :id="item.filename">
+        <article :id="item.filename" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>
           <header>
             <span>{{item.filename}}</span>

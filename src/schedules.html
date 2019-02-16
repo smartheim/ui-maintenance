@@ -36,7 +36,7 @@
     <oh-vue-list id="schedulelist">
       <partial src="vuelistbasics.html" key="item.UID" help="contexthelp/scheduler"></partial>
       <template slot="item">
-        <article :id="item.UID">
+        <article :id="item.UID" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-metainfo :uniqueid="item.UID"></vue-metainfo>
           <vue-inprogress></vue-inprogress>
           <header class="title">

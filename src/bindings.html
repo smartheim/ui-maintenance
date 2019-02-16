@@ -32,7 +32,7 @@
     <oh-vue-list id="bindingslist">
       <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addons"></partial>
       <template slot="item">
-        <article :id="item.id" class="wider">
+        <article :id="item.id" class="wider" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>
           <header>
             <span>{{item.name}}</span>
