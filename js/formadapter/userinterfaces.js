@@ -20,7 +20,7 @@ const UserInterfaceMixin = {
       if (host != "demo") {
         return openhabHost() + item.image;
       } else {
-        return "./img/scene_dummy.jpg";
+        return "./dummydata/" + item.id + ".png";
       }
     },
     link(item) {
