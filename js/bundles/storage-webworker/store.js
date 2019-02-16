@@ -136,13 +136,9 @@ export class StateWhileRevalidateStore extends EventTarget {
      * First retrieve fresh data for all tables, then dump the entire indexeddb.
      */
     async dump() {
-        const requests = tables.filter(item => item.url !== undefined && !item.urlsuffix);
+        const requests = tables.filter(item => item.uri !== undefined && !item.urlsuffix);
         for (let item of requests) {
-            await fetchWithTimeout(this.openhabHost + "/" + item.uri)
-                .catch(e => { console.warn("Failed to fetch", this.openhabHost + "/" + item.uri); throw e; })
-                .then(response => response.json())
-                .then(json => this.initialStoreFill(this.db, item.id, json, true))
-                .catch(e => { console.warn("Failed to fill", item.id); throw e; })
+            await this.getAll(item.id, { force: true });
         }
 
         let thingTypes = await this.getAll("thing-types", { force: true });

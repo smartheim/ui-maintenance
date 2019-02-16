@@ -36,7 +36,7 @@ class OhChangelog extends HTMLElement {
     };
   }
   static get observedAttributes() {
-    return ['url','toctarget','cachetime'];
+    return ['url', 'toctarget', 'cachetime'];
   }
   connectedCallback() {
     this.loading = this.getAttribute("loading") || "Loading... ";
@@ -65,10 +65,10 @@ class OhChangelog extends HTMLElement {
       while (this.firstChild) { this.firstChild.remove(); }
       this.innerHTML = cachedData;
     } else {
-      this.reset();
+      this.reload();
     }
   }
-  reset() {
+  reload() {
     this.toc = [];
     localStorage.removeItem("timestamp_" + this.url);
 
@@ -82,12 +82,12 @@ class OhChangelog extends HTMLElement {
         if (Array.isArray(json)) {
           for (var i = 0; i < json.length; i++) {
             var release = json[i];
-            const markdown = await marked.parse(release.body, { renderer: renderer });
+            const markdown = await this.marked.parse(release.body, { renderer: this.renderer });
             htmlstr += "<h2>" + release.name + "</h2>" + markdown + "<hr>";
           }
         } else {
           var release = json;
-          const markdown = await marked.parse(release.body, { renderer: renderer });
+          const markdown = await this.marked.parse(release.body, { renderer: this.renderer });
           htmlstr += "<h2>" + release.name + "</h2>" + markdown;
         }
         localStorage.setItem(this.url, htmlstr);
@@ -109,9 +109,9 @@ class OhChangelog extends HTMLElement {
             tocstr += "<a href=\"#" + t.slug + "\">" + t.title + "</a>";
             tocstr += "</li>";
           }
-          localStorage.setItem("toc_" + url, tocstr);
+          localStorage.setItem("toc_" + this.url, tocstr);
         }
-        return Promise.resolve({main:htmlstr,toc:tocstr});
+        return Promise.resolve({ main: htmlstr, toc: tocstr });
       })
       .then(data => {
         var e = document.querySelector(this.toctarget);
@@ -120,6 +120,7 @@ class OhChangelog extends HTMLElement {
         this.innerHTML = data.main;
       }).catch(e => {
         while (this.firstChild) { this.firstChild.remove(); }
+        console.warn(e);
         this.innerHTML = this.error + e;
       })
   }

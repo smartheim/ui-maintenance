@@ -5137,8 +5137,189 @@
     ],
     "profile-types": [],
     "rules": [],
-    "services": [],
-    "service-config": [],
+    "services": [
+        {
+            "id": "org.eclipse.smarthome.audio",
+            "label": "Audio",
+            "category": "system",
+            "configDescriptionURI": "system:audio",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.chart",
+            "label": "Charts",
+            "category": "system",
+            "configDescriptionURI": "system:chart",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.core.i18nprovider",
+            "label": "Regional Settings",
+            "category": "system",
+            "configDescriptionURI": "system:i18n",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.inbox",
+            "label": "Inbox",
+            "category": "system",
+            "configDescriptionURI": "system:inbox",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.links",
+            "label": "Item Linking",
+            "category": "system",
+            "configDescriptionURI": "system:links",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.lsp",
+            "label": "Language Server (LSP)",
+            "category": "misc",
+            "configDescriptionURI": "misc:lsp",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.mqttbroker",
+            "label": "MQTT system broker connection",
+            "category": "MQTT",
+            "configDescriptionURI": "mqtt:systemBrokerConnectionInstance",
+            "multiple": true
+        },
+        {
+            "id": "org.eclipse.smarthome.network",
+            "label": "Network Settings",
+            "category": "system",
+            "configDescriptionURI": "system:network",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.persistence",
+            "label": "Persistence",
+            "category": "system",
+            "configDescriptionURI": "system:persistence",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.rulehli",
+            "label": "Rule Voice Interpreter",
+            "category": "voice",
+            "configDescriptionURI": "voice:rulehli",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.storage.json",
+            "label": "Json Storage",
+            "category": "system",
+            "configDescriptionURI": "system:json_storage",
+            "multiple": false
+        },
+        {
+            "id": "org.eclipse.smarthome.voice",
+            "label": "Voice",
+            "category": "system",
+            "configDescriptionURI": "system:voice",
+            "multiple": false
+        },
+        {
+            "id": "org.openhab.addons",
+            "label": "Add-on Management",
+            "category": "system",
+            "configDescriptionURI": "system:addons",
+            "multiple": false
+        },
+        {
+            "id": "org.openhab.habpanel",
+            "label": "HABPanel",
+            "category": "ui",
+            "configDescriptionURI": "ui:habpanel",
+            "multiple": false
+        },
+        {
+            "id": "org.openhab.hueemulation",
+            "label": "Hue Emulation",
+            "category": "io",
+            "configDescriptionURI": "io:hueemulation",
+            "multiple": false
+        }
+    ],
+    "service-config": [
+        {
+            "id": "org.eclipse.smarthome.audio",
+            "config": {
+                "defaultSink": "enhancedjavasound",
+                "felix.fileinstall.filename": "file:/var/lib/openhab2/etc/org.eclipse.smarthome.audio.cfg"
+            }
+        },
+        {
+            "id": "org.eclipse.smarthome.chart",
+            "config": {}
+        },
+        {
+            "id": "org.eclipse.smarthome.core.i18nprovider",
+            "config": {}
+        },
+        {
+            "id": "org.eclipse.smarthome.inbox",
+            "config": {}
+        },
+        {
+            "id": "org.eclipse.smarthome.links",
+            "config": {
+                "org.apache.karaf.features.configKey": "org.eclipse.smarthome.links",
+                "autoLinks": false
+            }
+        },
+        {
+            "id": "org.eclipse.smarthome.lsp",
+            "config": {}
+        },
+        {
+            "id": "org.eclipse.smarthome.mqttbroker",
+            "config": {}
+        },
+        {
+            "id": "org.eclipse.smarthome.network",
+            "config": {}
+        },
+        {
+            "id": "org.eclipse.smarthome.persistence",
+            "config": {}
+        },
+        {
+            "id": "org.eclipse.smarthome.rulehli",
+            "config": {}
+        },
+        {
+            "id": "org.eclipse.smarthome.storage.json",
+            "config": {}
+        },
+        {
+            "id": "org.eclipse.smarthome.voice",
+            "config": {
+                "felix.fileinstall.filename": "file:/var/lib/openhab2/etc/org.eclipse.smarthome.voice.cfg",
+                "defaultHLI": "rulehli"
+            }
+        },
+        {
+            "id": "org.openhab.addons",
+            "config": {
+                "binding": "mqtt,astro,deconz,hue,network",
+                "package": "simple",
+                "ui": "paper,habpanel",
+                "misc": "ruleengine,hueemulation,restdocs"
+            }
+        },
+        {
+            "id": "org.openhab.habpanel",
+            "config": {}
+        },
+        {
+            "id": "org.openhab.hueemulation",
+            "config": {}
+        }
+    ],
     "ruletemplates": [],
     "thing-types": [
         {
@@ -10245,7 +10426,7 @@
                 "secure": false,
                 "certificatepin": true,
                 "keep_alive_time": 60000,
-                "password": "password",
+                "password": "elch1fahne",
                 "qos": 0,
                 "host": "localhost",
                 "reconnect_time": 60000
