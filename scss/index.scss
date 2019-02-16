@@ -21,16 +21,6 @@ body {
     }
 }
 
-footer {
-    grid-row: 3 !important;
-    display: flex;
-    flex-direction: column;
-    a {
-        margin-top: 10px;
-        margin-left: auto;
-    }
-}
-
 body>nav {
     max-width: 150px;
     margin-right: 10px;
