@@ -15,9 +15,8 @@ body>main.mainhome {
 
 body {
     &>nav.mainhome,
-    &>main.mainhome,
     &>aside.mainhome {
-        grid-row: 2 !important;
+        grid-row: 2/span 2 !important;
     }
 }
 

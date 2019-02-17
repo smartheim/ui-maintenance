@@ -16,7 +16,7 @@ export class FetchError extends Error {
 }
 
 /**
- * Used if multiple items are pushed to REST, to keep a list of failed items.
+ * Used if multiple items are pushed to REST. A list of failed items is kept.
  */
 export class MultiRestError extends Error {
   constructor(message, failedItems, ...params) {
@@ -33,7 +33,9 @@ export async function fetchWithTimeout(url, timeout = 5000) {
   const controller = new AbortController();
   const signal = controller.signal;
   setTimeout(() => controller.abort(), timeout);
-  const response = await fetch(url, { signal: signal, validateHttpsCertificates: false, muteHttpExceptions: true });
+  const response = await fetch(url, { signal: signal, validateHttpsCertificates: false, muteHttpExceptions: true }).catch(e => {
+    throw (e instanceof DOMException && e.name === "AbortError" ? "Timeout after " + (timeout / 1000) + "s" : e);
+  });
   if (!response.ok) {
     throw new FetchError(response.statusText, response.status);
   }
@@ -48,7 +50,9 @@ export async function fetchMethodWithTimeout(url, method, body, contentType = 'a
   const muteHttpExceptions = true;
   const options = { signal, method, mode, body, validateHttpsCertificates, muteHttpExceptions };
   setTimeout(() => controller.abort(), timeout);
-  const response = await fetch(url, contentType ? Object.assign(options, { headers }) : options);
+  const response = await fetch(url, contentType ? Object.assign(options, { headers }) : options).catch(e => {
+    throw (e instanceof DOMException && e.name === "AbortError" ? "Timeout after " + (timeout / 1000) + "s" : e);
+  });;
   if (!response.ok) {
     throw new FetchError(response.statusText, response.status);
   }
