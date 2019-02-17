@@ -11,7 +11,7 @@ import { fetchWithTimeout } from '../../common/fetch';
  * 
  * Methods:
  * - checkCacheAndLoad(): Reloads data.
- * - reset(): Reset cache and reload.
+ * - reload(): Reset cache and reload.
  * - load(): Load a specific url
  * 
  * Properties:
@@ -65,7 +65,7 @@ class OhCommunityTopics extends HTMLElement {
       while (this.firstChild) { this.firstChild.remove(); }
       this.innerHTML = cachedData;
     } else {
-      this.reset();
+      this.reload();
     }
   }
   reload() {

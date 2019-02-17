@@ -2,7 +2,7 @@
  * This is a tandem component for oh-context-help and alike.
  * 
  * The target component is expected to have this API interface:
- * .reset() // Optional: For reloading content
+ * .reload() // Optional: For reloading content
  * .checkCacheAndLoad() // Optional: For displaying the original, cached content if that was temporarly overwritten
  * .contenturl OR .url // property for setting a new url
  * .contextdata // If this is existing it will be set to null before setting the url
@@ -10,7 +10,7 @@
  * Attributes:
  * - href // The destination url
  * - toggle // If set will toggle a body class "showcontext"
- * - reload // If set will call target.reset() if no "href" is also set
+ * - reload // If set will call target.reload() if no "href" is also set
  * - home // If set will call target.checkCacheAndLoad() if no "href" is also set
  * 
  * Usage: <oh-doc-link href="some-link-to-markdown-or-html"><a href="#">Documentation</a></oh-doc-link>

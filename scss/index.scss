@@ -6,7 +6,7 @@ main .logo {
     margin: 0 auto;
 }
 
-body>main {
+body>main.mainhome {
     box-shadow: none;
     .card .btn-secondary {
         min-width: 190px;
@@ -14,14 +14,14 @@ body>main {
 }
 
 body {
-    &>nav,
-    &>main,
-    &>aside {
+    &>nav.mainhome,
+    &>main.mainhome,
+    &>aside.mainhome {
         grid-row: 2 !important;
     }
 }
 
-body>nav {
+body>nav.mainhome {
     max-width: 150px;
     margin-right: 10px;
     text-align: center;
@@ -52,14 +52,14 @@ body>nav {
 }
 
 @media (min-width: get-breakpoints("xxxl")) {
-    body>nav {
+    body>nav.mainhome {
         max-width: 300px;
         justify-self: flex-start;
     }
 }
 
 @media (max-width: get-breakpoints("xxl")) {
-    body>nav {
+    body>nav.mainhome {
         display: none;
     }
 }
@@ -69,11 +69,11 @@ body.wide main.mainhome {
     margin: auto;
 }
 
-header .logo {
+body>header .logo {
     animation: fadein 1s linear 0s 1 reverse forwards;
 }
 
-aside {
+aside.mainhome {
     opacity: 0;
     animation: swinginxr 1s ease-in-out 0.5s 1 normal forwards;
     max-width: 300px;
@@ -101,7 +101,7 @@ aside {
     }
 }
 
-aside>oh-community-topics {
+aside.mainhome>oh-community-topics {
     ul>li>a:hover {
         border-left: .25rem solid transparent !important;
     }

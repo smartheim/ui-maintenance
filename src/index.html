@@ -8,7 +8,7 @@
 <body>
   <link rel="stylesheet" href="css/index.css" type="text/css" />
 
-  <nav>
+  <nav class="mainhome">
     <a title="Java programming skills?" class="first btn m-2" target="_blank" href="https://www.openhab.org/docs/developer/development/bindings.html">
       <img src="img/develop_binding.svg.png">
       <div>We ❤ binding developers</div>
@@ -24,7 +24,7 @@
 
   <partial src="mainnav.html"></partial>
 
-  <section class="header d-none"></section>
+  <section class="header" style="visibility: hidden"></section>
 
   <main class="mainhome">
 
@@ -85,7 +85,7 @@
 
   </main>
   <footer></footer>
-  <aside>
+  <aside class="mainhome">
     <h4>
       <span>Latest announcements</span>
       <oh-doc-link target="#latesttopics" reload><a href="#"><i class="fas fa-sync-alt"></i></a></oh-doc-link>

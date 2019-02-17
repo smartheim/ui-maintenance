@@ -13,7 +13,7 @@ const marked = new Marked();
  * 
  * Methods:
  * - checkCacheAndLoad(): Reloads data.
- * - reset(): Reset cache and reload.
+ * - reload(): Reset cache and reload.
  * - load(): Load a specific url
  * 
  * Properties:
