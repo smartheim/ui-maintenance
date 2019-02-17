@@ -14148,7 +14148,7 @@
             "bridge": false
         },
         {
-            "\nUID": "hue:0302",
+            "UID": "hue:0302",
             "label": "Temperatursensor",
             "description": "Temperatursensor",
             "listed": true,
