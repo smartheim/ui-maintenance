@@ -1,24 +1,25 @@
-import { store } from '../app.js';
+import { store, createNotification, fetchMethodWithTimeout } from '../app.js';
 
 class StoreView {
-    constructor() { this.items = []; this.bindings = []; }
+    constructor() {
+        this.STORE_ITEM_INDEX_PROP = "id";
+        this.runtimeKeys = [];
+        this.items = [];
+        this.bindings = [];
+    }
     stores() { return { "discovery": "items" } };
     getall(options = null) {
         return store.get("bindings", null, { force: true })
-            .then(json => this.bindings = json)
+            .then(json => this.bindings = json.reduce((mapAccumulator, obj) => {
+                mapAccumulator.set(obj.id, obj);
+                return mapAccumulator;
+            }, new Map()))
             .then(() => this.get(options))
     }
     get(options = null) {
         return store.get("discovery", null, options).then(items => this.items = items);
     }
     dispose() {
-    }
-    //TODO make this a map lookup instead of linear search
-    getBindingFor(bindingid) {
-        for (const binding of this.bindings) {
-            if (binding.id == bindingid)
-                return binding;
-        }
     }
 }
 
@@ -30,12 +31,12 @@ const DiscoveryMixin = {
     },
     methods: {
         description() {
-            const bindings = this.$root.store.getBindingFor(this.item.id);
+            const bindings = this.$root.store.bindings.get(this.item.id);
             if (bindings) return bindings.description;
             return "Binding not found";
         },
         label() {
-            const bindings = this.$root.store.getBindingFor(this.item.id);
+            const bindings = this.$root.store.bindings.get(this.item.id);
             if (bindings) return bindings.name;
             return "Binding not found";
         },
@@ -45,20 +46,25 @@ const DiscoveryMixin = {
 
             this.activediscovery = !this.activediscovery;
             if (this.activediscovery) {
-                this.timer = setTimeout(() => {
-                    this.timer = null;
-                    this.activediscovery = false;
-                }, 3000);
+                fetchMethodWithTimeout(store.host + "/rest/discovery/bindings/" + this.item.id + "/scan", "POST", null)
+                    .then(r => r.text())
+                    .then(r => {
+                        createNotification(null, `Discovery started for ${this.item.id}: Running ${r} seconds`, false, 2000);
+                        this.timer = setTimeout(() => {
+                            this.timer = null;
+                            this.activediscovery = false;
+                        }, r * 1000);
+                    }).catch(e => {
+                        if (this.timer) clearTimeout(this.timer);
+                        this.timer = null;
+                        this.activediscovery = false;
+                        createNotification(null, `Failed to start discovery for ${this.item.id}: ${e}`, false, 2000);
+                    })
             }
-            console.log("toggle discovery");
         },
     }
 }
 
 const mixins = [DiscoveryMixin];
 const listmixins = [];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = "id";
-
-export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, listmixins, StoreView };

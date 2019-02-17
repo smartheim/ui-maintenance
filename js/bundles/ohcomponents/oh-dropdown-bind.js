@@ -8,9 +8,6 @@ import { importModule } from "./oh-vue/importModule";
  * to be ready and then loads the "listadapter" es6 module.
  * The helper module is expected to export:
  * - mixins: A list of mixins to apply to list-item components
- * - schema: An optional json-schema for the text-editor
- * - runtimekeys: A list of keys that should be filtered out for the text-editor
- * - StoreView: This serves as *Adapter* in our MVA architecture.
  */
 class OhDropdownBind extends HTMLElement {
     constructor() {

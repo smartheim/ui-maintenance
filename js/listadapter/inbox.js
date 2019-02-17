@@ -1,7 +1,7 @@
-import { store } from '../app.js';
+import { store, createNotification, fetchMethodWithTimeout } from '../app.js';
 
 class StoreView {
-    constructor() { this.items = []; }
+    constructor() { this.STORE_ITEM_INDEX_PROP = "thingUID"; this.runtimeKeys = []; this.items = []; }
     stores() { return { "inbox": "items" } };
     getall(options = null) {
         return store.get("thing-types", null, { force: true })
@@ -47,11 +47,25 @@ const InboxMixin = {
             this.message = null;
             this.messagetitle = "Hiding...";
             this.inProgress = true;
+            fetchMethodWithTimeout(store.host + "/rest/inbox/" + this.item.thingUID + "/ignore", "POST", null)
+                .then(r => {
+                    this.message = "Thing '" + this.item.label + "' ignore";
+                    this.inProgress = false;
+                }).catch(e => {
+                    this.message = e.toString();
+                })
         },
         accept() {
             this.message = null;
             this.messagetitle = "Accepting...";
             this.inProgress = true;
+            fetchMethodWithTimeout(store.host + "/rest/inbox/" + this.item.thingUID + "/approve", "POST", null)
+                .then(r => {
+                    this.message = "Thing '" + this.item.label + "' approved";
+                    this.inProgress = false;
+                }).catch(e => {
+                    this.message = e.toString();
+                })
         }
     }
 }
@@ -59,15 +73,11 @@ const InboxMixin = {
 const InboxListMixin = {
     methods: {
         clear() {
-            console.log("clear");
+            createNotification(null, `Inbox Clear: openHAB does not support this yet`, false, 2000);
         },
     }
 }
 
 const mixins = [InboxMixin];
 const listmixins = [InboxListMixin];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = "thinkUID";
-
-export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, listmixins, StoreView };

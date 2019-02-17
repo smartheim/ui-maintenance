@@ -1,12 +1,4 @@
 
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-
 // Pattern is a zero-conflict wrapper extending RegExp features
 // in order to make YAML parsing regex more expressive.
 //
@@ -616,9 +608,9 @@ class Unescaper {
     //
     static unescapeDoubleQuotedString(value) {
         if (this._unescapeCallback == null) {
-        this._unescapeCallback = str => {
-            return this.unescapeCharacter(str);
-        };
+            this._unescapeCallback = str => {
+                return this.unescapeCharacter(str);
+            };
         }
 
         // Evaluate the string
@@ -777,18 +769,10 @@ class Escaper {
 }
 Escaper.initClass();
 
-
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-
 class ParseException extends Error {
 
     constructor(message, parsedLine, snippet) {
+        super(message);
         this.message = message;
         this.parsedLine = parsedLine;
         this.snippet = snippet;
@@ -803,18 +787,10 @@ class ParseException extends Error {
     }
 }
 
-
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-
 class ParseMore extends Error {
 
     constructor(message, parsedLine, snippet) {
+        super(message);
         this.message = message;
         this.parsedLine = parsedLine;
         this.snippet = snippet;

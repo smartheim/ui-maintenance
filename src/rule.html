@@ -17,8 +17,8 @@
     </datalist>
     <p>Rule components</p>
 
-    <oh-list-bind for="componentslist" listadapter="modules"></oh-list-bind>
-    <oh-vue-list id="componentslist" filtercriteria="label" style="display: block;">
+    <oh-list-bind for="componentslist" listadapter="modules" filtercriteria="label" sort="type"></oh-list-bind>
+    <oh-vue-list id="componentslist" style="display: block;">
       <div slot="app"></div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>

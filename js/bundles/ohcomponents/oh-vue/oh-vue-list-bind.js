@@ -11,9 +11,6 @@ import { OhListStatus } from './oh-vue-list-status'
  * to be ready and then loads the "listadapter" es6 module.
  * The helper module is expected to export:
  * - mixins: A list of mixins to apply to list-item components
- * - schema: An optional json-schema for the text-editor
- * - runtimekeys: A list of keys that should be filtered out for the text-editor
- * - StoreView: This serves as *Adapter* in our MVA architecture.
  */
 class OhListBind extends HTMLElement {
     constructor() {
@@ -43,6 +40,10 @@ class OhListBind extends HTMLElement {
         this.fixedfilter = this.hasAttribute("fixedfilter") ? this.getAttribute("fixedfilter") : null;
         if (this.fixedfilter) {
             this.viewOptions.filter = this.fixedfilter;
+        }
+
+        if (this.hasAttribute("sort")) {
+            this.viewOptions.sort = this.getAttribute("sort");
         }
 
         this.filtercriteria = this.hasAttribute("filtercriteria") ? this.getAttribute("filtercriteria") : null;
@@ -82,7 +83,7 @@ class OhListBind extends HTMLElement {
         this.module = module;
         if (this.modeladapter) this.modeladapter.dispose();
         this.modeladapter = new module.StoreView(this);
-        this.target.start(this.modeladapter, module.listmixins, module.mixins, module.schema, module.runtimekeys);
+        this.target.start(this.modeladapter, module.listmixins, module.mixins);
 
         store.addEventListener("connectionEstablished", this.connectedBound, false);
         store.addEventListener("connecting", this.connectingBound, false);
@@ -92,12 +93,10 @@ class OhListBind extends HTMLElement {
     }
     async connected() {
         if (this.updateAdapter) this.updateAdapter.dispose();
-        this.updateAdapter = new UpdateAdapter(this.modeladapter, store, this.module.ID_KEY);
+        this.updateAdapter = new UpdateAdapter(this.modeladapter, store);
 
-        console.log("REQUEST", this.viewOptions);
         await this.modeladapter.getall(this.viewOptions);
         this.target.vue.status = OhListStatus.READY;
-        console.debug("OhListBind", this.modeladapter.items, this.modeladapter.items.hasmore);
     }
     connecting() {
         this.target.connectionState(true, store.host);
@@ -118,7 +117,6 @@ class OhListBind extends HTMLElement {
     async sort(criteria, direction = "↓") {
         if (!this.modeladapter) return;
 
-        console.log("new sort", criteria);
         this.viewOptions.sort = criteria;
         this.viewOptions.direction = direction;
         await this.modeladapter.getall(this.viewOptions);
@@ -129,7 +127,6 @@ class OhListBind extends HTMLElement {
         if (!this.viewOptions.limit) return;
 
         this.viewOptions.limit += 50;
-        console.log("increaseLimit", this.viewOptions.limit);
         await this.modeladapter.getall(this.viewOptions);
     }
 
@@ -150,7 +147,6 @@ class OhListBind extends HTMLElement {
             }
 
             this.viewOptions.filter = filter;
-            console.log("new filter", this.viewOptions.filter);
             await this.modeladapter.getall(this.viewOptions);
         }, 120);
     }

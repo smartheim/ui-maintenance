@@ -54,10 +54,8 @@ class OhViewList extends HTMLElement {
      *      item mixins with `this.$parent.store`.
      * @param {Object[]} listmixins A list of mixin objects for the list component
      * @param {Object[]} itemMixins A list of mixin objects for item components of the list
-     * @param {JSON} schema A json schema
-     * @param {String[]} runtimeKeys A list of mixin objects
      */
-    start(adapter, listmixins, itemMixins, schema = null, runtimeKeys = null) {
+    start(adapter, listmixins, itemMixins) {
         if (!this.ok) return;
 
         const filtercriteria = this.getAttribute("filtercriteria");
@@ -66,9 +64,7 @@ class OhViewList extends HTMLElement {
             created: function () {
                 this.OhListStatus = OhListStatus;
                 this.store = adapter;
-                this.runtimeKeys = runtimeKeys;
                 this.filtercriteria = filtercriteria;
-                this.modelschema = schema;
                 this.fixedfilter = fixedfilterAttr;
             },
             mixins: [ListModeMixin, EditorMixin, ListViewSelectionModeMixin, ...listmixins],
@@ -117,12 +113,6 @@ class OhViewList extends HTMLElement {
         } else if (this.vue.status != OhListStatus.READY) {
             this.pending = true;
         }
-    }
-    set modelschema(val) {
-        this.vue.modelschema = val;
-    }
-    set runtimeKeys(val) {
-        this.vue.runtimeKeys = val;
     }
 }
 

@@ -15,8 +15,8 @@
       </li>
     </ul>
     <p>Start manuall discovery</p>
-    <oh-list-bind for="serviceslist" listadapter="discovery" filtercriteria="id"></oh-list-bind>
-    <oh-vue-list id="serviceslist" style="display: block;max-width: 250px;">
+    <oh-list-bind listadapter="discovery" filtercriteria="id"></oh-list-bind>
+    <oh-vue-list style="display: block;max-width: 250px;">
       <div slot="app"></div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>

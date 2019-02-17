@@ -1,9 +1,11 @@
 import { store } from '../app.js';
 
-const ID_KEY = "id";
-
 class StoreView {
-  constructor() { this.value = []; }
+  constructor() {
+    this.STORE_ITEM_INDEX_PROP = "thingUID";
+    this.runtimeKeys = [];
+    this.value = [];
+  }
   stores() { return { "inbox": "value" } };
   get(id, options = null) {
     return store.get("inbox", null, options)
@@ -16,13 +18,11 @@ class StoreView {
 const InboxCounterMixin = {
   computed: {
     inboxcounter: function () {
-      return this.value.length;
+      return this.value.filter(v => v.flag == "NEW").length;
     }
   }
 }
 
 const mixins = [InboxCounterMixin];
-const runtimekeys = [];
-const schema = null;
 
-export { mixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, StoreView };

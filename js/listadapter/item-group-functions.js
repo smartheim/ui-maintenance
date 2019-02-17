@@ -1,7 +1,7 @@
 import { store } from '../app.js';
 
 class StoreView {
-    constructor() { this.items = []; }
+    constructor() { this.STORE_ITEM_INDEX_PROP = null; this.runtimeKeys = []; this.items = []; }
     stores() { return { "item-group-function-types": "items" } };
     getall(options = null) {
         return this.get(options);
@@ -15,8 +15,5 @@ class StoreView {
 
 const mixins = [];
 const listmixins = [];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = null;
 
-export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, listmixins, StoreView };

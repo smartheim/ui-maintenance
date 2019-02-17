@@ -15,6 +15,20 @@ export class FetchError extends Error {
   }
 }
 
+/**
+ * Used if multiple items are pushed to REST, to keep a list of failed items.
+ */
+export class MultiRestError extends Error {
+  constructor(message, failedItems, ...params) {
+    super(...params);
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, FetchError);
+    }
+    this.message = message;
+    this.failedItems = failedItems;
+  }
+}
+
 export async function fetchWithTimeout(url, timeout = 5000) {
   const controller = new AbortController();
   const signal = controller.signal;

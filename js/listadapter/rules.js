@@ -1,7 +1,11 @@
 import { store, fetchMethodWithTimeout, createNotification } from '../app.js';
 
 class StoreView {
-    constructor() { this.items = []; }
+    constructor() {
+        this.STORE_ITEM_INDEX_PROP = "uid";
+        this.runtimeKeys = ["link", "editable", "state", "runcounter"];
+        this.items = [];
+    }
     stores() { return { "rules": "items" } };
     getall(options = null) {
         return this.get(options);
@@ -22,7 +26,7 @@ const schema = {
         definitions: {
             item: {
                 type: "object",
-                description: "An openHAB thing",
+                description: "openHAB Rule",
                 required: ["uid", "name"],
                 properties: {
                     link: { type: "string", description: "Internal URI information for openHAB REST clients" },
@@ -73,13 +77,6 @@ const RulesMixin = {
                     createNotification(null, `Failed ${this.item.name}: ${e}`, false, 4000);
                 })
         },
-        save: function () {
-            this.message = null;
-            this.messagetitle = "Saving...";
-            this.inProgress = true;
-            this.changed = false;
-            setTimeout(() => this.inProgress = false, 1000);
-        },
         remove: function () {
             this.message = null;
             this.messagetitle = "Removing...";
@@ -95,17 +92,39 @@ const RulesMixin = {
 }
 
 const ItemListMixin = {
+    mounted() {
+        this.modelschema = Object.freeze(schema);
+    },
     methods: {
-        saveAll: function (items) {
-            //TODO
-            console.log("save all", items);
-        }
+        async saveAll(updated, created, removed) {
+            let errorItems = [];
+            for (let item of updated) {
+                await fetchMethodWithTimeout(store.host + "/rest/rules/" + item.uid, "PUT", JSON.stringify(item))
+                    .catch(e => {
+                        errorItems.push(item.name + ":" + e.toString());
+                    })
+            }
+            for (let item of created) {
+                await fetchMethodWithTimeout(store.host + "/rest/rules", "POST", JSON.stringify(item))
+                    .catch(e => {
+                        errorItems.push(item.name + ":" + e.toString());
+                    })
+            }
+            for (let item of removed) {
+                await fetchMethodWithTimeout(store.host + "/rest/rules/" + item.uid, "DELETE")
+                    .catch(e => {
+                        errorItems.push(item.name + ":" + e.toString());
+                    })
+            }
+            if (errorItems.length) {
+                throw new MultiRestError("Some objects failed", errorItems);
+            } else {
+                createNotification(null, `Updated ${updated.length}, Created ${created.length}, Removed ${removed.length} objects`, false, 1500);
+            }
+        },
     }
 };
 
 const mixins = [RulesMixin];
 const listmixins = [ItemListMixin];
-const runtimekeys = ["link", "editable", "status", "runcounter"];
-const ID_KEY = "uid";
-
-export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, listmixins, StoreView };

@@ -1,7 +1,7 @@
 import { store } from '../app.js';
 
 class StoreView {
-    constructor() { this.items = []; }
+    constructor() { this.STORE_ITEM_INDEX_PROP = "uid"; this.runtimeKeys = []; this.items = []; }
     stores() { return { "persistence": "items" } };
     async getall() {
         return store.get("persistence-services", null, { force: true })
@@ -53,8 +53,4 @@ const ItemListMixin = {
 
 const mixins = [ServicesMixin];
 const listmixins = [ItemListMixin];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = "uid";
-
-export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, listmixins, StoreView };

@@ -3,7 +3,11 @@ import * as cronstrue from '../cronstrue.js';
 import { store } from '../app.js';
 
 class StoreView {
-    constructor() { this.items = []; }
+    constructor() {
+        this.STORE_ITEM_INDEX_PROP = Object.freeze("UID");
+        this.runtimeKeys = Object.freeze(["link", "editable", "remainingRuns", "totalRuns", "lastrun"]);
+        this.items = [];
+    }
     stores() { return { "schedule": "items" } };
     getall(options = null) {
         return this.get(options);
@@ -87,6 +91,9 @@ const ScheduleMixin = {
 }
 
 const ItemListMixin = {
+    mounted() {
+        this.modelschema = Object.freeze(schema);
+    },
     methods: {
         saveAll: function (items) {
             //TODO
@@ -97,7 +104,4 @@ const ItemListMixin = {
 
 const mixins = [ScheduleMixin];
 const listmixins = [ItemListMixin];
-const runtimekeys = ["link", "editable", "remainingRuns", "totalRuns", "lastrun"];
-const ID_KEY = "UID";
-
-export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, listmixins, StoreView };

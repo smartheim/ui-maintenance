@@ -1,7 +1,11 @@
 import { store, fetchMethodWithTimeout, createNotification } from '../app.js';
 
 class StoreView {
-    constructor() { this.value = {}; this.moduletypes = []; }
+    constructor() {
+        this.STORE_ITEM_INDEX_PROP = "uid";
+        this.runtimeKeys = [];
+        this.value = {}; this.moduletypes = [];
+    }
     stores() { return { "rules": "value", "module-types": "moduletypes" } };
     get(ruleuid, options = null) {
         return store.get("rules", ruleuid, options)
@@ -90,8 +94,5 @@ const ServiceMixin = {
 }
 
 const mixins = [ServiceMixin];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = "uid";
 
-export { mixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, StoreView };

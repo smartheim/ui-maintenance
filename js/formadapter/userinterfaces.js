@@ -1,7 +1,7 @@
 import { openhabHost, store } from '../app.js';
 
 class StoreView {
-  constructor() { this.value = []; }
+  constructor() { this.STORE_ITEM_INDEX_PROP = "id"; this.runtimeKeys = []; this.value = []; }
   stores() { return { "user-interfaces": "value" } };
   get(id, options = null) {
     return store.get("user-interfaces", null, options)
@@ -35,8 +35,5 @@ const UserInterfaceMixin = {
 }
 
 const mixins = [UserInterfaceMixin];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = "id";
 
-export { mixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, StoreView };

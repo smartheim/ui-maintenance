@@ -18,15 +18,15 @@ oh-codeeditor {
         box-shadow: 0 0 10px rgba(26, 26, 26, .25);
         top: 100px;
         position: absolute;
-        height: 100px;
         width: 500px;
         left: 50%;
         transform: translateX(-50%);
         border-radius: 10px;
-        font-size: 2rem;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: 10px;
     }
 }
 
@@ -109,8 +109,11 @@ oh-codeeditor[haschanges] {
         flex-wrap: wrap;
         justify-content: space-around;
     }
-    &.selectionmode .listitem.selected {
-        box-shadow: 0px 0px 15px 0px var(--primary);
+    &.selectionmode {
+        article.selected,
+        article.selected:hover {
+            box-shadow: 0px 0px 15px 0px var(--primary);
+        }
     }
     article section.actions {
         .btn {

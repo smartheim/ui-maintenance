@@ -54,6 +54,7 @@ body>nav {
 @media (min-width: get-breakpoints("xxxl")) {
     body>nav {
         max-width: 300px;
+        justify-self: flex-start;
     }
 }
 
@@ -78,6 +79,7 @@ aside {
     max-width: 300px;
     min-width: 270px;
     margin-right: 10px;
+    justify-self: flex-end;
     h4 {
         padding: 10px;
         display: flex;
@@ -96,6 +98,18 @@ aside {
 @media (min-width: get-breakpoints("xxxl")) {
     .introcard {
         margin: 0 100px;
+    }
+}
+
+aside>oh-community-topics {
+    ul>li>a:hover {
+        border-left: .25rem solid transparent !important;
+    }
+    ul>li {
+        border-right: .25rem solid transparent;
+    }
+    ul>li:hover {
+        border-right: .25rem solid var(--primary);
     }
 }
 

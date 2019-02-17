@@ -19,15 +19,16 @@ const tables = [
     { id: "script-types", uri: "rest/script-types", key: "id" }, // NEW
     { id: "icon-set", uri: "rest/icon-set", key: null }, // NEW
     { id: "schedule", uri: "rest/schedule", key: "UID" }, // NEW
-    { id: "inbox", uri: "rest/inbox", key: "thingUID", singleRequests: false },
-    { id: "items", uri: "rest/items?metadata=.*", key: "name", onstart: true },
-    { id: "links", uri: "rest/links", key: ["itemName", "channelUID"], singleRequests: false },
-    { id: "module-types", uri: "rest/module-types", key: "uid" },
     { id: "user-interfaces", uri: "rest/user-interfaces", key: "id" }, // NEW
     { id: "item-types", uri: "rest/item-types", key: "id" }, // NEW
+    { id: "bundle-status", uri: "rest/bundle-status", key: "id" }, // NEW
     { id: "item-group-function-types", uri: "rest/item-group-function-types", key: "id" }, // NEW
-    { id: "persistence", uri: "rest/persistence", key: "uid", singleRequests: false }, // ALTERED
+    { id: "items", uri: "rest/items?metadata=.*", key: "name", onstart: true },
     { id: "persistence-services", uri: "rest/persistence-services", key: "id" }, // NEW
+    { id: "persistence", uri: "rest/persistence", key: "uid", singleRequests: false }, // ALTERED
+    { id: "inbox", uri: "rest/inbox", key: "thingUID", singleRequests: false },
+    { id: "links", uri: "rest/links", key: ["itemName", "channelUID"], singleRequests: false },
+    { id: "module-types", uri: "rest/module-types", key: "uid" },
     { id: "profile-types", uri: "rest/profile-types", key: "uid", singleRequests: false },
     { id: "rules", uri: "rest/rules", key: "uid" },
     { id: "services", uri: "rest/services", key: "id" },
@@ -38,7 +39,7 @@ const tables = [
     { id: "things", uri: "rest/things", key: "UID", onstart: true },
     { id: "voice-interpreters", uri: "rest/voice", key: "id" },
 ];
-const dbversion = 31;
+const dbversion = 32;
 
 /** 
  * This is an associative map of storenames to store-layout descriptions.

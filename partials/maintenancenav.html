@@ -20,8 +20,8 @@
         </li>
     </ul>
     <p>Service config</p>
-    <oh-list-bind for="serviceslist" listadapter="services"></oh-list-bind>
-    <oh-vue-list id="serviceslist" filtercriteria="label" style="display: block;max-width: 250px;">
+    <oh-list-bind listadapter="services"></oh-list-bind>
+    <oh-vue-list filtercriteria="label" style="display: block;max-width: 250px;">
         <div slot="app"></div>
         <template slot="list">
             <partial src="vuelisterrors.html"></partial>

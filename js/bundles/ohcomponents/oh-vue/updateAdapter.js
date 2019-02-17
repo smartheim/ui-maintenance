@@ -8,10 +8,9 @@ function setval(adapterField, u, newval) {
 }
 
 export class UpdateAdapter {
-    constructor(modeladapter, store, ID_KEY = null, objectid = null) {
+    constructor(modeladapter, store, objectid = null) {
         this.modeladapter = modeladapter;
         this.store = store;
-        this.ID_KEY = ID_KEY;
         this.objectid = objectid;
         this.listChangedBound = (e) => this.listChanged(e.detail);
         this.listEntryChangedBound = (e) => this.listEntryChanged(e.detail);
@@ -43,7 +42,7 @@ export class UpdateAdapter {
             console.log("listChanged->update view", e.storename, value.length);
         } else {
             for (let entry of e.value) {
-                if (entry[this.ID_KEY] != this.objectid) continue;
+                if (entry[this.modeladapter.STORE_ITEM_INDEX_PROP] != this.objectid) continue;
                 console.debug("listChanged->update view", e.storename, entry);
                 setval(adapterField, this, entry);
                 return;
@@ -57,15 +56,15 @@ export class UpdateAdapter {
 
         let value = val(adapterField, this);
         if (Array.isArray(value)) {
-            const id = e.value[this.ID_KEY];
+            const id = e.value[this.modeladapter.STORE_ITEM_INDEX_PROP];
             if (!id) {
-                console.warn("listEntryChanged: No key property. Expected", this.ID_KEY);
+                console.warn(`listEntryChanged: Expected key property "${this.modeladapter.STORE_ITEM_INDEX_PROP} for ${e.storename}`, e.value);
                 return;
             }
             // Find entry in adapters list
             for (let i = 0; i < value.length; ++i) {
                 let entry = value[i];
-                if (entry[this.ID_KEY] == id) {
+                if (entry[this.modeladapter.STORE_ITEM_INDEX_PROP] == id) {
                     value.splice(i, 1, e.value);
                     console.warn(value);
                     return;
@@ -73,7 +72,7 @@ export class UpdateAdapter {
             }
         } else {
             if (this.objectid === "") return;
-            if (e.value[this.ID_KEY] == this.objectid) {
+            if (e.value[this.modeladapter.STORE_ITEM_INDEX_PROP] == this.objectid) {
                 console.debug("listEntryChanged->update view", e.storename, e.value);
                 setval(adapterField, this, e.value);
             }
@@ -86,11 +85,11 @@ export class UpdateAdapter {
 
         let value = val(adapterField, this);
         if (Array.isArray(value)) {
-            const id = e.value[this.ID_KEY];
+            const id = e.value[this.modeladapter.STORE_ITEM_INDEX_PROP];
             // Find entry in adapters list
             for (let i = 0; i < value.length; ++i) {
                 const entry = value[i];
-                if (entry[this.ID_KEY] == id) {
+                if (entry[this.modeladapter.STORE_ITEM_INDEX_PROP] == id) {
                     console.debug("listEntryRemoved->update view", e.storename, e.value);
                     value.splice(i, 1);
                     return;
@@ -98,7 +97,7 @@ export class UpdateAdapter {
             }
         } else {
             if (this.objectid === "") return;
-            if (e.value[this.ID_KEY] == this.objectid) {
+            if (e.value[this.modeladapter.STORE_ITEM_INDEX_PROP] == this.objectid) {
                 console.debug("listEntryRemoved->update view", e.storename, e.value);
                 setval(adapterField, this, {});
             }
@@ -111,11 +110,11 @@ export class UpdateAdapter {
 
         let value = val(adapterField, this);
         if (Array.isArray(value)) {
-            const id = e.value[this.ID_KEY];
+            const id = e.value[this.modeladapter.STORE_ITEM_INDEX_PROP];
             // Find entry in adapters list
             for (let i = 0; i < value.length; ++i) {
                 const entry = value[i];
-                if (entry[this.ID_KEY] == id) {
+                if (entry[this.modeladapter.STORE_ITEM_INDEX_PROP] == id) {
                     console.debug("listEntryChanged->update view", e.storename, e.value);
                     value.splice(i, 1, e.value);
                     return;
@@ -126,7 +125,7 @@ export class UpdateAdapter {
             value.push(e.value);
         } else {
             if (this.objectid === "") return;
-            if (e.value[this.ID_KEY] == this.objectid) {
+            if (e.value[this.modeladapter.STORE_ITEM_INDEX_PROP] == this.objectid) {
                 console.debug("listEntryAdded->update view", e.storename, e.value);
                 setval(adapterField, this, e.value);
             }

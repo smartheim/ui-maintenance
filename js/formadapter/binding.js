@@ -1,7 +1,11 @@
 import { store } from '../app.js';
 
 class StoreView {
-    constructor() { this.value = {}; }
+    constructor() {
+        this.STORE_ITEM_INDEX_PROP = "id";
+        this.runtimeKeys = [];
+        this.value = {};
+    }
     stores() { return { "bindings": "value", "binding-config": "config" } };
     get(bindingid, options = null) {
         return store.get("bindings", bindingid, options)
@@ -57,8 +61,4 @@ const BindingsMixin = {
 }
 
 const mixins = [BindingsMixin];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = "id";
-
-export { mixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, StoreView };

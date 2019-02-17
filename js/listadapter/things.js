@@ -1,6 +1,5 @@
-import { store } from '../app.js';
-import { Vue } from '../vue.js';
-import { generateThingTemplate, Yaml } from '../ohcomponents.js';
+import { store, createNotification, fetchMethodWithTimeout, MultiRestError } from '../app.js';
+import { generateTemplateForSchema, Yaml } from '../ohcomponents.js';
 
 let schema = {
     uri: 'http://openhab.org/schema/things-schema.json',
@@ -72,7 +71,12 @@ let schema = {
 
 
 class StoreView {
-    constructor() { this.items = []; this.thingtypes = []; }
+
+    constructor() {
+        this.STORE_ITEM_INDEX_PROP = "UID";
+        this.runtimeKeys = Object.freeze(["link", "editable", "statusInfo", "properties", "actions"]);
+        this.items = []; this.thingtypes = [];
+    }
     stores() { return { "things": "items" } };
     sortStore() { return "things" };
     getall(options = null) {
@@ -150,17 +154,17 @@ const ThingsMixin = {
         haschannels() {
             return this.item.channels.length > 0;
         },
-        save: function () {
-            this.message = null;
-            this.messagetitle = "Saving...";
-            this.inProgress = true;
-            this.changed = false;
-            setTimeout(() => this.inProgress = false, 1000);
-        },
         remove: function () {
             this.message = null;
             this.messagetitle = "Removing...";
             this.inProgress = true;
+            fetchMethodWithTimeout(store.host + "/rest/things/" + this.item.UID, "DELETE", null)
+                .then(r => {
+                    this.message = "Thing '" + this.item.label + "' removed";
+                    this.inProgress = false;
+                }).catch(e => {
+                    this.message = e.toString();
+                })
         },
     }
 }
@@ -174,36 +178,40 @@ function symbolChainEqual(chain1, chain2) {
 }
 
 const ItemListMixin = {
-    mounted: function () {
-        this.symbolSelectedBound = (symbol) => this.symbolSelected(symbol);
-    },
-    beforeDestroy: function () {
-        if (this.$refs.editor) {
-            this.$refs.editor.setCompletionHelper();
-            this.$refs.editor.removeEventListener("selected", this.symbolSelectedBound);
-        }
+    mounted() {
+        this.modelschema = schema; // Don't freeze: The schema is adapted dynamically
     },
     methods: {
-        saveAll: function (items) {
-            //TODO
-            console.log("save all", items);
+        async saveAll(updated, created, removed) {
+            let errorItems = [];
+            for (let item of updated) {
+                await fetchMethodWithTimeout(store.host + "/rest/things/" + item.UID, "PUT", JSON.stringify(item))
+                    .catch(e => {
+                        errorItems.push(item.name + ":" + e.toString());
+                    })
+            }
+            for (let item of created) {
+                await fetchMethodWithTimeout(store.host + "/rest/things", "POST", JSON.stringify(item))
+                    .catch(e => {
+                        errorItems.push(item.name + ":" + e.toString());
+                    })
+            }
+            for (let item of removed) {
+                await fetchMethodWithTimeout(store.host + "/rest/things/" + item.UID, "DELETE")
+                    .catch(e => {
+                        errorItems.push(item.name + ":" + e.toString());
+                    })
+            }
+            if (errorItems.length) {
+                throw new MultiRestError("Some objects failed", errorItems);
+            } else {
+                createNotification(null, `Updated ${updated.length}, Created ${created.length}, Removed ${removed.length} objects`, false, 1500);
+            }
         },
         async editorCompletion(symbols, trigger) {
-            if (symbols.length == 1) {
-                let content = generateThingTemplate(schema.schema.definitions.item.properties,
-                    null, null, null, null, null, true);
-                content = Yaml.dump([content], 10, 4).replace(/-     /g, "-\n    ");
-
-                if (trigger) content = content.replace("-", "");
-                return [{
-                    label: 'New ' + schema.schema.definitions.item.description,
-                    documentation: 'Creates a new object template',
-                    insertText: content,
-                }];
-            }
             const context = this.last.context;
             if (context && (symbols.length == 2 || symbols.length == 4) && symbols[1] == "channels") {
-                let channels = generateThingTemplate(context.schema,
+                let channels = generateTemplateForSchema(context.schema,
                     context.thingType, context.channelConfigTypes, context.channelTypes,
                     context.focus, context.focusChannelindex, true);
 
@@ -219,10 +227,7 @@ const ItemListMixin = {
                     })
                 }
                 return suggestions;
-            } else {
-                console.log("NO AUTOCOMPLETE", symbols);
             }
-
             return [];
         },
         // Editor symbol selected
@@ -281,25 +286,10 @@ const ItemListMixin = {
                 document.querySelector('body').classList.add('showcontext');
             }
         }
-    },
-    watch: {
-        viewmode(val) {
-            if (val !== "textual") {
-                delete this.lastSymbol;
-                return;
-            }
-            Vue.nextTick(() => {
-                if (!this.$refs.editor) return;
-                this.$refs.editor.setCompletionHelper((symbols, trigger) => this.editorCompletion(symbols, trigger));
-                this.$refs.editor.addEventListener("selected", this.symbolSelectedBound);
-            });
-        }
     }
 };
 
 const mixins = [ThingsMixin];
 const listmixins = [ItemListMixin];
-const runtimekeys = ["link", "editable", "statusInfo", "properties", "actions"];
-const ID_KEY = "UID";
 
-export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, listmixins, StoreView };

@@ -2,7 +2,7 @@ import { openDb } from 'idb';
 import { hack_addNotYetSupportedStoreData, blockLiveDataFromTables } from './addNotYetSupportedStoreData';
 import { hack_rewriteEntryToNotYetSupportedStoreLayout, hack_rewriteTableToNotYetSupportedStoreLayout } from './rewriteToNotYetSupportedStoreLayout';
 import { fetchWithTimeout, FetchError } from '../../common/fetch';
-import { CompareTwoDataSets } from './compareTwoDatasets';
+import { CompareTwoDataSets } from '../../common/compareTwoDatasets';
 import { tables, tableIDtoEntry, dbversion } from './openhabStoreLayout';
 
 /**
@@ -306,10 +306,15 @@ export class StateWhileRevalidateStore extends EventTarget {
             // -- Added --
             case "ItemAddedEvent":
             case "RuleAddedEvent":
+            case "InboxAddedEvent":
                 newState = JSON.parse(data.payload);
                 this.insertIntoStore(this.db, storename, newState);
                 return;
             // -- Updated --
+            case "InboxUpdatedEvent":
+                newState = JSON.parse(data.payload);
+                this.insertIntoStore(this.db, storename, newState);
+                return;
             case "ItemUpdatedEvent":
                 newState = JSON.parse(data.payload)[0];
                 this.insertIntoStore(this.db, storename, newState);
@@ -317,6 +322,7 @@ export class StateWhileRevalidateStore extends EventTarget {
             // -- Removed --
             case "ItemRemovedEvent":
             case "RuleRemovedEvent":
+            case "InboxRemovedEvent":
                 this.removeFromStore(this.db, storename, JSON.parse(data.payload));
                 return;
             // -- State info changed --
@@ -444,13 +450,14 @@ export class StateWhileRevalidateStore extends EventTarget {
         const tx = db.transaction(storename, 'readwrite');
         const store = tx.objectStore(storename);
         const key_id = tableIDtoEntry[storename].key;
-        const compare = new CompareTwoDataSets(key_id, storename, await store.getAll(), jsonList);
+        const oldData = await store.getAll();
+        const compare = oldData.length == jsonList.length ? new CompareTwoDataSets(key_id, oldData) : { ok: false };
 
         // Clear and add entry per entry
         await store.clear();
         for (let entry of jsonList) {
             await store.add(hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry));
-            compare.compareNewAndOld(entry);
+            if (compare.ok) compare.compareNewAndOld(entry, storename);
         }
         await tx.complete.catch(e => {
             console.warn("Failed to replaceStore", storename);

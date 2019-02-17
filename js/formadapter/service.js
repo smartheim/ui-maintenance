@@ -1,7 +1,7 @@
 import { store } from '../app.js';
 
 class StoreView {
-    constructor() { this.value = {}; }
+    constructor() { this.STORE_ITEM_INDEX_PROP = "id"; this.runtimeKeys = []; this.value = {}; }
     stores() { return { "services": "value" } };
     get(serviceid, options = null) {
         return store.get("services", serviceid, options)
@@ -28,8 +28,4 @@ const ServiceMixin = {
 }
 
 const mixins = [ServiceMixin];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = "id";
-
-export { mixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, StoreView };

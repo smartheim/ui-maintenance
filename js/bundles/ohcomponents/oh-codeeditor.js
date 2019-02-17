@@ -5,6 +5,7 @@
  * That hopefully changes in the future. (Microsoft is working on it)
  */
 import { fetchWithTimeout } from '../../common/fetch'
+import Yaml from './yaml/yaml';
 
 const NEVER_CANCEL_TOKEN = {
     isCancellationRequested: false,
@@ -42,6 +43,25 @@ class OhCodeEditor extends HTMLElement {
         return "";
     }
 
+    set haschanges(val) {
+        if (this._haschanges == val) return;
+        this._haschanges = val;
+        if (!val) {
+            this.removeAttribute("haschanges");
+        } else {
+            this.setAttribute("haschanges", "true");
+            this.dispatchEvent(new Event("state"));
+        }
+    }
+
+    get haschanges() {
+        return this._haschanges;
+    }
+
+    /**
+     * The editor content. You can always access the original content via `originalcontent`.
+     * If you set data.language to "yaml", the json content will be converted internally for presentation.
+     */
     set content(data) {
         if (!data) {
             return;
@@ -49,17 +69,12 @@ class OhCodeEditor extends HTMLElement {
 
         if (this.editor) {
             this.haschanges = false;
-            this.removeAttribute("haschanges");
             this.editor.setModel(null);
             if (this.model) this.model.dispose();
-            this.raw = data.raw;
-            this.model = this.monaco.editor.createModel(data.value, data.language, data.modeluri);
-            this.model.onDidChangeContent(() => {
-                if (this.haschanges) return;
-                this.haschanges = true;
-                this.setAttribute("haschanges", "true");
-                this.dispatchEvent(new Event("state"));
-            });
+            this._originalcontent = data.value;
+            const editorContent = data.language == "yaml" ? Yaml.dump(data.value, 10, 4).replace(/-     /g, "-\n    ") : data.value;
+            this.model = this.monaco.editor.createModel(editorContent, data.language, data.modeluri);
+            this.model.onDidChangeContent(() => this.haschanges = true);
             this.editor.setModel(this.model);
             if (data.language == "yaml") this.loadYamlHighlightSupport();
             this.updateSchema();
@@ -71,12 +86,41 @@ class OhCodeEditor extends HTMLElement {
 
     get content() {
         if (this.model) {
-            return this.model.getValue();
+            const datavalue = this.model.getValue();
+            if (this.model.getModeId() == "yaml") return Yaml.parse(datavalue);
+            return datavalue;
         }
         return null;
     }
 
+    /**
+     * Return the unmodifed content that was set by `content = "value"`.
+     */
+    get originalcontent() {
+        return this._originalcontent;
+    }
+
+    showConfirmDialog(callbackID, okBtn = null, cancelBtn = null, text = "Read-only mode. Storing data &hellip;") {
+        this.overlayWidget.callbackID = callbackID;
+        this.overlayWidget.btnConfirmNode.style.display = okBtn ? "block" : "none";
+        this.overlayWidget.btnConfirmNode.innerHTML = okBtn;
+        this.overlayWidget.btnCancelNode.style.display = cancelBtn ? "block" : "none";
+        this.overlayWidget.btnCancelNode.innerHTML = cancelBtn;
+        this.overlayWidget.textNode.innerHTML = text;
+        this.readonly = true;
+    }
+
+    confirmDialog(result) {
+        this.dispatchEvent(new CustomEvent("confirmed", { detail: { result, dialogid: this.overlayWidget.callbackID } }));
+        if (!result) this.readonly = false;
+    }
+
+    /**
+     * Show an overlay with the text that was set in `showConfirmDialog`.
+     */
     set readonly(val) {
+        if (this._readonly == val) return;
+        this._readonly = val;
         if (this.editor) {
             this.editor.updateOptions({ readOnly: val })
             if (val) {
@@ -227,6 +271,44 @@ class OhCodeEditor extends HTMLElement {
 
     connectedCallback() {
         while (this.firstChild) { this.firstChild.remove(); }
+
+        const that = this;
+        this.overlayWidget = {
+            domNode: null,
+            textNode: null,
+            btnConfirmNode: null,
+            btnCancelNode: null,
+            getId: function () {
+                return 'my.overlay.widget';
+            },
+            getDomNode: function () {
+                if (!this.domNode) {
+                    this.textNode = document.createElement('div');
+                    this.textNode.innerHTML = '&hellip;';
+                    this.btnConfirmNode = document.createElement('button');
+                    this.btnConfirmNode.classList.add("btn", "btn-success", "text-center");
+                    this.btnConfirmNode.innerHTML = "";
+                    this.btnConfirmNode.style["margin-right"] = "10px";
+                    this.btnConfirmNode.addEventListener("click", () => that.confirmDialog(true), false);
+                    this.btnCancelNode = document.createElement('button');
+                    this.btnCancelNode.classList.add("btn", "btn-secondary", "text-center");
+                    this.btnCancelNode.innerHTML = "";
+                    this.btnCancelNode.addEventListener("click", () => that.confirmDialog(false), false);
+                    this.domNode = document.createElement('div');
+                    this.domNode.appendChild(this.textNode);
+                    let btnContainer = this.domNode.appendChild(document.createElement('div'));
+                    btnContainer.style.display = "flex";
+                    btnContainer.appendChild(this.btnConfirmNode);
+                    btnContainer.appendChild(this.btnCancelNode);
+                    this.domNode.classList.add("editoroverlay");
+                }
+                return this.domNode;
+            },
+            getPosition: function () {
+                return null;
+            }
+        };
+
         this.innerHTML = "<div>Loading editor &hellip;<br>This can take some seconds</div>"
         if (this.hasAttribute("scriptfile")) this.scriptfile = this.getAttribute("scriptfile");
         this.loadRequireJS()
@@ -267,24 +349,6 @@ class OhCodeEditor extends HTMLElement {
         } else {
             this.content = { value: "", language: "javascript", modeluri: null };
         }
-
-        this.overlayWidget = {
-            domNode: null,
-            getId: function () {
-                return 'my.overlay.widget';
-            },
-            getDomNode: function () {
-                if (!this.domNode) {
-                    this.domNode = document.createElement('div');
-                    this.domNode.innerHTML = 'Read-only mode. Storing data &hellip;';
-                    this.domNode.classList.add("editoroverlay");
-                }
-                return this.domNode;
-            },
-            getPosition: function () {
-                return null;
-            }
-        };
 
         return Promise.resolve("");
     }

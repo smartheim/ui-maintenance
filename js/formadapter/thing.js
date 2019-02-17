@@ -3,6 +3,8 @@ import { store } from '../app.js';
 class StoreView {
     stores() { return { "things": "value" } };
     constructor() {
+        this.STORE_ITEM_INDEX_PROP = "UID";
+        this.runtimeKeys = [];
         this.thingtypes = [];
         this.channeltypes = [];
         this.value = {};
@@ -69,9 +71,6 @@ const ThingChannelsMixin = {
     }
 }
 
-const ID_KEY = "UID";
 const mixins = [ThingChannelsMixin];
-const runtimekeys = [];
-const schema = null;
 
-export { mixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, StoreView };

@@ -1,4 +1,4 @@
-import { store, fetchMethodWithTimeout, openhabHost } from '../app.js';
+import { store, fetchMethodWithTimeout, openhabHost, MultiRestError, createNotification } from '../app.js';
 
 let schema = {
     uri: 'http://openhab.org/schema/items-schema.json', // id of the item schema
@@ -14,6 +14,7 @@ let schema = {
                 properties: {
                     link: { type: "string", description: "Internal URI information for openHAB REST clients" },
                     type: {
+                        type: "string",
                         enum: ['String', 'Number', 'Switch', 'Color', 'Contact', 'DateTime', 'Dimmer', 'Image', 'Location', 'Player',
                             'Rollershutter', 'Group'],
                         description: "The item type"
@@ -74,7 +75,7 @@ let schema = {
 }
 
 class StoreView {
-    constructor() { this.items = []; }
+    constructor() { this.STORE_ITEM_INDEX_PROP = "name"; this.runtimeKeys = ["link", "editable", "state"]; this.items = []; }
     stores() { return { "items": "items" } };
     sortStore() { return "items" };
     getall(options = null) {
@@ -340,6 +341,9 @@ const ItemsMixin = {
 }
 
 const ItemListMixin = {
+    mounted() {
+        this.modelschema = schema;  // Don't freeze: The schema is adapted dynamically
+    },
     computed: {
         groupItems: function () {
             return this.items.filter(e => e.type == 'Group');
@@ -352,16 +356,32 @@ const ItemListMixin = {
         },
     },
     methods: {
-        saveAll: function (items) {
-            //TODO
-            console.log("save all", items);
+        async saveAll(updated, created, removed) {
+            let errorItems = [];
+            console.log("saveAll", updated, created, removed);
+            for (let c of created) updated.push(c);
+            console.log("saveAll2", updated, created, removed);
+            for (let item of updated) {
+                await fetchMethodWithTimeout(store.host + "/rest/items/" + item.name, "PUT", JSON.stringify(item))
+                    .catch(e => {
+                        errorItems.push(item.name + ":" + e.toString());
+                    })
+            }
+            for (let item of removed) {
+                await fetchMethodWithTimeout(store.host + "/rest/items/" + item.name, "DELETE")
+                    .catch(e => {
+                        errorItems.push(item.name + ":" + e.toString());
+                    })
+            }
+            if (errorItems.length) {
+                throw new MultiRestError("Some objects failed", errorItems);
+            } else {
+                createNotification(null, `Updated ${updated.length}, Created ${created.length}, Removed ${removed.length} objects`, false, 1500);
+            }
         }
     }
 };
 
 const mixins = [ItemsMixin];
 const listmixins = [ItemListMixin];
-const runtimekeys = ["link", "editable", "state"];
-const ID_KEY = "name";
-
-export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, listmixins, StoreView };

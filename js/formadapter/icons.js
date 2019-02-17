@@ -1,7 +1,11 @@
 import { openhabHost, store } from '../app.js';
 
 class StoreView {
-    constructor() { this.value = [] }
+    constructor() {
+        this.STORE_ITEM_INDEX_PROP = null;
+        this.runtimeKeys = [];
+        this.value = []
+    }
     stores() { return { "icon-set": "itemCategories" } };
     get(id, options = null) {
         return store.get("icon-set", null, options)
@@ -50,8 +54,4 @@ const Mixin = {
 }
 
 const mixins = [Mixin];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = null;
-
-export { mixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, StoreView };

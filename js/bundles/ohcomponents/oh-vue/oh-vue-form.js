@@ -39,18 +39,14 @@ class OhVueForm extends HTMLElement {
      * 
      * @param {Object} databaseStore A store view. This is available for item components and
      *      item mixins with `this.$parent.store`.
-     * @param {JSON} schema A json schema
-     * @param {String[]} runtimeKeys A list of mixin objects
      */
-    start(adapter, mixins, schema = null, runtimeKeys = null) {
+    start(adapter, mixins) {
         if (!this.ok) return;
 
         this.vue = new Vue({
             created: function () {
                 this.OhListStatus = OhListStatus;
                 this.store = adapter;
-                this.runtimeKeys = runtimeKeys;
-                this.modelschema = schema;
                 this.ignoreWatch = false;
             },
             mixins: [...mixins],
@@ -117,14 +113,6 @@ class OhVueForm extends HTMLElement {
             this.pending = true;
         }
     }
-
-    set modelschema(val) {
-        this.vue.modelschema = val;
-    }
-    set runtimeKeys(val) {
-        this.vue.runtimeKeys = val;
-    }
-
     updateContext(context) {
         this.vue.context = context;
     }

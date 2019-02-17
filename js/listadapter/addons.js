@@ -1,7 +1,7 @@
 import { store } from '../app.js';
 
 class StoreView {
-    constructor() { this.items = []; }
+    constructor() { this.STORE_ITEM_INDEX_PROP = "id"; this.runtimeKeys = []; this.items = []; }
     stores() { return { "extensions": "items" } };
     getall(options = null) {
         return this.get(options);
@@ -35,8 +35,5 @@ const AddonsMixin = {
 
 const mixins = [AddonsMixin];
 const listmixins = [];
-const runtimekeys = [];
-const schema = null;
-const ID_KEY = "id";
 
-export { mixins, listmixins, schema, runtimekeys, StoreView, ID_KEY };
+export { mixins, listmixins, StoreView };

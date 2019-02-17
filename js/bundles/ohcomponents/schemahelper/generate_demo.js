@@ -1,11 +1,13 @@
 import Yaml from '../yaml/yaml';
 
 function generateTree(target, key, value, configurationType) {
-    if (value.type == 'string') {
-        target[key] = value.description;
+    if (value.type == 'boolean') {
+        target[key] = false;
+    } else if (value.type == 'string') {
         if (value.enum && value.enum.length) {
-            target[key] += "# Options: " + value.enum.join(", ");
-        }
+            target[key] = value.enum[0];
+        } else
+            target[key] = value.description
     } else if (value.type == 'array' && value.items && value.items.type == 'string') {
         target[key] = ["Demo1", "Demo2"];
     } else if (key == 'configuration' && configurationType) {
@@ -67,7 +69,7 @@ function generateTreeRoot(schema, thingType, channelConfigTypes, channelTypes, l
     return target;
 }
 
-export function generateThingTemplate(schema, thingType, channelConfigTypes, channelTypes, focus, focusChannelindex, listAllChannels = false) {
+export function generateTemplateForSchema(schema, thingType, channelConfigTypes, channelTypes, focus, focusChannelindex, listAllChannels = false) {
     let demo = generateTreeRoot(schema, thingType, channelConfigTypes, channelTypes, listAllChannels);
 
     if (focus == "channels" && demo.channels)

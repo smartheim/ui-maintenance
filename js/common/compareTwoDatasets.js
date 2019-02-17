@@ -18,15 +18,10 @@ export class CompareTwoDataSets {
     * @param {String} key_id The key name for this store (e.g. "id","uid" etc)
     * @param {String} storename The storename for debugging messages
     * @param {Object} oldData The old data
-    * @param {Object} newData The new data
     */
-    constructor(key_id, storename, oldData, newData) {
+    constructor(key_id, oldData) {
         this.key_id = key_id;
-        this.storename = storename;
-        this.ok = oldData.length == newData.length;
-        if (!this.ok) {
-            return;
-        }
+        this.ok = true;
 
         var indexedData = {};
         if (this.key_id) {
@@ -41,18 +36,22 @@ export class CompareTwoDataSets {
 
     /**
      * Compare old entry with new one. If different: Add to `listOfUnequal`.
+     * 
+     * @returns Return true if equal and false otherwise.
      */
-    compareNewAndOld(entry) {
-        if (!this.ok) return;
+    compareNewAndOld(entry, storename) {
+        if (!this.ok) return false;
 
         const newHash = hashCode(entry);
         const id = entry[this.key_id];
         const oldHash = this.indexedData[id];
         if (newHash != oldHash) {
-            console.debug("replaceStore !entry", this.storename, id, newHash, oldHash);
+            if (storename) console.debug("replaceStore !entry", storename, id, newHash, oldHash);
             this.listOfUnequal.push(entry);
             if (this.listOfUnequal.length > EQ_TRESHOLD) this.ok = false;
+            return false;
         }
+        return true;
     }
 }
 

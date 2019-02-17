@@ -12,8 +12,6 @@ import { OhListStatus } from './oh-vue-list-status'
  * The helper module is expected to export:
  * - mixins: A list of mixins to apply to list-item components
  * - schema: An optional json-schema for the text-editor
- * - runtimekeys: A list of keys that should be filtered out for the text-editor
- * - StoreView: This serves as *Adapter* in our MVA architecture.
  */
 class OhVueFormBind extends HTMLElement {
     constructor() {
@@ -58,7 +56,7 @@ class OhVueFormBind extends HTMLElement {
         this.module = module;
         if (this.modeladapter) this.modeladapter.dispose();
         this.modeladapter = new module.StoreView();
-        this.target.start(this.modeladapter, module.mixins, module.schema, module.runtimekeys);
+        this.target.start(this.modeladapter, module.mixins);
 
         store.addEventListener("connectionEstablished", this.connectedBound, false);
         store.addEventListener("connecting", this.connectingBound, false);
@@ -82,10 +80,10 @@ class OhVueFormBind extends HTMLElement {
 
         this.objectid = this.hasAttribute("objectid") ? this.getAttribute("objectid") : this.objectid;
         if (!this.objectid && this.hasAttribute("objectFromURL")) {
-            this.objectid = new URL(window.location).searchParams.get(this.module.ID_KEY);
+            this.objectid = new URL(window.location).searchParams.get(this.modeladapter.STORE_ITEM_INDEX_PROP);
         }
 
-        this.updateAdapter = new UpdateAdapter(this.modeladapter, store, this.module.ID_KEY, this.objectid);
+        this.updateAdapter = new UpdateAdapter(this.modeladapter, store, this.objectid);
 
         if (this.objectid !== undefined) {
             await this.modeladapter.get(this.objectid);
