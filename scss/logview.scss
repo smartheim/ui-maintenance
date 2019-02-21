@@ -1,18 +1,21 @@
-.wrapper {
-    overflow: hidden;
-    position: absolute;
-    top: 70px;
-    bottom: 10px;
-    right: 0;
-    left: 0;
+.logviewmain {
+    display: flex;
+    flex-direction: column;
+    oh-vue-form {
+        flex: 1;
+        display: flex;
+        &>div {
+            position: relative;
+            flex: 1;
+        }
+    }
 }
 
-.log-container {
-    height: calc(100% - 30px);
+#logViewerTable {
+    position: absolute;
     width: 100%;
     display: block;
-    border: 1px solid #ccc;
-    border-collapse: collapse;
+    height: calc(100% - 10px);
 }
 
 .as-console {
@@ -48,7 +51,7 @@
 
 .as-console-cell-loglevel {
     display: table-cell;
-    min-width: 60px;
+    width: 65px;
 }
 
 .as-console-error {
@@ -113,11 +116,6 @@
     -moz-animation: flash 1s;
     -ms-animation: flash 1s;
     animation: flash 1s;
-}
-
-.vue-recycle-scroller {
-    position: relative;
-    height: 100%;
 }
 
 .vue-recycle-scroller:not(.page-mode) {

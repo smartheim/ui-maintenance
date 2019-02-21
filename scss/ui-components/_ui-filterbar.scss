@@ -6,6 +6,10 @@
 
 .ui-filterbar>form>.input-group {
     flex: 1;
+    justify-content: flex-end;
+    input {
+        max-width: 600px;
+    }
 }
 
 .ui-filterbar>form i {

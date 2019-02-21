@@ -38,7 +38,7 @@
       </div>
     </ui-filter>
 
-    <oh-list-bind for="ruleslist" listadapter="rules" filtercriteria="name"></oh-list-bind>
+    <oh-list-bind for="ruleslist" adapter="listadapter/rules" filtercriteria="name"></oh-list-bind>
     <oh-vue-list id="ruleslist">
       <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/rules"></partial>
       <template slot="item">

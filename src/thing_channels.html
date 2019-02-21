@@ -23,7 +23,7 @@
   <partial src="pagetitleheader.html" title="Thing Channels"></partial>
   <main>
     <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
-    <oh-form-bind adapter="thing" objectFromURL></oh-form-bind>
+    <oh-form-bind adapter="formadapter/thing" objectFromURL></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
       <partial src="vuelisterrors.html"></partial>
@@ -57,7 +57,7 @@
                 <tr>
                   <td>An item <small>(item id)</small></td>
                   <td>
-                    <oh-dropdown-bind listadapter="profiles"></oh-dropdown-bind>
+                    <oh-dropdown-bind adapter="listadapter/profiles"></oh-dropdown-bind>
                     <ui-dropdown title="Profile" viewkey="label" desckey="description" valuekey="uid" label="Profile"></ui-dropdown>
                     <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
                   </td>
@@ -65,11 +65,11 @@
                 </tr>
                 <tr class="newitem">
                   <td>
-                    <oh-dropdown-bind listadapter="items"></oh-dropdown-bind>
+                    <oh-dropdown-bind adapter="listadapter/items"></oh-dropdown-bind>
                     <ui-dropdown label="Item" viewkey="label" desckey="name" valuekey="name" label="Select item"></ui-dropdown>
                   </td>
                   <td>
-                    <oh-dropdown-bind listadapter="profiles"></oh-dropdown-bind>
+                    <oh-dropdown-bind adapter="listadapter/profiles"></oh-dropdown-bind>
                     <ui-dropdown title="Profile" viewkey="label" desckey="description" valuekey="uid" value="system:default"></ui-dropdown>
                   </td>
                   <td><button class="btn btn-success-hover btn-sm"><i class="fas fa-check"></i> Add</button></td>

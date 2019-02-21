@@ -1,5 +1,5 @@
 <small>You know what an openHAB **Thing** is, right?</small>
-<small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
+<small class="blockquote-footer">Your friendly [tutorial](tutorial.html) reminder.</small>
 
 Newer devices and services have means to discover them and they
 expose their capabilities.

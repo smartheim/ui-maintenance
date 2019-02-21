@@ -1,0 +1,56 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+  <title>openHAB - Empowering the smart home</title>
+  <link rel="prev" href="tutorial-scheduler.html" />
+  <link rel="next" href="tutorial-rules.html" />
+  <link rel="parent" href="index.html" />
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/tutorial.css" type="text/css" />
+  <partial src="tutorialnavigation.html"></partial>
+  <partial src="mainnav.html"></partial>
+  <section class="header">
+    <h4>Scenes</h4>
+  </section>
+  <main class="tutorial">
+    <nav-breadcrumb></nav-breadcrumb>
+
+    <h4>Scenes</h4>
+
+    <p>A scene is a collection of selected <i>Item</i> states.</p>
+
+    <p>When you execute a <i>Scene</i> all Scene Items will be restored to the stored state.</p>
+
+    <p>For example a "Cooking" scene could turn on all
+      your kitchen lights to a dimmed value of 80% except
+      the serving cabinet with a value of 100% and switch
+      on the kitchen radio and tune in a specific channel.</p>
+
+    <p>
+      To create a <i>Scene</i>, you first bring your Items into the desired state.
+      Then you head over to the <a class="demolink" href="scenes.html">Scenes</a> page
+      and create a new Scene. Scenes can only be created and not modified later on.
+    </p>
+
+    <p>Scenes will appear in control interfaces.
+      Some interfaces may allow you to create a new Scene on-the-fly.</p>
+    <img class="tutimage" src="img/tutorial/basicui-scene-run.png">
+
+    <div class="bs-callout bs-callout-info mb-4">
+      Pro: Scenes are just rules, tagged as "scene", internally. You can
+      always modify a scene from within the <a class="demolink" href="rules.html">Rules</a> page.
+    </div>
+
+  </main>
+  <footer>
+    <nav-buttons class="m-4"></nav-buttons>
+  </footer>
+  <aside>
+  </aside>
+</body>
+
+</html>

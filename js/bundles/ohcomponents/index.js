@@ -13,6 +13,7 @@ export * from './oh-attribute-bind'
 export * from './oh-event-bind'
 export * from './oh-prop-bind'
 export * from './oh-login-status-link'
+export * from './oh-websocket-data'
 
 export * from './schemahelper/generate_demo'
 import Yaml from './yaml/yaml'

@@ -15,8 +15,8 @@
       </li>
     </ul>
     <p>Start manuall discovery</p>
-    <oh-list-bind listadapter="discovery" filtercriteria="id"></oh-list-bind>
-    <oh-vue-list style="display: block;max-width: 250px;">
+    <oh-list-bind adapter="listadapter/discovery" filtercriteria="id"></oh-list-bind>
+    <oh-vue-list style="display: block;" class="wrapper">
       <div slot="app"></div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
@@ -58,7 +58,7 @@
       </div>
     </ui-filter>
 
-    <oh-list-bind for="inboxlist" listadapter="inbox" filtercriteria="label"></oh-list-bind>
+    <oh-list-bind for="inboxlist" adapter="listadapter/inbox" filtercriteria="label"></oh-list-bind>
     <oh-vue-list id="inboxlist">
 
       <div slot="app"></div>

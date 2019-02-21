@@ -3,6 +3,7 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="maintenance.html" />
 </head>
 
 <body>
@@ -10,34 +11,45 @@
   <partial src="maintenancenav.html"></partial>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Log View"></partial>
-  <main style="display: flex;flex-direction: column">
-    <form class="m-4 mb-0 row" style="align-items: center">
-      <ui-switch class="col-4" label="Show item events"></ui-switch>
-      <div class="col-8">
-        <div class="input-group mr-3">
-          <input class="form-control py-2" type="search" name="filter" placeholder="Filter...">
-          <span class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">
-              <i class="fa fa-search"></i>
-            </button>
-          </span>
-        </div>
-      </div>
-    </form>
+  <main class="logviewmain">
 
-    <div class="wrapper">
-      <div class="as-console w-100">
-        <div slot="before-container" class="as-console-row">
-          <div class="as-console-cell-date">Timestamp</div>
-          <div class="as-console-cell-loglevel">Loglevel</div>
-          <div class="as-console-cell-code">Source</div>
-          <div class="as-console-cell-code">Message</div>
-        </div>
+    <div id="controlform"></div>
+
+    <div class="as-console w-100">
+      <div slot="before-container" class="as-console-row">
+        <div class="as-console-cell-date">Timestamp</div>
+        <div class="as-console-cell-loglevel">Loglevel</div>
+        <div class="as-console-cell-code">Source</div>
+        <div class="as-console-cell-code">Message</div>
       </div>
-      <oh-vue-bind adapter="logview" usebundle></oh-vue-bind>
-      <oh-vue class="log-container"></oh-vue>
-      <template>
-        <dynamic-scroller :items="items" key-field="_id" :min-item-height="54" ref="scroller" @scrolled="scrollDown">
+    </div>
+
+    <oh-form-bind adapter="formadapter/service" mixin="logview" objectid="org.openhab.logging"></oh-form-bind>
+    <oh-vue-form></oh-vue-form>
+    <template>
+      <div>
+        <oh-websocket-data id="logViewer" :href="value.config ? value.config.websocketPort : ''" simulation="simulation/logview"
+          @data="newData"></oh-websocket-data>
+        <portal name="controlform" target-el="#controlform" breakshadow slim>
+          <form class="my-4 mb-0 row" style="align-items: center">
+            <ui-switch class="col-4" label="Show item events"></ui-switch>
+            <div class="col-8">
+              <div class="input-group mr-3">
+                <input class="form-control py-2" type="search" name="filter" placeholder="Filter..." @input="setFilter($event.target.value)">
+                <span class="input-group-append">
+                  <button class="btn btn-outline-secondary btn-outline-visible" type="button">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </portal>
+
+        <dynamic-scroller id="logViewerTable" :items="filtered" key-field="_id" :min-item-height="54" ref="scroller"
+          @scrolled="scrollDown">
+          <template v-slot:before>
+          </template>
           <template slot-scope="{ item, index, active }">
             <dynamic-scroller-item :item="item" :active="active" :data-index="index" class="moveup">
               <div class="as-console-cell-date" :class="loglevelClass(item)">{{ datetime(item) }}</div>
@@ -47,35 +59,8 @@
             </dynamic-scroller-item>
           </template>
         </dynamic-scroller>
-      </template>
-    </div>
-    <!--
-            <recycle-scroller :items="items" :item-height="32" container-tag="table" content-tag="tbody">
-        <div slot-scope="{ item }" class="user">
-          {{ item.message }}
-        </div>
-      </recycle-scroller>
-    -->
-    <!--
-          <div slot="before-container">
-            <thead>
-              <tr>
-                <td>Timestamp</td>
-                <td>Loglevel</td>
-                <td>Source</td>
-                <td>Message</td>
-              </tr>
-            </thead>
-          </div>
-          <slot>
-              <tr slot-scope="{ item }" class="as-console-row-code" :class="loglevelClass(item)" style="height: 32px">
-                  <td>{{datetime(item)}}</td>
-                  <td>{{item.level}}</td>
-                  <td>{{item.source}}</td>
-                  <td>{{item.message}}</td>
-                </tr>      
-          </slot>
-      -->
+      </div>
+    </template>
 
   </main>
   <footer></footer>

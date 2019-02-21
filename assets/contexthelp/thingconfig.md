@@ -1,5 +1,5 @@
 <small>You know what an openHAB **Thing** is, right?</small>
-<small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
+<small class="blockquote-footer">Your friendly [tutorial](tutorial.html) reminder.</small>
 
 Some *Things* offer additional configuration, next to the name
 and location. A location is optional and in some user interfaces

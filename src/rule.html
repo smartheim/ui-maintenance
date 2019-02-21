@@ -17,7 +17,7 @@
     </datalist>
     <p>Rule components</p>
 
-    <oh-list-bind for="componentslist" listadapter="modules" filtercriteria="label" sort="type"></oh-list-bind>
+    <oh-list-bind for="componentslist" adapter="listadapter/modules" filtercriteria="label" sort="type"></oh-list-bind>
     <oh-vue-list id="componentslist" style="display: block;">
       <div slot="app"></div>
       <template slot="list">
@@ -47,7 +47,7 @@
   <main>
     <nav-breadcrumb parent="Rule list" useParamAsHash="uid"></nav-breadcrumb>
 
-    <oh-form-bind adapter="rule" objectFromURL allowNew></oh-form-bind>
+    <oh-form-bind adapter="formadapter/rule" objectFromURL allowNew></oh-form-bind>
     <oh-vue-form style="display: flex;flex:1;flex-direction: column"></oh-vue-form>
     <template>
       <div style="display: flex;flex:1;flex-direction: column">

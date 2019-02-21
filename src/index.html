@@ -24,7 +24,7 @@
 
   <partial src="mainnav.html"></partial>
 
-  <section class="header" style="visibility: hidden"></section>
+  <section class="header mainhome"> </section>
 
   <main class="mainhome">
 
@@ -34,11 +34,11 @@
       <div class="card-body">
         <h3 class="card-title">Welcome aboard!</h3>
         <div class="row">
-          <p class="card-text col-sm mb-0"> You are using the <b>Setup &amp; Maintenance</b> interface of openHAB.
-            Our introduction slides will guide you through openHABs features and how to use this interface.</p>
+          <p class="card-text col-sm mb-0"> You are using the <b>Setup &amp; Maintenance</b> interface of openHAB.<br>
+            Our introduction slides will guide you through openHABs features and explain how to use this interface.</p>
 
           <div class="col-md-auto text-right">
-            <a class="btn btn-primary-hover" href="tutorial-1.html">
+            <a class="btn btn-primary-hover" href="tutorial.html">
               Introduction
             </a>
           </div>
@@ -59,39 +59,59 @@
             </div>
           </details>
         </div>
-        <div class="row">
-          <a class="mr-4 ml-auto" href="about.html">About | Open Source Attributions</a>
-        </div>
       </div>
     </div>
 
-    <h3>User interfaces</h3>
-    <oh-form-bind adapter="userinterfaces" objectid=""></oh-form-bind>
-    <oh-vue-form></oh-vue-form>
+    <oh-form-bind adapter="formadapter/userinterfaces" objectid=""></oh-form-bind>
+    <oh-vue-form class="introcard"></oh-vue-form>
     <template>
-      <div id="userinterfaces">
-        <a v-for="item of value" class="pulseAnimation" :title="item.description" :href="link(item)">
+      <div v-if="value.length" id="userinterfaces">
+        <a v-for="item of value" class="pulseAnimation card p-3" :class="item.type" :title="item.description" :href="link(item)">
           <img :src="image(item)">
           <header class="title">{{item.label}}</header>
+          <section>{{item.description}}</section>
         </a>
+      </div>
+      <div v-else class="card p-3 mb-4">
+        <p>We have not found any control user-interfaces on your openHAB installation.<br>
+          After you are done with setting up:
+          Head over to the <span class="demolink">Add-ons</span> page and install some.
+        </p>
+        <p>Go through the tutorial for futher guidance.</p>
       </div>
     </template>
 
-    <oh-login-status-link class="ml-auto invisible" style="min-width: 220px;min-height: 31px">
-      <a class="btn btn-primary-hover btn-sm" slot="connected" href="login.html">Logout from <span class="hostname"></span></a>
-      <div slot="disconnected"><span class="hostname"></span> - <a class="btn btn-primary-hover btn-sm" href="login.html">Connection
-          failed</a></div>
-    </oh-login-status-link>
-
   </main>
-  <footer></footer>
+
+  <footer class="mainhome">
+    <div class="line"></div>
+    <div class="links">
+      <oh-login-status-link class="ml-auto invisible" style="min-width: 220px;min-height: 20px;text-align: right;">
+        <a slot="connected" href="login.html">Logout from <span class="hostname"></span></a>
+        <div slot="disconnected"><span class="hostname"></span> - <a href="login.html">Connection
+            failed</a></div>
+      </oh-login-status-link>
+      <a class="mx-4" href="about.html">About | Open Source Attributions</a>
+    </div>
+    <a style="position: fixed;bottom: 50px;left:50px;width: 100px;height: 100px;display: flex;text-align: center;justify-content: center"
+      class="card first" href="goals.html">
+      THIS IS A DESIGN STUDY!
+    </a>
+  </footer>
+
   <aside class="mainhome">
     <h4>
       <span>Latest announcements</span>
       <oh-doc-link target="#latesttopics" reload><a href="#"><i class="fas fa-sync-alt"></i></a></oh-doc-link>
     </h4>
     <oh-community-topics id="latesttopics" class="sidebar hover" topics="c/announcements/l/latest" order="created"
-      limit="10"></oh-community-topics>
+      limit="2"></oh-community-topics>
+    <h4>
+      <span>Conventions &amp; Events</span>
+      <oh-doc-link target="#conventions" reload><a href="#"><i class="fas fa-sync-alt"></i></a></oh-doc-link>
+    </h4>
+    <oh-community-topics id="conventions" class="sidebar hover" topics="c/organisation/events/l/latest" order="created"
+      limit="4"></oh-community-topics>
   </aside>
 </body>
 

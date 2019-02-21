@@ -15,7 +15,7 @@
     <nav-breadcrumb parent="Add-Ons"></nav-breadcrumb>
     <oh-attribute-bind attribute="filter" queryParameter="id"></oh-attribute-bind>
     <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></oh-github-issues>
-    <oh-form-bind adapter="binding" objectFromURL allowNew></oh-form-bind>
+    <oh-form-bind adapter="formadapter/binding" objectFromURL allowNew></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
       <transition name="fade">

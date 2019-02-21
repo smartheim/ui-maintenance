@@ -1,35 +1,35 @@
-<oh-vue-bind contextfrom="oh-context-help" sourceproperty="contextdata" adapter="thingtype"></oh-vue-bind>
+<oh-vue-bind contextfrom="oh-context-help" sourceproperty="contextdata" adapter="mixins/thingtype"></oh-vue-bind>
 <oh-vue></oh-vue>
 <template>
-    <div v-if="context && context.schema">
-        <h4>{{context.thingType.label}} - Textual model</h4>
-        <p v-if="!context.focus">
-            Your markdown model for a Thing of type {{context.thingType.label}}:
-        </p>
-        <p v-else-if="context.focus=='channels'">
-            Thing channels for {{context.thingType.label}}:
-        </p>
-        <p v-else-if="context.focus=='thingconfig'">
-            Thing configuration of type {{context.thingType.label}}:
-        </p>
-        <p v-else-if="context.focus=='channelconfig'">
-            Channel configuration of Thing type {{context.thingType.label}}:
-        </p>
-        <pre>{{getDemoYaml()}}</pre>
-        <div v-if="context.thingType.extensibleChannelTypeIds && context.thingType.extensibleChannelTypeIds.length">
-            <p>You can also add an arbitrary number of the following channels to your Thing:</p>
-            <section class="card mb-2" v-for="item of context.channelTypes" v-if="context.thingType.extensibleChannelTypeIds.includes(item.id)">
-                <div class="card-body">
-                    <pre>
+  <div v-if="context && context.schema">
+    <h4>{{context.thingType.label}} - Textual model</h4>
+    <p v-if="!context.focus">
+      Your markdown model for a Thing of type {{context.thingType.label}}:
+    </p>
+    <p v-else-if="context.focus=='channels'">
+      Thing channels for {{context.thingType.label}}:
+    </p>
+    <p v-else-if="context.focus=='thingconfig'">
+      Thing configuration of type {{context.thingType.label}}:
+    </p>
+    <p v-else-if="context.focus=='channelconfig'">
+      Channel configuration of Thing type {{context.thingType.label}}:
+    </p>
+    <pre>{{getDemoYaml()}}</pre>
+    <div v-if="context.thingType.extensibleChannelTypeIds && context.thingType.extensibleChannelTypeIds.length">
+      <p>You can also add an arbitrary number of the following channels to your Thing:</p>
+      <section class="card mb-2" v-for="item of context.channelTypes" v-if="context.thingType.extensibleChannelTypeIds.includes(item.id)">
+        <div class="card-body">
+          <pre>
 UID: {{item.UID}}
 label: {{item.label}}
 description: {{item.description}}
 kind: {{item.kind}}
 <template v-if="item.kind=='STATE'">itemType: {{item.itemType}}</template>
 </pre>
-                </div>
-            </section>
         </div>
+      </section>
     </div>
-    <div v-else>Failed to load context</div>
+  </div>
+  <div v-else>Failed to load context</div>
 </template>

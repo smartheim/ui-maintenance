@@ -1,8 +1,8 @@
 import { store } from '../app.js';
 
-class StoreView {
+class ModelAdapter {
   constructor() {
-    this.STORE_ITEM_INDEX_PROP = "thingUID";
+    this.STORE_ITEM_INDEX_PROP = Object.freeze("thingUID");
     this.runtimeKeys = [];
     this.value = [];
   }
@@ -25,4 +25,4 @@ const InboxCounterMixin = {
 
 const mixins = [InboxCounterMixin];
 
-export { mixins, StoreView };
+export { mixins, ModelAdapter };

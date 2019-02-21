@@ -1,5 +1,5 @@
 <small>You know what an openHAB **Script** is, right?</small>
-<small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
+<small class="blockquote-footer">Your friendly [tutorial](tutorial.html) reminder.</small>
 
 With *Rules*, *Profiles* and *Transformations* you can handle about 98% of your automation needs.
 Very advanced, unusual or complex scenarios might require a scripted solution though.

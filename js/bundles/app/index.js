@@ -43,14 +43,14 @@ export function createNotification(id, message, persistent = false, timeout = 50
 
 var store = new StorageConnector();
 
-store.addEventListener("connecting", () => createNotification("connecting", "Connecting&hellip;", true, 2000), false);
+store.addEventListener("connecting", () => createNotification("connecting", "Connecting&hellip;", true, 2000), { passive: true });
 
 store.addEventListener("connectionEstablished", e => {
   const connectingN = document.getElementById("connecting");
   if (!connectingN) return;
   connectingN.innerHTML = `<div>Connected!</div>`;
   connectingN.hideAfterCloseTime();
-}, false);
+}, { passive: true });
 
 store.addEventListener("connectionLost", e => {
   const connectingN = document.getElementById("connecting");
@@ -71,7 +71,7 @@ store.addEventListener("connectionLost", e => {
       createNotification("login", "Could not connect to openHAB on " + openhabHost() + ".<br><a href='login.html' data-close>Login to openHab instance</a></div>", false);
     }
   }
-}, false);
+}, { passive: true });
 
 setTimeout(() => {
   store.configure(1000 * 60 * 60, 2000)

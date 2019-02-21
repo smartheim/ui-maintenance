@@ -1,23 +1,23 @@
 <h3>Supported Things</h3>
 
 <oh-prop-bind contextfrom="oh-context-help" sourceproperty="contextdata" attribute="fixedfilter"></oh-prop-bind>
-<oh-list-bind for="inboxlist" listadapter="thing-types"></oh-list-bind>
+<oh-list-bind for="inboxlist" adapter="listadapter/thing-types"></oh-list-bind>
 <oh-vue-list id="inboxlist">
-    <div slot="app"></div>
-    <template slot="list">
-        <partial src="vuelisterrors.html"></partial>
-        <div v-else class="w-100" slot="app">
-            <transition-group name="fade" tag="div">
-                <oh-vue-listitem v-for="item in items" :key="item.UID" :listitem="item"></oh-vue-listitem>
-            </transition-group>
-        </div>
-    </template>
-    <template slot="item">
-        <section class="card mb-2">
-            <div class="card-body">
-                <h5 class="card-title">{{item.label}}</h5>
-                <p class="card-text">{{item.description}}</p>
-            </div>
-        </section>
-    </template>
+  <div slot="app"></div>
+  <template slot="list">
+    <partial src="vuelisterrors.html"></partial>
+    <div v-else class="w-100" slot="app">
+      <transition-group name="fade" tag="div">
+        <oh-vue-listitem v-for="item in items" :key="item.UID" :listitem="item"></oh-vue-listitem>
+      </transition-group>
+    </div>
+  </template>
+  <template slot="item">
+    <section class="card mb-2">
+      <div class="card-body">
+        <h5 class="card-title">{{item.label}}</h5>
+        <p class="card-text">{{item.description}}</p>
+      </div>
+    </section>
+  </template>
 </oh-vue-list>

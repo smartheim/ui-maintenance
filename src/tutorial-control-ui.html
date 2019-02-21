@@ -1,0 +1,110 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+  <title>openHAB - Empowering the smart home</title>
+  <link rel="prev" href="tutorial-rules.html" />
+  <link rel="next" href="tutorial-exercises.html" />
+  <link rel="parent" href="index.html" />
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/tutorial.css" type="text/css" />
+  <partial src="tutorialnavigation.html"></partial>
+  <partial src="mainnav.html"></partial>
+  <section class="header">
+    <h4>Control interfaces</h4>
+  </section>
+  <main class="tutorial">
+    <nav-breadcrumb></nav-breadcrumb>
+
+    <details class="alert alert-info" role="alert">
+      <summary>Watch a video to see just how easy it is to build an interface with HabPanel</summary>
+      <ui-youtube videoid="gUDWCrSG8zA" videoparams="modestbranding=1&showinfo=0&controls=1&vq=hd720">
+      </ui-youtube>
+    </details>
+
+    <h4>Control interfaces</h4>
+
+    <p>In this section you learn about the fun part of setting up your openHAB system - the user interface! This is the
+      most
+      rewarding part of your configuration, because you’ll actually get to see real-time results of all your work until
+      now, and interact with your home automation things directly via the user interface.</p>
+
+    <img class="tutimage" src="img/tutorial/user_interfaces.png">
+
+    <p>This is where you need to leave <b>"Setup and Maintenance"</b>.</p>
+
+    <hr>
+
+    <h5>Widgets everywhere - HABpanel</h5>
+
+    <img style="max-width: 60%;max-height: 100%;float:right;padding-right: 20px;" src="img/tutorial/habpanel.png">
+
+    <p>HABpanel is a touch-friendly user interface for tablets. It layouts your Items via so called <b>Widgets</b>.</p>
+
+    <p>Widgets are html with javascript snippets and can therefore express any design and functionality.
+      We have a default set of Widgets for rendering our known Item types.
+      The community also created dedicated Widgets for Spotify, Alexa, Weather services and so on.
+    </p>
+
+    <p>If you had nothing but computers and tablets controlling your home automation system,
+      you could easily get away with only using HABpanel.</p>
+
+    <div class="bs-callout bs-callout-info mb-4">
+      Caveat: You need to configure your HABpanel pages yourself, drag&drop Widgets, but also configure Widgets to do
+      the Right Thing&trade;.
+    </div>
+
+    <p>Make sure you have installed HABpanel in the <a class="demolink" href="addons.html">Add-ons</a> section.</p>
+
+    <div class="clearfix"></div>
+    <hr class="mt-4">
+
+    <h5>Dashboards - HABdashboard</h5>
+
+    <img style="max-width: 60%;max-height: 100%;float:right;padding-right: 20px;" src="img/tutorial/basicui.png">
+
+    <p>
+      Widgets tend to use a lot of screen real-estate and often require configuration.
+      For the phone screen and also for kickstarting your control needs, there is a better option.
+    </p>
+
+    <p>openHABs second solution for control interfaces are <b>Dashboards</b>.</p>
+
+    <p>Dashboards define the layout and handling of items,
+      and tell dashboard based user interfaces how to interact with your Items.
+      You would use Dashboards to:
+    </p>
+
+    <ul>
+      <li>Group Items per Room</li>
+      <li>Use binding provided dashboard components.
+        Those are compositions of related Items to form more complex controls.</li>
+    </ul>
+
+    <div class="bs-callout bs-callout-info mb-4">
+      Dashboards must be configured and layed out by you.
+    </div>
+
+    <p>openHAB provides a "dynamic" dashboard, that is auto-layouted and grouped by Things and Channels.
+    </p>
+
+    <p>Make sure you have installed HABdashboard in the <a class="demolink" href="addons.html">Add-ons</a> section.</p>
+
+    <h5 style="clear: both">Android / iOS App</h5>
+
+    <p>If you want to enjoy the native speed of your phone platform and a fluent,
+      animated and integrated interface consider our mobile apps.
+      Both Apps use Dashboards for displaying your Items.</p>
+
+  </main>
+  <footer>
+    <nav-buttons class="m-4"></nav-buttons>
+  </footer>
+  <aside>
+  </aside>
+</body>
+
+</html>

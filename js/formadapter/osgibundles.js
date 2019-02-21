@@ -1,8 +1,8 @@
 import { store, createNotification } from '../app.js';
 
-class StoreView {
+class ModelAdapter {
   constructor() {
-    this.STORE_ITEM_INDEX_PROP = "id";
+    this.STORE_ITEM_INDEX_PROP = Object.freeze("id");
     this.runtimeKeys = [];
     this.value = [];
   }
@@ -54,4 +54,4 @@ const UserInterfaceMixin = {
 
 const mixins = [UserInterfaceMixin];
 
-export { mixins, StoreView };
+export { mixins, ModelAdapter };

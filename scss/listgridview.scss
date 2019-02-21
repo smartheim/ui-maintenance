@@ -105,9 +105,9 @@ oh-codeeditor[haschanges] {
     width: 100%;
     margin-top: 1.5rem;
     &.grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     }
     &.selectionmode {
         article.selected,
@@ -151,18 +151,12 @@ oh-codeeditor[haschanges] {
     }
     transition: box-shadow 135ms cubic-bezier(.4, 0, .2, 1),
     width 235ms cubic-bezier(.4, 0, .2, 1);
-    color: #5f6368;
+    color: var(--color);
     box-shadow: 0 1px 1px 0 rgba(60, 64, 67, .08),
-    0 1px 3px 1px rgba(60, 64, 67, .16);
-    margin-right: 10px;
-    width: 355px;
-    &.wider {
-        width: 450px;
-    }
+    0 1px 3px 1px rgba(60, 64, 67, .16); //margin-right: 10px;
     position: relative;
     background-color: var(--card-bg); //  border: 1px solid var(--color);
     border-radius: 10px;
-    margin-bottom: 1.5rem;
     &:hover {
         box-shadow: 0 1px 3px 1px rgba(60, 64, 67, .2), 0 2px 8px 4px rgba(60, 64, 67, .1);
     }
@@ -180,7 +174,7 @@ oh-codeeditor[haschanges] {
         font-family: inherit;
         font-weight: 500;
         line-height: 1.2;
-        color: inherit;
+        color: var(--color-card-header);
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -215,10 +209,9 @@ oh-codeeditor[haschanges] {
     }
 }
 
-body.wide #listcontainer.grid>article {
-    width: 450px;
-}
-
+// body.wide #listcontainer.grid>article {
+//     width: 450px;
+// }
 // A list item can have a "warnDialog"
 #listcontainer.list>article {
     position: relative;
@@ -265,10 +258,10 @@ body.wide #listcontainer.grid>article {
     }
 }
 
-@media (max-width: get-breakpoints("xl")) {
-    #listcontainer {
-        &.grid>article {
-            min-width: 200px;
-        }
-    }
-}
+// @media (max-width: get-breakpoints("xl")) {
+//     #listcontainer {
+//         &.grid>article {
+//             min-width: 200px;
+//         }
+//     }
+// }

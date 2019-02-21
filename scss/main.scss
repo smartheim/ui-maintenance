@@ -2,10 +2,12 @@
     --background-color: white;
     --main-bg: white;
     --card-bg: white;
-    --color: #2c3e50;
+    --color: #2c3e50; // #5f6368
+    --light: #343a40;
     --color-btn: #212529;
+    --color-card-header: #5f6368;
     --ui-bg: #ccc;
-    --background-large-screen: #ececec;
+    --calendar-lines: #4242422c;
     --border-btn: #f8f9fa;
     --primary: #ff7214;
     --primary-light: #ff72146b;
@@ -112,7 +114,7 @@ body {
 }
 
 main {
-    background-color: var(--main-bg);
+    background-color: inherit;
     display: flex;
     flex-direction: column;
 }
@@ -153,6 +155,43 @@ a.disabled {
     color: gray;
     pointer-events: none;
     opacity: 0.8;
+}
+
+.demolink {
+    margin-right: 10px;
+    margin-left: 10px;
+    position: relative;
+    display: inline-block;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    color: inherit;
+    padding: 0;
+    text-decoration: none;
+    margin-bottom: -2px;
+    border-bottom: 2px solid theme-color("primary");
+    &:after {
+        border: .25em solid salmon;
+        border-top: none;
+        border-radius: 1.5em 1em 2em 1.5em;
+        bottom: -.5em;
+        content: '';
+        left: -.5em;
+        position: absolute;
+        right: -.5em;
+        top: -.1em;
+    }
+    &:before {
+        border-top: .25em solid salmon;
+        border-radius: .5em;
+        content: '';
+        height: 1em;
+        left: -.2em;
+        position: absolute;
+        top: -.2em;
+        transform: rotate(-10deg);
+        width: 2em;
+    }
 }
 
 // Notifications

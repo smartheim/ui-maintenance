@@ -1,5 +1,5 @@
 <small>You know what an openHAB **Rule** and **Script** is, right?</small>
-<small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
+<small class="blockquote-footer">Your friendly [tutorial](tutorial.html) reminder.</small>
 
 See your script files in this list. 
 

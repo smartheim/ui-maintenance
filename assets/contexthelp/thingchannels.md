@@ -1,5 +1,5 @@
 <small>You know what an openHAB **Channel** is, right?</small>
-<small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
+<small class="blockquote-footer">Your friendly [tutorial](tutorial.html) reminder.</small>
 
 See all offered channels of this *Thing* listed here.
 

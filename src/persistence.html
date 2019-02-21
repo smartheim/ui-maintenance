@@ -3,6 +3,7 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="maintenance.html" />
 </head>
 
 <body>
@@ -21,26 +22,84 @@
       </button>
     </ui-filter>
 
-    <oh-list-bind listadapter="persistence" filtercriteria="label"></oh-list-bind>
+    <div id="new-item" class="modal" role="dialog">
+      <div class="modal-dialog" role="document">
+        <oh-vue-bind adapter="mixins/newPersistence"></oh-vue-bind>
+        <oh-vue></oh-vue>
+        <template>
+          <form class="modal-content was-validated" @submit="create">
+            <portal name="testname" target-el="#actions" breakshadow slim>
+              <p class="persistence">Actions</p>
+              <ul class="persistence">
+                <li><a href="#new-item"><i class="fas fa-plus"></i> New persistence</a></li>
+              </ul>
+            </portal>
+            <vue-inprogress></vue-inprogress>
+            <div class="modal-header">
+              <h5 class="modal-title">New persistence</h5>
+              <a href="#" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </a>
+            </div>
+            <div class="modal-body">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label"><abbr title="Reference this Item via this identifier">UID</abbr></label>
+                <div class="col-sm-10">
+                  <input class="form-control" v-model="id" name="name" pattern=".{2,}" required placeholder="Item UID">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Label</label>
+                <div class="col-sm-10">
+                  <input class="form-control" v-model="label" name="label" pattern=".{2,}" required placeholder="Label">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" :class="{disabled:notready}" class="btn btn-primary">Create</button>
+              <a class="btn btn-secondary" href="#">Close</a>
+            </div>
+          </form>
+        </template>
+      </div>
+    </div>
+
+    <oh-list-bind adapter="listadapter/persistence" filtercriteria="label"></oh-list-bind>
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/persistence"></partial>
       <template slot="item">
-        <article :id="item.uid">
+        <article :id="item.uid" :class="[{haschanges: changed},{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>
+          <vue-metainfo :uniqueid="item.uid"></vue-metainfo>
           <header>
-            <span :title="item.label">{{item.label}}</span>
+            <span :title="item.label+': Edit the name and press enter'" contenteditable="true" @blur="item.label=$event.target.innerText"
+              @keypress.enter.prevent="item.label=$event.target.innerText">{{item.label}}</span>
           </header>
+          <section class="actions unsaved btn-group">
+            <button class="btn btn-success" title="Save changes" @click="save()"><i class="fas fa-save"></i></button>
+            <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
+          </section>
           <section class="actions btn-group">
+            <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
+                class="fas fa-info"></i></button>
             <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
           </section>
           <section class="description mb-2">
             Database: <br>
-            <oh-dropdown-bind listadapter="persistence-services"></oh-dropdown-bind>
-            <ui-dropdown btnclass="form-control" :value="item.serviceid" viewkey="label" valuekey="id" label="Select database"></ui-dropdown>
-            Stategies: <ui-multiselect :options="item.strategy" :value="item.strategy" placeholder="Select strategy"></ui-multiselect>
-            Items:
-            <oh-dropdown-bind listadapter="items"></oh-dropdown-bind>
-            <ui-multiselect viewkey="label" valuekey="name" desckey="name" placeholder="Select items"></ui-multiselect>
+            <ui-dropdown btnclass="form-control" :options.prop="getServices()" :value="item.serviceid" viewkey="label"
+              valuekey="id" label="Select database" @input="item.serviceid=$event.target.value"></ui-dropdown>
+            Stategies: <br>
+            <ui-multiselect :options.prop="getStrategies()" viewkey="label" valuekey="id" :value.prop="item.strategy"
+              placeholder="Select strategy" @input="item.strategy=$event.target.value"></ui-multiselect>
+            Items: <br>
+            <ui-multiselect :options.prop="$root.itemlist" viewkey="label" valuekey="name" desckey="name" placeholder="Select items"
+              :value.prop="item.items" @input="item.items=$event.target.value"></ui-multiselect>
+            Additional items by name:<br>
+            <input placeholder="Regex item pattern" v-model="item.itemByNamePattern">
+            Additional items by label:<br>
+            <input placeholder="Regex item pattern" v-model="item.itemByLabelPattern">
+            Additional items by tags:<br>
+            <ui-tags :value.prop="item.itemByTags" placeholder="Tags" @input="item.itemByTags=$event.target.value"></ui-tags>
           </section>
         </article>
       </template>

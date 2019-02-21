@@ -1,7 +1,10 @@
 import { openhabHost, store } from '../app.js';
 
-class StoreView {
-  constructor() { this.STORE_ITEM_INDEX_PROP = "id"; this.runtimeKeys = []; this.value = []; }
+class ModelAdapter {
+  constructor() {
+    this.STORE_ITEM_INDEX_PROP = Object.freeze("id");
+    this.runtimeKeys = []; this.value = [];
+  }
   stores() { return { "user-interfaces": "value" } };
   get(id, options = null) {
     return store.get("user-interfaces", null, options)
@@ -36,4 +39,4 @@ const UserInterfaceMixin = {
 
 const mixins = [UserInterfaceMixin];
 
-export { mixins, StoreView };
+export { mixins, ModelAdapter };

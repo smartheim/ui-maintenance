@@ -4,7 +4,7 @@
     position: relative;
     contain: content;
     width: 100%;
-    background-color: var(--background-color);
+    background-color: inherit;
     padding: 0 1.5rem;
     height: 60px;
     align-items: center;
@@ -71,6 +71,9 @@
         a:hover {
             border-bottom: 2px solid theme-color("primary");
         }
+        a.semiactive {
+            border-bottom: 2px dashed theme-color("primary");
+        }
     }
     @media (max-width: get-breakpoints("xxl")) {
         padding: 0 .5rem;
@@ -100,7 +103,6 @@ body.wide .navbarui {
 }
 
 section.header {
-    background-color: var(--primary-light);
     color: var(--color);
     text-align: center;
     height: 70px;
@@ -112,6 +114,10 @@ section.header {
         padding: 0;
         flex: 1;
     }
+}
+
+body.wide section.header {
+    background-color: var(--primary-light);
 }
 
 body:not(.wide) section.header {

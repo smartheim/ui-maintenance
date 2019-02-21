@@ -1,0 +1,238 @@
+<html>
+
+<head>
+  <partial src="head.html"></partial>
+  <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="schedules.html" />
+</head>
+
+<body>
+  <link rel="stylesheet" href="css/timer.css" type="text/css" />
+  <nav></nav>
+  <partial src="mainnav.html"></partial>
+  <partial src="pagetitleheader.html" title="Add / Edit a timer"></partial>
+  <main>
+    <nav-breadcrumb parent="Scheduler list" useParamAsHash="uid"></nav-breadcrumb>
+    <form class="mb-4" action="#">
+      <div class="form-group row">
+        <div class="col-sm-10" style="display:flex">
+          <ui-switch name="enabled" checked="true" label="Enabled" title="Create timers here in this interface, but enable/disable them in Rules for example"></ui-switch>
+          <ui-switch class="ml-2" name="expose" checked="true" label="Expose to Apps" title="A non-exposed timer is called a private timer. All dynamically created timers are private by default"></ui-switch>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="timername" class="col-sm-2 col-form-label">Timer label</label>
+        <div class="col-sm-10">
+          <input autofocus type="text" class="form-control" name="timername" id="timername" pattern=".{1,}" required
+            placeholder="Timer label">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="timerid" class="col-sm-2 col-form-label">Unique Timer ID</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="timerid" id="timerid" pattern="[^\s]+" required placeholder="Unique Timer ID">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="timertags" class="col-sm-2 col-form-label">Tags</label>
+        <div class="col-sm-10">
+          <ui-tags class="" name="timertags" id="timertags"></ui-tags>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Timeout</label>
+        <div class="col-sm-10">
+          <ui-switch class="col-form-label" name="removeafter" label="Delete after triggered" title="Most useful for dynamically created timers"></ui-switch>
+          <ui-switch class="col-form-label" name="triggertype" showid="triggeritemcommand" label="Trigger item command"
+            title="Instead of just triggering, useful for Rules and Scripts, you can also issue an item command directly"></ui-switch>
+          <div id="triggeritemcommand" class="hidden">
+            <ui-dropdown id="triggereditem" name="triggereditem" label="Select item"></ui-dropdown>
+            <oh-dropdown-bind for="triggereditem" viewkey="name" viewvalue="label" adapter="listadapter/items"></oh-dropdown-bind>
+            <input name="itemcommand">
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">When</label>
+        <div class="col-sm-10">
+          <ui-switch showid="cronexpression" class="col-form-label" name="absolute" label="Trigger at an absolute date/time"
+            title="The alternative is a recurring timer"></ui-switch>
+          <div id="cronexpression" class="mt-2">
+            <h4>Cron expression</h4>
+            <ui-cron-expression></ui-cron-expression>
+            <hr class="mt-4">
+            <ui-tabs class="mt-4">
+              <ul class="nav nav-tabs" slot="links">
+                <li class="nav-item"><a class="nav-link" href="#">Seconds</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Minutes</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Hours</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Day</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Month</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Year</a></li>
+              </ul>
+              <div class="tab-content" slot="tabs">
+                <section class="second">
+                  <label tabindex="0" class="d-block"><input checked class="mr-2" type="radio" name="second"><i></i>Every
+                    second</label>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="second"><i></i>Specific second (choose
+                      one or many)</label>
+                    <ui-multiselect options="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59"
+                      placeholder="Select seconds"></ui-multiselect>
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="second"><i></i>Every</label>
+                    <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    second(s) starting at second <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="second"><i></i>Every second between
+                      second</label>
+                    <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    and second <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                </section>
+                <section class="minute">
+                  <label tabindex="0" class="d-block"><input checked class="mr-2" type="radio" name="minute"><i></i>Every
+                    minute</label>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="minute"><i></i>Specific minute (choose
+                      one or many)</label>
+                    <ui-multiselect options="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59"
+                      placeholder="Select seconds"></ui-multiselect>
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="minute"><i></i>Every</label>
+                    <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    minute(s) starting at second <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="minute"><i></i>Every second between
+                      minute</label>
+                    <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    and minute <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                </section>
+                <section class="hour">
+                  <label tabindex="0" class="d-block"><input checked class="mr-2" type="radio" name="hour"><i></i>Every
+                    hour</label>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="hour"><i></i>Specific hour (choose one
+                      or many)</label>
+                    <ui-multiselect options="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23" placeholder="Select hours"></ui-multiselect>
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="hour"><i></i>Every</label>
+                    <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    hour(s) starting at hour <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="hour"><i></i>Every hour between hour</label>
+                    <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    and hour <input type="number" min=0 max=60 value=0 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                </section>
+                <section class="day">
+                  <label tabindex="0" class="d-block"><input checked class="mr-2" type="radio" name="day"><i></i>Every
+                    day</label>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i>Every </label>
+                    <input type="number" min=1 max=7 value=1> days(s) starting on <ui-dropdown options="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+                      value="Monday"></ui-dropdown>
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i>Every</label>
+                    <input type="number" min=1 max=31 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    days(s) starting at days <input type="number" min=1 max=31 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    of the month </div>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i>Specific day of the week
+                      (one or many) </label>
+                    <ui-multiselect options="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday" placeholder="Select day"></ui-multiselect>
+                  </div>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i>Specific day of the month
+                      (one or many) </label>
+                    <ui-multiselect options="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31"
+                      placeholder="Select day"></ui-multiselect>
+                  </div>
+                  <label tabindex="0" class="d-block"><input class="mr-2" type="radio" name="day"><i></i>On the last
+                    day of the month</label>
+                  <label tabindex="0" class="d-block"><input class="mr-2" type="radio" name="day"><i></i>On the last
+                    weekday of the month</label>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i>On the last </label>
+                    <ui-dropdown options="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday" value="Monday"></ui-dropdown>
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i></label>
+                    <input type="number" min=1 max=31 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    days(s) before end of the month </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i>Nearest weekday (Mo-Fr) to
+                      the</label>
+                    <input type="number" min=1 max=31 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    of the month </div>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="day"><i></i>On the </label>
+                    <input type="number" min=1 max=5 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    <ui-dropdown options="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday" value="Monday"></ui-dropdown>
+                    of the month
+                  </div>
+                </section>
+                <section class="month">
+                  <label tabindex="0" class="d-block"><input checked class="mr-2" type="radio" name="month"><i></i>Every
+                    month</label>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="month"><i></i>Specific month (choose one
+                      or many)</label>
+                    <ui-multiselect options="January,February,March,April,May,June,July,August,September,October,November,December"
+                      placeholder="Select months"></ui-multiselect>
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="month"><i></i>Every</label>
+                    <input type="number" min=1 max=12 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    month(s) starting at month <input type="number" min=1 max=12 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="month"><i></i>Every month between month</label>
+                    <input type="number" min=1 max=12 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    and month <input type="number" min=1 max=12 value=1 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                </section>
+                <section class="year">
+                  <label tabindex="0" class="d-block"><input checked class="mr-2" type="radio" name="year"><i></i>Every
+                    year</label>
+                  <div style="display: flex;align-items: center">
+                    <label tabindex="0"><input class="mr-2" type="radio" name="year"><i></i>Specific year (choose one
+                      or many)</label>
+                    <ui-multiselect options="2019,2020,2021" placeholder="Select years"></ui-multiselect>
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="year"><i></i>Every</label>
+                    <input type="number" min=2019 max=2022 value=2019 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    year(s) starting at year <input type="number" min=2019 max=2022 value=2019 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                  <div>
+                    <label tabindex="0"><input class="mr-2" type="radio" name="year"><i></i>Every year between year</label>
+                    <input type="number" min=2019 max=2022 value=2019 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                    and year <input type="number" min=2019 max=2022 value=2019 onblur="this.value=Math.max(Math.min(this.value, this.max), this.min);">
+                  </div>
+                </section>
+              </div>
+            </ui-tabs>
+          </div>
+          <div id="absolutedatetime">
+            <h4>Absolute Date/Time</h4>
+            <ui-time-picker enable-time inline name="datetime" placeholder="Select a date/time below"></ui-time-picker>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+  <footer></footer>
+  <partial src="contexthelp.html" help="timedtask"></partial>
+  <script type="module" src="js/timer.js" async></script>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+{
+    "html.format.endWithNewline": true,
+    "html.format.maxPreserveNewLines": 2,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2,
+    "cmake.configureOnOpen": false
+}

@@ -1,37 +1,40 @@
 <nav class="sidebar leftright">
-    <h4>Navigation</h4>
-    <ul>
-        <ui-nav-auto-link></ui-nav-auto-link>
-        <li><a data-no-reload="nav" href="maintenance.html">Maintenance</a></li>
-        <li><a data-no-reload="nav" href="configuration.html">Configuration</a></li>
-        <li><a data-no-reload="nav" href="persistence.html">Persistence</a></li>
-        <li><a data-no-reload="nav" href="logview.html">Show log</a></li>
-    </ul>
-    <p>UI options</p>
-    <ul>
-        <li>
-            <ui-switch documentevent="themechange" storekey="darktheme" label="Dark theme"></ui-switch>
-        </li>
-        <li>
-            <ui-dropdown style="width:calc(100% - 2rem)" class="mt-2 d-block" value="English" options="English,German,French"></ui-dropdown>
-        </li>
-        <li>
-            <ui-switch storekey="skiphome" label="Start on 'Maintenance' screen" title="You will start on the maintenance screen instead of the home screen"></ui-switch>
-        </li>
-    </ul>
-    <p>Service config</p>
-    <oh-list-bind listadapter="services"></oh-list-bind>
-    <oh-vue-list filtercriteria="label" style="display: block;max-width: 250px;">
-        <div slot="app"></div>
-        <template slot="list">
-            <partial src="vuelisterrors.html"></partial>
-            <ul slot="app" v-else>
-                <oh-vue-listitem v-for="item in items" v-if="item.category!='system'" :key="item.id" :listitem="item"></oh-vue-listitem>
-            </ul>
-        </template>
-        <template slot="item">
-            <li><a data-no-reload="nav" :href="'service_config.html?id=' + encodeURIComponent(item.id) + '&title=' + encodeURIComponent(item.label)">
-                    {{item.label}}</a></li>
-        </template>
-    </oh-vue-list>
+  <h4>Navigation</h4>
+  <ul>
+    <ui-nav-auto-link></ui-nav-auto-link>
+    <li><a data-no-reload="nav" href="maintenance.html">Maintenance</a></li>
+    <li><a data-no-reload="nav" href="configuration.html">Configuration</a></li>
+    <li><a data-no-reload="nav" href="user-roles.html">User roles</a></li>
+    <li><a data-no-reload="nav" href="persistence.html">Persistence</a></li>
+    <li><a data-no-reload="nav" href="logview.html">Show log</a></li>
+  </ul>
+  <div class="wrapper" id="actions"> </div>
+  <p>UI options</p>
+  <ul>
+    <li>
+      <ui-switch storekey="skiphome" label="Start on 'Maintenance' screen" title="You will start on the maintenance screen instead of the home screen"></ui-switch>
+    </li>
+    <li>
+      <ui-switch documentevent="themechange" storekey="darktheme" label="Dark theme"></ui-switch>
+    </li>
+    <li>
+      <ui-dropdown style="width:calc(100% - 2rem)" class="mt-2 d-block" value="English" options="English,German,French"></ui-dropdown>
+    </li>
+  </ul>
+  <p>Service config</p>
+  <oh-list-bind adapter="listadapter/services"></oh-list-bind>
+  <oh-vue-list filtercriteria="label" style="display: block;" class="wrapper">
+    <div slot="app"></div>
+    <template slot="list">
+      <partial src="vuelisterrors.html"></partial>
+      <ul slot="app" v-else>
+        <oh-vue-listitem v-for="item in items" v-if="item.category!='system'" :key="item.id" :listitem="item"></oh-vue-listitem>
+        <ui-nav-auto-link v-if="items.length"></ui-nav-auto-link>
+      </ul>
+    </template>
+    <template slot="item">
+      <li><a data-no-reload="nav" :href="'service_config.html?id=' + encodeURIComponent(item.id) + '&title=' + encodeURIComponent(item.label)">
+          {{item.label}}</a></li>
+    </template>
+  </oh-vue-list>
 </nav>

@@ -1,4 +1,5 @@
 @import "partials/_variables";
+@import "tutorial.scss";
 main .logo {
     max-width: calc(100% - 40px);
     padding: 20px 0;
@@ -13,11 +14,70 @@ body>main.mainhome {
     }
 }
 
+body>section.header.mainhome {
+    display: none;
+}
+
+@keyframes longhide {
+    0% {
+        opacity: 1;
+        width: 0%;
+    }
+    100% {
+        opacity: 0;
+        width: 100%;
+    }
+}
+
+footer.mainhome {
+    position: fixed;
+    z-index: 10;
+    bottom: 0;
+    background-color: var(--background);
+    padding-bottom: 5px;
+    width: 100%;
+    .links {
+        display: flex;
+    }
+    a {
+        margin-top: 5px;
+    }
+    .line {
+        width: 100%;
+        background-color: rgba(0, 0, 0, .1);
+        background-position: 0% 0%;
+        background-size: 100% 1px;
+        height: 1px;
+        position: relative;
+    }
+    .line::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #F60;
+        animation: longhide 6s linear 0s infinite;
+    }
+}
+
 body {
     &>nav.mainhome,
     &>aside.mainhome {
         grid-row: 2/span 2 !important;
     }
+}
+
+.first {
+    opacity: 0;
+    animation: swingin 1s ease-in-out 1s 1 normal forwards;
+}
+
+body.wide>nav.mainhome,
+body.wide>aside.mainhome {
+    min-width: 300px;
+    max-width: 300px;
 }
 
 body>nav.mainhome {
@@ -35,10 +95,6 @@ body>nav.mainhome {
     }
     a:hover {
         filter: grayscale(0);
-    }
-    .first {
-        opacity: 0;
-        animation: swingin 1s ease-in-out 1s 1 normal forwards;
     }
     .second,
     hr {
@@ -114,39 +170,46 @@ aside.mainhome>oh-community-topics {
 
 #userinterfaces {
     width: 100%;
-    margin-top: 1.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
     a {
-        transition: box-shadow 135ms cubic-bezier(.4, 0, .2, 1), width 235ms cubic-bezier(.4, 0, .2, 1);
+        transition: box-shadow 135ms cubic-bezier(.4, 0, .2, 1), filter 235ms cubic-bezier(.4, 0, .2, 1);
         color: #5f6368;
         box-shadow: 0 1px 1px 0 rgba(60, 64, 67, .08), 0 1px 3px 1px rgba(60, 64, 67, .16);
-        margin-right: 10px;
-        width: 355px;
         background-color: var(--card-bg); //  border: 1px solid var(--color);
         border-radius: 3px;
-        margin-bottom: 1.5rem;
-        display: flex;
-        flex-direction: column;
+        height: 200px;
+        display: grid;
+        grid-template-areas: "image header" "image description";
+        grid-template-rows: min-content auto; // grid-template-columns: 1fr min-content;
+        grid-template-columns: 50% auto;
+        flex-direction: row;
         filter: grayscale(1);
-        transition: filter 0.2s, box-shadow 0.2;
         header {
-            background-color: var(--primary-light);
+            grid-area: header;
             color: var(--color);
             text-align: center;
             font-size: 1.5rem;
             padding: 5px;
         }
+        section {
+            grid-area: description;
+            padding: 5px;
+        }
         &:hover {
             box-shadow: 0 1px 3px 1px rgba(60, 64, 67, .2), 0 2px 8px 4px rgba(60, 64, 67, .1);
             filter: grayscale(0);
+            text-decoration: none;
         }
         img {
-            width: 350px;
-            min-height: 200px;
-            flex: 1;
-            align-self: center;
+            grid-area: image;
+            max-width: 100%;
+            height: 100%;
         }
+    }
+    a.primary {
+        height: 250px;
+        grid-column: auto/span 2;
     }
 }

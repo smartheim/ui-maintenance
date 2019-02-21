@@ -39,11 +39,11 @@ class OhDocLink extends HTMLElement {
   connectedCallback() {
     this.attributeChangedCallback();
     const slot = this.shadowRoot.querySelector('slot');
-    slot.addEventListener('slotchange', this.slotListenerBound);
+    slot.addEventListener('slotchange', this.slotListenerBound, { passive: true });
   }
   disconnectedCallback() {
     const slot = this.shadowRoot.querySelector('slot');
-    slot.removeEventListener('slotchange', this.slotListenerBound);
+    slot.removeEventListener('slotchange', this.slotListenerBound, { passive: true });
   }
 
   /**

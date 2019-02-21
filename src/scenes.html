@@ -19,7 +19,7 @@
 
     <div id="new-item" class="modal" role="dialog">
       <div class="modal-dialog" role="document">
-        <oh-vue-bind adapter="newscene"></oh-vue-bind>
+        <oh-vue-bind adapter="mixins/newscene"></oh-vue-bind>
         <oh-vue></oh-vue>
         <template>
           <form class="modal-content was-validated" @submit="create">
@@ -84,7 +84,7 @@
       </div>
     </ui-filter>
 
-    <oh-list-bind listadapter="rules" fixedfilter="tags:scene" maxItems="100" filtercriteria="name"></oh-list-bind>
+    <oh-list-bind adapter="listadapter/rules" fixedfilter="tags:scene" maxItems="100" filtercriteria="name"></oh-list-bind>
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/scenes"></partial>
       <template slot="item">

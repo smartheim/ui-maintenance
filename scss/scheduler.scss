@@ -1,0 +1,30 @@
+@import "ui-components/vue-cal";
+.vuecal__time-cell .hours.line:before {
+    border-color: #42b983;
+}
+
+.vuecal__body {
+    max-height: calc(100vh - 400px);
+    border: 1px solid #ddd;
+}
+
+.vuecal__menu {
+    background: none;
+}
+
+.vuecal__title {
+    background: none;
+}
+
+.vuecal__arrow {
+    flex: 1;
+}
+
+.vuecal__weekdays-headings {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.vuecal__time-column .vuecal__time-cell .line:before {
+    border-top: 1px solid var(--calendar-lines);
+}

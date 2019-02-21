@@ -6,61 +6,40 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
-  <nav class="sidebar leftright">
-    <h4>Actions</h4>
-    <ul>
-      <li><a href="scheduledtask.html"><i class="fas fa-plus"></i> New Timed-Task</a></li>
-    </ul>
-    <p>Settings</p>
-    <ul>
-      <li>
-        <ui-switch class="m-1 ml-3" storekey="enabletest" title="Disable Scheduler"></ui-switch>
-      </li>
-    </ul>
+  <link rel="stylesheet" href="css/scheduler.css" type="text/css" />
+  <nav class="sidebar leftright" id="calendercontrol">
+
   </nav>
   <partial src="mainnav.html"></partial>
-  <partial src="pagetitleheader.html" title="Setup recurring and one-shot timers"></partial>
+  <partial src="pagetitleheader.html" title="Setup recurring and one-shot tasks"></partial>
   <main>
 
-    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
-      select="Selection mode">
-      <button class="btn btn-danger" data-action="remove">
-        <i class="fas fa-trash"></i> Remove
-        <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
-        <span class="badge badge-light ml-2">0</span>
-      </button>
-    </ui-filter>
+    <oh-form-bind adapter="formadapter/schedule" objectid=""></oh-form-bind>
+    <oh-vue-form class="mt-4"></oh-vue-form>
+    <template>
+      <div>
+        <portal name="testname" target-el="#calendercontrol" breakshadow slim>
+          <div></div>
+        </portal>
+        <vue-cal :selected-date="new Date()" :time-from="0" :time-to="23 * 60" :time-step="15" :time-cell-height="18"
+          :events="events" :disable-views="['years']" :draggable-events="true" default-view="week" @view-change="loadEvents($event)"
+          @event-delete="logEvents('event-delete', $event)" :on-event-click="onEventclick" ref="cal">
 
-    <oh-list-bind for="schedulelist" listadapter="schedule" maxItems="100" filtercriteria="label"></oh-list-bind>
-    <oh-vue-list id="schedulelist">
-      <partial src="vuelistbasics.html" key="item.UID" help="contexthelp/scheduler"></partial>
-      <template slot="item">
-        <article :id="item.UID" :class="[{pulseAnimation: pulseAnimation}]">
-          <vue-metainfo :uniqueid="item.UID"></vue-metainfo>
-          <vue-inprogress></vue-inprogress>
-          <header class="title">
-            <span :title="item.label"> {{item.label}} </span>
-          </header>
-          <section class="actions btn-group">
-            <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
-                class="fas fa-info"></i></button>
-            <button class="btn btn-danger-hover" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
-          </section>
-          <section class="description">
-            <span>{{timerDescription(item)}}</span>
-            <span class="small muted">Runs: {{item.totalRuns}}<span v-if="item.remainingRuns">,
-                Remaining: {{item.remainingRuns}}</span></span>
-          </section>
-          <footer>
-            <i :class="timerStatusBadge()">{{timerStatusinfo()}}</i>
-            <a class="ml-auto btn btn-outline-secondary text-nowrap" :href="'scheduledtask.html?uid='+encodeURIComponent(item.UID)">
-              <span>Configure</span></a>
-            <button class="btn btn-outline-success text-nowrap" @click="run()">Run</button>
-          </footer>
-        </article>
-      </template>
-    </oh-vue-list>
+          <div :class="{ line: true, hours: !minutes }" slot="time-cell" slot-scope="{ hours, minutes }">
+            <strong v-if="!minutes" style="font-size: 15px">{{ hours }}</strong>
+            <span v-else style="font-size: 11px">{{ minutes }}</span>
+          </div>
+
+          <div slot="event-renderer" slot-scope="{ event, view }">
+            <div class="vuecal__event-title" v-html="event.title"></div>
+            <small class="vuecal__event-time">
+              <strong>Event start:</strong> <span>{{ event.startTime }}</span>
+            </small>
+          </div>
+
+        </vue-cal>
+      </div>
+    </template>
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="scheduler"></partial>

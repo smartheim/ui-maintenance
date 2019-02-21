@@ -1,5 +1,5 @@
 <small>You know what an openHAB **Item** is, right?</small>
-<small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
+<small class="blockquote-footer">Your friendly [tutorial](tutorial.html) reminder.</small>
 
 Find all your configured *Items* listed here.
 

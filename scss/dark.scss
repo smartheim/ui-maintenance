@@ -1,16 +1,70 @@
 :root {
-    --background-color: black;
+    --background-color: #22313a;
     --main-bg: rgb(20, 20, 20);
-    --card-bg: rgb(63, 63, 63);
-    --color: white;
+    --card-bg: #2b3942;
+    --color: #8a9ba1;
     --light: #343a40;
     --color-btn: white;
+    --color-card-header: #8a9ba1;
     --ui-bg: rgb(122, 122, 122);
+    --calendar-lines: #42424259;
     --border-btn: #616161;
     --primary: #a5490c;
     --primary-light: #ff72146b;
 }
 
-section.header {
-    background-color: black;
+.btn:not(.btn-danger, .btn-success, .btn-info) {
+    color: var(--color);
+}
+
+body.wide section.header {
+    background-color: inherit;
+}
+
+body:not(.wide) section.header {
+    background-color: transparent;
+    color: whitesmoke;
+}
+
+body.wide .navbarui {
+    box-shadow: 0 0 10px #030303;
+    z-index: 20;
+    background-color: #1e2a31;
+}
+
+body.wide .sidebar.leftright {
+    border-right: 1px solid var(--border-btn);
+}
+
+body>main,
+body>section.header {
+    box-shadow: 0 0 10px rgb(26, 26, 26);
+}
+
+input,
+.form-control,
+.custom-select {
+    border-color: #8d959c;
+    background-color: var(--background-color);
+    color: var(--color);
+    &:focus {
+        background-color: #edeff0;
+        border-right: 1px solid transparent;
+        box-shadow: none;
+    }
+    &:hover {
+        border: 1px solid var(--border-btn);
+    }
+}
+
+.card {
+    border-radius: 2px 2px 0 0;
+}
+
+// .dropdown-menu.show {
+//   background-color
+// }
+body #listcontainer.grid>article {
+    box-shadow: none;
+    border-radius: 2px 2px 0 0;
 }

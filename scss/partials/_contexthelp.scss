@@ -53,6 +53,10 @@ aside.contexthelp {
     }
 }
 
+body.wide aside.contexthelp oh-context-help {
+    max-height: calc(100vh - 180px);
+}
+
 a.helpbtn i.fa-question {
     display: block;
 }

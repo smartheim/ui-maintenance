@@ -19,13 +19,13 @@ var ResizeObserver = {
       }
     },
     addResizeHandlers: function addResizeHandlers() {
-      this._resizeObject.contentDocument.defaultView.addEventListener('resize', this.compareAndNotify);
+      this._resizeObject.contentDocument.defaultView.addEventListener('resize', this.compareAndNotify, { passive: true });
       this.compareAndNotify();
     },
     removeResizeHandlers: function removeResizeHandlers() {
       if (this._resizeObject && this._resizeObject.onload) {
         if (this._resizeObject.contentDocument) {
-          this._resizeObject.contentDocument.defaultView.removeEventListener('resize', this.compareAndNotify);
+          this._resizeObject.contentDocument.defaultView.removeEventListener('resize', this.compareAndNotify, { passive: true });
         }
         delete this._resizeObject.onload;
       }
@@ -678,18 +678,16 @@ var Scroller = {
     },
     addListeners: function addListeners() {
       this.listenerTarget = this.getListenerTarget();
-      this.listenerTarget.addEventListener('scroll', this.handleScroll, supportsPassive ? {
-        passive: true
-      } : false);
-      this.listenerTarget.addEventListener('resize', this.handleResize);
+      this.listenerTarget.addEventListener('scroll', this.handleScroll, { passive: true });
+      this.listenerTarget.addEventListener('resize', this.handleResize, { passive: true });
     },
     removeListeners: function removeListeners() {
       if (!this.listenerTarget) {
         return;
       }
 
-      this.listenerTarget.removeEventListener('scroll', this.handleScroll);
-      this.listenerTarget.removeEventListener('resize', this.handleResize);
+      this.listenerTarget.removeEventListener('scroll', this.handleScroll, { passive: true });
+      this.listenerTarget.removeEventListener('resize', this.handleResize, { passive: true });
 
       this.listenerTarget = null;
     },

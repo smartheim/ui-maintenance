@@ -400,6 +400,7 @@ var Portal = {
   },
 
   beforeDestroy() {
+    console.log("DESTROY PORTAL");
     this.clear();
     if (this.mountedComp) {
       this.mountedComp.$destroy();

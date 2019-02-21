@@ -1,5 +1,5 @@
 <small>You know what an openHAB **Thing** is, right?</small>
-<small class="blockquote-footer">Your friendly [tutorial](tutorial-1.html) reminder.</small>
+<small class="blockquote-footer">Your friendly [tutorial](tutorial.html) reminder.</small>
 
 Find your *Things* listed here.
 Also have a look at the [Inbox](inbox.html) for discovered and ready-to-use, configured *Things*.

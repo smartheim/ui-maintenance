@@ -3,6 +3,7 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
+  <link rel="parent" href="maintenance.html" />
 </head>
 
 <body>
@@ -12,7 +13,7 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="General openHAB configuration"></partial>
   <main>
-    <oh-list-bind listadapter="services"></oh-list-bind>
+    <oh-list-bind adapter="listadapter/services"></oh-list-bind>
     <oh-vue-list>
       <div slot="app"></div>
       <template slot="list">
@@ -24,7 +25,7 @@
       <template slot="item">
         <section class="config">
           <h4 :title="item.id">{{item.label}}</h4>
-          <oh-form-bind adapter="service" :objectid="item.id"></oh-form-bind>
+          <oh-form-bind adapter="formadapter/service" :objectid="item.id"></oh-form-bind>
           <oh-vue-form for="serviceconfig"></oh-vue-form>
           <div class="btn-group btnbar" role="group">
             <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>

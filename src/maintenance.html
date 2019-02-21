@@ -12,87 +12,95 @@
   <partial src="pagetitleheader.html" title="Configure services, adjust preferences and check the application health"></partial>
   <main>
 
-    <section>
-      <div class="card my-4">
-        <div class="card-body">
-          <div class="row">
-            <p class="card-text col-sm mb-0">
-              Your openHAB version is: 2.4.0 - 28.12.2018<br>
-              Your openHAB distribution: openhabian 1.4.1
-              <div class="col-md-auto text-right">
-                <a class="btn btn-primary-hover" href="changelog.html">Changelog 2.4</a>
-                <a class="btn btn-primary-hover" target="_blank" href="https://www.openhab.org/docs/installation/openhabian.html">About
-                  openhabian</a>
-              </div>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h4>Workload</h4>
-
-      <div class="graphs mb-4">
-        <ui-time-graph wait-for-event="DOMContentLoaded" onload="if (window.statConnect) window.statConnect(this,'memory')"
-          views="Hour,Day,Week" maxdata="20" color="green" label="Memory in MB"></ui-time-graph>
-        <ui-time-graph color="red" wait-for-event="DOMContentLoaded" onload="if (window.statConnect) window.statConnect(this,'cpu')"
-          views="Hour,Day,Week" maxdata="20" label="CPU in %"></ui-time-graph>
-        <ui-time-graph color="blue" wait-for-event="DOMContentLoaded" onload="if (window.statConnect) window.statConnect(this,'threads')"
-          views="Hour,Day,Week" maxdata="20" label="# Threads"></ui-time-graph>
-      </div>
-
-      <div class="mb-4">
-        Used storage size: 12 <i>MB</i>.
-      </div>
-
-      <div class="bs-callout bs-callout-warning mb-4">
-        <button class="float-right btn btn-primary" title="Accept the new memory average"><i class="fas fa-check"></i></button>
-        Warning: Memory consumption increased more than 100 <i>MB</i> within <b>7 days</b>.
-        <a href="#">Configure thresholds</a>
-      </div>
-
-      <p>
-        <button class="btn btn-primary-hover">Clear cache and restart</button>
-        <button class="btn btn-danger-hover">Simulate critical situation</button>
-      </p>
-    </section>
-
-    <section>
-      <h4>Backup</h4>
-      <table class="table table-hover table-sm">
-        <tbody>
-          <tr>
-            <td>Status</td>
-            <td><i class="badge badge-success">Online</i></td>
-          </tr>
-          <tr>
-            <td>Last backup</td>
-            <td>10.2 <i>MB</i> on Wed Jan 18 2019 07:00:23</td>
-          </tr>
-          <tr>
-            <td>Schedule</td>
-            <td>At 07:00, Monday through Friday</td>
-          </tr>
-          <tr>
-            <td>Storage</td>
-            <td>Google Drive</td>
-          </tr>
-          <tr>
-            <td>Type</td>
-            <td>Full backup, zip</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>
-        <a class="btn btn-primary-hover" href="#">Backup now</a>
-      </p>
-    </section>
-
-    <oh-form-bind adapter="osgibundles" objectid=""></oh-form-bind>
+    <oh-form-bind adapter="formadapter/distributioninfo" objectid=""></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
-      <section class="bundles">
+      <section>
+        <div class="card my-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="card-text col-sm mb-0">
+                <div>Your {{value.name}} version is: {{value.version}} - {{new
+                  Date(value.builddate).toLocaleDateString()}}</div>
+                <div v-if="value.distribution">Your {{value.name}} distribution: {{value.distribution.name}}
+                  {{value.distribution.version}}</div>
+              </div>
+              <div class="col-md-auto text-right">
+                <a class="btn btn-primary-hover" href="changelog.html">Changelog</a>
+                <a v-if="value.distribution" class="btn btn-primary-hover" target="_blank" :href="value.distribution.url">About
+                  {{value.distribution.name}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </template>
+
+    <oh-form-bind adapter="formadapter/service" mixin="mixins/ltsGraphs" objectid="org.openhab.longtimestability"></oh-form-bind>
+    <oh-vue-form></oh-vue-form>
+    <template>
+      <section>
+        <h4>{{value.label}}</h4>
+
+        <div class="graphs mb-4">
+          <oh-websocket-data id="ltsGraphs" :href="value.config ? value.config.websocketPort : ''" simulation="simulation/ltsGraphs"
+            @data="newData"></oh-websocket-data>
+          <ui-time-graph ref="memory" color="green" views="Hour,Day,Week" maxdata="20" label="Memory in MB"></ui-time-graph>
+          <ui-time-graph ref="cpu" color="red" views="Hour,Day,Week" maxdata="20" label="CPU in %"></ui-time-graph>
+          <ui-time-graph ref="threads" color="blue" views="Hour,Day,Week" maxdata="20" label="# Threads"></ui-time-graph>
+        </div>
+        <template v-if="value.status && value.status.extended">
+          <div class="mb-4" v-for="extended of value.status.extended" v-if="extended.id!='warning'">
+            <span>{{extended.label}}</span>:
+            <span>{{extended.value}}</span>
+          </div>
+          <div v-for="extended of value.status.extended" v-if="extended.id=='warning'" class="bs-callout bs-callout-warning mb-4">
+            <button class="float-right btn btn-primary" title="Accept the new memory average"><i class="fas fa-check"></i></button>
+            {{extended.label}}: {{extended.value}}
+            <a :href="'service_config.html?id='+value.id+'&title='+value.label">Configure thresholds</a>
+          </div>
+        </template>
+        <p>
+          <button v-if="value.actions" v-for="action of value.actions" class="btn btn-primary-hover mr-2" :title="action.description"
+            @click="action(action.id)">
+            {{action.label}}
+          </button>
+        </p>
+      </section>
+    </template>
+
+    <oh-form-bind adapter="formadapter/service" objectid="org.openhab.backup"></oh-form-bind>
+    <oh-vue-form></oh-vue-form>
+    <template>
+      <section>
+        <h4>{{value.label}}</h4>
+        <table class="table table-hover table-sm">
+          <tbody>
+            <tr :title="statusDetails">
+              <td>Status</td>
+              <td><i :class="statusBadge">{{statusinfo}}</i> <span>{{statusDetails}}</span></td>
+            </tr>
+            <template v-if="value.status && value.status.extended">
+              <tr v-for="extended of value.status.extended">
+                <td>{{extended.label}}</td>
+                <td>{{extended.value}}</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+        <p>
+          <button v-if="value.actions" v-for="action of value.actions" class="btn btn-primary-hover mr-2" :title="action.description"
+            @click="action(action.id)">
+            {{action.label}}
+          </button>
+        </p>
+      </section>
+    </template>
+
+    <oh-form-bind adapter="formadapter/osgibundles" objectid=""></oh-form-bind>
+    <oh-vue-form></oh-vue-form>
+    <template>
+      <section class="bundles mb-4">
         <h4>Running bundles</h4>
         <div class="btnbar m-2">
           <button class="btn btn-primary-hover btn-sm" style="justify-self: flex-start" @click.prevent="reload">Reload</button>
@@ -134,7 +142,6 @@
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="maintenance"></partial>
-  <script type="module" src="js/maintenance.js" async></script>
 </body>
 
 </html>

@@ -20,6 +20,15 @@ in openHAB core.
 * Item handling requires a lot of knowledge in clients. Allow static data fetches via more REST endpoints for
   - "item-types"
   - "item-group-functions" (AND, OR, AVG etc)
+* Expire1 -> Item-Meta data namespace provided by Scheduler bundle
+* Logging: Should expose service configuration (and websocket)
+
+## Required for rules
+
+* Change Thing configuration
+* Trigger on cron expression
+* Trigger on other rule started
+  - Configuration: Check for rule tags, rule name, rule UID
 
 ## Maintenance page
 
@@ -144,4 +153,6 @@ Done. Nothing required on the core.
   - Required bindings
   - Version
 
+* Rule-module-types need to know their type (action,condtion,trigger) and their module
+  - Helps to group module-types together graphically
 * Script files REST service: Alter files on disk via the REST API.
