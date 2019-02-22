@@ -3,19 +3,19 @@ import { store } from '../app.js';
 class ModelAdapter {
   constructor() {
     this.STORE_ITEM_INDEX_PROP = Object.freeze("id");
-    this.runtimeKeys = []; this.value = {};
+    this.runtimeKeys = []; this.value = {}; this.configDescription = null; this.config = {};
   }
   stores() { return { "services": "value" } };
   async get(serviceid, options = null) {
-    this.value = await store.get("services", serviceid, options);
-    if (this.value && this.value.configDescriptionURI)
-      await this.getConfig(serviceid, this.value.configDescriptionURI);
+    const value = await store.get("services", serviceid, options);
+    if (value && value.configDescriptionURI)
+      await this.getConfig(serviceid, value.configDescriptionURI);
+    this.value = value;
     return this.value;
   }
   async getConfig(serviceid, configDescriptionURI) {
-    this.configDescription = await store.get("config-descriptions", configDescriptionURI, { force: true });
-    if (!this.configDescription) return;
-    this.config = await store.get("service-config", serviceid, { force: true });
+    this.configDescription = await store.get("config-descriptions", configDescriptionURI, { force: true }).catch(e => { });
+    this.config = await store.get("service-config", serviceid, { force: true }).catch(e => { });
   }
   dispose() {
   }
@@ -43,14 +43,17 @@ const ServiceMixin = {
       }
       return "badge badge-light";
     },
+    configuration() {
+      return this.configDescription;
+    }
   },
   methods: {
-    configuration: function () {
-      return this.$root.store.getConfig();
-    },
     action(actionid) {
       console.log("actionID", actionid);
-    }
+    },
+    configValue(param) {
+      return this.config[param.name];
+    },
   }
 }
 

@@ -1,14 +1,14 @@
 <small>You know what an openHAB **Thing** is, right?</small>
 <small class="blockquote-footer">Your friendly [tutorial](tutorial.html) reminder.</small>
 
-Newer devices and services have means to discover them and they
-expose their capabilities.
+Newer devices and services usually expose themselves in a way that makes
+it possible to discover them and find out about their capabilities.
 openHAB performs an automatic discovery in the background for
 all its installed [bindings](bindings.html).
 
 Some bindings can't perform a discovery all the time, like the Network binding
-for example. Click on the "Start full discovery" action to your left to kindly ask
-those bindings right now.
+for example. To your left you see all bindings listed, that support discovery.
+Click on the bindings name to start a manual search.
 
 Some bindings can't perform a discovery at all. Reasons can be that devices
 are too old or use ancient interfaces (Serial communication port) or are too

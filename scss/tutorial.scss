@@ -1,4 +1,5 @@
 @import "partials/_variables";
+@import "../node_modules/shepherd.js/src/scss/shepherd-theme-square.scss";
 main.tutorial {
     display: block;
 }
@@ -38,4 +39,112 @@ main.tutorial {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1.5rem !important;
+}
+
+.tutorial ol {
+    list-style-type: lower-roman;
+}
+
+.tutorial oh-tutorial-starter~button {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button {
+    display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    *vertical-align: auto;
+    *zoom: 1;
+    background: #55a892;
+    border: 0;
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8em;
+    letter-spacing: 0.1em;
+    line-height: 1em;
+    padding: 0.75em 2em;
+    text-transform: uppercase;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button:hover {
+    background: #448675;
+}
+
+.shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
+    background: #e5e5e5;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary:hover {
+    background: #cbcbcb;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.tippy-popper .tippy-arrow {
+    border: 16px solid transparent;
+    content: '';
+    display: block;
+    height: 0;
+    position: absolute;
+    width: 0;
+}
+
+.tippy-popper[x-placement^='top'] {
+    margin-bottom: 16px;
+}
+
+.tippy-popper[x-placement^='top'] .tippy-arrow {
+    border-bottom: 0;
+    border-top-color: #ffffff;
+    left: calc(50% - 16px);
+}
+
+.tippy-popper[x-placement^='bottom'] {
+    margin-top: 16px;
+}
+
+.tippy-popper[x-placement^='bottom'] .tippy-arrow {
+    border-bottom-color: #ffffff;
+    border-top: 0;
+    left: calc(50% - 16px);
+}
+
+.tippy-popper[x-placement^='left'] {
+    margin-right: 16px;
+}
+
+.tippy-popper[x-placement^='left'] .tippy-arrow {
+    border-left-color: #ffffff;
+    border-right: 0;
+    margin-top: -16px;
+    top: calc(50% - 16px);
+}
+
+.tippy-popper[x-placement^='right'] {
+    margin-left: 16px;
+}
+
+.tippy-popper[x-placement^='right'] .tippy-arrow {
+    border-left: 0;
+    border-right-color: #ffffff;
+    top: calc(50% - 16px);
+}
+
+.tippy-popper .shepherd-welcome:not(.shepherd-has-title) .shepherd-content header,
+.tippy-popper .shepherd-welcome:not(.shepherd-has-title) .shepherd-content .shepherd-header {
+    padding-bottom: 0;
+}
+
+.tippy-popper .shepherd-welcome .shepherd-content header,
+.tippy-popper .shepherd-welcome .shepherd-content .shepherd-header {
+    background: #ffffff;
+}
+
+.tippy-popper .shepherd-welcome .shepherd-content .shepherd-text {
+    color: #336457;
 }

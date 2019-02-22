@@ -13,7 +13,6 @@
 <link rel="preload" href="img/pattern_opacity.png" as="image">
 <link rel="preload" href="img/openhab-logo.svg" as="image">
 <link rel="stylesheet" href="css/main.css" type="text/css" />
-<link rel="prefetch" href="js/vue.js" as="script">
 <!-- firefox issue <link rel="preload" href="css/main_deferred.css" as="style" onload="this.rel='stylesheet'"> -->
 <link rel="stylesheet" href="css/main_deferred.css" type="text/css" />
 <script type="module" src="js/app.js" async></script>
@@ -41,9 +40,7 @@
         window.dispatchEvent(new UIEvent("resize"));
       });
     } else {
-      window.requestAnimationFrame(() => {
-        document.querySelector("body").classList.remove("wide");
-      });
+      window.requestAnimationFrame(() => document.querySelector("body").classList.remove("wide"));
     }
   }
   window.toggleWideTheme = function (event) {
@@ -53,11 +50,6 @@
     applyTheme();
   }
   applyTheme();
-  window.addEventListener('storage', e => {
-    console.log("changed", e.key);
-    if (e.key == "darktheme") applyTheme();
-  });
-  document.addEventListener('themechange', e => {
-    applyTheme();
-  });
+  window.addEventListener('storage', e => { if (e.key == "darktheme") applyTheme(); });
+  document.addEventListener('themechange', e => applyTheme());
 </script>

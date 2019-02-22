@@ -16,13 +16,13 @@ import { fetchWithTimeout } from '../../common/fetch';
 class OhGithubIssues extends HTMLElement {
   constructor() {
     super();
-    this.style.display = "none";
   }
   connectedCallback() {
+    this.style.display = "none";
     this.title = this.getAttribute("title");
     this.loading = this.getAttribute("loading") || "Loading... ";
     this.error = this.getAttribute("error") || "Failed to fetch! ";
-    this.cachetime = this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : 1440; // One day in minutes
+    this.cachetime = (this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : null) || 1440; // One day in minutes
     this.attributeChangedCallback();
     this.initdone = true;
     this.checkCacheAndLoad();
@@ -63,6 +63,7 @@ class OhGithubIssues extends HTMLElement {
         localStorage.setItem("timestamp_" + this.url, Date.now());
         this.renderData(json, this.filter);
       }).catch(e => {
+        console.warn(e);
         this.style.display = "block";
         this.setAttribute("hasissues", "");
         this.innerHTML = this.error + e;
@@ -85,8 +86,10 @@ class OhGithubIssues extends HTMLElement {
 
     if (counter > 0) {
       this.style.display = "block";
-    } else
+    } else {
+      this.style.display = "none";
       return;
+    }
 
     ul.classList.add("mb-0");
 

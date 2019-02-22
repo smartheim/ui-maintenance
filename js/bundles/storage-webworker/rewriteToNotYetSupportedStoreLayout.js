@@ -169,7 +169,7 @@ export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) 
  * Rewrites an entire store table. This happens after a http fetch.
  */
 export async function hack_rewriteTableToNotYetSupportedStoreLayout(storename, table, store) {
-  if (store.openhabHost == "demo") {
+  if (store.host == "demo") {
     return table;
   }
 
@@ -315,9 +315,9 @@ export async function hack_rewriteTableToNotYetSupportedStoreLayout(storename, t
      * entries to those three sets. Tedious.
      */
     case "module-types": {
-      let uris = [store.openhabHost + "/rest/module-types?type=action",
-      store.openhabHost + "/rest/module-types?type=condition",
-      store.openhabHost + "/rest/module-types?type=trigger"];
+      let uris = [store.host + "/rest/module-types?type=action",
+      store.host + "/rest/module-types?type=condition",
+      store.host + "/rest/module-types?type=trigger"];
       let sets = [];
       for (let uri of uris) {
         const response = await fetchWithTimeout(uri);
@@ -343,7 +343,14 @@ export async function hack_rewriteTableToNotYetSupportedStoreLayout(storename, t
   return table;
 }
 
+// Block some tutorial injected Things, Items, Bindings.
+// Block some for the maintenance page injected, not yet existing, services
 export const blockLiveDataFromTableRows = {
+  "inbox": { "demo1": true, "demo2": true },
+  "things": { "demo1": true, "demo2": true },
+  "rules": { "demo1": true, "demo2": true },
+  "items": { "demo1": true, "demo2": true },
+  "bindings": { "demo1": true, "demo2": true },
   "services": { "org.openhab.backup": true, "org.openhab.longtimestability": true, "org.openhab.logging": true },
   "service-config": { "org.openhab.backup": true, "org.openhab.longtimestability": true, "org.openhab.logging": true },
 };

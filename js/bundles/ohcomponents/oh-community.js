@@ -49,7 +49,7 @@ class OhCommunityTopics extends HTMLElement {
       return this.url + "/" + this.topics + ".json";
   }
   attributeChangedCallback(name, oldValue, newValue) {
-    this.cachetime = this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : 1440; // One day in minutes
+    this.cachetime = this.cachetime = (this.hasAttribute("cachetime") ? parseInt(this.getAttribute("cachetime")) : null) || 1440; // One day in minutes
     this.url = this.hasAttribute("url") ? this.getAttribute("url") : "https://cors-anywhere.herokuapp.com/https://community.openhab.org";
     if (this.initdone) this.checkCacheAndLoad();
   }

@@ -1,2 +1,3 @@
 import index from './vue-cal.esm';
-export { index as VueCal };
+import VueSlideBar from './vue-slide-bar.esm';
+export { index as VueCal, VueSlideBar as VueSlideBar };

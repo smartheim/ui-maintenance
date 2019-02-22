@@ -1803,6 +1803,10 @@ var script$1 = {
               : "right";
         this.view.selectedDate = date;
         this.switchView(this.view.id);
+        window.requestAnimationFrame(() => {
+          const nowLine = document.querySelector(".vuecal__now-line");
+          if (nowLine) nowLine.scrollIntoView();
+        });
       }
     }
   },
@@ -1825,18 +1829,12 @@ var script$1 = {
     this.updateMutableEvents([]);
 
     this.view.id = this.defaultView;
-    if (this.selectedDate) {
-      this.updateSelectedDate(this.selectedDate);
-    } else {
-      this.view.selectedDate = this.now;
-      this.switchView(this.defaultView);
+    if (!this.selectedDate) {
+      this.selectedDate = this.now;
     }
+    this.updateSelectedDate(this.selectedDate);
 
     this.ready = true;
-    window.requestAnimationFrame(() => {
-      const nowLine = document.querySelector(".vuecal__now-line");
-      if (nowLine) nowLine.scrollIntoView();
-    });
   },
 
   beforeDestroy() {

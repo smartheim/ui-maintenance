@@ -74,17 +74,18 @@ export class StateWhileRevalidateStore extends EventTarget {
    * 
    * Return a promise that resolves to true on a successful connection and an Error otherwise.
    */
-  async reconnect(openhabHost) {
-    if (this.openhabHost != openhabHost) {
-      await this.connectToDatabase(openhabHost);
-      this.openhabHost = openhabHost;
+  async reconnect(host) {
+    if (this.host != host) {
+      await this.connectToDatabase(host);
+      await this.removeTutorialData();
+      this.host = host;
     }
 
     this.activeRESTrequests = {};
 
     if (this.evtSource) { this.evtSource.onerror = null; this.evtSource.onmessage = null; this.evtSource.close(); }
 
-    if (openhabHost == "demo") {
+    if (this.host == "demo") {
       return fetchWithTimeout("../dummydata/demodata.json")
         .then(response => response.json())
         .then(async json => {
@@ -93,7 +94,7 @@ export class StateWhileRevalidateStore extends EventTarget {
             await this.initialStoreFill(this.db, storename, json[storename], false);
           }
           this.connected = true;
-          this.dispatchEvent(new CustomEvent("connectionEstablished", { detail: openhabHost }));
+          this.dispatchEvent(new CustomEvent("connectionEstablished", { detail: this.host }));
           return true;
         }).catch(e => {
           this.connected = false;
@@ -105,8 +106,8 @@ export class StateWhileRevalidateStore extends EventTarget {
     // Fetch all endpoints in parallel, replace the stores with the received data
     const requests = tables
       .filter(item => item.onstart)
-      .map(item => fetchWithTimeout(this.openhabHost + "/" + item.uri)
-        .catch(e => { console.warn("Failed to fetch", this.openhabHost + "/" + item.uri); throw e; })
+      .map(item => fetchWithTimeout(this.host + "/" + item.uri)
+        .catch(e => { console.warn("Failed to fetch", this.host + "/" + item.uri); throw e; })
         .then(response => response.json())
         .then(json => this.initialStoreFill(this.db, item.id, json, true))
         .catch(e => { console.warn("Failed to fill", item.id); throw e; })
@@ -114,11 +115,11 @@ export class StateWhileRevalidateStore extends EventTarget {
 
     // Wait for all promises to complete and start server-send-events
     return Promise.all(requests).then(() => {
-      this.evtSource = new EventSource(openhabHost + "/rest/events");
+      this.evtSource = new EventSource(this.host + "/rest/events");
       this.evtSource.onmessage = this.sseMessageReceived.bind(this);
       this.evtSource.onerror = this.sseMessageError.bind(this);
     }).then(() => {
-      this.dispatchEvent(new CustomEvent("connectionEstablished", { detail: openhabHost }));
+      this.dispatchEvent(new CustomEvent("connectionEstablished", { detail: this.host }));
       this.connected = true;
       return true;
     }).catch(e => {
@@ -257,6 +258,21 @@ export class StateWhileRevalidateStore extends EventTarget {
     return val || newVal; // If no cached value return http promise
   }
 
+  injectTutorialData(storename, objectdata) {
+    this.insertIntoStore(this.db, storename, objectdata);
+  }
+
+  async removeTutorialData() {
+    await this.removeFromStore(this.db, "inbox", { "thingUID": "demo1" })
+    await this.removeFromStore(this.db, "inbox", { "thingUID": "demo2" })
+    await this.removeFromStore(this.db, "things", { "UID": "demo1" })
+    await this.removeFromStore(this.db, "things", { "UID": "demo2" })
+    await this.removeFromStore(this.db, "rules", { "uid": "demo1" })
+    await this.removeFromStore(this.db, "rules", { "uid": "demo2" })
+    await this.removeFromStore(this.db, "items", { "name": "demo1" })
+    await this.removeFromStore(this.db, "items", { "name": "demo2" })
+  }
+
   wrapIfRequired(tableLayout, objectid, json) {
     if (tableLayout.wrapkey) {
       let r = { id: objectid };
@@ -379,12 +395,12 @@ export class StateWhileRevalidateStore extends EventTarget {
    * Useful for stores that have no direct REST endpoints like design study
    * invented ones.
    * 
-   * This method always returns true if `openhabHost` is "demo".
+   * This method always returns true if `host` is "demo".
    * 
    * @param {String} storename The store name
    */
   blockRESTrequest(storename, objectid = null) {
-    if (this.openhabHost == "demo") return true;
+    if (this.host == "demo") return true;
     if (blockLiveDataFromTables.includes(storename)) return true;
     const tableRows = blockLiveDataFromTableRows[storename];
     if (tableRows && tableRows[objectid]) return true;
@@ -394,11 +410,11 @@ export class StateWhileRevalidateStore extends EventTarget {
   performRESTandNotify(uri, disconnectIfFail = true) {
     const alreadyRunning = this.activeRESTrequests[uri];
     if (alreadyRunning) return alreadyRunning;
-    return this.activeRESTrequests[uri] = fetchWithTimeout(this.openhabHost + "/" + uri)
+    return this.activeRESTrequests[uri] = fetchWithTimeout(this.host + "/" + uri)
       .then(response => {
-        console.debug("Got new value", this.openhabHost + "/" + uri);
+        console.debug("Got new value", this.host + "/" + uri);
         if (!this.connected) {
-          this.dispatchEvent(new CustomEvent("connectionEstablished", { detail: this.openhabHost }));
+          this.dispatchEvent(new CustomEvent("connectionEstablished", { detail: this.host }));
           this.connected = true;
         }
         delete this.activeRESTrequests[uri];
@@ -505,6 +521,7 @@ export class StateWhileRevalidateStore extends EventTarget {
     await store.put(item);
     this.dispatchEvent(new CustomEvent("storeItemChanged", { detail: { "value": item, "storename": storename } }));
   }
+
   async insertIntoStore(db, storename, jsonEntry) {
     if (!jsonEntry || typeof jsonEntry !== 'object' || jsonEntry.constructor !== Object) {
       console.warn("insertIntoStore must be called with an object", storename, jsonEntry);

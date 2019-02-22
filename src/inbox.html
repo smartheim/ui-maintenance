@@ -16,7 +16,7 @@
     </ul>
     <p>Start manuall discovery</p>
     <oh-list-bind adapter="listadapter/discovery" filtercriteria="id"></oh-list-bind>
-    <oh-vue-list style="display: block;" class="wrapper">
+    <oh-vue-list style="display: block;" class="wrapper" id="manualdiscover">
       <div slot="app"></div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
@@ -31,9 +31,6 @@
     </oh-vue-list>
     <p>Settings</p>
     <ul>
-      <li>
-        <ui-switch storekey="enabletest" title="Auto approve"></ui-switch>
-      </li>
       <li>
         <ui-switch storekey="showhidden" title="Show hidden"></ui-switch>
       </li>
@@ -66,6 +63,10 @@
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
         <div v-else class="w-100" slot="app">
+          <div v-if="status==OhListStatus.READY && items.length==0" class="emptylist">
+            <p>No content found. You might find the help text interesting.</p>
+            <oh-context-help url="contexthelp/inbox.md" class="card"></oh-context-help>
+          </div>
           <transition-group name="fade" tag="div" id="listcontainer" :class="[{selectionmode:selectmode},viewmode]">
             <oh-vue-listitem v-for="item in items" :key="item.thingUID" :listitem="item"></oh-vue-listitem>
           </transition-group>

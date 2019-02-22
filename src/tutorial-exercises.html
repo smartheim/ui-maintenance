@@ -6,16 +6,20 @@
   <title>openHAB - Empowering the smart home</title>
   <link rel="prev" href="tutorial-control-ui.html" />
   <link rel="parent" href="index.html" />
+  <link rel="stylesheet" href="css/tutorial.css" type="text/css" />
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/tutorial.css" type="text/css" />
   <partial src="tutorialnavigation.html"></partial>
   <partial src="mainnav.html"></partial>
+
   <section class="header">
     <h4>Excercises</h4>
+    <a href="" class="roundbtn" onclick="toggleWideTheme(event)"><i class="fas fa-arrows-alt-h"></i></a>
   </section>
+
   <main class="tutorial">
+    <scipt src=""></scipt>
     <nav-breadcrumb></nav-breadcrumb>
     <p>We have a huge list of tutorials and how-to's for all kind of situations in our <a href="https://community.openhab.org">Community</a>
       board.<br>
@@ -24,11 +28,46 @@
 
 
     <div class="card border-orange">
-      <div class="card-header">Beginner: Integrate external devices via Things/Channels</div>
+      <div class="card-header">Beginner: Integrate external devices</div>
       <ol class="card-body ml-4">
-        <li><a href="#"><b>The inbox</b></a>: Add a Thing from the Inbox</li>
-        <li><a href="#"><b>Thing all manual</b></a>: Add a Thing manually</li>
-        <li><a href="#"><b>Channel & Item</b></a>: Create an item and link it to a channel</li>
+        <li>
+          <oh-tutorial-starter subject="inbox"></oh-tutorial-starter>
+          <button class="btn btn-outline-primary btn-outline-visible">
+            Add a Thing from the Inbox
+          </button><br>
+          Subject: <b>The Inbox page</b><br>
+          Objectives:
+          <ul>
+            <li>Manually scan for new Things</li>
+            <li>Add Things from the Inbox</li>
+          </ul>
+        </li>
+        <li>
+          <oh-tutorial-starter subject="things"></oh-tutorial-starter>
+          <button class="btn btn-outline-primary btn-outline-visible">
+            Add a Thing manually
+          </button><br>
+          Subject: <b>The Things page</b><br>
+          Objectives:
+          <ul>
+            <li>Add &amp; configure a Thing manually</li>
+            <li>Add a Channel to a Thing</li>
+            <li>Automatically link Items</li>
+          </ul>
+        </li>
+        <li>
+          <oh-tutorial-starter subject="items"></oh-tutorial-starter>
+          <button class="btn btn-outline-primary btn-outline-visible">
+            Create an item and link it to a channel
+          </button><br>
+          Subject: <b>Channel & Item</b><br>
+          Objectives:
+          <ul>
+            <li>Add items</li>
+            <li>Semantically tag an Item</li>
+            <li>Link Channels to Items</li>
+          </ul>
+        </li>
       </ol>
     </div>
 
@@ -42,10 +81,13 @@
     </details>
 
     <div class="card border-orange">
-      <div class="card-header">Advanced: Get to know rules and scheduled-tasks</div>
+      <div class="card-header">Advanced: Automation</div>
       <ol class="card-body ml-4">
         <li>
-          <a href="#">Turn on a light by a button press, but only if it is after 6 pm.</a><br>
+          <oh-tutorial-starter subject="rules"></oh-tutorial-starter>
+          <button class="btn btn-outline-primary btn-outline-visible">
+            Turn on a light by a button press, but only if it is after 6 pm.
+          </button><br>
           Subject: <b>Rules</b><br>
           Objectives:
           <ul>
@@ -55,7 +97,10 @@
           </ul>
         </li>
         <li>
-          <a href="#">Setup a wakeup alarm that turns on the coffee machine and 10 minutes later all lights</a><br>
+          <oh-tutorial-starter subject="scheduler"></oh-tutorial-starter>
+          <button class="btn btn-outline-primary btn-outline-visible">
+            Setup a wakeup alarm that turns on the coffee machine and 10 minutes later all lights
+          </button><br>
           Subject: <b>Scheduled-Tasks</b><br>
           Objectives:
           <ul>
@@ -64,25 +109,26 @@
           </ul>
         </li>
         <li>
-          <a href="#">Turn a light automatically off 5 minutes later after it has been turned on. A motion
-            sensor
-            resets the task.</a><br>
-          Subject: <b>Dynamic scheduled tasks</b><br>
+          <oh-tutorial-starter subject="expire"></oh-tutorial-starter>
+          <button class="btn btn-outline-primary btn-outline-visible">
+            5 minutes after a light has been turned on, turn it off again. A motion sensor must reset that
+            timer though.
+          </button><br>
+          Subject: <b>Item expire timer</b><br>
           Objectives:
           <ul>
-            <li>Create a rule that changes an item state and is triggered by an item state.</li>
-            <li>Create a dynamic scheduled task within a rule with an ID based on the item that triggered
-              the rule.</li>
-            <li>Reset a scheduled task by ID within a rule.</li>
+            <li>Setup an item expire timer</li>
+            <li>Create a rule that is triggered by an item state (motion sensor) and resets an expire timer.</li>
           </ul>
         </li>
       </ol>
     </div>
 
     <details class="alert alert-info" role="alert">
-      <summary>Rules and scheduled-tasks are essential for advanced functionality</summary>
+      <summary>Rules are essential for advanced functionality</summary>
       <p class="mt-2">
-        Some bindings already support specific Actions that can be run by a rule. Expect even more to come.
+        Some bindings add additional Actions that can be performed by Rules.
+        Expect even more bindings to support Actions in the future.
       </p>
       <p>You still have scratched only the surface. If you want to integrate a new kind of device
         via generic HTTP, MQTT, CoAP bindings, you also want to read about
@@ -90,11 +136,10 @@
       </p>
       <p>We have only used the graphical rule editor so far, to connect triggers with actions on optional
         conditions.
-        openHAB allows
+        openHAB also has the concept of
         <a target="_blank" href="https://www.openhab.org/docs/configuration/jsr223.html#jsr223-scripting">Standalone
           Scripts</a>.
-        A script can interact with your system, an external service, your hardware or just perform item state
-        changes.
+        A script can interact with your system, an external service, your hardware or just perform item state changes.
         It can as also react to triggers on conditions, like Rules.
       </p>
       <mark>Scripts allow you to master any complex scenarios with openHAB.</mark>
@@ -103,6 +148,7 @@
     <p>Further reading:</p>
     <ul>
       <li><a target="_blank" href="https://www.openhab.org/docs/configuration/transformations.html#transformation-services">Transformations</a></li>
+      <li><a target="_blank" href="https://www.openhab.org/docs/concepts/profiles.html">Profiles</a></li>
       <li><a target="_blank" href="https://www.openhab.org/docs/configuration/jsr223.html#jsr223-scripting">JSR223
           Scripting (Javascript, Python Rules)</a></li>
     </ul>

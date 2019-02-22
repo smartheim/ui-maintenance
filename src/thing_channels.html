@@ -8,6 +8,8 @@
 
 <body>
   <link rel="stylesheet" href="css/thingchannels.css" type="text/css" />
+  <link rel="stylesheet" href="css/config.css" type="text/css" />
+
   <nav class="sidebar leftright">
     <h4>Actions</h4>
     <ul>
@@ -19,10 +21,14 @@
       <li><a href="#" class="disabled"><i class="fas fa-save"></i> Save changes</a></li>
     </ul>
   </nav>
+
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Thing Channels"></partial>
+
   <main>
+
     <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
+
     <oh-form-bind adapter="formadapter/thing" objectFromURL></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
@@ -30,11 +36,12 @@
       <div v-else>
         <div id="listcontainer">
           <div v-if="!value.channels || value.channels.length==0">No channels found</div>
+
           <section v-else v-for="item in value.channels" :key="item.id" :id="item.id">
             <h4 contenteditable="true" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</h4>
             <a class="ml-2" href="#"><i class="fas fa-trash"></i></a>
             <div class="ml-3">
-              <p>{{description()}}</p>
+              <p>{{channelDescription(item)}}</p>
               <details class="mb-2">
                 <summary>Technical details</summary>
                 <div class="ml-3 technicaldetails">
@@ -45,11 +52,12 @@
                   <b>Item Tags</b> <span v-for="tag in item.defaultTags">{{tag}} </span>
                 </div>
               </details>
-              <details class="mb-2">
+              <details class="mb-2 config">
                 <summary>Configuration</summary>
-                <div v-if="!configuration()">No fuher configuration available</div>
+                <div v-if="!channelConfigParameters(item)">No fuher configuration available</div>
                 <div class="elements" v-else>
-                  <vue-config-element v-for="config in configuration().parameters" :config="config"></vue-config-element>
+                  <vue-config-element v-for="param in channelConfigParameters(item)" :key="param.name" :param="param"
+                    :value="configValue(item,param)"></vue-config-element>
                 </div>
               </details>
               <div style="float: left;transform: rotate(270deg);margin-top: 20px;">Links</div>
@@ -77,11 +85,13 @@
               </table>
             </div>
           </section>
+
           <div v-if="value.channels && value.channels.length>0" class="btn-group btnbar mb-2" role="group">
             <a href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i> Save</a>
           </div>
         </div>
     </template>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="thingchannels"></partial>

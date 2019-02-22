@@ -1,5 +1,8 @@
 /**
  * This index file links in all other files in this directory.
+ * 
+ * The service worker is setup in here and the database worker is started.
+ * Some common methods are also defined, like "createNotification", "toggleSidebar". 
  */
 
 import { register, unregister } from 'register-service-worker'
@@ -25,15 +28,9 @@ window.toggleSidebar = (event) => {
   event.preventDefault();
 }
 
-export function openhabHost() {
-  var host = localStorage.getItem("host");
-  if (!host) host = "demo"; //host = window.location.origin;
-  return host;
-}
-
 export function createNotification(id, message, persistent = false, timeout = 5000) {
   const oldEl = id ? document.getElementById(id) : null;
-  var el = oldEl ? oldEl : document.createElement("ui-notification");
+  const el = oldEl ? oldEl : document.createElement("ui-notification");
   if (id) el.id = id;
   el.setAttribute("closetime", timeout);
   if (persistent) el.setAttribute("persistent", "true");
@@ -41,7 +38,7 @@ export function createNotification(id, message, persistent = false, timeout = 50
   document.body.appendChild(el);
 }
 
-var store = new StorageConnector();
+const store = new StorageConnector();
 
 store.addEventListener("connecting", () => createNotification("connecting", "Connecting&hellip;", true, 2000), { passive: true });
 
@@ -58,24 +55,26 @@ store.addEventListener("connectionLost", e => {
 
   if (e.toString().includes("TypeError")) {
     if (window.location.pathname == "/login.html") {
-      createNotification("login", "Connection to " + openhabHost() + " failed", false);
+      createNotification("login", "Connection to " + store.host + " failed", false);
     } else {
-      createNotification("login", "Cross-orgin access denied for " + openhabHost() + ".<br><a href='login.html' data-close>Login to openHab instance</a></div>", false);
+      createNotification("login", "Cross-orgin access denied for " + store.host + ".<br><a href='login.html' data-close>Login to openHab instance</a></div>", false);
     }
   }
   else {
     if (window.location.pathname == "/login.html") {
-      createNotification("login", "Connection to " + openhabHost() + " failed", false);
+      createNotification("login", "Connection to " + store.host + " failed", false);
     }
     else {
-      createNotification("login", "Could not connect to openHAB on " + openhabHost() + ".<br><a href='login.html' data-close>Login to openHab instance</a></div>", false);
+      createNotification("login", "Could not connect to openHAB on " + store.host + ".<br><a href='login.html' data-close>Login to openHab instance</a></div>", false);
     }
   }
 }, { passive: true });
 
 setTimeout(() => {
+  let host = localStorage.getItem("host");
+  if (!host) host = "demo"; //host = window.location.origin;
   store.configure(1000 * 60 * 60, 2000)
-    .then(() => store.reconnect(openhabHost()))
+    .then(() => store.reconnect(host))
     .catch(() => { }); // already handled by "connectionLost" event
 }, 100);
 

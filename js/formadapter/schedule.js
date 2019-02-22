@@ -1,7 +1,7 @@
 // import { Vuex, Vue, store, mapState, mapActions } from './stores.js'
 import * as cronstrue from '../cronstrue.js';
 import { store } from '../app.js';
-import { VueCal } from "../scheduler.js"
+import { VueCal, VueSlideBar } from "../scheduler.js"
 
 class ModelAdapter {
   constructor() {
@@ -41,6 +41,20 @@ const ScheduleMixin = {
 const ItemListMixin = {
   data: function () {
     return {
+      selectedDate: new Date(),
+      timestep: 15,
+      timeSteps: [
+        5, 10, 15, 20, 30, 45, 60,
+      ],
+      timeStepRange: [
+        { label: '5' },
+        { label: '10', isHide: true },
+        { label: '15' },
+        { label: '20', isHide: true },
+        { label: '30' },
+        { label: '45', isHide: true },
+        { label: '60' },
+      ],
       events: [
         {
           eventid: "lala",
@@ -78,7 +92,7 @@ const ItemListMixin = {
     }
   },
   components: {
-    VueCal
+    VueCal, VueSlideBar
   },
 };
 

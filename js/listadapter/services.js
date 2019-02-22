@@ -17,15 +17,7 @@ class ModelAdapter {
   }
 }
 
-const ServicesMixin = {
-  methods: {
-    mapChanged: function (event) {
-      document.getElementById('mapcoordinates').value = event.target.value[0] + "," + event.target.value[1];
-    }
-  }
-}
-
-const mixins = [ServicesMixin];
+const mixins = [];
 const listmixins = [];
 
 export { mixins, listmixins, ModelAdapter };

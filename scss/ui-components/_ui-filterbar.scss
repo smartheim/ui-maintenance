@@ -7,8 +7,15 @@
 .ui-filterbar>form>.input-group {
     flex: 1;
     justify-content: flex-end;
+    widows: 100%;
     input {
-        max-width: 600px;
+        transition: max-width 1s;
+        max-width: 100px;
+    }
+    input:hover,
+    input:active,
+    input:focus {
+        max-width: initial;
     }
 }
 

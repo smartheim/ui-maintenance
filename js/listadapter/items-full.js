@@ -1,4 +1,4 @@
-import { store, fetchMethodWithTimeout, openhabHost, MultiRestError, createNotification } from '../app.js';
+import { store, fetchMethodWithTimeout, MultiRestError, createNotification } from '../app.js';
 
 let schema = {
   uri: 'http://openhab.org/schema/items-schema.json', // id of the item schema
@@ -160,9 +160,8 @@ const ItemsMixin = {
       return this.item.type == "Group";
     },
     iconpath: function () {
-      const host = openhabHost();
-      if (host != "demo" && this.item.category) {
-        return openhabHost() + "/icon/" + this.item.category;
+      if (store.host != "demo" && this.item.category) {
+        return store.host + "/icon/" + this.item.category;
       } else {
         return "./img/scene_dummy.jpg";
       }

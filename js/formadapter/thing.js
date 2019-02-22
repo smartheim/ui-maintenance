@@ -1,30 +1,22 @@
 import { store } from '../app.js';
 
-class ModelAdapter {
-  stores() { return { "things": "value" } };
-  constructor() {
-    this.STORE_ITEM_INDEX_PROP = Object.freeze("UID");
-    this.runtimeKeys = [];
-    this.thingtypes = [];
-    this.channeltypes = [];
-    this.value = {};
-  }
-  async get(thinguid, options = null) {
-    this.value = await store.get("things", thinguid, options);
-    this.thingtype = await store.get("thing-types-extended", this.value.thingTypeUID, { force: true });
-    this.channeltypes = await store.get("channel-types", null, { force: true });
-    this.config = await store.get("config-descriptions", "thing-type:" + this.value.thingTypeUID, { force: true });
-    return this.value;
-  }
-  getChannelTypeFor(uid) {
-    for (const channelType of this.channeltypes) {
-      if (channelType.UID == uid)
-        return channelType;
-    }
-    return null;
-  }
-  /**
-   * ThingTypeDTO {
+/**
+ * 
+    EnrichedThingDTO {
+      label (string, optional),
+      bridgeUID (string, optional),
+      configuration (object, optional),
+      properties (object, optional),
+      UID (string, optional),
+      thingTypeUID (string, optional),
+      channels (Array[ChannelDTO], optional),
+      location (string, optional),
+      statusInfo (ThingStatusInfo, optional),
+      firmwareStatus (FirmwareStatusDTO, optional),
+      editable (boolean, optional)
+    } 
+
+    ThingTypeDTO {
       UID (string, optional),
       label (string, optional),
       description (string, optional),
@@ -38,33 +30,71 @@ class ModelAdapter {
       parameterGroups (Array[ConfigDescriptionParameterGroupDTO], optional),
       properties (object, optional),
       extensibleChannelTypeIds (Array[string], optional)
-      }
-   */
-  getThingType() {
-    return this.thingtype;
+    }
+
+    ChannelDTO {
+      uid (string, optional),
+      id (string, optional),
+      channelTypeUID (string, optional),
+      itemType (string, optional),
+      kind (string, optional),
+      label (string, optional),
+      description (string, optional),
+      defaultTags (Array[string], optional),
+      properties (object, optional),
+      configuration (object, optional)
+    }
+ */
+
+class ModelAdapter {
+  stores() { return { "things": "value" } };
+  constructor() {
+    this.STORE_ITEM_INDEX_PROP = Object.freeze("UID");
+    this.runtimeKeys = [];
+    this.thingtype = {};
+    this.channeltypes = [];
+    this.value = {};
   }
-  getConfig() {
-    return this.config;
+  async get(thinguid, options = null) {
+    const value = await store.get("things", thinguid, options);
+    this.thingtype = await store.get("thing-types-extended", value.thingTypeUID, { force: true });
+    this.channeltypes = (await await store.get("channel-types", null, { force: true })).reduce((a, v) => { a[v.UID] = v; return a; }, {});
+    this.value = value;
+    return this.value;
   }
   dispose() {
   }
 }
 
 const ThingChannelsMixin = {
+  computed: {
+    configurationParameters() {
+      return this.thingtype.configParameters;
+    }
+  },
   methods: {
+    configValue(channel, param) {
+      console.log("CONFIG VALUE", param.name, this.value.configuration);
+      return channel.configuration[param.name];
+    },
+    channelConfigParameters(channel) {
+      const type = this.$root.store.channeltypes[channel.channelTypeUID];
+      if (type) return type.parameters;
+      return null;
+    },
+    thingConfig(param) {
+      return this.value.configuration ? this.value.configuration[param.name] : null;
+    },
     description: function () {
-      const type = this.$root.store.getThingType();
+      const type = this.$root.store.thingtype;
       if (type) return type.description;
       return "No thing description available";
     },
-    channelDescription: function (channelTypeUID) {
-      const type = this.$root.store.getChannelTypeFor(channelTypeUID);
+    channelDescription(channel) {
+      const type = this.$root.store.channeltypes[channel.channelTypeUID];
       if (type) return type.description;
       return "No Channel description available";
     },
-    configuration: function () {
-      return this.$root.store.getConfig();
-    }
   }
 }
 

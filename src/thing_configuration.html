@@ -8,13 +8,17 @@
 
 <body>
   <link rel="stylesheet" href="css/config.css">
+
   <nav></nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Thing Configuration"></partial>
   <main>
+
     <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
+
     <oh-attribute-bind attribute="filter" queryParameter="UID" regex="(.*?)\:"></oh-attribute-bind>
     <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></oh-github-issues>
+
     <oh-form-bind adapter="formadapter/thing" objectFromURL allowNew></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
@@ -33,25 +37,18 @@
               placeholder="Thing label" v-model="value.label">
           </div>
         </div>
-        <div class="form-group row">
-          <label for="timerid" class="col-sm-2 col-form-label">Location</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" name="timerid" id="timerid" pattern="[^\s]+" required placeholder="Location"
-              v-model="value.location">
-          </div>
-        </div>
         <div class="form-group row" v-if="!value.UID">
-          <label for="timerid" class="col-sm-2 col-form-label">Thing Type</label>
+          <label for="thingtype" class="col-sm-2 col-form-label">Thing Type</label>
           <div class="col-sm-10">
             <oh-dropdown-bind adapter="listadapter/thing-types"></oh-dropdown-bind>
-            <ui-dropdown title="Thing types" viewkey="label" valuekey="UID" label="Select a thing type"></ui-dropdown>
+            <ui-dropdown name="thingtype" title="Thing types" viewkey="label" valuekey="UID" label="Select a thing type"></ui-dropdown>
           </div>
         </div>
-        <div class="config" v-if="!configuration()">No further configuration available</div>
+        <div class="config" v-if="!configurationParameters">No further configuration available</div>
         <section class="config" v-else>
           <h4>Configuration</h4>
           <div class="elements">
-            <vue-config-element v-for="config in configuration().parameters" :config="config"></vue-config-element>
+            <vue-config-element v-for="param in configurationParameters" :key="param.name" :param="param" :value="thingConfig(param)"></vue-config-element>
           </div>
         </section>
         <div class="btn-group btnbar mt-4" role="group">
@@ -60,6 +57,7 @@
         </div>
       </div>
     </template>
+
   </main>
   <footer></footer>
   <partial src="contexthelp.html" help="thingconfig"></partial>

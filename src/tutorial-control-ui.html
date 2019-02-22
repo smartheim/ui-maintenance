@@ -13,9 +13,12 @@
   <link rel="stylesheet" href="css/tutorial.css" type="text/css" />
   <partial src="tutorialnavigation.html"></partial>
   <partial src="mainnav.html"></partial>
+
   <section class="header">
     <h4>Control interfaces</h4>
+    <a href="" class="roundbtn" onclick="toggleWideTheme(event)"><i class="fas fa-arrows-alt-h"></i></a>
   </section>
+
   <main class="tutorial">
     <nav-breadcrumb></nav-breadcrumb>
 
@@ -27,14 +30,21 @@
 
     <h4>Control interfaces</h4>
 
-    <p>In this section you learn about the fun part of setting up your openHAB system - the user interface! This is the
-      most
-      rewarding part of your configuration, because you’ll actually get to see real-time results of all your work until
-      now, and interact with your home automation things directly via the user interface.</p>
+    <p>In this section you learn about the fun part of setting up your openHAB system - the user interface!
+      This is the most rewarding part of your configuration.
+      You’ll now actually get to see real-time results of all your work until now,
+      and interact with your home automation things directly via the user interface.</p>
 
     <img class="tutimage" src="img/tutorial/user_interfaces.png">
 
-    <p>This is where you need to leave <b>"Setup and Maintenance"</b>.</p>
+    <p>This is where you need to leave <b>"Setup and Maintenance"</b> ☹.</p>
+
+    <p>We have different concepts implemented in the openHAB 2 core for interaction and the community
+      has provided even more. Depending on the <a class="demolink" href="addons.html">Add-ons</a> you
+      have installed, you get direct support for Apple HomeKit (and its control Apps), Amazon Alexa and
+      the corresponding applications, or any Hue App to control your setup. But we also provide some
+      Apps ourselves, see below.
+    </p>
 
     <hr>
 
@@ -53,7 +63,7 @@
       you could easily get away with only using HABpanel.</p>
 
     <div class="bs-callout bs-callout-info mb-4">
-      Caveat: You need to configure your HABpanel pages yourself, drag&drop Widgets, but also configure Widgets to do
+      Caveat: You need to configure your HABpanel pages yourself first and also configure some Widgets to do
       the Right Thing&trade;.
     </div>
 
@@ -92,6 +102,41 @@
     </p>
 
     <p>Make sure you have installed HABdashboard in the <a class="demolink" href="addons.html">Add-ons</a> section.</p>
+
+
+    <div class="clearfix"></div>
+    <hr class="mt-4">
+
+    <h5>Cards &amp; Chat UI - HABot</h5>
+
+    <img style="max-width: 60%;max-height: 300px;float:right;padding-right: 20px;" src="img/tutorial/habot.gif">
+
+    <p>
+      HABot is a <a href="https://www.openhab.org/docs/concepts/audio.html">natural language interpreter</a>.
+      You can ask it questions about your items in plain language, or perform actions.
+      HABot uses machine-learning natural language processing to figure out what you mean.
+    </p>
+
+    <p>
+      In this regard, it's similar to voice assistants like Alexa, Siri, Google Assistant or Cortana,
+      but is focused on your openHAB smart home. <b>No cloud service required</b>.
+    </p>
+
+    <div class="clearfix mb-4"></div>
+    <img style="max-width: 60%;max-height: 100%;float:left;padding-right: 20px;" src="img/tutorial/habot-cards.png">
+
+    <p>
+      A major feature of its chat-based user interface is that it will also provide visual information in the form of a
+      “card” along with the natural language answer. These cards may contain read-only information
+      or interactive controls like switches, sliders and buttons.
+    </p>
+
+    <p>A common use case for HABot is to ask it to find items in a natural way, instead of giving an order.<br>
+      <u>For example</u> to ask for the <i>“lights on the first floor”</i> and to use the controls on the
+      card.
+    </p>
+
+    <p>Make sure you have installed HABot in the <a class="demolink" href="addons.html">Add-ons</a> section.</p>
 
     <h5 style="clear: both">Android / iOS App</h5>
 

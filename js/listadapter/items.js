@@ -1,4 +1,4 @@
-import { store, openhabHost } from '../app.js';
+import { store } from '../app.js';
 
 class ModelAdapter {
   constructor() {
@@ -25,7 +25,7 @@ const ItemsMixin = {
     },
     iconpath: function () {
       if (this.item.category) {
-        return openhabHost() + "/icon/" + this.item.category;
+        return store.host + "/icon/" + this.item.category;
       }
       return null;
     }

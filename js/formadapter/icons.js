@@ -1,4 +1,4 @@
-import { openhabHost, store } from '../app.js';
+import { store } from '../app.js';
 
 class ModelAdapter {
   constructor() {
@@ -35,13 +35,11 @@ const Mixin = {
   },
   methods: {
     iconpath: function (iconname) {
-      const host = openhabHost();
-      if (host != "demo" && iconname) {
-        return openhabHost() + "/icon/" + iconname;
+      if (store.host != "demo" && iconname) {
+        return store.host + "/icon/" + iconname;
       } else {
         return "./img/scene_dummy.jpg";
       }
-      return null;
     },
     applyIcon(event) {
       this.$set(this.context, 'category', this.category);

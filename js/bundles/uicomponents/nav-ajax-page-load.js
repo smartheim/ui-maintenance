@@ -38,10 +38,13 @@ class NavAjaxPageLoad extends HTMLElement {
         .catch(e => { // Connection lost? Check login
           console.log("Failed to load page:", e.message);
           document.querySelector("main").innerHTML = `
-                  <main class='centered m-4'>
-                    <section class='card p-4'><h4>Error loading the page</h4>${e}</section>
-                  </main>
-                  `;
+<main class='centered m-4'>
+  <section class='card p-4'>
+    <h4>Error loading the page ☹</h4>
+    ${e.message ? e.message : e}
+  </section>
+</main>
+`;
           document.dispatchEvent(new Event('FailedLoading'));
         })
     });

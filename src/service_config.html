@@ -31,11 +31,12 @@
                 warning &amp; errors</span></label>
           </div>
         </section>
-        <div class="config" v-if="!configuration()">No further configuration available</div>
+        <div class="config" v-if="!configuration">No further configuration available</div>
         <section class="config" v-else>
           <h4>Configuration</h4>
           <div class="elements">
-            <vue-config-element v-for="config in configuration().parameters" :config="config"></vue-config-element>
+            <vue-config-element v-for="param in configuration.parameters" :allowremove="true" :key="param.name" :param="param"
+              :value="configValue(param)"></vue-config-element>
           </div>
         </section>
         <div class="btn-group btnbar mt-4" role="group">

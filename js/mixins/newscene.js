@@ -1,4 +1,4 @@
-import { store, fetchMethodWithTimeout, OhDataBind, openhabHost } from '../app.js';
+import { store, fetchMethodWithTimeout, OhDataBind } from '../app.js';
 const Mixin = {
   mounted: function () {
     this.$el.querySelector("input").focus();

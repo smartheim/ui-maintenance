@@ -7,23 +7,27 @@
 
 <body>
   <link rel="stylesheet" href="css/scheduler.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <nav class="sidebar leftright" id="calendercontrol">
-
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Setup recurring and one-shot tasks"></partial>
   <main>
 
-    <oh-form-bind adapter="formadapter/schedule" objectid=""></oh-form-bind>
+    <oh-form-bind adapter="formadapter/schedule" objectid="" fixedfilter="tags:alarm"></oh-form-bind>
     <oh-vue-form class="mt-4"></oh-vue-form>
     <template>
       <div>
         <portal name="testname" target-el="#calendercontrol" breakshadow slim>
-          <div></div>
+          <h4>Actions</h4>
+          <div>Zoom</div>
+          <vue-slide-bar :paddingless="true" class="p-2" v-model="timestep" :data="timeSteps" :range="timeStepRange"></vue-slide-bar>
+          <button class="btn btn-primary-hover btn-sm m-3" @click="selectedDate=new Date()">Jump to today</button>
         </portal>
-        <vue-cal :selected-date="new Date()" :time-from="0" :time-to="23 * 60" :time-step="15" :time-cell-height="18"
-          :events="events" :disable-views="['years']" :draggable-events="true" default-view="week" @view-change="loadEvents($event)"
-          @event-delete="logEvents('event-delete', $event)" :on-event-click="onEventclick" ref="cal">
+        <vue-cal :selected-date="selectedDate" :time-from="0" :time-to="23 * 60" :time-step="timestep"
+          :time-cell-height="18" :events="events" :disable-views="['years']" :draggable-events="true" default-view="week"
+          @view-change="loadEvents($event)" @event-delete="logEvents('event-delete', $event)" :on-event-click="onEventclick"
+          ref="cal">
 
           <div :class="{ line: true, hours: !minutes }" slot="time-cell" slot-scope="{ hours, minutes }">
             <strong v-if="!minutes" style="font-size: 15px">{{ hours }}</strong>

@@ -6599,29 +6599,19 @@ function initCanvas(canvas, config) {
 var supportsEventListenerOptions = (function () {
   var supports = false;
   try {
-    var options = Object.defineProperty({}, 'passive', {
-      // eslint-disable-next-line getter-return
-      get: function () {
-        supports = true;
-      }
-    });
-    window.addEventListener('e', null, options);
+    window.addEventListener('e', null, { passive: true });
   } catch (e) {
     // continue regardless of error
   }
   return supports;
 }());
 
-// Default passive to true as expected by Chrome for 'touchstart' and 'touchend' events.
-// https://github.com/chartjs/Chart.js/issues/4287
-var eventListenerOptions = supportsEventListenerOptions ? { passive: true } : false;
-
 function addListener(node, type, listener) {
-  node.addEventListener(type, listener, eventListenerOptions);
+  node.addEventListener(type, listener, { passive: true });
 }
 
 function removeListener(node, type, listener) {
-  node.removeEventListener(type, listener, eventListenerOptions);
+  node.removeEventListener(type, listener, { passive: true });
 }
 
 function createEvent(type, chart, x, y, nativeEvent) {

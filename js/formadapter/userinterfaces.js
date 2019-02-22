@@ -1,4 +1,4 @@
-import { openhabHost, store } from '../app.js';
+import { store } from '../app.js';
 
 class ModelAdapter {
   constructor() {
@@ -19,17 +19,15 @@ const UserInterfaceMixin = {
   },
   methods: {
     image(item) {
-      const host = openhabHost();
-      if (host != "demo") {
-        return openhabHost() + item.image;
+      if (store.host != "demo") {
+        return store.host + item.image;
       } else {
         return "./dummydata/" + item.id + ".png";
       }
     },
     link(item) {
-      const host = openhabHost();
-      if (host != "demo") {
-        return openhabHost() + item.link;
+      if (store.host != "demo") {
+        return store.host + item.link;
       } else {
         return "#";
       }

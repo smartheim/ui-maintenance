@@ -35,7 +35,7 @@ class StorageWorker {
           r = await store.configure(e.expireDurationMS, e.throttleTimeMS);
           break;
         case "reconnect":
-          r = await store.reconnect(e.openhabHost);
+          r = await store.reconnect(e.host);
           break;
         case "dump":
           r = await store.dump();
@@ -48,6 +48,12 @@ class StorageWorker {
           if (e.options && Array.isArray(r)) {
             r = process(r, e.options);
           }
+          break;
+        case "injectTutorialData":
+          r = await store.injectTutorialData(e.storename, e.objectdata);
+          break;
+        case "removeTutorialData":
+          r = await store.removeTutorialData();
           break;
         default:
           r = new Error("Type not supported");
