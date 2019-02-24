@@ -24,6 +24,14 @@ OR
 3. Call `npm run build`
 4. Browse to http://127.0.0.1:8080/static/paperui-ng/dist (replace the IP and Port with your openHAB installation).
 
+Build the javascript documentation for the entire codebase with
+
+* `npm run doc`
+
+Open the generated documentation in "out/index.html".
+
+You can find a pre-build documentation here: https://davidgraeff.github.io/paperui-ng/out
+
 ## Paper UI
 
 The original Paper UI is a Single Page Application (SPA) developed using a js framework called Angular.
@@ -93,102 +101,23 @@ Nested partials are supported but should be avoided.
 Partials do support basic variables. Just use attributes on the markup (like `key="value"`)
 and use `@@key` within your partial.
 
-#### Why no Markdown / other markup language
+#### Context help
 
-Most of the time in this application you are not presenting just text
-(the tuturial section is an exception), but you are presenting interactive content, forms,
-or need custom html tags (Web components).
-
-The context help texts are written in Markdown though. You find them in `assets/contexthelp`.
-They are dynamically fetched when required (and cached as html in the localstorage).
+The context help texts are written in Markdown. You find them in `assets/contexthelp`.
+They are dynamically fetched, converted and cached.
 
 ### Caching
+
+All dynamically fetched contents like forum posts, help texts and github data is cached
+in the users localstorage as prerendered html. The cache has an expire duration of 1 day.
 
 A service worker cache is in place. While you develop, you should open the DevTools of your
 browser and tick the checkbox "Disable cache" (in the tab Network on Chrome) or disable the
 service worker (Tab "Application" -> "Service Worker" -> "Bypass for network" in Chrome.)
 
-All dynamically fetched contents like forum posts, help texts and github data is cached
-in the users localstorage as prerendered html. The cache has an expire duration of 1 day.
-
-### Web component
-
-Webcomponents for
-
-* fetching and displaying a context help,
-* the openHAB REST interface,
-* the openHAB community forum,
-* github openHAB addons repository for documentation fetching
-* navigation components (breadcrumb, prev/next-buttons)
-
-are available in `js/bundles/ohcomponents/*.js` and `js/bundles/uicomponents/*.js`
-and can be used in other projects as well.
-
-The html dom API alone is a bit clumsy for more complex reactive components though.
-I have used [lit-html](https://lit-html.polymer-project.org/guide/writing-templates) in
-some more complex components as renderer.
-It has a very similar syntax to the vue renderer, but is not "reactive" like vue
-and therefore adds only 1.7KB (tree shaking not even considered) to the ui-components bundle.
-
-We could think about using `lit-elements` in the future, which uses `lit-html` for
-rendering but also offers one-way and two-way bindings. Or we directly use
-[Vue 3](https://medium.com/the-vue-point/plans-for-the-next-iteration-of-vue-js-777ffea6fabf), which thanks
-to tree-shaking and building up on modern standards only, will also come with a low
-footprint.
-
 ### Icons / Fonts / Styling
 
 See [Styling Readme](scss/readme.md).
-
-### Javascript
-
-Build the javascript documentation for the entire codebase with `npm run doc`.
-Open the generated documentation in "out/index.html".
-
-You can find a pre-build documentation here: https://davidgraeff.github.io/paperui-ng/out
-
-#### Used external libraries
-
-* Date/Time picker: https://flatpickr.js.org/
-* Ajax page reload: https://github.com/oom-components/page-loader
-* Charts: https://www.chartjs.org
-* OpenStreetMaps: https://github.com/Leaflet/Leaflet
-* Web components: [lit-html](https://lit-html.polymer-project.org/guide/writing-templates)
-
-### How does interaction with openHAB works
-
-A Model-View-Adapter (MVA) concept is in place and illustrated in
-the following diagram:
-
-![Model-View-Adapter](docs/paperui-ng-dataflow.svg "Model-View-Adapter Architecture")
-
-[Image source](https://drive.google.com/file/d/1lqg5GJHdkVk5PlnCgbheggQ7MSwSDHfj/view?usp=sharing)
-
-There are several components used as **View**:
-* The `VueJS` based `ohcomponents/oh-vue-list` for reactive list
-* The `uicomponents/ui-dropdown` for a dropdown (e.g. selection of *Items* or *Profiles*)
-* The `VueJS` based `ohcomponents/oh-vue` for configuration pages
-
-The `ohcomponents/oh-vue-list-bind` and `ohcomponents/oh-vue-bind` classes serve as **Controllers**.
-They receive all *remove* and *change* requests of the *Views* and also observe the *Model*
-and *Adapter* for any changes.
-
-The `modeladapter_lists/*` classes provide Mixins for the *View*, but also provide
-Model **Adapters** that communicate with the *Model* (aka Store).
-
-#### The Model
-
-The `app/*` bundle finally provides the frontend database, the **Model**,
-for this architecture. All requested REST endpoints are cached in a Index DB and kept
-in sync via SSE (Server Send Events). The storage follows a State-While-Revalidate strategy.
-
-The Index DB access and REST updates happen in a web-worker.
-Heavy operations like table joining and sorting is outsourced into the web-worker.
-
-Multiple browser tabs stay in sync and only a single SSE connection must
-be established. (Not true at the moment. Shared web workers do not work in WebKit/Safari.)
-
-This architecture should provide us with low-latency rendering performance.
 
 ## Missing openHAB functionality
 

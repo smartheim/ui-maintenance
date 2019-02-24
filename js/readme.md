@@ -1,8 +1,8 @@
 # Developer guideline for javascript
 
-You can add your independant javascript files (ES6 modules!) into any `js/*` subdirectory.
+You can add your independant javascript files (ES6 modules!) into any `js/my-subdirectory`.
 During the build each directory is build, minified and made available under
-`js/subdirectory-name.js`. 
+`js/my-subdirectory.js`. 
 
 You can use npm dependencies (ES6-modules-only!) in your javascript files.
 
@@ -21,24 +21,63 @@ by adding it to the `<body>` section of a page.
   when a fetch-based page change happens.
 * Do NOT add inline javascript to pages (exception: Theme handling in `<head>`).
 
-#### Reactive parts like Lists
 
-Vue is used for reactive parts of the App like rendering a reactive list of Things from the Things-Store.
-The templates are not prerendered with a bundler, they are in `<template>` tags within the
-respective html file.
+### Web component
 
-An example. Add this to your html pages main section:
+Webcomponents for
 
-```
-    <div id="app"></div>
-    <template id="postTemplate">
-      <div>
-        <ul>
-          <li v-for="post in posts">{{post.title}}:<div>{{post.body}}</div>
-          </li>
-        </ul>
-        <p v-if="pending.posts">loading posts...</p>
-        <p v-if="error.posts">loading failed</p>
-      </div>
-    </template>
-```
+* fetching and displaying a context help,
+* the openHAB REST interface,
+* the openHAB community forum,
+* github openHAB addons repository for documentation fetching
+* navigation components (breadcrumb, prev/next-buttons)
+
+are available in the `uicomponents` module and can be used in other projects as well.
+
+The html dom API alone is a bit clumsy for more complex reactive components though.
+I have used [lit-html](https://lit-html.polymer-project.org/guide/writing-templates) in
+some more complex components as renderer.
+It has a very similar syntax to the vue renderer, but is not "reactive" like vue
+and therefore adds only 1.7KB (tree shaking not even considered) to the `uicomponents` module.
+
+We could think about using `lit-elements` in the future, which uses `lit-html` for
+rendering but also offers one-way and two-way bindings. Or we directly use
+[Vue 3](https://medium.com/the-vue-point/plans-for-the-next-iteration-of-vue-js-777ffea6fabf), which thanks
+to tree-shaking and building up on modern standards only, will also come with a low
+footprint.
+
+### How does interaction with openHAB works
+
+A Model-View-Adapter (MVA) concept is in place and illustrated in
+the following diagram:
+
+![Model-View-Adapter](docs/paperui-ng-dataflow.svg "Model-View-Adapter Architecture")
+
+[Image source](https://drive.google.com/file/d/1lqg5GJHdkVk5PlnCgbheggQ7MSwSDHfj/view?usp=sharing)
+
+There are several components used as **View**:
+* The `VueJS` based `oh-vue-list` for reactive list
+* The `ui-dropdown` for a dropdown (e.g. selection of *Items* or *Profiles*)
+* The `VueJS` based `oh-vue` for configuration pages
+
+The `oh-vue-list-bind` and `oh-vue-bind` classes serve as **Controllers**.
+They receive all *remove* and *change* requests of the *Views* and also observe the *Model*
+and *Adapter* for any changes.
+
+The `modeladapter_lists/*`, `modeladapter_forms/*` and `modeladapter_mixins/*`
+classes provide Mixins for the *View*, but also provide
+Model **Adapters** that communicate with the *Model* (aka Store).
+
+#### The Model
+
+The `app/*` bundle finally provides the frontend database, the **Model**,
+for this architecture. All requested REST endpoints are cached in a Index DB and kept
+in sync via SSE (Server Send Events). The storage follows a State-While-Revalidate strategy.
+
+The Index DB access and REST updates happen in a web-worker.
+Heavy operations like table joining and sorting is outsourced into the web-worker.
+
+Multiple browser tabs stay in sync and only a single SSE connection must
+be established. (Not true at the moment. Shared web workers do not work in WebKit/Safari.)
+
+This architecture should provide us with low-latency rendering performance.
