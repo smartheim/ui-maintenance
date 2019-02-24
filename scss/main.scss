@@ -30,6 +30,19 @@
 @import "ui-components/ui-dropdown";
 @import "ui-components/ui-filterbar";
 @import "ui-components/ui-radio-button-group";
+progress::-webkit-progress-value {
+    background-image: linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), linear-gradient(left, #09c, #f44);
+    border-radius: 2px;
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+
+progress::-moz-progress-bar {
+    border-radius: 12px;
+    background-image: linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), linear-gradient(left, #09c, #f44);
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.4), 0 2px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
 .btn-primary {
     background-color: var(--primary);
     color: var(--background-color);
@@ -229,7 +242,7 @@ a.disabled {
     }
 }
 
-oh-community-topics ul {
+ui-community-topics ul {
     list-style-type: none;
     margin: 0;
     padding-left: 0;
@@ -240,6 +253,6 @@ nav-breadcrumb {
 }
 
 oh-vue-list:not(:defined),
-oh-community-topics:not(:defined) {
+ui-community-topics:not(:defined) {
     display: none;
 }

@@ -8,12 +8,12 @@
 
 <body>
   <link rel="stylesheet" href="css/config.css">
-  <script type="module" src="js/uimaps.js"></script>
+  <script type="module" src="js/ui-maps.js"></script>
   <partial src="maintenancenav.html"></partial>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="General openHAB configuration"></partial>
   <main>
-    <oh-list-bind adapter="listadapter/services-full" fixedfilter="category:system"></oh-list-bind>
+    <oh-list-bind adapter="modeladapter_lists/services-full" fixedfilter="category:system"></oh-list-bind>
     <oh-vue-list>
       <div slot="app"></div>
       <template slot="list">

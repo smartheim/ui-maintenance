@@ -17,9 +17,9 @@
     <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
 
     <oh-attribute-bind attribute="filter" queryParameter="UID" regex="(.*?)\:"></oh-attribute-bind>
-    <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></oh-github-issues>
+    <ui-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
 
-    <oh-form-bind adapter="formadapter/thing" objectFromURL allowNew></oh-form-bind>
+    <oh-form-bind adapter="modeladapter_forms/thing" objectFromURL allowNew></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
       <partial src="vuelisterrors.html"></partial>
@@ -40,7 +40,7 @@
         <div class="form-group row" v-if="!value.UID">
           <label for="thingtype" class="col-sm-2 col-form-label">Thing Type</label>
           <div class="col-sm-10">
-            <oh-dropdown-bind adapter="listadapter/thing-types"></oh-dropdown-bind>
+            <oh-dropdown-bind adapter="modeladapter_lists/thing-types"></oh-dropdown-bind>
             <ui-dropdown name="thingtype" title="Thing types" viewkey="label" valuekey="UID" label="Select a thing type"></ui-dropdown>
           </div>
         </div>

@@ -31,7 +31,7 @@
           animation: wronglog 0.7s;
         }
     </style>
-    <oh-vue-bind adapter="mixins/login"></oh-vue-bind>
+    <oh-vue-bind adapter="modeladapter_mixins/login"></oh-vue-bind>
     <oh-vue></oh-vue>
     <template>
       <div>
@@ -44,9 +44,9 @@
                 and password</span>!</p>
           </div>
           <div class="form-group">
-            <label class="w-100">Host <input :class="{'text-danger':notconnected}" class="form-control" name="host"
-                v-model="host" placeholder="Host"></label>
-            <div class="text-muted">Enter "demo" for a demo data set.</div>
+            <label class="w-100">Host (<span class="text-muted">Enter "demo" for a demo data set.</span>)
+              <input :class="{'text-danger':notconnected}" class="form-control" name="host" v-model="host" placeholder="Host">
+            </label>
           </div>
           <div v-if="credentialsRequired" class="form-group"> User credentials <label class="w-100"><input type="username"
                 class="form-control" id="inputUsername" placeholder="User name"></label>
@@ -82,7 +82,11 @@ server {
           it can only find and access your network internal openHAB installation.
           <mark>No openHAB data is leaving your network at any time.</mark>
         </div>
-        <div class="centeredsmallcard mt-0 p-0 text-right"><a href="#" @click="dump">Dump cache</a></div>
+        <div class="card centeredsmallcard mt-0 text-right p-3" style="display: flex;flex-direction: row;">
+          <div v-if="dumpError" style="flex:1;">{{dumpError}}</div>
+          <progress v-else max="100" min="0" :value="dumpProgress" style="flex:1;height: initial;"></progress>
+          <button class="ml-2 btn btn-primary" :class="{disabled: dumpInProgress}" @click="dump">Export openHAB data</button>
+        </div>
       </div>
     </template>
   </main>

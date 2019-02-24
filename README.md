@@ -170,7 +170,7 @@ The `ohcomponents/oh-vue-list-bind` and `ohcomponents/oh-vue-bind` classes serve
 They receive all *remove* and *change* requests of the *Views* and also observe the *Model*
 and *Adapter* for any changes.
 
-The `listadapter/*` classes provide Mixins for the *View*, but also provide
+The `modeladapter_lists/*` classes provide Mixins for the *View*, but also provide
 Model **Adapters** that communicate with the *Model* (aka Store).
 
 #### The Model

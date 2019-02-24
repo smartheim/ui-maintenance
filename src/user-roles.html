@@ -24,7 +24,7 @@
 
     <div id="new-item" class="modal" role="dialog">
       <div class="modal-dialog" role="document">
-        <oh-vue-bind adapter="mixins/newUserRole"></oh-vue-bind>
+        <oh-vue-bind adapter="modeladapter_mixins/newUserRole"></oh-vue-bind>
         <oh-vue></oh-vue>
         <template>
           <form class="modal-content was-validated" @submit="create">
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <oh-list-bind adapter="listadapter/user-roles" filtercriteria="label"></oh-list-bind>
+    <oh-list-bind adapter="modeladapter_lists/user-roles" filtercriteria="label"></oh-list-bind>
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.id" help="contexthelp/user-roles"></partial>
       <template slot="item">
@@ -99,8 +99,9 @@
           <section class="description mb-2">
             <p>Allow this user-role access to openHAB subsystems and <i>Items</i>.</p>
 
-            <div class="mb-2">Subsystem access (REST endpoints):<br>
-              <input placeholder="Regex for allowed subsystems" v-model="item.restEndpoints">
+            <div class="mb-2">Subsystem access:<br>
+              <ui-multiselect viewkey="label" desckey="name" valuekey="name" :options.prop="$root.restEndpoints"
+                placeholder="Restrict to" :value.prop="item.restEndpoints" @input="$set(item,'restEndpoints', $event.target.value)"></ui-multiselect>
             </div>
 
             <hr>

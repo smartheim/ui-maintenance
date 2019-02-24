@@ -39,7 +39,7 @@
       <div slot="error">Error!</div>
     </ui-drop-zone>
 
-    <oh-list-bind adapter="listadapter/addon-files" filtercriteria="label" maxItems="100"></oh-list-bind>
+    <oh-list-bind adapter="modeladapter_lists/addon-files" filtercriteria="label" maxItems="100"></oh-list-bind>
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addons_files"></partial>
       <template slot="item">

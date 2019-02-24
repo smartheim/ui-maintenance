@@ -22,7 +22,7 @@
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." mode="grid"></ui-filter>
 
-    <oh-list-bind adapter="listadapter/addon-repositories" filtercriteria="label" maxItems="100"></oh-list-bind>
+    <oh-list-bind adapter="modeladapter_lists/addon-repositories" filtercriteria="label" maxItems="100"></oh-list-bind>
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addon_repositories"></partial>
       <template slot="item">

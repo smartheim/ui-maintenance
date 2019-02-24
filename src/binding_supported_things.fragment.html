@@ -1,7 +1,7 @@
 <h3>Supported Things</h3>
 
-<oh-prop-bind contextfrom="oh-context-help" sourceproperty="contextdata" attribute="fixedfilter"></oh-prop-bind>
-<oh-list-bind for="inboxlist" adapter="listadapter/thing-types"></oh-list-bind>
+<oh-prop-bind contextfrom="ui-context-help" sourceproperty="contextdata" attribute="fixedfilter"></oh-prop-bind>
+<oh-list-bind for="inboxlist" adapter="modeladapter_lists/thing-types"></oh-list-bind>
 <oh-vue-list id="inboxlist">
   <div slot="app"></div>
   <template slot="list">

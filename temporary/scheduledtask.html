@@ -47,7 +47,7 @@
             title="Instead of just triggering, useful for Rules and Scripts, you can also issue an item command directly"></ui-switch>
           <div id="triggeritemcommand" class="hidden">
             <ui-dropdown id="triggereditem" name="triggereditem" label="Select item"></ui-dropdown>
-            <oh-dropdown-bind for="triggereditem" viewkey="name" viewvalue="label" adapter="listadapter/items"></oh-dropdown-bind>
+            <oh-dropdown-bind for="triggereditem" viewkey="name" viewvalue="label" adapter="modeladapter_lists/items"></oh-dropdown-bind>
             <input name="itemcommand">
           </div>
         </div>

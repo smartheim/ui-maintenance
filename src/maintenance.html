@@ -7,12 +7,13 @@
 
 <body>
   <link rel="stylesheet" href="css/maintenance.css" type="text/css" />
+  <script type="module" src="js/ui-time-graph.js"></script>
   <partial src="maintenancenav.html"></partial>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Configure services, adjust preferences and check the application health"></partial>
   <main>
 
-    <oh-form-bind adapter="formadapter/distributioninfo" objectid=""></oh-form-bind>
+    <oh-form-bind adapter="modeladapter_forms/distributioninfo" objectid=""></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
       <section>
@@ -36,14 +37,14 @@
       </section>
     </template>
 
-    <oh-form-bind adapter="formadapter/service" mixin="mixins/ltsGraphs" objectid="org.openhab.longtimestability"></oh-form-bind>
+    <oh-form-bind adapter="modeladapter_forms/service" mixin="modeladapter_mixins/ltsGraphs" objectid="org.openhab.longtimestability"></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
       <section>
         <h4>{{value.label}}</h4>
 
         <div class="graphs mb-4">
-          <oh-websocket-data id="ltsGraphs" :href="value.config ? value.config.websocketPort : ''" simulation="simulation/ltsGraphs"
+          <oh-websocket-data id="ltsGraphs" :href="value.config ? value.config.websocketPort : ''" simulation="modelsimulation/ltsGraphs"
             @data="newData"></oh-websocket-data>
           <ui-time-graph ref="memory" color="green" views="Hour,Day,Week" maxdata="20" label="Memory in MB"></ui-time-graph>
           <ui-time-graph ref="cpu" color="red" views="Hour,Day,Week" maxdata="20" label="CPU in %"></ui-time-graph>
@@ -69,7 +70,7 @@
       </section>
     </template>
 
-    <oh-form-bind adapter="formadapter/service" objectid="org.openhab.backup"></oh-form-bind>
+    <oh-form-bind adapter="modeladapter_forms/service" objectid="org.openhab.backup"></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
       <section>
@@ -97,7 +98,7 @@
       </section>
     </template>
 
-    <oh-form-bind adapter="formadapter/osgibundles" objectid=""></oh-form-bind>
+    <oh-form-bind adapter="modeladapter_forms/osgibundles" objectid=""></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
       <section class="bundles mb-4">

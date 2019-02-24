@@ -13,9 +13,9 @@
   <partial src="pagetitleheader.html" title="Service configuration"></partial>
   <main>
     <oh-attribute-bind attribute="filter" queryParameter="id"></oh-attribute-bind>
-    <oh-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this service:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></oh-github-issues>
+    <ui-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this service:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
 
-    <oh-form-bind adapter="formadapter/service" objectFromURL></oh-form-bind>
+    <oh-form-bind adapter="modeladapter_forms/service" objectFromURL></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
       <partial src="vuelisterrors.html"></partial>

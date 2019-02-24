@@ -57,7 +57,7 @@
       </button>
     </ui-filter>
 
-    <oh-list-bind for="thinglist" adapter="listadapter/things" filtercriteria="label" maxItems="100"></oh-list-bind>
+    <oh-list-bind for="thinglist" adapter="modeladapter_lists/things" filtercriteria="label" maxItems="100"></oh-list-bind>
     <oh-vue-list id="thinglist">
       <partial src="vuelistbasics.html" key="item.UID" help="contexthelp/things"></partial>
       <template slot="item">

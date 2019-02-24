@@ -45,7 +45,7 @@ aside.contexthelp {
         position: sticky;
         top: 0;
     }
-    oh-context-help {
+    ui-context-help {
         padding: 20px;
         background-color: var(--background-color);
         max-height: calc(100vh - 140px);
@@ -53,7 +53,7 @@ aside.contexthelp {
     }
 }
 
-body.wide aside.contexthelp oh-context-help {
+body.wide aside.contexthelp ui-context-help {
     max-height: calc(100vh - 180px);
 }
 
@@ -103,7 +103,7 @@ a.helpbtn i.fa-times {
     }
     aside.contexthelp {
         animation: swinginxr 1s;
-        oh-context-help {
+        ui-context-help {
             max-height: calc(100vh - 240px);
         }
     }
@@ -156,7 +156,7 @@ body:before {
             max-width: initial !important;
             max-height: initial !important;
             &.contexthelp {
-                oh-context-help {
+                ui-context-help {
                     padding: 20px;
                     max-height: calc(100vh - 140px);
                 }

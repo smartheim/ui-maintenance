@@ -73,7 +73,7 @@
   <main>
     <div id="new-item" class="modal" role="dialog">
       <div class="modal-dialog" role="document">
-        <oh-vue-bind adapter="mixins/newitem"></oh-vue-bind>
+        <oh-vue-bind adapter="modeladapter_mixins/newitem"></oh-vue-bind>
         <oh-vue></oh-vue>
         <template>
           <form class="modal-content was-validated" @submit="create">
@@ -100,7 +100,7 @@
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Type</label>
                 <div class="col-sm-10">
-                  <oh-dropdown-bind adapter="listadapter/item-types"></oh-dropdown-bind>
+                  <oh-dropdown-bind adapter="modeladapter_lists/item-types"></oh-dropdown-bind>
                   <ui-dropdown name="type" class="w-100" btnclass="btn btn-sm" icons="itemtypes" viewkey="label"
                     valuekey="id" desckey="description" :value="type" @input="this.type=$event.target.value"></ui-dropdown>
                 </div>
@@ -118,7 +118,7 @@
 
     <div id="change-icon" class="modal" role="dialog">
       <div class="modal-dialog" role="document">
-        <oh-form-bind id="change-icon-source" adapter="formadapter/icons" objectid=""></oh-form-bind>
+        <oh-form-bind id="change-icon-source" adapter="modeladapter_forms/icons" objectid=""></oh-form-bind>
         <oh-vue-form></oh-vue-form>
         <template>
           <div class="modal-content">
@@ -154,7 +154,7 @@
       </button>
     </ui-filter>
 
-    <oh-list-bind adapter="listadapter/items-full" maxItems="100" filtercriteria="label"></oh-list-bind>
+    <oh-list-bind adapter="modeladapter_lists/items-full" maxItems="100" filtercriteria="label"></oh-list-bind>
     <oh-vue-list>
       <partial src="vuelistbasics.html" key="item.name" help="contexthelp/items"></partial>
       <template slot="item">

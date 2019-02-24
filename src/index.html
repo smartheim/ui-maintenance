@@ -48,8 +48,8 @@
             <summary>Improve your openHAB skills: Check our tutorial section</summary>
             <div class="card-body">
               <div class="row">
-                <oh-community-topics id="tutorialtopics" class="card-text col-sm" topics="c/tutorials-examples/l/latest"
-                  order="created" limit="10"></oh-community-topics>
+                <ui-community-topics id="tutorialtopics" class="card-text col-sm" topics="c/tutorials-examples/l/latest"
+                  order="created" limit="10"></ui-community-topics>
                 <div class="col-md-auto" style="display:flex;flex-direction: column">
                   <a class="btn btn-primary-hover m-2" target="_blank" href="https://community.openhab.org">Community</a>
                   <a class="btn btn-primary-hover m-2" target="_blank" href="https://www.openhab.org/docs">Documentation</a>
@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <oh-form-bind adapter="formadapter/userinterfaces" objectid=""></oh-form-bind>
+    <oh-form-bind adapter="modeladapter_forms/userinterfaces" objectid=""></oh-form-bind>
     <oh-vue-form class="introcard"></oh-vue-form>
     <template>
       <div v-if="value.length" id="userinterfaces">
@@ -104,14 +104,14 @@
       <span>Latest announcements</span>
       <oh-doc-link target="#latesttopics" reload><a href="#"><i class="fas fa-sync-alt"></i></a></oh-doc-link>
     </h4>
-    <oh-community-topics id="latesttopics" class="sidebar hover" topics="c/announcements/l/latest" order="created"
-      limit="2"></oh-community-topics>
+    <ui-community-topics id="latesttopics" class="sidebar hover" topics="c/announcements/l/latest" order="created"
+      limit="2"></ui-community-topics>
     <h4>
       <span>Conventions &amp; Events</span>
       <oh-doc-link target="#conventions" reload><a href="#"><i class="fas fa-sync-alt"></i></a></oh-doc-link>
     </h4>
-    <oh-community-topics id="conventions" class="sidebar hover" topics="c/organisation/events/l/latest" order="created"
-      limit="4"></oh-community-topics>
+    <ui-community-topics id="conventions" class="sidebar hover" topics="c/organisation/events/l/latest" order="created"
+      limit="4"></ui-community-topics>
   </aside>
 </body>
 

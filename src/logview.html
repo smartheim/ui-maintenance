@@ -24,11 +24,14 @@
       </div>
     </div>
 
-    <oh-form-bind adapter="formadapter/service" mixin="logview" objectid="org.openhab.logging"></oh-form-bind>
+    <oh-form-bind adapter="modeladapter_forms/service" mixin="modeladapter_mixins/logview" objectid="org.openhab.logging"></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
-      <div>
-        <oh-websocket-data id="logViewer" :href="value.config ? value.config.websocketPort : ''" simulation="simulation/logview"
+      <div v-if="!value">
+        Could not find the logging service. You are not on a supported openHAB version ☹.
+      </div>
+      <div v-else>
+        <oh-websocket-data id="logViewer" :href="value.config ? value.config.websocketPort : ''" simulation="modelsimulation/logview"
           @data="newData"></oh-websocket-data>
         <portal name="controlform" target-el="#controlform" breakshadow slim>
           <form class="my-4 mb-0 row" style="align-items: center">

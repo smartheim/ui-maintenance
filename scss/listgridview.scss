@@ -3,12 +3,12 @@
     align-self: center;
     max-width: 700px;
     margin-top: 10px;
-    oh-context-help {
+    ui-context-help {
         padding: 10px;
     }
 }
 
-oh-codeeditor {
+ui-codeeditor {
     margin-top: 10px;
     display: flex;
     flex: 1;
@@ -55,7 +55,7 @@ oh-vue-list {
 }
 
 .haschanges,
-oh-codeeditor[haschanges] {
+ui-codeeditor[haschanges] {
     animation-name: haschanges;
     animation-duration: 1s;
     animation-iteration-count: infinite;

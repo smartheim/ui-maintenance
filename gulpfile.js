@@ -44,9 +44,10 @@ var config = {
       html_watch: ['./src/**/*.html', './partials/**/*.html'],
       scss: './scss/*.scss', // only consider top level files, others are included
       scss_watch: './scss/**/*.scss',
-      js: ['js/**/*.js', '!js/bundles/**/*', '!js/common/**/*'],
-      js_bundles_entry: ['./js/bundles/*/index.js'],
-      js_bundles_watch: './js/bundles/**/*',
+      js: ['./js/+(modeladapter|modelsimulation)*/**/*.js'],
+      js_bundles_entry: ['./js/*/index.js', '!js/_*/index.js'],
+      js_bundles_watch: ['./js/**/*.js', '!./js/+(modeladapter*|modelsimulation|_)*/**/*.js'],
+      js_common: ['js/_*/*'],
       assets: [
         './assets/**/*',
         './package.json',
@@ -62,7 +63,12 @@ var config = {
     distjs: './dist/js',
     destsw: './dist/sw.js',
   },
-  external_js: ['./app.js', '../app.js', './vue.js', '../vue.js', '../charts.js', './uicomponents.js', './ohcomponents.js', './cronstrue.js'],
+  external_js: [
+    './app.js', '../app.js', '../js/app.js',
+    './vue.js', '../vue.js', '../js/vue.js',
+    './uicomponents.js', '../uicomponents.js',
+    './ohcomponents.js', '../ohcomponents.js'
+  ],
   localServer: {
     port: 8001,
     url: 'http://localhost:8001/',
@@ -122,13 +128,7 @@ const copyDocAssets = () =>
     .pipe(connect.reload());
 copyDocAssets.displayName = "Copy doc assets"
 
-const minifyUnbundledScripts = () =>
-  gulp.src(config.paths.src.js).pipe(uglify()).pipe(gulp.dest(config.paths.distjs)).pipe(connect.reload());
-minifyUnbundledScripts.displayName = "Minify unbundled scripts"
-
-
-
-const compileBundle = (dir, _rollup, modulename) =>
+const compileBundle = (dir, _rollup, modulename, singleFileBundle) =>
   gulp.src(dir)
     .pipe(_rollup({
       external: config.external_js,
@@ -142,23 +142,25 @@ const compileBundle = (dir, _rollup, modulename) =>
     }, { format: "esm" }, require('rollup')))
     .pipe(rename(path => {
       // Input is: js/bundles/{bundle-name}/index.js. Output is: js/{bundle-name}.js
-      if (path.dirname != ".") {
-        path.basename = path.dirname;
+      if (path.basename === "index") {
+        path.basename = modulename || path.dirname;
         path.dirname = '';
-      } else if (path.basename === "index") {
-        path.basename = modulename;
+      } else if (singleFileBundle) {
+        if (modulename) path.dirname = modulename;
       } else {
         // Input is: node_modules/monaco-editor/esm/vs/language/json/json.worker.js. Output is: json.worker.js
         path.dirname = '';
       }
-      console.log('Build: ' + path.basename);
+      console.log('Build: ' + path.dirname + "/" + path.basename);
       return path;
     }))
     //        .pipe(uglify())
     .pipe(gulp.dest(config.paths.distjs)).pipe(connect.reload());
 
-const compileBundles = () => compileBundle(config.paths.src.js_bundles_entry, rollupEach);
+const compileBundles = () => compileBundle(config.paths.src.js_bundles_entry, rollupEach, null, false);
+const compileBundles2 = () => compileBundle(config.paths.src.js, rollupEach, null, true);
 compileBundles.displayName = "Creating js bundles"
+compileBundles2.displayName = "Creating js single-file bundles"
 
 const startLocalWebserver = () => connect.server(
   {
@@ -177,28 +179,39 @@ clean.displayName = "Cleaning dist/"
 const watchTask = () => { // Watch the file system and rebuild automatically
   gulp.watch(config.paths.src.html_watch, copyHtml);
   gulp.watch(config.paths.src.scss_watch, compileStyles);
-  gulp.watch(config.paths.src.js, minifyUnbundledScripts);
   gulp.watch(config.paths.src.assets, copyAssets);
   gulp.watch(config.paths.src.assetsDoc, copyDocAssets);
+
   var filename = ""; // Only rebuild the bundle where a file changed
+
+  // Watch and rebuild complex bundle directories defined in paths.src.js_bundles_watch
   const rebuildOneBundle = (callback) => {
-    var bundlename = filename.match(/bundles\/(.*?)\//);
+    var bundlename = filename.match(/(.*?)\/(.*?)\//);
     filename = "";
-    if (!bundlename || bundlename.length != 2) {
-      callback();
-      return;
-    }
-    var result = compileBundle(`./js/bundles/${bundlename[1]}/index.js`, rollup, bundlename[1]);
+    var result = compileBundle(`./js/${bundlename[2]}/index.js`, rollup, bundlename[2], false);
     return result.on('error', e => console.error("An error happened", e));
   };
   gulp.watch(config.paths.src.js_bundles_watch, rebuildOneBundle).on("change", (file) => filename = file);
+
+  // Watch and rebuild single js files defined in paths.src.js
+  const rebuildOneFile = (callback) => {
+    var bundlename = filename.match(/(.*?)\/(.*?)\//);
+    const theFilename = filename;
+    filename = "";
+    var result = compileBundle(theFilename, rollupEach, bundlename[2], true);
+    return result.on('error', e => console.error("An error happened", e));
+  };
+  gulp.watch(config.paths.src.js, rebuildOneFile).on("change", (file) => filename = file);
+
+  // Rebuild everything if one of the private js files changed
+  gulp.watch(config.paths.src.js_common, gulp.parallel(compileBundles, compileBundles2));
 }
 watchTask.displayName = "Start watching files"
 
 const lint = gulp.parallel(lintStyles, lintStylesCss)
 lint.displayName = 'Lint all source'
 
-const compile = gulp.series(clean, gulp.parallel(copyHtml, minifyUnbundledScripts, compileBundles, copyAssets, copyDocAssets, compileStyles), generateServiceWorker)
+const compile = gulp.series(clean, gulp.parallel(copyHtml, compileBundles, compileBundles2, copyAssets, copyDocAssets, compileStyles), generateServiceWorker)
 
 gulp.task('build', compile);
 gulp.task('serveonly', gulp.series(compile, gulp.parallel(watchTask, startLocalWebserver)));

@@ -15,7 +15,7 @@
       </li>
     </ul>
     <p>Start manual discovery</p>
-    <oh-list-bind adapter="listadapter/discovery" filtercriteria="id"></oh-list-bind>
+    <oh-list-bind adapter="modeladapter_lists/discovery" filtercriteria="id"></oh-list-bind>
     <oh-vue-list style="display: block;" class="wrapper" id="manualdiscover">
       <div slot="app"></div>
       <template slot="list">
@@ -55,7 +55,7 @@
       </div>
     </ui-filter>
 
-    <oh-list-bind for="inboxlist" adapter="listadapter/inbox" filtercriteria="label"></oh-list-bind>
+    <oh-list-bind for="inboxlist" adapter="modeladapter_lists/inbox" filtercriteria="label"></oh-list-bind>
     <oh-vue-list id="inboxlist">
 
       <div slot="app"></div>
@@ -65,7 +65,7 @@
         <div v-else class="w-100" slot="app">
           <div v-if="status==OhListStatus.READY && items.length==0" class="emptylist">
             <p>No content found. You might find the help text interesting.</p>
-            <oh-context-help url="contexthelp/inbox.md" class="card"></oh-context-help>
+            <ui-context-help url="contexthelp/inbox.md" class="card"></ui-context-help>
           </div>
           <transition-group name="fade" tag="div" id="listcontainer" :class="[{selectionmode:selectmode},viewmode]">
             <oh-vue-listitem v-for="item in items" :key="item.thingUID" :listitem="item"></oh-vue-listitem>
