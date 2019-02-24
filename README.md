@@ -1,5 +1,7 @@
 # openHAB Setup & Maintenance UI
 
+![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
+
 This repository contains a new generation openHAB Setup & Maintenance UI.
 
 See https://davidgraeff.github.io/paperui-ng/.
