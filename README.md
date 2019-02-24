@@ -1,6 +1,7 @@
-# openHAB Paper UI (New generation)
+# openHAB Setup & Maintenance UI
 
-This repository contains a design theme study for a new generation of openHAB paper UI.
+This repository contains a new generation openHAB Setup & Maintenance UI.
+
 See https://davidgraeff.github.io/paperui-ng/.
 
 ![Application screenshot](docs/screenshot.png "Application screenshot")
