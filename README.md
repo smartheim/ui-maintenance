@@ -8,6 +8,10 @@ See https://davidgraeff.github.io/paperui-ng/.
 Please participate by editing files in this repository and make pull requests.
 Especially the help texts and introduction text, graphics and potential videos require help.
 
+## Is this a full Paper UI replacement?
+
+Not yet. "Things" cannot be edited and "Rules" cannot be created or saved.
+
 ## Local development
 
 * Install `npm` (node package manager)
@@ -36,13 +40,14 @@ You can find a pre-build documentation here: https://davidgraeff.github.io/paper
 
 The original Paper UI is a Single Page Application (SPA) developed using a js framework called Angular.
 
-The downside of chosing a js framework is that those come and go. Angular has a step learning
-curve, is not versioned semantically, does breaking changes regulary
-and people familiar with the framework are rare because of the many existing and partly easier to
+The downside of using a js framework is that you bind yourself to its API and concepts.
+Angular has a step learning curve, is not versioned semantically, does breaking changes regulary
+and people familiar with the framework are rare, because of the many existing and partly easier to
 use competitors like Reactive, VueJS, Ember, Backbone, Aurelia, Meteor.js.
 
 SPAs require most libraries and interfaces to be loaded and initialized during startup,
-although only a fraction is used on every rendered page.
+although only a fraction is used on every rendered page. The browser is optimized in rendering
+html and SPAs are usually 10 lines of html and the rest is javascript generated DOM nodes.
 
 Paper UI therefore suffered from feeling unresponsive in certain situations and is hard to extend.
 
