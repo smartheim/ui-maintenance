@@ -1,0 +1,54 @@
+{
+  "opts": {
+    "template": "node_modules/better-docs",
+    "recurse": true,
+    "destination": "./out/",
+    "readme": "js/readme.md"
+  },
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/better-docs/category",
+    "docs/custom-elements-jsdoc.js"
+  ],
+  "recurseDepth": 10,
+  "source": {
+    "include": [
+      "js/"
+    ],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_|Chart.js"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": [
+      "category"
+    ]
+  },
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": false,
+    "default": {
+      "staticFiles": {
+        "include": [
+          "./"
+        ],
+        "includePattern": "/(docs|assets/img)/",
+        "excludePattern": "/(dist|node_modules|out)+/"
+      }
+    },
+    "better-docs": {
+      "name": "Setup&Maintenance JS Documentation",
+      "logo": "assets/img/openhab-logo.svg",
+      "navigation": [
+        {
+          "label": "Github",
+          "href": "https://github.com/davidgraeff/paperui-ng"
+        },
+        {
+          "label": "The application",
+          "href": "https://davidgraeff.github.io/paperui-ng/"
+        }
+      ]
+    }
+  }
+}

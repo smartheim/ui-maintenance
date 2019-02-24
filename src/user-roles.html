@@ -78,7 +78,7 @@
     </div>
 
     <oh-list-bind adapter="modeladapter_lists/user-roles" filtercriteria="label"></oh-list-bind>
-    <oh-vue-list>
+    <oh-vue-list class="mb-4">
       <partial src="vuelistbasics.html" key="item.id" help="contexthelp/user-roles"></partial>
       <template slot="item">
         <article :id="item.id" :class="[{haschanges: changed},{pulseAnimation: pulseAnimation}]">
@@ -97,7 +97,12 @@
           <section class="description mb-2">
             <p>Allow this user-role access to openHAB subsystems and <i>Items</i>.</p>
 
-            <div style="border-top: 1px solid black;display: grid;grid-template-columns: 200px 1fr;grid-gap: 10px;padding-top: 10px">
+            <div style="display: grid;grid-template-columns: 200px 1fr;grid-gap: 10px">
+              <label>Change password</label>
+              <input type="password" class="form-control" style="width: initial;display: initial" placeholder="Password"
+                @input="item.password=$event.target.value"></input>
+
+              <div style="border-top: 1px solid black;grid-column: 1 / span 2;padding-top: 10px"></div>
 
               <div>Subsystem access</div>
               <ui-multiselect class="form-control" viewkey="label" desckey="name" valuekey="name" :options.prop="$root.restEndpoints"

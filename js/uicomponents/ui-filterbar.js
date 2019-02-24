@@ -1,12 +1,16 @@
 import { html, render } from 'lit-html';
 
 /**
+ * @category Web Components
+ * @customelement ui-filter
+ * @description 
  * A UI component with a filter bar and a button group "grid"/"list"/"textual".
  * 
  * This is not a shadow-dom component, but still allows children ("slots"). Those
  * are shown when the selection mode is on.
  * 
  * Attributes:
+ * 
  * - "placeholder": A placeholder for the filter bar
  * - "value": A value for the filter bar
  * - "mode": The current mode. Must be one of "grid","list","textual"
@@ -15,12 +19,15 @@ import { html, render } from 'lit-html';
  * - "textual": The tooltip title of the textual button
  * 
  * Events:
+ * 
  * - "filter": The user clicked on the filter button or hit enter
+ * 
+ * @example <caption>Import an image, name it minnie.</caption>
+ * <ui-filter src="#minnie" name="minnie" index="1"></ui-filter>
  */
-class UiFilter extends HTMLElement {
+class UiFilterBar extends HTMLElement {
   constructor() {
     super();
-    this.classList.add("ui-filterbar");
   }
   static get observedAttributes() {
     return ['value'];
@@ -33,6 +40,7 @@ class UiFilter extends HTMLElement {
     }
   }
   connectedCallback() {
+    this.classList.add("ui-filterbar");
     if (this.hasAttribute("suggestions")) {
       this.suggestionsDomID = Math.random().toString(36);
       var suggestionsEl = document.createElement("datalist");
@@ -189,4 +197,4 @@ class UiFilter extends HTMLElement {
   }
 }
 
-customElements.define('ui-filter', UiFilter);
+customElements.define('ui-filter', UiFilterBar);

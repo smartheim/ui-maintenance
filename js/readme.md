@@ -1,12 +1,13 @@
 # Developer guideline for javascript
 
-You can add your independant javascript files (ES6 modules!) into this directory.
-During the build all files in this directory are minified and made available under
-`js/filename.js`.
+You can add your independant javascript files (ES6 modules!) into any `js/*` subdirectory.
+During the build each directory is build, minified and made available under
+`js/subdirectory-name.js`. 
 
-If you want to use npm dependencies (ES6-modules-only!)
-and bundle multiple files into a single file, put your files under `js/bundles/your-bundle-name/`.
-The entry point file must be `index.js`.
+You can use npm dependencies (ES6-modules-only!) in your javascript files.
+
+If you want to bundle multiple files into a single file,
+put your files under `js/your-bundle-name/` with an entry point file called `index.js`.
 During the build, a single, tree-shaked, minified file is created under `js/your-bundle-name.js`.
 
 No transpiling is performed during the build, as **all** javascript capable browsers
@@ -16,7 +17,8 @@ Use only JS features that have been available for all evergreen browsers for at 
 Embed your js files into a webpage by either adding it to `partials/head.html` or
 by adding it to the `<body>` section of a page.
 
-* Do NOT add a javascript link to the indivial `<head>` tag of a page.
+* Do NOT add a javascript link to the indivial `<head>` tag of a page. Those will not be considered
+  when a fetch-based page change happens.
 * Do NOT add inline javascript to pages (exception: Theme handling in `<head>`).
 
 #### Reactive parts like Lists

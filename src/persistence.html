@@ -65,7 +65,7 @@
     </div>
 
     <oh-list-bind adapter="modeladapter_lists/persistence" filtercriteria="label"></oh-list-bind>
-    <oh-vue-list>
+    <oh-vue-list class="mb-4">
       <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/persistence"></partial>
       <template slot="item">
         <article :id="item.uid" :class="[{haschanges: changed},{pulseAnimation: pulseAnimation}]">

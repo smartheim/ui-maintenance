@@ -142,7 +142,10 @@ See [Styling Readme](scss/readme.md).
 
 ### Javascript
 
-See [Javascript Readme](js/readme.md).
+Build the javascript documentation for the entire codebase with `npm run doc`.
+Open the generated documentation in "out/index.html".
+
+You can find a pre-build documentation here: https://davidgraeff.github.io/paperui-ng/out
 
 #### Used external libraries
 

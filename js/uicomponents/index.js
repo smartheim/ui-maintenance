@@ -12,6 +12,11 @@ export * from './ui-tags'
 export * from './ui-dropdown'
 export * from './ui-tabs'
 export * from './ui-multiselect'
+
+/**
+ * The youtube component
+ * @see ui-youtube
+ */
 export * from './ui-youtube'
 
 export * from './ui-community';
@@ -21,6 +26,15 @@ export * from './ui-codeeditor';
 export * from './ui-github-issues';
 
 import Yaml from '../_yaml';
+
 export { Yaml };
 
 export { generateTemplateForSchema } from '../_common/generate_demo';
+
+/**
+ * UI web components module.
+ * 
+ * Exports the YAML parser and converter via "Yaml".
+ * 
+ * @module uicomponents
+ */

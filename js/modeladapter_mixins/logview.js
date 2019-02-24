@@ -53,7 +53,11 @@ const Mixin = {
       if (!websocketData || websocketData.t !== "log") return;
       delete websocketData.t;
       if (websocketData.init) {
-        for (let d of websocketData.init) this.addItem(d);
+        let copy = [];
+        for (let d of websocketData.init) {
+          copy.push(d);
+        }
+        this.items = copy;
       } else {
         this.addItem(websocketData);
       }

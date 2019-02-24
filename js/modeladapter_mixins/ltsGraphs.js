@@ -11,7 +11,7 @@ const Mixin = {
       if (!websocketData.t || !allowedTypes.includes(websocketData.t)) return;
       const target = this.$refs[websocketData.t];
       if (websocketData.init) {
-        for (let d of websocketData.init) target.addData(d);
+        target.initData(websocketData.init);
       } else {
         delete websocketData.t;
         target.addData(websocketData);
