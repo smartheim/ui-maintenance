@@ -8,6 +8,7 @@
 
 <body>
   <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
+  <link rel="stylesheet" href="css/userroles.css" type="text/css" />
   <partial src="maintenancenav.html"></partial>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="User roles"></partial>
@@ -82,7 +83,6 @@
       <template slot="item">
         <article :id="item.id" :class="[{haschanges: changed},{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>
-          <vue-metainfo :uniqueid="item.id"></vue-metainfo>
           <header>
             <span :title="item.label+': Edit the name and press enter'" contenteditable="true" @blur="item.label=$event.target.innerText"
               @keypress.enter.prevent="item.label=$event.target.innerText">{{item.label}}</span>
@@ -91,38 +91,37 @@
             <button class="btn btn-success" title="Save changes" @click="save()"><i class="fas fa-save"></i></button>
             <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
           </section>
-          <section class="actions btn-group">
-            <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
-                class="fas fa-info"></i></button>
+          <section class="actions btn-group onlylist">
             <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
           </section>
           <section class="description mb-2">
             <p>Allow this user-role access to openHAB subsystems and <i>Items</i>.</p>
 
-            <div class="mb-2">Subsystem access:<br>
-              <ui-multiselect viewkey="label" desckey="name" valuekey="name" :options.prop="$root.restEndpoints"
+            <div style="border-top: 1px solid black;display: grid;grid-template-columns: 200px 1fr;grid-gap: 10px;padding-top: 10px">
+
+              <div>Subsystem access</div>
+              <ui-multiselect class="form-control" viewkey="label" desckey="name" valuekey="name" :options.prop="$root.restEndpoints"
                 placeholder="Restrict to" :value.prop="item.restEndpoints" @input="$set(item,'restEndpoints', $event.target.value)"></ui-multiselect>
-            </div>
 
-            <hr>
+              <div>Specific Items </div>
+              <ui-multiselect class="form-control" :options.prop="$root.itemlist" viewkey="label" valuekey="name"
+                desckey="name" placeholder="Select items" :value.prop="item.items" @input="item.items=$event.target.value"></ui-multiselect>
 
-            <div class="mb-2">Specific Items:<br>
-              <ui-multiselect :options.prop="$root.itemlist" viewkey="label" valuekey="name" desckey="name" placeholder="Select items"
-                :value.prop="item.items" @input="item.items=$event.target.value"></ui-multiselect>
-            </div>
+              <div>Additional items by name (Regex pattern)</div>
+              <textarea class="form-control" placeholder="Regex item pattern" v-model="item.itemByNamePattern"></textarea>
 
-            <div class="mb-2">Additional items by name:<br>
-              <input placeholder="Regex item pattern" v-model="item.itemByNamePattern">
-            </div>
+              <div>Additional items by label (Regex pattern)</div>
+              <textarea class="form-control" placeholder="Regex item pattern" v-model="item.itemByLabelPattern"></textarea>
 
-            <div class="mb-2">Additional items by label:<br>
-              <input placeholder="Regex item pattern" v-model="item.itemByLabelPattern">
-            </div>
+              <div>Additional items by tags</div>
+              <ui-tags class="form-control" :value.prop="item.itemByTags" placeholder="Tags" @input="item.itemByTags=$event.target.value"></ui-tags>
 
-            <div class="mb-2">Additional items by tags:<br>
-              <ui-tags :value.prop="item.itemByTags" placeholder="Tags" @input="item.itemByTags=$event.target.value"></ui-tags>
             </div>
           </section>
+          <footer>
+            <button class="ml-auto btn btn-outline-danger text-nowrap" @click="remove()">
+              <i class="fas fa-trash"></i><span class="ml-2">Remove</span></button>
+          </footer>
         </article>
       </template>
     </oh-vue-list>

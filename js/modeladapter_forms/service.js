@@ -7,11 +7,16 @@ class ModelAdapter {
   }
   stores() { return { "services": "value" } };
   async get(serviceid, options = null) {
-    const value = await store.get("services", serviceid, options);
-    if (value && value.configDescriptionURI)
-      await this.getConfig(serviceid, value.configDescriptionURI);
-    this.value = value;
-    return this.value;
+    try {
+      const value = await store.get("services", serviceid, options);
+      if (value && value.configDescriptionURI)
+        await this.getConfig(serviceid, value.configDescriptionURI);
+      this.value = value;
+      return this.value;
+    } catch (e) {
+      this.value = null;
+      return null;
+    }
   }
   async getConfig(serviceid, configDescriptionURI) {
     this.configDescription = await store.get("config-descriptions", configDescriptionURI, { force: true }).catch(e => { });

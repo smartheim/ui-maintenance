@@ -212,6 +212,7 @@ class UITimeGraph extends HTMLElement {
     var ctx = this.canvas.getContext('2d');
     this.charts = new Chart(ctx, this.config);
     root.appendChild(this.canvas);
+    this.show(null, { datasetIndex: 2 });
     this.charts.resize();
     this.ready = true;
     this.dispatchEvent(new Event("load"));
@@ -268,7 +269,7 @@ class UITimeGraph extends HTMLElement {
   initData(values) {
     const dataset = this.config.data.datasets[0];
     dataset.data = values;
-    this.show(null, { datasetIndex: 2 });
+    this.charts.update({ duration: 0 });
   }
 
 }

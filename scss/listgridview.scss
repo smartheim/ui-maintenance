@@ -188,6 +188,9 @@ ui-codeeditor[haschanges] {
         .btn>span {
             display: none;
         }
+        &.onlylist {
+          display: none;
+        }
     }
     section.description {
         grid-area: description;
