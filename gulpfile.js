@@ -64,7 +64,7 @@ var config = {
     destsw: './dist/sw.js',
   },
   external_js: [
-    './app.js', '../app.js', '../js/app.js',
+    './app.js', '../app.js', '../js/app.js', '../../js/app.js',
     './vue.js', '../vue.js', '../js/vue.js',
     './uicomponents.js', '../uicomponents.js',
     './ohcomponents.js', '../ohcomponents.js'

@@ -16,6 +16,7 @@ Chart.defaults.global.plugins.streaming = {
 
 /**
  * Update the chart data keeping the current animation but suppressing a new one
+ * @private
  * @param chart {Chart} chart to update
  */
 function updateChartData(chart) {

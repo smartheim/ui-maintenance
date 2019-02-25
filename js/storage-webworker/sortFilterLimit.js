@@ -6,8 +6,11 @@
  * @param {Number} options.limit Optional: Limit for the resulting collection. Is applied after sorting of course.
  * @param {String} options.sort Optional: Sort criteria (aka collection item property).
  * @param {String} options.filter Optional: A filter query like "label:living room" or "tags:abc && label:def"
+ * 
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
  */
-export function process(data, options) {
+function process(data, options) {
   const limit = options.limit;
   const hasmore = limit && limit < data.length;
   const filterString = options.filter && options.filter.length ? options.filter : null;
@@ -66,6 +69,7 @@ export function process(data, options) {
   }
   return filtered;
 }
+export { process };
 
 /**
  * Returns true if item1 is greater than item2
@@ -73,6 +77,9 @@ export function process(data, options) {
  * @param {Object} item1 Item to compare
  * @param {Object} item2 Item to compare
  * @param {String} sortCriteria A property name that must exist on both items
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
  */
 function isGreater(item1, item2, sortCriteria) {
   return item1[sortCriteria] > item2[sortCriteria];
@@ -90,6 +97,9 @@ function isGreater(item1, item2, sortCriteria) {
  * @param {Object} newItem The new item to be inserted into the sorted collection
  * @param {String} sortCriteria The sort criteria
  * @param {Boolean} reverse Reverses the sort
+ * 
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
  */
 function insertInto(collection, newItem, sortCriteria, reverse) {
   // Handle small sizes manually
@@ -140,6 +150,9 @@ function insertInto(collection, newItem, sortCriteria, reverse) {
  * @param {String} filters[].c The property name (for instance "id","label")
  * @param {String} filters[].f The filter term (for instance ("living room"))
  * @param {*} item The item
+ * 
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
  */
 function applyFilter(filters, item) {
   for (let filter of filters) {

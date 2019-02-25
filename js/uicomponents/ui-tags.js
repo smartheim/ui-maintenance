@@ -94,6 +94,7 @@ customElements.define('ui-tags', UiTags);
 /**
  * Input event
  *
+ * @category Web Components
  * @event ui-tags#input
  * @type {Array}
  */

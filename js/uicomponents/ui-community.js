@@ -1,7 +1,9 @@
 import { fetchWithTimeout } from '../_common/fetch';
 
 /**
- * This element renders a list the context help on the right pane.
+ * @category Web Components
+ * @customelement ui-community-topics
+ * @description This element renders a list of topics threads from the given forum url.
  * 
  * Attributes:
  * - "url": For example "https://api.github.com/repos/openhab/openhab2-addons/issues".

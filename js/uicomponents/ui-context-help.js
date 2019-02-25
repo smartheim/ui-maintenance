@@ -2,31 +2,26 @@ import { fetchWithTimeout } from '../_common/fetch';
 import { Marked } from "../_marked";
 
 const marked = new Marked();
-/**
- * This element renders a list the context help on the right pane.
- * 
- * Attributes:
- * - "url": For example "https://api.github.com/repos/openhab/openhab2-addons/issues".
- * - "loading": The loading html text
- * - "error": The error html text
- * - "nothome": read-only. Will be set, when the url is overwritten by "content"
- * 
- * Methods:
- * - checkCacheAndLoad(): Reloads data.
- * - reload(): Reset cache and reload.
- * - load(): Load a specific url
- * 
- * Properties:
- * - contenturl: Content that temporarly overwrittes the current url 
- */
 
+/**
+* @category Web Components
+* @customelement ui-context-help
+* @description This element renders the context help on the right pane.
+* @attribute url The url [https://api.github.com/repos/openhab/openhab2-addons/issues]
+* @attribute [loading] The loading html text [Loading...]
+* @attribute [error] The error html text [Error has happened]
+* @attribute [cachetime] The cache time in minutes [600]
+* @attribute [nothome] read-only. Will be set, when the url is overwritten by "content"
+* @property {String} contenturl Content url that temporarly overwrittes the current url 
+* @example <caption>Example</caption>
+* <ui-context-help></ui-context-help>
+*/
 class OhContextHelp extends HTMLElement {
   constructor() {
     super();
   }
   static get observedAttributes() {
-    return ['url',
-      'cachetime'];
+    return ['url', 'cachetime'];
   }
   connectedCallback() {
     if (!this.style.display || this.style.display.length == 0) this.style.display = "block";
@@ -52,6 +47,9 @@ class OhContextHelp extends HTMLElement {
     }
     if (this.initdone) this.checkCacheAndLoad();
   }
+  /**
+   * Reloads data
+   */
   checkCacheAndLoad() {
     if (!this.url) {
       this.innerHTML = "No url given!";
@@ -69,12 +67,22 @@ class OhContextHelp extends HTMLElement {
       this.reload();
     }
   }
+  /**
+   * Goes back to the set "url" that might have been temporarily overwritten by {@link #load}.
+   */
   home() {
     this.contenturl = this.originalurl;
   }
+  /**
+   * Reset cache and reload.
+   */
   reload() {
     this.load(this.url);
   }
+  /**
+   * Load a specific url
+   * @property {String} contenturl Content that temporarly overwrittes the current url 
+   */
   load(contenturl) {
     fetchWithTimeout(contenturl).then(response => response.text()).then(str => contenturl.includes(".md") ? marked.parse(str) : str).then(html => {
       localStorage.setItem(contenturl, html);

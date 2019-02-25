@@ -2,17 +2,18 @@ import { fetchWithTimeout } from '../_common/fetch';
 import { Marked } from "../_marked/index.mjs";
 
 /**
- * This element renders the changelog from the github release page
- * 
- * Attributes:
- * - "url": For example "https://api.github.com/repos/openhab/openhab-distro/releases/latest".
- * - "cachetime": A cache time in minutes. Default is one day.
- * - "hasissues": read-only. Will be set, when there are issues found for the given filter.
- *                Use this in css selectors to show/hide etc.
- * 
- * Methods:
- * - reload(): Reloads data.
- */
+* @category Web Components
+* @customelement ui-changelog
+* @description This element renders the changelog from the github release page
+* 
+* @attribute url For example "https://api.github.com/repos/openhab/openhab-distro/releases/latest".
+* @attribute cachetime A cache time in minutes. Default is one day.
+* @attribute hasissues read-only. Will be set, when there are issues found for the given filter.
+*                Use this in css selectors to show/hide etc.
+* 
+* @example <caption>An example</caption>
+* <ui-changelog></ui-changelog>
+*/
 class OhChangelog extends HTMLElement {
   constructor() {
     super();
@@ -71,6 +72,9 @@ class OhChangelog extends HTMLElement {
       this.reload();
     }
   }
+  /**
+   * Forcefully reloads the data.
+   */
   reload() {
     this.toc = [];
     localStorage.removeItem("timestamp_" + this.url);

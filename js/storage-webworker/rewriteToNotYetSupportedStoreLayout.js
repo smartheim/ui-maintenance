@@ -1,8 +1,3 @@
-/**
- * This file contains hacks!
- * It contains REST receive rewrite operations to support features that are not yet in
- * the mainline openHAB.
- */
 import { fetchWithTimeout } from '../_common/fetch';
 
 const randomNames = [
@@ -68,6 +63,14 @@ const randomDesc = [
   }
 ];
 
+/**
+ * This method implements hacks!
+ * It contains REST receive rewrite operations to support features that are not yet in
+ * the mainline openHAB.
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
+ */
 export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) {
   switch (storename) {
     case "bindings": {
@@ -167,6 +170,9 @@ export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) 
 
 /**
  * Rewrites an entire store table. This happens after a http fetch.
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
  */
 export async function hack_rewriteTableToNotYetSupportedStoreLayout(storename, table, store) {
   if (store.host == "demo") {
@@ -343,8 +349,15 @@ export async function hack_rewriteTableToNotYetSupportedStoreLayout(storename, t
   return table;
 }
 
-// Block some tutorial injected Things, Items, Bindings.
-// Block some for the maintenance page injected, not yet existing, services
+/**
+ * This structure contains all table rows that should be blocked from receiving REST updates.
+ * 
+ * Block some tutorial injected Things, Items, Bindings.
+ * Block some for the maintenance page injected, not yet existing, services
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
+ */
 export const blockLiveDataFromTableRows = {
   "inbox": { "demo1": true, "demo2": true },
   "things": { "demo1": true, "demo2": true },

@@ -1,3 +1,11 @@
+/**
+ * @category Web Components
+ * @customelement nav-breadcrumb
+ * @description A navigation breadcrumb
+
+ * @example <caption>An example</caption>
+ * <nav-breadcrumb></nav-breadcrumb>
+ */
 class NavBreadcrumb extends HTMLElement {
   constructor() {
     super();

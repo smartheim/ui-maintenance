@@ -1,18 +1,17 @@
 import { fetchWithTimeout } from '../_common/fetch';
-/**
- * This element renders a list of github-issue links (ul->li->a).
- * 
- * Attributes:
- * - "url": For example "https://api.github.com/repos/openhab/openhab2-addons/issues".
- * - "filter": "deconz"
- * - "cachetime": A cache time in minutes. Default is one day.
- * - "hasissues": read-only. Will be set, when there are issues found for the given filter.
- *                Use this in css selectors to show/hide etc.
- * 
- * Methods:
- * - reload(): Reloads data.
- */
 
+/**
+* @category Web Components
+* @customelement ui-github-issues
+* @description This element renders a list of github-issue links (ul->li->a).
+* @attribute url For example "https://api.github.com/repos/openhab/openhab2-addons/issues".
+* @attribute filter For example "deconz"
+* @attribute cachetime A cache time in minutes. Default is one day.
+* @attribute hasissues  read-only. Will be set, when there are issues found for the given filter.
+ *                Use this in css selectors to show/hide etc.
+* @example <caption>Github issues example</caption>
+* <ui-github-issues></ui-github-issues>
+*/
 class OhGithubIssues extends HTMLElement {
   constructor() {
     super();
@@ -37,6 +36,9 @@ class OhGithubIssues extends HTMLElement {
     if (this.filter) this.filter = this.filter.toLowerCase();
     if (this.initdone) this.checkCacheAndLoad();
   }
+  /**
+   * Refreshes the content (either from the cache or if that is invalid from the url).
+   */
   checkCacheAndLoad() {
     if (!this.url) {
       this.style.display = "block";
@@ -53,6 +55,9 @@ class OhGithubIssues extends HTMLElement {
       this.reload();
     }
   }
+  /**
+   * Force reloads the content from the given url.
+   */
   reload() {
     localStorage.removeItem("timestamp_" + this.url);
     this.innerHTML = this.loading;

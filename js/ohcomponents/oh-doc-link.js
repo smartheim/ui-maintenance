@@ -1,5 +1,7 @@
 /**
- * This is a tandem component for ui-context-help and alike.
+ * @category Data Components
+ * @customelement oh-doc-link
+ * @description This is a tandem component for ui-context-help and alike.
  * 
  * The target component is expected to have this API interface:
  * .reload() // Optional: For reloading content

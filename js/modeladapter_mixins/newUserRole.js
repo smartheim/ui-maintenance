@@ -19,7 +19,7 @@ const Mixin = {
     create() {
 
     },
-    destroyed() {
+    destroyed() { // Remove the vue portal
       const actions = document.querySelectorAll("#actions>.users");
       for (let action of actions) action.remove();
     },

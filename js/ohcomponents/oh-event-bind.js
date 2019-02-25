@@ -1,5 +1,7 @@
 /**
- * Extracts a value from an event ("eventName") of a "destination" and adds it as an attribute ("attribute")
+ * @category Data Components
+ * @customelement oh-event-bind
+ * @description Extracts a value from an event ("eventName") of a "destination" and adds it as an attribute ("attribute")
  * to the referenced target via element ID given by "for" or by using the next sibling element.
  * 
  * Valid attributes:

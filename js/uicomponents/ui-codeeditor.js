@@ -13,16 +13,19 @@ const NEVER_CANCEL_TOKEN = {
 };
 
 /**
- * A VS-Code base editor component. 
+* @category Web Components
+* @customelement ui-codeeditor
+* @description A VS-Code based editor component. (Project "monaco").
+*
+* Events:
+* - "state": Emited as soon as the editor content has been altered
  * 
- * Properties:
- * - scriptfile: A URL to show in the editor
- * - content: A content object: {value:"text",language:"javascript|yaml",modeluri:"optional_schema_uri"}
- * - modelschema: A model schema object
- * - haschanges: A boolean that is true if the editor content has been altered
- * 
- * Events:
- * - "state": Emited as soon as the editor content has been altered
+ * @property {String} scriptfile A URL to show in the editor
+ * @property {Object} content A content object: {value:"text",language:"javascript|yaml",modeluri:"optional_schema_uri"}
+ * @property {Object} modelschema A model schema object
+ * @property {Boolean} haschanges A boolean that is true if the editor content has been altered
+ * @example <caption>Code editor example</caption>
+ * <ui-codeeditor></ui-codeeditor>
  */
 class OhCodeEditor extends HTMLElement {
   constructor() {

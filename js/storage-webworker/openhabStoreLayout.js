@@ -1,10 +1,12 @@
-
 /**
  * The following table describes all available stores for the model (database). Most
  * of the stores correspond to a REST endpoint. If a rest endpoint does not allow
  * indiviual object requests, it is annotated with "singleRequests: false".
  * 
  * Some stores are pre-loaded on application start, annotated with "onstart: true".
+ * 
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
  */
 const tables = [
   { id: "bindings", uri: "rest/bindings", key: "id", singleRequests: false, onstart: true, label: "Bindings" },// ALTERED
@@ -40,11 +42,20 @@ const tables = [
   { id: "things", uri: "rest/things", key: "UID", onstart: true, label: "Things" },
   { id: "voice-interpreters", uri: "rest/voice", key: "id", label: "Voice interpreters" },
 ];
+
+/**
+ * The current DB version. Whenever the data table layout is changed, this need to be increased.
+ * It will force the indexed db to be cleared out and rebuild.
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
+ */
 const dbversion = 44;
 
 /** 
  * This is an associative map of storenames to store-layout descriptions.
  * @const
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
  */
 var tableIDtoEntry = {};
 for (let t of tables) tableIDtoEntry[t.id] = t;

@@ -27,6 +27,15 @@ window.toggleSidebar = (event) => {
   event.preventDefault();
 }
 
+/**
+ * Creates a notification dom element.
+ * 
+ * @param {String} id The dom ID
+ * @param {String} message The message
+ * @param {Boolean} persistent If set to true, the notification will not auto-dismiss
+ * @param {Integer} timeout The timeout in milliseconds.
+ * @see module:uicomponents
+ */
 export function createNotification(id, message, persistent = false, timeout = 5000) {
   const oldEl = id ? document.getElementById(id) : null;
   const el = oldEl ? oldEl : document.createElement("ui-notification");
@@ -37,6 +46,12 @@ export function createNotification(id, message, persistent = false, timeout = 50
   document.body.appendChild(el);
 }
 
+/**
+ * The proxy model instance to communicate with the data model.
+ * 
+ * @type {StorageConnector}
+ * @see module:storage-webworker
+ */
 const store = new StorageConnector();
 
 store.addEventListener("connecting", () => createNotification("connecting", "Connecting&hellip;", true, 2000), { passive: true });
@@ -78,3 +93,12 @@ setTimeout(() => {
 }, 100);
 
 export { store };
+
+/**
+ * The main / app module.
+ * 
+ * Contains the proxy to communicate with the data model.
+ * 
+ * @category App
+ * @module app
+ */

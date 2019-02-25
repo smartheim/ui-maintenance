@@ -1,7 +1,3 @@
-/**
- * This file contains hacks!
- * It contains REST endpoints that are not yet in the mainline openHAB.
- */
 
 async function addManualExtensions(tx) {
   const store = tx.objectStore('manualextensions');
@@ -484,10 +480,23 @@ async function addUserRoles(tx) {
   for (let d of data) await store.add(d);
 }
 
+/**
+ * Block live REST request for these tables
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
+ */
 export const blockLiveDataFromTables = ['manualextensions', 'scripts', 'persistence-services',
   'persistence', 'script-types', "item-types", "item-group-function-types", "extension-repositories",
   "icon-set", "user-interfaces", "bundle-status", 'user-roles', "about"];
 
+/**
+ * This methods implements hacks!
+ * It creates REST endpoints that are not yet in the mainline openHAB.
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
+ */
 export async function hack_addNotYetSupportedStoreData(db) {
   const tx = db.transaction(blockLiveDataFromTables, 'readwrite');
   addManualExtensions(tx);

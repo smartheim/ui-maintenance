@@ -150,6 +150,7 @@ const formatDate = (date, format = 'yyyy-mm-dd', localizedTexts) => {
 //
 //
 //
+//
 
 var script = {
   props: {
@@ -471,7 +472,7 @@ var script = {
     onDragStart(e, event) {
       let { dragAnEvent, dragging } = this.domEvents;
 
-      this.$parent.dragPosition = e.offsetY;
+      this.$parent.cursorPosition = e.offsetY;
       this.$parent.dragCurrentCell = this.cellid;
 
       dragging = true;
@@ -489,7 +490,7 @@ var script = {
       for (let el of elArray) {
         if (el.__vue__ && el.__vue__.dragEnd) {
           const m =
-            (el.__vue__.dragPosition * this.timeStep) / this.timeCellHeight;
+            (el.__vue__.cursorPosition * this.timeStep) / this.timeCellHeight;
           el.__vue__.dragEnd(
             Math.floor((m + this.timeFrom) / 60),
             Math.floor(m + this.timeFrom) % 60
@@ -498,7 +499,7 @@ var script = {
         }
       }
       this.domEvents.dragging = false;
-      this.$parent.dragPosition = null;
+      this.$parent.cursorPosition = null;
     },
 
     onMouseEnter(e, event) {
@@ -1030,13 +1031,16 @@ var __vue_render__ = function() {
             style: "top: " + _vm.todaysTimePosition + "px"
           })
         : _vm._e(),
-      _vm.$parent.dragPosition != null &&
       _vm.$parent.dragCurrentCell == _vm.cellid
-        ? _c("div", {
-            key: "dragline",
-            staticClass: "vuecal__drag-line",
-            style: "top: " + _vm.$parent.dragPosition + "px"
-          })
+        ? _c(
+            "div",
+            {
+              key: "dragline",
+              staticClass: "uecal__cursor-line",
+              style: "top: " + _vm.$parent.cursorPosition + "px"
+            },
+            [_c("span", [_vm._v(_vm._s(_vm.texts.noEvent))])]
+          )
         : _vm._e()
     ],
     2
@@ -1073,7 +1077,7 @@ __vue_render__._withStripped = true;
 
 //
 
-var script$1 = {
+const VueCal = {
   name: "vue-cal",
   components: { "vuecal-cell": Cell },
   props: {
@@ -1235,7 +1239,7 @@ var script$1 = {
       dateFormat: "DDDD mmmm d{S}, yyyy"
     },
 
-    dragPosition: null,
+    cursorPosition: null,
     dragCurrentCell: null,
     ready: false,
     now,
@@ -1489,14 +1493,17 @@ var script$1 = {
       e.dataTransfer.dropEffect = "move";
     },
 
+    onCellMouseMove(e, cellid) {
+      if (e.offsetY < 10) return;
+      this.cursorPosition = e.offsetY;
+      this.dragCurrentCell = cellid;
+    },
     onDragOver(e, cell, cellid) {
-      e.preventDefault();
       e.dataTransfer.dropEffect = "move";
       if (e.offsetY == -1) {
         console.trace();
         return;
       }
-      this.dragPosition = e.offsetY;
       this.dragCurrentCell = cellid;
     },
 
@@ -2211,7 +2218,7 @@ var script$1 = {
 };
 
 /* script */
-const __vue_script__$1 = script$1;
+const __vue_script__$1 = VueCal;
 /* template */
 var __vue_render__$1 = function() {
   var _vm = this;
@@ -2677,6 +2684,9 @@ var __vue_render__$1 = function() {
                                               []
                                           },
                                           nativeOn: {
+                                            mousemove: function($event) {
+                                              _vm.onCellMouseMove($event, i);
+                                            },
                                             dragover: function($event) {
                                               $event.target.dataset.id &&
                                                 _vm.onDragOver($event, cell, i);
@@ -2959,3 +2969,4 @@ __vue_render__$1._withStripped = true;
   );
 
 export default index;
+export { VueCal };

@@ -20,6 +20,9 @@ const QUEUE_TIMEOUT = 5000;
  * - "connectErrorType": The error type. E.g. 404, 403, 4041 (cross-origin) etc
  * - "host": The host:port that the storage wanted to connect to.
  *      If reconnect has not be called yet, this is `null`.
+ * 
+ * @category App
+ * @memberof module:app
  */
 export class StorageConnector extends EventTarget {
   constructor() {

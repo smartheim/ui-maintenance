@@ -33,7 +33,7 @@ const Mixin = {
   components: { 'dynamic-scroller': DynamicScroller, 'dynamic-scroller-item': DynamicScrollerItem },
   methods: {
     setFilter(filterString) {
-      if (filterString == "") {
+      if (!filterString || filterString == "") {
         this.filterString = null;
         this.filtered = this.items;
         return;
@@ -58,6 +58,7 @@ const Mixin = {
           copy.push(d);
         }
         this.items = copy;
+        this.setFilter(this.filterString);
       } else {
         this.addItem(websocketData);
       }

@@ -51,8 +51,11 @@ import { tables, tableIDtoEntry, dbversion } from './openhabStoreLayout';
  * **TODO:** This store class contains the indexedDB interface ("get","getAll") code as well
  * as http database refresh code ("performRESTandNotify" etc). To honour separation of
  * concerns this should be split into those two parts.
+ * 
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
  */
-export class StateWhileRevalidateStore extends EventTarget {
+class StateWhileRevalidateStore extends EventTarget {
   constructor() {
     super();
     this.activeRESTrequests = {};
@@ -558,6 +561,7 @@ export class StateWhileRevalidateStore extends EventTarget {
   }
 }
 
+export { StateWhileRevalidateStore };
 
 function wrapIfRequired(tableLayout, objectid, json) {
   if (tableLayout.wrapkey) {

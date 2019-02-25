@@ -1,6 +1,7 @@
 
 /**
- * Takes a list adapter, the database store and optionally an objectid.
+ * @category Data Components
+ * @description Takes a list adapter, the database store and optionally an objectid.
  * 
  * Whenever the store changes, the list adapter content will be updated,
  * which in turn will update the views.

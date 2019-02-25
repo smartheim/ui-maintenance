@@ -1,7 +1,7 @@
 <nav class="sidebar leftright">
   <h4>Navigation</h4>
   <ul>
-    <ui-nav-auto-link></ui-nav-auto-link>
+    <oh-nav-auto-link></oh-nav-auto-link>
     <li><a data-no-reload="nav" href="maintenance.html">Maintenance</a></li>
     <li><a data-no-reload="nav" href="configuration.html">Configuration</a></li>
     <li><a data-no-reload="nav" href="user-roles.html">User roles</a></li>
@@ -29,7 +29,7 @@
       <partial src="vuelisterrors.html"></partial>
       <ul slot="app" v-else>
         <oh-vue-listitem v-for="item in items" v-if="item.category!='system'" :key="item.id" :listitem="item"></oh-vue-listitem>
-        <ui-nav-auto-link v-if="items.length"></ui-nav-auto-link>
+        <oh-nav-auto-link v-if="items.length"></oh-nav-auto-link>
       </ul>
     </template>
     <template slot="item">

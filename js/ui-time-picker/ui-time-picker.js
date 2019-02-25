@@ -1,5 +1,12 @@
 import { FlatpickrInstance } from '../_flatpickr';
 
+/**
+ * @category Web Components
+ * @customelement ui-time-picker
+ * @description Time picker
+ * @example <caption>An example</caption>
+ * <ui-time-picker></ui-time-picker>
+ */
 class UiTimePicker extends HTMLElement {
   constructor() {
     super();
@@ -30,3 +37,12 @@ class UiTimePicker extends HTMLElement {
 }
 
 customElements.define('ui-time-picker', UiTimePicker);
+
+/**
+ * Time Picker UI module
+ * 
+ * Because this component is not used on every page, it has its own module.
+ * 
+ * @category Web Components
+ * @module ui-time-picker
+ */

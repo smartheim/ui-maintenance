@@ -1,6 +1,8 @@
 import { store } from '../js/app.js'; // Pre-bundled, external reference
 /**
- * This is a tandem component for ui-context-help and alike.
+ * @category Data Components
+ * @customelement oh-login-status-link
+ * @description This is a tandem component for ui-context-help and alike.
  * 
  * The target component is expected to have this API interface:
  * .reset() // Optional: For reloading content

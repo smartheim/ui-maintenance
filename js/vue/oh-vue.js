@@ -6,6 +6,9 @@ Vue.config.ignoredElements = [
 ]
 
 /**
+ * @category Web Components (Reactive)
+ * @customelement oh-vue
+ * @description 
  * A vue rendered component.
  * 
  * This component renders nothing until start() is called.
@@ -30,6 +33,8 @@ class OhVue extends HTMLElement {
     this.tmpl = tmpEl;
     this.ok = true;
     this.dispatchEvent(new Event("load"));
+
+    if (this.hasAttribute("immediate")) this.start([], null);
   }
   disconnectedCallback() {
     if (this.vue && this.vue.destroyed) this.vue.destroyed();

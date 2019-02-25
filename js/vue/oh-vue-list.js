@@ -11,6 +11,9 @@ Vue.config.ignoredElements = [
 ]
 
 /**
+ * @category Web Components (Reactive)
+ * @customelement oh-vue-list
+ * @description 
  * A vue rendered list of items components. Several mixins are included
  * by default to allow a filter-bar, a text editor for items etc.
  * 

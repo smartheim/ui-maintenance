@@ -8,6 +8,8 @@ const store = new StateWhileRevalidateStore;
  * In this main entry point file the web-worker message channel is established
  * and incoming messages are proxied to the store and store responses
  * as well as events are marshalled into outgoing messages.
+ * 
+ * @category Webworker Storage Model
  */
 class StorageWorker {
   constructor() {
@@ -76,3 +78,10 @@ self.addEventListener("connect", connection => {
   console.debug("client connected to shared-webworker");
   worker.addPort(connection.ports[0]);
 }, false);
+
+/**
+ * The data model module
+ * 
+ * @category Webworker Storage Model
+ * @module storage-webworker
+ */

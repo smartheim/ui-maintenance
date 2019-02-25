@@ -22,17 +22,16 @@ by adding it to the `<body>` section of a page.
 * Do NOT add inline javascript to pages (exception: Theme handling in `<head>`).
 
 
-### Web component
+### Web components
 
 Webcomponents for
 
 * fetching and displaying a context help,
-* the openHAB REST interface,
 * the openHAB community forum,
 * github openHAB addons repository for documentation fetching
 * navigation components (breadcrumb, prev/next-buttons)
 
-are available in the `uicomponents` module and can be used in other projects as well.
+are available in the {@link module:uicomponents} module and can be used in other projects as well.
 
 The html dom API alone is a bit clumsy for more complex reactive components though.
 I have used [lit-html](https://lit-html.polymer-project.org/guide/writing-templates) in
@@ -46,7 +45,7 @@ rendering but also offers one-way and two-way bindings. Or we directly use
 to tree-shaking and building up on modern standards only, will also come with a low
 footprint.
 
-### How does interaction with openHAB works
+### Data components / Data model: How does interaction with openHAB works
 
 A Model-View-Adapter (MVA) concept is in place and illustrated in
 the following diagram:
@@ -55,18 +54,28 @@ the following diagram:
 
 [Image source](https://drive.google.com/file/d/1lqg5GJHdkVk5PlnCgbheggQ7MSwSDHfj/view?usp=sharing)
 
-There are several components used as **View**:
-* The `VueJS` based `oh-vue-list` for reactive list
-* The `ui-dropdown` for a dropdown (e.g. selection of *Items* or *Profiles*)
-* The `VueJS` based `oh-vue` for configuration pages
+#### The views
 
-The `oh-vue-list-bind` and `oh-vue-bind` classes serve as **Controllers**.
-They receive all *remove* and *change* requests of the *Views* and also observe the *Model*
-and *Adapter* for any changes.
+There are several components used as **View**:
+* The `ui-dropdown` for a dropdown (e.g. selection of *Items* or *Profiles*)
+* The `VueJS` based `oh-vue-list` for reactive lists with model state in mind (Things list, Items list etc)
+* The `VueJS` based `oh-vue-form` for a reactive form with model state in mind (New item, New Scene, configuration pages etc)
+* The `VueJS` based `oh-vue` for a simple vue rendered template. Cannot be used with most of the controllers.
+
+#### Controllers
+
+The `oh-vue-list-bind`, `oh-vue-form-bind` and `oh-vue-bind` classes serve as **Controllers**.
+They observe the *Model* and *Adapter* for any changes.
+
+You will find all controllers in {@link module:ohcomponents}.
+
+#### Adapters
 
 The `modeladapter_lists/*`, `modeladapter_forms/*` and `modeladapter_mixins/*`
 classes provide Mixins for the *View*, but also provide
 Model **Adapters** that communicate with the *Model* (aka Store).
+
+You will find all adapters in the respective category.
 
 #### The Model
 
@@ -75,9 +84,6 @@ for this architecture. All requested REST endpoints are cached in a Index DB and
 in sync via SSE (Server Send Events). The storage follows a State-While-Revalidate strategy.
 
 The Index DB access and REST updates happen in a web-worker.
-Heavy operations like table joining and sorting is outsourced into the web-worker.
+Heavy operations like table joining and sorting is outsourced into the worker.
 
-Multiple browser tabs stay in sync and only a single SSE connection must
-be established. (Not true at the moment. Shared web workers do not work in WebKit/Safari.)
-
-This architecture should provide us with low-latency rendering performance.
+This architecture provides us with low-latency rendering performance.

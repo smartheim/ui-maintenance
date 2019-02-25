@@ -678,17 +678,17 @@
     background-size: 1.2em;
 }
 .vuecal__now-line,
-.vuecal__drag-line {
+.uecal__cursor-line {
   position: absolute;
   left: 0;
   width: 100%;
   height: 0;
   color: red;
-  border-top: 1px solid currentColor;
+  border-top: 2px solid currentColor;
   opacity: 0.6;
 }
 .vuecal__now-line:before,
-  .vuecal__drag-line:before {
+  .uecal__cursor-line:before {
     content: "";
     position: absolute;
     top: -6px;
@@ -696,7 +696,7 @@
     border: 5px solid transparent;
     border-left-color: currentColor;
 }
-.vuecal__drag-line {
+.uecal__cursor-line {
   color: blue;
 }
 .vuecal__event--transient {

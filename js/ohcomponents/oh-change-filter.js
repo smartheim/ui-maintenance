@@ -1,5 +1,7 @@
 /**
- * This is a tandem component for ui-filterbar and ui-vue-list-bind
+ * @category Data Components
+ * @customelement oh-change-filter
+ * @description This is a tandem component for ui-filterbar and ui-vue-list-bind
  * 
  */
 class OhChangeFilter extends HTMLElement {

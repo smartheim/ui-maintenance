@@ -46,7 +46,6 @@ const schema = {
   },
 }
 
-
 const ListMixin = {
   methods: {
     save: function () {

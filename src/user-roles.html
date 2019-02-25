@@ -12,7 +12,7 @@
   <partial src="maintenancenav.html"></partial>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="User roles"></partial>
-  <main>
+  <main class="userroles">
 
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
       select="Selection mode">
@@ -105,8 +105,8 @@
               <div style="border-top: 1px solid black;grid-column: 1 / span 2;padding-top: 10px"></div>
 
               <div>Subsystem access</div>
-              <ui-multiselect class="form-control" viewkey="label" desckey="name" valuekey="name" :options.prop="$root.restEndpoints"
-                placeholder="Restrict to" :value.prop="item.restEndpoints" @input="$set(item,'restEndpoints', $event.target.value)"></ui-multiselect>
+              <ui-multiselect class="form-control" viewkey="label" valuekey="id" :options.prop="$root.restEndpoints"
+                placeholder="Restrict to subsystems" :value.prop="item.restEndpoints" @input="$set(item,'restEndpoints', $event.target.value)"></ui-multiselect>
 
               <div>Specific Items </div>
               <ui-multiselect class="form-control" :options.prop="$root.itemlist" viewkey="label" valuekey="name"

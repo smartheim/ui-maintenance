@@ -8,8 +8,15 @@ export * from './oh-attribute-bind';
 export * from './oh-event-bind';
 export * from './oh-prop-bind';
 export * from './oh-dropdown-bind';
+export * from './oh-nav-auto-link'
 
-export * from './oh-data-bind';
 export * from './oh-vue-bind';
 export * from './oh-vue-form-bind';
 export * from './oh-vue-list-bind';
+
+/**
+ * Data components module.
+ * 
+ * @category Data Components
+ * @module ohcomponents
+ */

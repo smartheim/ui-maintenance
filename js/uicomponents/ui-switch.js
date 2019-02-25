@@ -1,3 +1,12 @@
+/**
+ * @category Web Components
+ * @customelement ui-switch
+ * @description A switch
+ * @attribute [storekey] A localstorage key
+ * @attribute [documentevent] An event with this name is send to the document on change
+ * @example <caption>A switch</caption>
+ * <ui-switch></ui-switch>
+ */
 class UiSwitch extends HTMLElement {
   constructor() {
     super();

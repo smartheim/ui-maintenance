@@ -1,7 +1,9 @@
 import { fetchWithTimeout } from '../_common/fetch';
 
 /**
- * This element renders a list of links (ul->li->a)
+ * @category Data Components
+ * @customelement oh-script-snippets
+ * @description This element renders a list of links (ul->li->a)
  * with available script snippets from, that it fetches
  * from "scriptsnippets/index.json". That file is expected
  * to be a json list with {name,file} entries.

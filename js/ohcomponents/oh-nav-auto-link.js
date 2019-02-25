@@ -1,7 +1,17 @@
 /**
- * Update the "active" class for child links, depending on the current page url.
+ * @category Data Components
+ * @memberof module:ohcomponents
+ * @customelement oh-nav-auto-link
+ * @description Update the "active" class for sibling child links, depending on the current page url.
+
+ * @example <caption>Usage</caption>
+ * <nav>
+ * <oh-nav-auto-link></oh-nav-auto-link>
+    <div><a id="navmaintenance" href="maintenance.html">Maintenance</a></div>
+    <div><a id="navbindings" href="bindings.html">Add-ons</a></div>
+ * </nav>
  */
-class UiNavAutoLink extends HTMLElement {
+class OhNavAutoLink extends HTMLElement {
   constructor() {
     super();
     this.pageChangedBound = () => this.checkLinks();
@@ -14,6 +24,10 @@ class UiNavAutoLink extends HTMLElement {
     this.style.display = "none";
     this.checkLinks();
   }
+  /**
+   * Checks the sibling links if they need the "active" class (depending on the 'href' attribute).
+   * This method is automatically called on every "DOMContentLoaded" event.
+   */
   checkLinks() {
     var parentlink = document.querySelector('link[rel="parent"]');
     if (parentlink) parentlink = parentlink.href;
@@ -35,4 +49,4 @@ class UiNavAutoLink extends HTMLElement {
   }
 }
 
-customElements.define('ui-nav-auto-link', UiNavAutoLink);
+customElements.define('oh-nav-auto-link', OhNavAutoLink);

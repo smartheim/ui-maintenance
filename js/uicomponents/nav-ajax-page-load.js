@@ -1,4 +1,9 @@
+import Navigator from '../_page';
+
 /**
+ * @category Web Components
+ * @customelement nav-ajax-page-load
+ * @description 
  * To avoid flickering of the website-shell, an ajax loading mechanism
  * is used. This is a progressive enhancement and the page works without
  * it as well.
@@ -13,11 +18,11 @@
  * A not-found message is shown if loading failed.
  * 
  * A replacement does not happen if the link points to the same page or ("#").
+ * 
+ * @see https://github.com/oom-components/page-loader
+ * @example <caption>An example</caption>
+ * <nav-ajax-page-load></nav-ajax-page-load>
  */
-
-// https://github.com/oom-components/page-loader
-import Navigator from '../_page';
-
 class NavAjaxPageLoad extends HTMLElement {
   constructor() {
     super();

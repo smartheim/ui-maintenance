@@ -47,10 +47,10 @@
 
         <div class="graphs mb-4">
           <oh-websocket-data id="ltsGraphs" :href="value.config ? value.config.websocketPort : ''" simulation="modelsimulation/ltsGraphs"
-            @data="newData"></oh-websocket-data>
-          <ui-time-graph ref="memory" color="green" views="Hour,Day,Week" maxdata="20" label="Memory in MB"></ui-time-graph>
-          <ui-time-graph ref="cpu" color="red" views="Hour,Day,Week" maxdata="20" label="CPU in %"></ui-time-graph>
-          <ui-time-graph ref="threads" color="blue" views="Hour,Day,Week" maxdata="20" label="# Threads"></ui-time-graph>
+            @data="newData" :run.prop="websocketRun"></oh-websocket-data>
+          <ui-time-graph @loaded="targetLoaded" ref="memory" color="green" views="Hour,Day,Week" maxdata="20" label="Memory in MB"></ui-time-graph>
+          <ui-time-graph @loaded="targetLoaded" ref="cpu" color="red" views="Hour,Day,Week" maxdata="20" label="CPU in %"></ui-time-graph>
+          <ui-time-graph @loaded="targetLoaded" ref="threads" color="blue" views="Hour,Day,Week" maxdata="20" label="# Threads"></ui-time-graph>
         </div>
         <template v-if="value.status && value.status.extended">
           <div class="mb-4" v-for="extended of value.status.extended" v-if="extended.id!='warning'">

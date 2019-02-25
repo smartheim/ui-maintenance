@@ -1,6 +1,8 @@
 import { importModule } from "../_common/importModule";
 /**
- * Extracts a value from the URL query string ("queryParameter") and adds it as an attribute
+ * @category Data Components
+ * @customelement oh-tutorial-starter
+ * @description Extracts a value from the URL query string ("queryParameter") and adds it as an attribute
  * to the referenced destination via element ID given by "for" or by using the next sibling element.
  */
 class OhTutorialStarter extends HTMLElement {

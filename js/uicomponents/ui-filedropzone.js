@@ -1,6 +1,14 @@
 import { html, render } from 'lit-html';
 import style from './ui-filedropzone.scss';
 
+/**
+ * @category Web Components
+ * @customelement ui-drop-zone
+ * @description A file drop zone
+
+ * @example <caption>A drop-zone</caption>
+ * <ui-drop-zone></ui-drop-zone>
+ */
 class UiDropZone extends HTMLElement {
   constructor() {
     super();
@@ -61,15 +69,15 @@ class UiDropZone extends HTMLElement {
     const form = event.target;
     const input = form.querySelector('input[type="file"]');
     const errorMsg = form.querySelector('.error span');
-    
+
     // preventing the duplicate submissions if the current one is in progress
     if (form.classList.contains('is-uploading')) return false;
-  
+
     form.classList.add('is-uploading');
     form.classList.remove('is-error');
-  
+
     event.preventDefault();
-  
+
     if (!this.droppedFiles.length) return;
 
     // gathering the form data
@@ -79,11 +87,11 @@ class UiDropZone extends HTMLElement {
       for (var file of this.droppedFiles)
         formdata.append(input.getAttribute('name'), file);
     }
-  
+
     // ajax request
     var ajax = new XMLHttpRequest();
     ajax.open(form.getAttribute('method'), form.getAttribute('action'), true);
-  
+
     ajax.onload = function () {
       form.classList.remove('is-uploading');
       if (ajax.status >= 200 && ajax.status < 400) {
@@ -97,13 +105,13 @@ class UiDropZone extends HTMLElement {
         errorMsg.textContent = "Server responded with " + ajax.status;
       }
     };
-  
+
     ajax.onerror = function (e) {
       form.classList.remove('is-uploading');
       form.classList.add('is-error');
       errorMsg.textContent = e;
     };
-  
+
     ajax.send(formdata);
   }
 }

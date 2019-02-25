@@ -1,6 +1,6 @@
 import { store } from '../app.js'; // Pre-bundled, external reference
 
-import * as VueCal from '../_vuecomponents/vue-cal.esm';
+import { VueCal } from '../_vuecomponents/vue-cal.esm';
 import VueSlideBar from '../_vuecomponents/vue-slide-bar.esm';
 import * as cronstrue from '../_cronstrue';
 

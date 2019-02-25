@@ -1,24 +1,60 @@
 import { importModule } from "../_common/importModule";
 
 /**
- * This component tries to connect to a websocket address
+ * @category Data Components
+ * @customelement oh-websocket-data
+ * @description Creates and maintains a websocket connection and provides the data via an event
+ * @attribute href The connection protocol, host and port like ws://127.0.0.1:8080
+ * @attribute [simulation] A simulation mixin that provides an exported "SimulationGenerator" class
+ * @attribute [run] If set, the connection is established immediately
+ * @property {Boolean} run A property to control the connection state.
+ *   Set to false to disconnect and true to connect.
  * 
- * Attributes:
- * - href // The destination websocket address, i.e. 'ws://localhost:8080'
- * 
- * Usage: <oh-doc-link href="some-link-to-markdown-or-html"><a href="#">Documentation</a></oh-doc-link>
+ * @example <caption>A websocket connection to 127.0.0.1 on port 8080 and immediately started</caption>
+ * <oh-websocket-data href="ws://127.0.0.1:8080" run></oh-websocket-data>
  */
 class OhWebsocketData extends HTMLElement {
   constructor() {
     super();
+    this._active = false;
   }
   static get observedAttributes() {
-    return ['href'];
+    return ['href', 'run'];
   }
-  attributeChangedCallback(name, oldValue, newValue) {
+  async attributeChangedCallback(name, oldValue, newValue) {
+    this._active = this.hasAttribute("run");
     if (name != "href") return;
-
     this.href = this.getAttribute("href");
+
+    if (this.hasAttribute("simulation")) {
+      const adapter = this.getAttribute("simulation");
+      let module = await importModule('./js/' + adapter + '.js');
+      this.SimulationGenerator = module.SimulationGenerator;
+      if (this._active) this.run = true;
+    } else if (this.href) {
+      if (this._active) this.run = true;
+    }
+  }
+  get run() {
+    return this._active;
+  }
+  set run(val) {
+    this._active = val;
+    if (this._active)
+      this.setAttribute("run", "");
+    else
+      this.removeAttribute("run");
+
+    // Disable
+    if (!this._active) {
+      if (this.socket) this.socket.close();
+      delete this.socket;
+      if (this.sim) this.sim.dispose();
+      delete this.sim;
+      return;
+    }
+
+    // Enable
     if (this.href) {
       if (this.socket) this.socket.close();
       this.socket = new WebSocket(this.href);
@@ -27,15 +63,9 @@ class OhWebsocketData extends HTMLElement {
       this.socket.onmessage = (event) => this.onmessage(event.data, event.origin, event.lastEventId);
       this.socket.onopen = () => this.onopen();
     } else if (this.hasAttribute("simulation")) {
-      const adapter = this.getAttribute("simulation");
-      importModule('./js/' + adapter + '.js')
-        .then((module) => this.startSimulation(module.SimulationGenerator))
-        .catch(e => console.log("adapter bind failed", e));
+      if (this.sim) this.sim.dispose();
+      this.sim = new this.SimulationGenerator((data) => this.dispatchEvent(new CustomEvent("data", { detail: data })));
     }
-  }
-  startSimulation(simClass) {
-    if (this.sim) this.sim.dispose();
-    this.sim = new simClass((data) => this.dispatchEvent(new CustomEvent("data", { detail: data })));
   }
   onclose() {
     console.log("OhWebsocketData. Websocket closed", this.id);
@@ -63,3 +93,11 @@ class OhWebsocketData extends HTMLElement {
 }
 
 customElements.define('oh-websocket-data', OhWebsocketData);
+
+/**
+ * Data event
+ *
+ * @category Data Components
+ * @event oh-websocket-data#data
+ * @type {Object|Array}
+ */

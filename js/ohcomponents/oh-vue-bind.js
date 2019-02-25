@@ -1,6 +1,8 @@
 import { importModule } from "../_common/importModule";
 /**
- * This is a non-visible data binding component and serves as *Controller*
+ * @category Data Components
+ * @customelement oh-vue-bind
+ * @description This is a non-visible data binding component and serves as *Controller*
  * in the MVA (Model-View-Adapter) concept.
  * 
  * It waits for the target, identified by the "for" attribute

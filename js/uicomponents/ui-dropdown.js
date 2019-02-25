@@ -1,13 +1,12 @@
 import { html, render } from 'lit-html';
 
 /**
- * A dropdown component.
- * 
- * Events:
- * - "input": The value has changed
- * 
- * Attributes:
- * - "novalue": Will not apply the selected entry as new value, only emits an input event
+ * @category Web Components
+ * @customelement ui-dropdown
+ * @description A dropdown component.
+ * @attribute novalue Will not apply the selected entry as new value, only emits an input event
+ * @example <caption>A dropdown example</caption>
+ * <ui-dropdown></ui-dropdown>
  */
 class UiDropdown extends HTMLElement {
   constructor() {

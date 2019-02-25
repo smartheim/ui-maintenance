@@ -7,16 +7,10 @@ export * from './ui-filterbar'
 export * from './ui-filedropzone'
 export * from './ui-switch'
 export * from './ui-notification'
-export * from './ui-nav-auto-link'
 export * from './ui-tags'
 export * from './ui-dropdown'
 export * from './ui-tabs'
 export * from './ui-multiselect'
-
-/**
- * The youtube component
- * @see ui-youtube
- */
 export * from './ui-youtube'
 
 export * from './ui-community';
@@ -36,5 +30,6 @@ export { generateTemplateForSchema } from '../_common/generate_demo';
  * 
  * Exports the YAML parser and converter via "Yaml".
  * 
+ * @category Web Components
  * @module uicomponents
  */

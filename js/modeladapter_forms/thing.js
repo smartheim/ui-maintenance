@@ -44,8 +44,9 @@ import { store } from '../app.js'; // Pre-bundled, external reference
       properties (object, optional),
       configuration (object, optional)
     }
- */
 
+ * @private
+ */
 class ModelAdapter {
   stores() { return { "things": "value" } };
   constructor() {

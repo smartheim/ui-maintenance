@@ -1,8 +1,10 @@
 /**
- * A tabbing component. 
+ * @category Web Components
+ * @customelement ui-tabs
+ * @description A tabbing component. 
  * 
- * Usage:
-`<ui-tabs>
+ * @example <caption>An example</caption>
+ * <ui-tabs>
   <ul class="nav nav-tabs" slot="links">
     <li class="nav-item"><a class="nav-link" href="#">First tab</a></li>
     <li class="nav-item"><a class="nav-link" href="#">Second tab</a></li>
@@ -13,8 +15,7 @@
     <div>Second</div>
     <div>Third</div>
   </div>
-</ui-tabs>`
- *
+</ui-tabs>
  */
 class UiTabs extends HTMLElement {
   constructor() {

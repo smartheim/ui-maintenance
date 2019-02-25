@@ -1,3 +1,11 @@
+/**
+ * @category Web Components
+ * @customelement nav-buttons
+ * @description Prev/Next navigation buttons
+ * 
+ * @example <caption>An example</caption>
+ * <nav-buttons></nav-buttons>
+ */
 class NavButtons extends HTMLElement {
   constructor() {
     super();

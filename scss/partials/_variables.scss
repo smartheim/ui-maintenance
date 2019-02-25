@@ -1,8 +1,19 @@
 /* The openHAB Theme is orange flavoured. Use the two below defined colors. */
 
 $theme-colors: ( "orange": #ff7214, "primary": #ff7214, "info": #f0ad4e);
-$container-max-widths: (xxl: 1500px, xxxl: 1700px); // Add a "very large screen width"
-
+$grid-breakpoints: ( xs: 0, //
+sm: 576px, //
+md: 768px, //
+lg: 992px, //
+xl: 1200px, //
+xxl: 1500px, xxxl: 1700px // Add very large screen widths
+);
+$container-max-widths: ( sm: 540px, //
+md: 720px, //
+lg: 960px, //
+xl: 1140px, //
+xxl: 1500px, xxxl: 1700px // Add very large screen widths
+);
 @import "../../node_modules/bootstrap/scss/_functions.scss";
 @import "../../node_modules/bootstrap/scss/_variables.scss";
 /**
@@ -16,5 +27,15 @@ $container-max-widths: (xxl: 1500px, xxxl: 1700px); // Add a "very large screen 
  */
 
 @function get-breakpoints($key: "md") {
-    @return map-get($container-max-widths, $key);
+    // If the breakpoint exists in the map.
+    @if map-has-key($container-max-widths, $key) {
+        // Get the breakpoint value.
+        $breakpoint-value: map-get($container-max-widths, $key); // Write the media query.
+        @return $breakpoint-value;
+    }
+    @else {
+        // Log a warning.
+        @warn 'Invalid breakpoint: #{$key}.';
+        @return 100;
+    }
 }

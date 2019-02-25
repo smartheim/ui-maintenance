@@ -1,4 +1,4 @@
-import { store } from '../js/app.js'; // Pre-bundled, external reference
+import { store } from '../../js/app.js'; // Pre-bundled, external reference (included by mixins)
 import { importModule } from "../_common/importModule";
 
 export const ConnectionStatus = {

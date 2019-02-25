@@ -2,6 +2,13 @@ import * as cronstrue from '../_cronstrue';
 
 import { html, render } from 'lit-html';
 
+/**
+ * @category Web Components
+ * @customelement ui-cron-expression
+ * @description A cron expression renderer
+ * @example <caption>An example</caption>
+ * <ui-cron-expression></ui-cron-expression>
+ */
 class UiCronExpression extends HTMLElement {
   constructor() {
     super();
@@ -35,3 +42,12 @@ class UiCronExpression extends HTMLElement {
 }
 
 customElements.define('ui-cron-expression', UiCronExpression);
+
+/**
+ * Cron expressions UI module
+ * 
+ * Because this component is not used on every page, it has its own module.
+ * 
+ * @category Web Components
+ * @module ui-cron-expression
+ */

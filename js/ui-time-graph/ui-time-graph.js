@@ -2,12 +2,17 @@ import Chart from './Chart.js';
 import streamingPlugin from './streaming/streaming'
 
 /**
- * Shows a graph for time-resources.
+ * @category Web Components
+ * @customelement ui-time-graph
+ * @description Shows a graph for time-resources.
+ * @example <caption>An example</caption>
+ * <ui-time-graph></ui-time-graph>
  */
 class UITimeGraph extends HTMLElement {
   constructor() {
     super();
     var dom = this.attachShadow({ mode: 'open' });
+    this.origData = [];
 
     this.config = {
       dom: dom,
@@ -215,7 +220,7 @@ class UITimeGraph extends HTMLElement {
     this.show(null, { datasetIndex: 2 });
     this.charts.resize();
     this.ready = true;
-    this.dispatchEvent(new Event("load"));
+    this.dispatchEvent(new Event("loaded"));
 
     window.addEventListener('resize', this.resizeBound, { passive: true });
   }
@@ -260,13 +265,20 @@ class UITimeGraph extends HTMLElement {
   }
 
   addData(value) {
+    this.origData.push(value);
+    if (this.origData.length > 1000) {
+      this.origData = this.origData.slice(-500);
+    }
 
     const dataset = this.config.data.datasets[0];
     dataset.data.push(value);
+    if (dataset.data.length > 200)
+      dataset.data = this.origData.slice(-100);
     this.charts.update();
   }
 
   initData(values) {
+    this.origData = values.slice();
     const dataset = this.config.data.datasets[0];
     dataset.data = values;
     this.charts.update({ duration: 0 });

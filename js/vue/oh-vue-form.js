@@ -8,6 +8,9 @@ Vue.config.ignoredElements = [
 ]
 
 /**
+ * @category Web Components (Reactive)
+ * @customelement oh-vue-form
+ * @description 
  * A vue rendered form component.
  * 
  * This component renders nothing until start() is called.

@@ -1,5 +1,5 @@
 import { store, fetchMethodWithTimeout } from '../app.js'; // Pre-bundled, external reference
-import { OhDataBind } from '../ohcomponents/oh-data-bind';
+import { OhDataBind } from '../_common/oh-data-bind';
 
 const Mixin = {
   mounted: function () {
