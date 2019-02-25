@@ -24,6 +24,7 @@ const tables = [
   { id: "about", uri: "rest/about", key: null }, // NEW
   { id: "user-interfaces", uri: "rest/user-interfaces", key: "id", label: "User interfaces" }, // NEW
   { id: "item-types", uri: "rest/item-types", key: "id" }, // NEW
+  { id: "semantic-tags", uri: "rest/  semantic-tags", key: null }, // NEW
   { id: "bundle-status", uri: "rest/bundle-status", key: "id", label: "Bundle management" }, // NEW
   { id: "item-group-function-types", uri: "rest/item-group-function-types", key: "id" }, // NEW
   { id: "items", uri: "rest/items?metadata=.*", key: "name", onstart: true, label: "Items" },
@@ -49,7 +50,7 @@ const tables = [
  * @category Webworker Storage Model
  * @memberof module:storage-webworker
  */
-const dbversion = 44;
+const dbversion = 45;
 
 /** 
  * This is an associative map of storenames to store-layout descriptions.

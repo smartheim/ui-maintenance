@@ -90,6 +90,18 @@ class ModelAdapter {
       .then(v => this.config = v)
       .then(() => store.get("icon-set", null, { force: true }))
       .then(v => this.iconset = v)
+      .then(() => store.get("semantic-tags", null, { force: true }))
+      .then(v => {
+        let semantic = {};
+        // Create a map from type->entry
+        for (let semanticTag of v) {
+          // Create another inner map from tag->entry
+          if (!semantic[semanticTag.type])
+            semantic[semanticTag.type] = new Map;
+          semantic[semanticTag.type].set(semanticTag.tag, semanticTag);
+        }
+        this.semantic = semantic;
+      })
       .then(() => this.get(options))
   }
   get(options = null) {
@@ -220,9 +232,43 @@ const ItemsMixin = {
         result.push({ name: namespaceName, values: values, hasconfig: false })
       }
       return result;
+    },
+    getSemanticLocation() {
+      return this.item.tags.filter(e => this.$root.semantic.Location.has(e));
+    },
+    getSemanticProperty() {
+      return this.item.tags.filter(e => this.$root.semantic.Property.has(e));
+    },
+    getSemanticPoint() {
+      return this.item.tags.filter(e => this.$root.semantic.Point.has(e));
+    },
+    getSemanticEquipment() {
+      return this.item.tags.filter(e => this.$root.semantic.Equipment.has(e));
     }
   },
   methods: {
+    /**
+     * Sets the semantic tags of one of the multi-select boxes.
+     * The difficulty is that we need to merge that into the item.tags,
+     * by removing every semantic tag of the given multi-select box type
+     * and adding the selected ones back.
+     * @param {Object} event multi-select input change event
+     */
+    setSemanticTag(event) {
+      const selectedTags = event.target.valueArray;
+      const dest = event.target.dataset.type;
+
+      const itemTags = new Set(this.item.tags);
+      const destTags = this.$root.semantic[dest].keys();
+      for (let destTag of destTags) {
+        itemTags.delete(destTag);
+      }
+      for (let tag of selectedTags) {
+        itemTags.add(tag);
+      }
+      this.item.tags = [...itemTags];
+      console.log("SETTYPE TAGS", selectedTags, itemTags, this.item.tags);
+    },
     setMeta(namespace, param, value) {
       let data = this.item.metadata || {};
       data = data[namespace.name] || {};
@@ -355,6 +401,9 @@ const ItemListMixin = {
     },
     grouptypes() {
       return this.store.itemtypes.filter(e => e.group);
+    },
+    semantic() {
+      return this.store.semantic;
     },
   },
   methods: {

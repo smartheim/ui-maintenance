@@ -179,10 +179,16 @@
             <ui-tabs upsidedown>
 
               <div class="tablinks" slot="links">
-                <button class="nav-link btn btn-outline-secondary">Control</button>
-                <button class="nav-link btn btn-outline-secondary">Type</button>
-                <button class="nav-link btn btn-outline-secondary"><abbr title="Group items for switching them with one command">Groups</abbr></button>
-                <button class="nav-link btn btn-outline-secondary"><abbr title="Items can have meta data attachted to them. Add more meta data in the textual view.">Meta</abbr>
+                <button class="navlink btn btn-outline-secondary">Control</button>
+                <button class="navlink btn btn-outline-secondary">Type</button>
+                <button class="navlink btn btn-outline-secondary"><abbr title="Group items for switching them with one command">Groups</abbr></button>
+                <button class="navlink btn btn-outline-secondary">Meta
+                  <oh-doc-link title="About group functions" show href="contexthelp/itemmeta.md" class="link ml-2">
+                    <i class="far fa-question-circle"></i></oh-doc-link>
+                </button>
+                <button class="navlink btn btn-outline-secondary">Semantic
+                  <oh-doc-link title="About group functions" show href="contexthelp/semantictagging.md" class="link ml-2">
+                    <i class="far fa-question-circle"></i></oh-doc-link>
                 </button>
               </div>
 
@@ -229,8 +235,8 @@
                         <ui-dropdown btnclass="btn btn-sm link" viewkey="label" valuekey="id" desckey="description"
                           :options.prop="groupfunctions" :value="item.function ? item.function.name : null" label="No function"
                           @input="$set(item,'function',{name:$event.target.value,params:[]})"></ui-dropdown>
-                        <oh-doc-link title="About group functions" show href="contexthelp/itemgroupfunctions.md" class="link ml-2 mr-2"><i
-                            class="far fa-question-circle"></i></oh-doc-link>
+                        <oh-doc-link title="About group functions" show href="contexthelp/itemgroupfunctions.md" class="link ml-2 mr-2">
+                          <i class="far fa-question-circle"></i></oh-doc-link>
                         <span v-if="hasFunctionParameters">
                           with parameters
                           <label v-for="(param, index) of functionparameters" :key="param.label" :title="param.description">
@@ -260,8 +266,30 @@
                       </div>
                     </template>
                     <vue-config-element v-for="param of namespace.parameters" :allowremove="true" :param="param" :value="namespace.values[param.name]"
-                      @input="setMeta(namespace,param,$event)" @remove="setMeta(namespace,param,null)"></vue-config-element>
+                      :key="namespace.name+'_'+param.name" @input="setMeta(namespace,param,$event)" @remove="setMeta(namespace,param,null)"></vue-config-element>
                   </div>
+                </section>
+
+                <section class="">
+                  <div style="display: grid;grid-template-columns: 25% 25% 25% 25%;grid-gap: 10px" v-if="$root.semantic">
+                    <div style="padding-left: 0.5em">Location</div>
+                    <div style="padding-left: 0.5em">Property</div>
+                    <div style="padding-left: 0.5em">Point</div>
+                    <div style="padding-left: 0.5em">Equipment</div>
+
+                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($root.semantic.Location.values())"
+                      placeholder="Select&hellip;" data-type="Location" :value.prop="getSemanticLocation" @input="setSemanticTag"></ui-multiselect>
+
+                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($root.semantic.Property.values())"
+                      placeholder="Select&hellip;" data-type="Property" :value.prop="getSemanticProperty" @input="setSemanticTag"></ui-multiselect>
+
+                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($root.semantic.Point.values())"
+                      placeholder="Select&hellip;" data-type="Point" :value.prop="getSemanticPoint" @input="setSemanticTag"></ui-multiselect>
+
+                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($root.semantic.Equipment.values())"
+                      placeholder="Select&hellip;" data-type="Equipment" :value.prop="getSemanticEquipment" @input="setSemanticTag"></ui-multiselect>
+                  </div>
+                  <div v-else>Seem to not be available on your openHAB version :/</div>
                 </section>
               </div>
             </ui-tabs>

@@ -6,9 +6,9 @@
  * @example <caption>An example</caption>
  * <ui-tabs>
   <ul class="nav nav-tabs" slot="links">
-    <li class="nav-item"><a class="nav-link" href="#">First tab</a></li>
-    <li class="nav-item"><a class="nav-link" href="#">Second tab</a></li>
-    <li class="nav-item"><a class="nav-link" href="#">Third tab</a></li>
+    <li class="nav-item"><a class="navlink" href="#">First tab</a></li>
+    <li class="nav-item"><a class="navlink" href="#">Second tab</a></li>
+    <li class="nav-item"><a class="navlink" href="#">Third tab</a></li>
   </ul>
   <div class="tab-content" slot="tabs">
     <div>First</div>
@@ -38,7 +38,7 @@ class UiTabs extends HTMLElement {
       this.shadowRoot.innerHTML = `<style>:host{display:block}</style><slot name="links"></slot><slot name="tabs"></slot>`;
 
     let linkUl = this.shadowRoot.querySelector('slot[name="links"]').assignedNodes()[0];
-    this.links = linkUl.querySelectorAll(".nav-link");
+    this.links = linkUl.querySelectorAll(".navlink");
     for (var i = 0; i < this.links.length; ++i) {
       const index = i;
       this.links[index].addEventListener("click", (e) => this.activateTab(index, e));

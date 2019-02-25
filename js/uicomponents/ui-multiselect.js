@@ -83,7 +83,7 @@ class UImultiSelect extends HTMLElement {
       const id = entry[this.valuekey];
       const label = entry[this.viewkey];
       const desc = entry[this.desckey];
-      console.log("OPTION", { id, label, desc });
+      //console.log("OPTION", { id, label, desc });
       options.push({ id, label, desc });
     }
     this.items = options;
@@ -92,6 +92,9 @@ class UImultiSelect extends HTMLElement {
   }
   get value() {
     return Object.keys(this.selected).join(",");
+  }
+  get valueArray() {
+    return Object.keys(this.selected);
   }
   set value(newVal) {
     if (!this._list) {

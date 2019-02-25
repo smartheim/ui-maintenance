@@ -480,6 +480,14 @@ async function addUserRoles(tx) {
   for (let d of data) await store.add(d);
 }
 
+import { semantic } from './notYetSupportedData/semantic'
+async function addSemanticTags(tx) {
+  const store = tx.objectStore('semantic-tags');
+  await store.clear();
+  for (let d of semantic) await store.add(d);
+}
+
+
 /**
  * Block live REST request for these tables
  * 
@@ -488,7 +496,7 @@ async function addUserRoles(tx) {
  */
 export const blockLiveDataFromTables = ['manualextensions', 'scripts', 'persistence-services',
   'persistence', 'script-types', "item-types", "item-group-function-types", "extension-repositories",
-  "icon-set", "user-interfaces", "bundle-status", 'user-roles', "about"];
+  "icon-set", "user-interfaces", "bundle-status", 'user-roles', "about", "semantic-tags"];
 
 /**
  * This methods implements hacks!
@@ -512,5 +520,6 @@ export async function hack_addNotYetSupportedStoreData(db) {
   addOSGIbundles(tx);
   addUserRoles(tx);
   addAbout(tx);
+  addSemanticTags(tx);
   return tx.complete.catch(e => { console.warn("addNotYetSupportedStoreData failed", e); throw e });
 }
