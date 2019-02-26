@@ -13,7 +13,370 @@
   <partial src="pagetitleheader.html" title="Roadmap"></partial>
   <main>
     <nav-breadcrumb></nav-breadcrumb>
-    <ui-context-help url="roadmap.md" cachetime="1"></ui-context-help>
+
+    <div class="card mb-3 mt-0 border-primary">
+      <div class="card-body">
+        <h3 class="card-title">Help needed</h3>
+        <p class="card-text">Unfortunately the day is only so and so long.
+          I need your help to finish this openHAB vision. Here you find a list of all missing pieces.
+          A hackathon, some discord coordination etc to bulk develop features are also welcome.
+        </p>
+        <ul class="card-text">
+          <a target="_blank" class="btn btn-primary" href="https://github.com/davidgraeff/paperui-ng/issues">Issue
+            Board</a>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Extended service status</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>Services with advanced feedback status (mimic Thing status) and actions</p>
+          <p>Estimated work: 15h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Objects storage associations</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>It should be possible to assign a user-settable storage association to Things, Items, Rules and everything
+            else that goes into jsondb at the moment. That way any service that wants to write out data, can consider
+            the storage association parameter.
+          </p>
+          <p>Some objects like Rules already have description field (read: personal annotation).
+            That need to be added to Items and Things as well. A service that writes out data, can consider that
+            information to generate comments.</p>
+          <p>Estimated work: 6h</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Backup service</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>A backup service, exporting/restoring in Json or Yaml, compressed&amp;packed or uncompressed.
+            Export targets are files and Google Drive.</p>
+          <p><b>Prerequires:</b> Extended service status, Objects storage associations</p>
+          <p>Estimated work: 15h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Platform information</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>openHAB does not tell a client about its version or distribution or build date at the moment.
+            Although that information is present within core. That knowledge must be made available for clients
+            to perform feature detection and adapt to different APIs.
+          </p>
+          <p>Estimated work: 2h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Log data mediator</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>Provides interested clients with the openHAB real-time log via websocket connections.</p>
+          <p><b>Prerequires:</b> Extended service status</p>
+          <p>Estimated work: 2h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">OSGI Bundle status</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>openHAB core consists of multiple runtime units, called bundles. Those bundles are managed by a framework
+            called
+            OSGI. Also all bindings, transformations etc are just OSGI bundles. If a failure happens in a bundle there
+            is currently no way to see that except from going through the logs.
+          </p>
+          <p>A bundle status service allows interested clients to request the bundle status and (re)start bundles.</p>
+          <p><b>Prerequires:</b> Extended service status</p>
+          <p>Estimated work: 2h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Long time stability service</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>If a newly installed binding is slowly eating up all memory or causes high CPU load, there is no way to
+            find that out. A long-time-stability service will log and observe memory, cpu load and thread count and
+            issue a warning if some threshold values are exceeded.
+          </p>
+          <p><b>Prerequires:</b> Extended service status</p>
+          <p>Estimated work: 2h</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Expire1 replacement / Scheduler-Item-Metadata tasks</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>Sometimes a rule is just overkill. You just want your item to change its state back after some time.
+            With item metadata that can be archived. The core scheduler will provide a new "expire" namespace.
+          </p>
+          <p>An item can register a command that should be performed after a while as a result of an item state change.
+            Such a timer requires an ID to be setup. This way such a timer can also be influenced by rules/scripts,
+            which makes it more powerful than <i>expire1</i>.
+          </p>
+          <p><b>Prerequires:</b> Extended service status</p>
+          <p>Estimated work: 2h</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Move item/tag knowledge into the core</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>At the moment the clients themselves have a hardcoded list of item-types and semantic tags,
+            as well as item group functions.
+            That knowledge must be moved into the core and made accessible via the web interface.
+          </p>
+          <p>Estimated work: 2h</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Install jar files via the webinterface</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>Add the possibility to upload add-on jar files, but also to list and remove jar files.
+          </p>
+          <p>Estimated work: 4h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Extend binding/extensions bundles</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>Right now openHAB only exposes a simple boolean ("installed"/"not installed") about an extension.
+            If you have ever used Paper UI, you were probably also puzzled on what openHAB is actually doing during an
+            install.
+          </p>
+          <ul>
+            <li> Extension descriptions as part of the current list response
+            <li> Advanced status report instead of just a boolean "installed" (mimic Thing status)
+            <li> Easily add more maven sources
+            <li> Install a specific version of an Add-on
+            <li> Add "versioninformation": Should contain "known bugs" etc with a specific version, so that a user does
+              not report something known and is able to decided if he/she needs to update to a newer version for
+              his/her specific needs.
+            </li>
+          </ul>
+          <p>Estimated work: 16h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Inbox improvements</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <ul>
+            <li>Allow a binding discovery process to be stopped
+            <li> Request all bindings that have background discovery enabled
+            <li> Enable/disable background discovery for individual bindings
+          </ul>
+          <p>Estimated work: 4h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Things improvements</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>Introduce Thing Handler actions: For example to have a "Start pairing" or "Firmware reset" action.</p>
+          <p>Estimated work: 4h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Rule templates</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui">Fund
+              this</a>
+          </div>
+          <p>Rule templates require some more information to be used as distribution format:</p>
+          <ul>
+            <li>Authors
+            <li>Required bindings
+            <li>Version
+            <li>Rule module-types need to know their own type (They don't at the moment!)</li>
+          </ul>
+          <p>Estimated work: 20h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mt-0">
+      <div class="card-body">
+        <h4 class="card-title">Script adding/removing/listing</h4>
+        <div class="card-text">
+          <div class="roadmapprogress">
+            <ul>
+              <li class="active">Funding/Time acquire</li>
+              <li>In Development</li>
+              <li>PR Send</li>
+            </ul>
+            <a target="_blank" class="btn btn-primary-hover text-nowrap" href="https://paypal.me/openhabpaperui?subject=scripts">Fund
+              this</a>
+          </div>
+          <p>A service that allows to upload/update/add script files via the webinterface, to allow web-uis to
+            edit those files.
+          </p>
+          <p>Estimated work: 2h</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="disqus_thread"></div>
+    <script src="js/disqus.js" type="javascript"></script>
   </main>
   <footer></footer>
   <aside></aside>

@@ -247,6 +247,13 @@ const ItemsMixin = {
     }
   },
   methods: {
+    setLabel(event) {
+      if (event.target.innerText.trim().length)
+        this.item.label = event.target.innerText.trim();
+      else {
+        event.target.innerText = this.item.label;
+      }
+    },
     /**
      * Sets the semantic tags of one of the multi-select boxes.
      * The difficulty is that we need to merge that into the item.tags,

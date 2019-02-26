@@ -61,7 +61,7 @@
     <oh-vue-list id="thinglist">
       <partial src="vuelistbasics.html" key="item.UID" help="contexthelp/things"></partial>
       <template slot="item">
-        <article :id="item.UID" :class="[{pulseAnimation: pulseAnimation}]">
+        <article :id="item.UID.replace(/:/g,'_')" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-metainfo :uniqueid="item.UID"></vue-metainfo>
           <vue-inprogress></vue-inprogress>
           <header class="title">

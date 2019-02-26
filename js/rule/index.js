@@ -203,6 +203,13 @@ class ImportExport {
   }
 }
 
+/**
+ * @category Web Components
+ * @customelement oh-rule-editor
+ * @description A rule editor component
+ * @example <caption>An example</caption>
+ * <oh-rule-editor></oh-rule-editor>
+ */
 class OhRuleEditor extends HTMLElement {
   constructor() {
     super();
@@ -280,3 +287,12 @@ class OhRuleEditor extends HTMLElement {
 }
 
 customElements.define('oh-rule-editor', OhRuleEditor);
+
+/**
+ * Rule module
+ * 
+ * This module is used on the Rule editing page and embeds Rete.js for rendering.
+ * 
+ * @category Web Components
+ * @module rule
+ */

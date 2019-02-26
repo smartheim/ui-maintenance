@@ -18,7 +18,10 @@ class NavBreadcrumb extends HTMLElement {
     var paramAsHash = this.hasAttribute("useParamAsHash") ? this.getAttribute("useParamAsHash") : null;
     if (paramAsHash) {
       paramAsHash = new URL(window.location).searchParams.get(paramAsHash);
-      if (!paramAsHash) paramAsHash = "";
+      if (!paramAsHash)
+        paramAsHash = "";
+      else
+        paramAsHash = paramAsHash.replace(/:/g, '_'); // Replace potential colons, as they are not valid for IDs
     }
     if (!this.parentLink) {
       var link = document.querySelector('link[rel="parent"]');

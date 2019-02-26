@@ -134,7 +134,7 @@ export class StorageConnector extends EventTarget {
     const type = "removeTutorialData";
     const qitem = new QueueItem(this, type);
     const msgid = qitem.id;
-    this.port.postMessage({ type, msgid, storename });
+    this.port.postMessage({ type, msgid });
     return qitem.promise;
   }
 }

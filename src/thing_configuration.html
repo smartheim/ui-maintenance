@@ -17,15 +17,16 @@
     <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
 
     <oh-attribute-bind attribute="filter" queryParameter="UID" regex="(.*?)\:"></oh-attribute-bind>
-    <ui-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this binding:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
+    <ui-github-issues class="mb-4 bs-callout bs-callout-danger" title="There are known issues with the binding that provides this Thing"
+      url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
 
     <oh-form-bind adapter="modeladapter_forms/thing" objectFromURL allowNew></oh-form-bind>
     <oh-vue-form></oh-vue-form>
     <template>
       <partial src="vuelisterrors.html"></partial>
       <div v-else>
-        <div class="bs-callout bs-callout-info"> {{description()}} </div>
-        <div class="mt-4" class="form-group row">
+        <div class="mb-4 bs-callout bs-callout-info"> {{description()}} </div>
+        <div class="mb-4" class="form-group row">
           <div class="col-sm-10" style="display:flex">
             <ui-switch name="enabled" checked="true" label="Enabled" title="A disabled thing will not connect to its peer device"></ui-switch>
           </div>

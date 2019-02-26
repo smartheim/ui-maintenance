@@ -290,18 +290,27 @@ class StateWhileRevalidateStore extends EventTarget {
   }
 
   injectTutorialData(storename, objectdata) {
+    this.lastRefresh[tableIDtoEntry[storename].uri] = "block";
     this.insertIntoStore(storename, objectdata);
   }
 
   async removeTutorialData() {
-    await ignoreNotFound(this.removeFromStore("inbox", { "thingUID": "demo1" }));
-    await ignoreNotFound(this.removeFromStore("inbox", { "thingUID": "demo2" }));
+    await ignoreNotFound(this.removeFromStore("bindings", { "id": "demo1" }));
+    await ignoreNotFound(this.removeFromStore("inbox", { "thingUID": "demo1:demo1" }));
+    await ignoreNotFound(this.removeFromStore("discovery", { "id": "demo1" }));
     await ignoreNotFound(this.removeFromStore("things", { "UID": "demo1" }));
-    await ignoreNotFound(this.removeFromStore("things", { "UID": "demo2" }));
+    await ignoreNotFound(this.removeFromStore("thing-types", { "UID": "demo1" }));
     await ignoreNotFound(this.removeFromStore("rules", { "uid": "demo1" }));
     await ignoreNotFound(this.removeFromStore("rules", { "uid": "demo2" }));
     await ignoreNotFound(this.removeFromStore("items", { "name": "demo1" }));
     await ignoreNotFound(this.removeFromStore("items", { "name": "demo2" }));
+    delete this.lastRefresh[tableIDtoEntry["bindings"].uri];
+    delete this.lastRefresh[tableIDtoEntry["inbox"].uri];
+    delete this.lastRefresh[tableIDtoEntry["discovery"].uri];
+    delete this.lastRefresh[tableIDtoEntry["things"].uri];
+    delete this.lastRefresh[tableIDtoEntry["rules"].uri];
+    delete this.lastRefresh[tableIDtoEntry["items"].uri];
+    delete this.lastRefresh[tableIDtoEntry["thing-types"].uri];
   }
 
   sseMessageReceived(e) {
@@ -435,6 +444,10 @@ class StateWhileRevalidateStore extends EventTarget {
 
   cacheStillValid(uri) {
     const d = this.lastRefresh[uri];
+    if (d === "block") {
+      console.log("Tutorial blocked updates", uri);
+      return true;
+    }
     const r = (!!d && (d + this.expireDurationMS > Date.now()));
     if (r) console.log("Cache only response for", uri);
     return r;

@@ -162,7 +162,7 @@
           <vue-inprogress></vue-inprogress>
           <vue-metainfo :uniqueid="item.name"></vue-metainfo>
           <header>
-            <span :title="item.label+': Edit the name and press enter'" contenteditable="true" @blur="item.label=$event.target.innerText"
+            <span :title="item.label+': Edit the name and press enter'" contenteditable="true" @blur="setLabel"
               @keypress.enter.prevent="item.label=$event.target.innerText">{{item.label}}</span>
           </header>
           <section class="actions unsaved btn-group">

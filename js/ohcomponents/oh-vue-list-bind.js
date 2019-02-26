@@ -71,8 +71,8 @@ class OhListBind extends HTMLElement {
     const adapter = this.getAttribute("adapter");
     importModule('./js/' + adapter + '.js')
       .then(this.startList.bind(this)).catch(e => {
-        console.log("list bind failed", e);
-        this.target.error = e;
+        console.warn("list bind failed", adapter, e);
+        if (this.target.error) this.target.error = e;
       });
   }
   disconnectedCallback() {

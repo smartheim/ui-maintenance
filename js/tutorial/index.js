@@ -1,5 +1,19 @@
-import Shepherd from 'shepherd.js/dist/js/shepherd.esm.js';
+//import Shepherd from 'shepherd.js/src/js/shepherd';
+import Shepherd from '../_shepherd/shepherd.esm.js';
+import { store } from './app.js'; // Pre-bundled, external reference
 
+import { inboxTour } from './tourInbox'
+import { thingsTour } from './tourThings'
+import { itemsTour } from './tourItems'
+import { rulesTour } from './tourRules'
+import { schedulerTour } from './tourScheduler'
+import { expireTour } from './tourExpire'
+
+/**
+ * Starts the tour given by the tour id.
+ * 
+ * @param {String} tourid The tour id
+ */
 export function startTutorial(tourid) {
   const tour = new Shepherd.Tour({
     defaultStepOptions: {
@@ -8,82 +22,38 @@ export function startTutorial(tourid) {
     },
     useModalOverlay: true
   });
+  tour.on("complete", () => {
+    store.removeTutorialData();
+  });
+  tour.on("cancel", () => {
+    store.removeTutorialData();
+  });
   switch (tourid) {
     case "inbox": inboxTour(tour); break;
+    case "things": thingsTour(tour); break;
+    case "items": itemsTour(tour); break;
+
+    case "rules": rulesTour(tour); break;
+    case "scheduler": schedulerTour(tour); break;
+    case "expire": expireTour(tour); break;
   }
   tour.start();
 }
 
-function inboxTour(tour) {
-  tour.addStep('gotoinbox', {
-    scrollTo: false,
-    text: [`The Inbox allows you to add auto-discovered Things.
-    Remember that you need to have Add-ons installed first.`,
-      `Click on the Inbox link to continue.`],
-    attachTo: '#navinbox bottom',
-    advanceOn: '#navinbox click',
-    buttons: [
-      {
-        action: tour.cancel,
-        classes: 'shepherd-button-secondary',
-        text: 'Exit'
-      }, {
-        action: tour.next,
-        text: 'Next'
-      }
-    ]
-  });
-  tour.addStep('manualdiscover', {
-    scrollTo: false,
-    text: [`Many add-ons support background discovery. Some don't, like the network binding.`,
-      `Click on the bindings name on the left to start a discovery.`],
-    attachTo: '#manualdiscover right',
-    advanceOn: '#manualdiscover click',
-    beforeShowPromise: () => {
-      if (window.location.pathname != "inbox.html") {
-        console.warn("NOT ON INBOX", window.location.pathname);
-        document.querySelector("#navinbox").click();
-        return new Promise((accept, reject) => {
-          setTimeout(accept, 600);
-        });
-      }
-      return Promise.resolve();
-    },
-    buttons: [
-      {
-        action: tour.cancel,
-        classes: 'shepherd-button-secondary',
-        text: 'Exit'
-      }, {
-        action: tour.next,
-        text: 'Next'
-      }
-    ]
-  });
-  tour.addStep('addresult', {
-    scrollTo: false,
-    text: [`Found devices appear in your Inbox list. You can hide discoveries that you do not want to see but also not want to accept.`,
-      `Accept of one the Demo Things to finish this tutorial.`],
-    attachTo: '#inboxlist top',
-    beforeShowPromise: () => {
-      if (window.location.pathname != "inbox.html") {
-        console.warn("NOT ON INBOX");
-        document.querySelector("#navinbox").click();
-        return new Promise((accept, reject) => {
-          setTimeout(accept, 600);
-        });
-      }
-      return Promise.resolve();
-    },
-    buttons: [
-      {
-        action: tour.cancel,
-        classes: 'shepherd-button-secondary',
-        text: 'Exit'
-      }, {
-        action: tour.next,
-        text: 'Next'
-      }
-    ]
-  });
-}
+/**
+ * Tutorial module
+ * 
+ * The tutorial is realized with Shepherd.js (which uses Tippy.js which uses Popper.js).
+ * 
+ * There are some utility methods and constants defined (like button configurations and tutorial object injections).
+ * 
+ * Each tutorial has its own file and method in the module. Shepherd.js is quite simple
+ * to use. {@link startTutorial} is our main entry point where we get called by the tutorial exercises page.
+ * It creates the corresponding tour and starts the tour.
+ * 
+ * A single tour is nothing else then a method where all tour steps are added one after the other
+ * via Shepherd.js' `tour.addStep`.
+ * 
+ * @category Tutorial
+ * @module tutorial
+ */

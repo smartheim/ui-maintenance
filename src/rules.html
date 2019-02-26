@@ -42,7 +42,7 @@
     <oh-vue-list id="ruleslist">
       <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/rules"></partial>
       <template slot="item">
-        <article :id="item.uid" :class="[{pulseAnimation: pulseAnimation}]">
+        <article :id="item.uid.replace(/:/g,'_')" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-metainfo :uniqueid="item.uid"></vue-metainfo>
           <vue-inprogress></vue-inprogress>
           <header>

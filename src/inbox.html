@@ -80,7 +80,7 @@
       </template>
 
       <template slot="item">
-        <article :id="item.thingUID" :class="[{pulseAnimation: pulseAnimation}]">
+        <article :id="item.thingUID.replace(/:/g,'_')" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>
           <header class="title">
             <span :title="item.label">{{item.label}}</span>

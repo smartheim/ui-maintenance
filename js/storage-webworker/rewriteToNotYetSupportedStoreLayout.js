@@ -152,6 +152,7 @@ export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) 
       break;
     }
     case "discovery": {
+      if (entry.id) break;
       const id = entry;
       entry = {
         id: id,
