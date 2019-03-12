@@ -61,9 +61,9 @@ class OhCommunityTopics extends HTMLElement {
       this.innerHTML = "No url given!";
       return;
     }
-    var cacheTimestamp = parseInt(localStorage.getItem("timestamp_" + this.contenturl)) || 0;
+    const cacheTimestamp = parseInt(localStorage.getItem("timestamp_" + this.contenturl)) || 0;
     this.title = `Caching for ${this.cachetime / 60} hours. Last refresh: ${new Date(cacheTimestamp).toLocaleString()}`;
-    var cachedData = null;
+    let cachedData = null;
     if (cacheTimestamp > 0 && (cacheTimestamp + this.cachetime * 60 * 1000 > Date.now())) {
       cachedData = localStorage.getItem(this.contenturl);
     }
@@ -90,9 +90,9 @@ class OhCommunityTopics extends HTMLElement {
     fetchWithTimeout(url)
       .then(response => response.json())
       .then(jsonData => {
-        var d = "<ul>";
-        var counter = 0;
-        for (var topic of jsonData.topic_list.topics) {
+        let d = "<ul>";
+        let counter = 0;
+        for (let topic of jsonData.topic_list.topics) {
           const date = new Date(topic.created_at).toLocaleDateString();
           d += "<li><a target='_blank' href='https://community.openhab.org/t/" + topic.slug + "/" + topic.id + "'>" + topic.title + "</a> <small>" + date + "</small></li>"
           if (this.limit > 0 && this.limit <= counter) break;
@@ -108,7 +108,7 @@ class OhCommunityTopics extends HTMLElement {
         this.innerHTML = html;
       }).catch(e => {
         while (this.firstChild) { this.firstChild.remove(); }
-        this.innerHTML = this.error + e;
+        this.innerHTML = this.error + e + " " + this.url;
         throw e;
       })
   }

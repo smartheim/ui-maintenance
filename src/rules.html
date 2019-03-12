@@ -17,6 +17,18 @@
       <li><a href="ruletemplates.html"><i class="fas fa-file-alt"></i> Rule templates</a></li>
       <li><a href="scripts.html"><i class="fas fa-terminal"></i> Standalone Scripts</a></li>
     </ul>
+    <p>Filter</p>
+    <ul>
+      <li>
+        <ui-switch storekey="rulesShowScenes" title="Show scenes"></ui-switch>
+      </li>
+      <li>
+        <ui-switch storekey="rulesShowAlarms" title="Show alarms"></ui-switch>
+      </li>
+      <li>
+        <ui-switch storekey="rulesShowSystem" title="Show system rules"></ui-switch>
+      </li>
+    </ul>
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Manage, add, remove and modify your automation rules"></partial>
@@ -40,17 +52,19 @@
 
     <oh-list-bind for="ruleslist" adapter="modeladapter_lists/rules" filtercriteria="name"></oh-list-bind>
     <oh-vue-list id="ruleslist">
-      <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/rules"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="uid" help="contexthelp/rules"></partial>
       <template slot="item">
         <article :id="item.uid.replace(/:/g,'_')" :class="[{pulseAnimation: pulseAnimation}]">
-          <vue-metainfo :uniqueid="item.uid"></vue-metainfo>
           <vue-inprogress></vue-inprogress>
           <header>
             <span :title="item.name"> {{item.name}} </span>
           </header>
           <section class="actions btn-group">
-            <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
-                class="fas fa-info"></i></button>
+            <oh-doc-link show class="btn btn-info-hover" title="Tags and Storage association" href="items_info.fragment.html"
+              :context.prop='item.uid'><i class="fas fa-info"></i></oh-doc-link>
             <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
           </section>
 

@@ -7,10 +7,10 @@ class ModelAdapter {
   }
   stores() { return { "bindings": "items" } };
   getall(options = null) {
-    return this.get(options);
+    return this.get(null, null, options);
   }
-  get(options = null) {
-    return store.get("bindings", null, options).then(items => this.items = items);
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("bindings", null, options);
   }
   dispose() {
   }
@@ -44,7 +44,7 @@ const BindingsMixin = {
   },
   computed: {
     documentationlink: function () {
-      var source = this.item.source;
+      const source = this.item.source;
       source = source.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("tree/master", "master");
       return source + '/README.md';
     },

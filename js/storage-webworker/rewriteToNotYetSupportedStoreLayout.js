@@ -73,6 +73,49 @@ const randomDesc = [
  */
 export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) {
   switch (storename) {
+    case "module-types": {
+      if (entry.inputs) {
+        for (let input of entry.inputs) {
+          let compatibleTo = {};
+          compatibleTo["java.lang.Object"] = true;
+          if (input.type == "org.openhab.core.types.Command") {
+            compatibleTo["org.openhab.core.types.State"] = true;
+          }
+          else if (input.type == "org.openhab.core.types.State") {
+            compatibleTo["org.openhab.core.types.Command"] = true;
+          }
+          else if (input.type == "org.eclipse.smarthome.core.types.Command") {
+            compatibleTo["org.eclipse.smarthome.core.types.State"] = true;
+          }
+          else if (input.type == "org.eclipse.smarthome.core.types.State") {
+            compatibleTo["org.eclipse.smarthome.core.types.Command"] = true;
+          }
+          input.compatibleTo = compatibleTo;
+        }
+      }
+      if (entry.outputs) {
+        for (let output of entry.outputs) {
+          let compatibleTo = {};
+          compatibleTo["java.lang.Object"] = true;
+          output.compatibleTo = compatibleTo;
+        }
+      }
+      if (entry.controls) {
+        for (let control of entry.controls) {
+          if (control.name == "cronExpression") {
+            control.context = "cronexpression";
+          }
+        }
+      }
+      if (entry.configDescriptions) {
+        for (let control of entry.configDescriptions) {
+          if (control.name == "cronExpression") {
+            control.context = "cronexpression";
+          }
+        }
+      }
+      break;
+    }
     case "bindings": {
       entry.versioninformation = [];
       entry.version = "2.5M1";
@@ -103,10 +146,16 @@ export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) 
     }
     case "things": {
       entry.actions = [
-        { id: "disable", label: "Disable", description: "Disable this thing" },
         { id: "pair", label: "Start pairing", description: "This thing requires a special pairing method" },
         { id: "unpair", label: "Unpair", description: "Removes the association to the remote device" },
       ];
+      // Add group property to channels -> for grouping
+      if (entry.channels) {
+        for (let channel of entry.channels) {
+          const [groupid, channelid] = channel.id.split("#");
+          if (channelid) channel.group = groupid;
+        }
+      }
       break;
     }
     case "channel-types": {
@@ -145,7 +194,7 @@ export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) 
       }
       entry.repository = "oh2addons"
       if (entry.id.includes("binding")) {
-        var id = entry.id.replace("-", ".");
+        const id = entry.id.replace("-", ".");
         entry.url_doc = "https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab." + id + "/README.md";
         entry.url_changelog = "https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab." + id + "/changelog.md";
       }

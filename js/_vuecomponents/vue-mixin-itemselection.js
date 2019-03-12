@@ -7,7 +7,7 @@ const ItemSelectionMixin = {
   },
   mounted: function () {
     this.clickSelectedBound = () => {
-      if (!this.$root.selectmode) return;
+      if (!this.$list.selectmode) return;
       this.selected = !this.selected;
       this.updateSelection();
     }
@@ -15,16 +15,16 @@ const ItemSelectionMixin = {
   },
   beforeDestroy: function () {
     this.$el.removeEventListener("click", this.clickSelectedBound);
-    if (this.selected) this.$root.selectedcounter -= 1;
+    if (this.selected) this.$list.selectedcounter -= 1;
   },
   methods: {
     updateSelection() {
       if (this.selected) {
         this.$el.classList.add("selected");
-        this.$root.selectedcounter += 1;
+        this.$list.selectedcounter += 1;
       } else {
         this.$el.classList.remove("selected");
-        this.$root.selectedcounter -= 1;
+        this.$list.selectedcounter -= 1;
       }
     }
   }
@@ -64,7 +64,7 @@ const ListViewSelectionModeMixin = {
       if (event.detail.action) {
         const action = event.detail.action;
         // There is one transition-group child and then all the item children
-        const selected = this.$root.$children[0].$children.filter(e => e.selected);
+        const selected = this.$list.$children[0].$children.filter(e => e.selected);
         for (let child of selected) {
           if (child[action]) child[action]();
         }

@@ -7,13 +7,13 @@ class ModelAdapter {
     this.value = {};
   }
   stores() { return { "bindings": "value", "binding-config": "config" } };
-  get(bindingid, options = null) {
-    return store.get("bindings", bindingid, options)
+  get(table = null, objectid = null, options = null) {
+    return store.get("bindings", objectid, options)
       .then(v => this.value = v)
       .then(() => this.value.configDescriptionURI ?
         store.get("config-descriptions", this.value.configDescriptionURI, { force: true }) : null)
       .then(v => this.configDescription = v)
-      .then(() => store.get("binding-config", bindingid, { force: true }))
+      .then(() => store.get("binding-config", objectid, { force: true }))
       .then(v => this.config = v);
   }
   dispose() {

@@ -1,18 +1,34 @@
-<div slot="app"></div>
 <template slot="list">
   <partial src="vuelisterrors.html"></partial>
-  <ui-codeeditor slot="app" v-else-if="viewmode=='textual'" :modelschema.prop="modelschema" ref="editor" :content.prop="toTextual()"
+  <ui-codeeditor v-else-if="viewmode=='textual'" :modelschema.prop="modelschema" ref="editor" :content.prop="toTextual()"
     @state="editorContentChanged($event.target)"></ui-codeeditor>
-  <div v-else class="w-100" slot="app">
+
+  <div v-else class="w-100">
+    <slot name="beforelist" :list="$list"></slot>
     <div v-if="status==OhListStatus.READY && items.length==0" class="emptylist">
-      <p>No content found. You might find the help text interesting.</p>
-      <ui-context-help url="@@help.md" class="card"></ui-context-help>
+      <slot name="empty">
+        <p>No content found. You might find the help text interesting.</p>
+        <ui-context-help url="@@help.md" class="card"></ui-context-help>
+      </slot>
     </div>
-    <transition-group v-else name="fade" tag="div" id="listcontainer" :class="[{selectionmode:selectmode},viewmode]">
-      <oh-vue-listitem v-for="item in items" :key="@@key" :listitem="item"></oh-vue-listitem>
+
+    <transition-group name="fade" tag="div" id="listcontainer" :class="[{selectionmode:selectmode},viewmode]">
+      <template v-if="Array.isArray(items)">
+        <oh-vue-listitem v-for="item in items" :key="item.@@KEY" :class="{single:items.length==1}" :listitem="item"></oh-vue-listitem>
+      </template>
+      <template v-else v-for="(channelGroup,groupid) in items">
+        <h2 v-if="channelGroup.label" style="grid-column: 1 / -1" :key="groupid">
+          {{channelGroup.label}} <small>{{channelGroup.description}}</small>
+        </h2>
+        <oh-vue-listitem v-for="item in channelGroup" :key="item.@@KEY" :class="{single:channelGroup.length==1}"
+          :listitem="item"></oh-vue-listitem>
+      </template>
     </transition-group>
+
     <div v-if="items.hasmore" class="text-center">
       <button class="btn btn-primary-hover" @click="showMore()">Show 50 more &hellip;</button>
     </div>
+    <slot name="afterlist" :list="$list"></slot>
   </div>
+
 </template>

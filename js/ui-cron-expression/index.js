@@ -28,14 +28,22 @@ class UiCronExpression extends HTMLElement {
   }
   getCronTranslation() {
     try {
-      return cronstrue.toString(this.value, { locale: "en" });
+      const str = cronstrue.toString(this._value, {
+        throwExceptionOnParseError: true,
+        verbose: false,
+        dayOfWeekStartIndexZero: true,
+        use24HourTimeFormat: true,
+        locale: "en"
+      });
+      this.dispatchEvent(new CustomEvent("input", { detail: this._value }));
+      return str;
     } catch (e) {
-      return e;
+      return e.toString();
     }
   }
   render() {
     render(html`
-            <input @input=${e => this.value = e.target.value} value="* * * * *" class="mb-4">
+            <input @input=${e => this.value = e.target.value} value="${this._value}">
             <div class="cronToText">${this.getCronTranslation()}</div>
         `, this);
   }

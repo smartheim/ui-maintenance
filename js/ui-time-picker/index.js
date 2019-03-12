@@ -12,7 +12,7 @@ class UiTimePicker extends HTMLElement {
     super();
   }
   connectedCallback() {
-    var options = {};
+    const options = {};
     if (this.hasAttribute("enable-time")) {
       options.enableTime = true;
       options.dateFormat = "Y-m-d H:i";
@@ -23,7 +23,7 @@ class UiTimePicker extends HTMLElement {
       options.inline = true;
       options.appendTo = this;
     }
-    var div = document.createElement("input");
+    const div = document.createElement("input");
     div.classList.add("mb-4")
     if (this.hasAttribute("name")) div.setAttribute("name", this.getAttribute("name"));
     if (this.hasAttribute("placeholder")) div.setAttribute("placeholder", this.getAttribute("placeholder"));

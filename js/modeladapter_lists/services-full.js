@@ -8,13 +8,13 @@ class ModelAdapter {
   stores() { return { "services": "items" } };
   sortStore() { return "services" };
   async getall(options = null) {
-    await this.get(options);
+    await this.get(null, null, options);
   }
   async getConfig(serviceid, configDescriptionURI) {
     this.configDescription[serviceid] = await store.get("config-descriptions", configDescriptionURI, { force: true });
     this.config[serviceid] = await store.get("service-config", serviceid, { force: true });
   }
-  async get(options = null) {
+  async get(table = null, objectid = null, options = null) {
     let services = await store.get("services", null, options);
     for (let service of services) {
       if (service.configDescriptionURI)
@@ -29,12 +29,16 @@ class ModelAdapter {
 const ListItemMixin = {
   computed: {
     configuration() {
-      return this.$root.configDescription[this.item.id];
+      return this.$list.configDescription[this.item.id];
     },
   },
   methods: {
-    configValue(param) {
-      return this.$root.config[this.item.id][param.name];
+    getConfigValue(param) {
+      return this.$list.config[this.item.id][param.name];
+    },
+    setConfigValue() {
+      console.log("CONFIG", arguments);
+      //Vue.set(config, arguments[0], arguments[1])
     }
   }
 }

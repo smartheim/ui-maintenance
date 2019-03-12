@@ -1,3 +1,5 @@
+import VirtualThingChannels from './virtual-stores/thing-channel';
+
 /**
  * The following table describes all available stores for the model (database). Most
  * of the stores correspond to a REST endpoint. If a rest endpoint does not allow
@@ -15,13 +17,14 @@ const tables = [
   { id: "config-descriptions", uri: "rest/config-descriptions", key: "uri" },
   { id: "discovery", uri: "rest/discovery", key: "id", singleRequests: false, label: "Discovery" },// ALTERED
   { id: "extensions", uri: "rest/extensions", key: "id", label: "Extensions" },// ALTERED
-  { id: "extension-repositories", uri: "rest/extension-repositories", key: "id", label: "Extension repositories" },// NEW
+  { id: "extension-repositories", uri: "rest/extension-repositories", key: "url", label: "Extension repositories" },// NEW
   { id: "manualextensions", uri: "rest/manualextensions", key: "id", label: "Manual extensions" }, // NEW
   { id: "scripts", uri: "rest/scripts", key: "filename", label: "Scripts" }, // NEW
   { id: "script-types", uri: "rest/script-types", key: "id" }, // NEW
   { id: "user-roles", uri: "rest/user-roles", key: "id", label: "User roles" }, // NEW
   { id: "icon-set", uri: "rest/icon-set", key: null }, // NEW
   { id: "about", uri: "rest/about", key: null }, // NEW
+  { id: "virtual-thing-channels", uri: null, key: "uid", virtual: VirtualThingChannels }, // VIRTUAL
   { id: "user-interfaces", uri: "rest/user-interfaces", key: "id", label: "User interfaces" }, // NEW
   { id: "item-types", uri: "rest/item-types", key: "id" }, // NEW
   { id: "semantic-tags", uri: "rest/  semantic-tags", key: null }, // NEW
@@ -45,12 +48,13 @@ const tables = [
 ];
 
 /**
- * The current DB version. Whenever the data table layout is changed, this need to be increased.
+ * The current DB version.
+ * Whenever the data table layout or rewrite-data is changed, this need to be increased.
  * It will force the indexed db to be cleared out and rebuild.
  * @category Webworker Storage Model
  * @memberof module:storage-webworker
  */
-const dbversion = 45;
+const dbversion = 52;
 
 /** 
  * This is an associative map of storenames to store-layout descriptions.
@@ -58,7 +62,6 @@ const dbversion = 45;
  * @category Webworker Storage Model
  * @memberof module:storage-webworker
  */
-var tableIDtoEntry = {};
-for (let t of tables) tableIDtoEntry[t.id] = t;
+const tableIDtoEntry = Object.freeze(tables.reduce((acc, t) => { acc[t.id] = t; return acc; }, {}));
 
 export { tables, tableIDtoEntry, dbversion };

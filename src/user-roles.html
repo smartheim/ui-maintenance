@@ -79,12 +79,16 @@
 
     <oh-list-bind adapter="modeladapter_lists/user-roles" filtercriteria="label"></oh-list-bind>
     <oh-vue-list class="mb-4">
-      <partial src="vuelistbasics.html" key="item.id" help="contexthelp/user-roles"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="id" help="contexthelp/user-roles"></partial>
       <template slot="item">
         <article :id="item.id" :class="[{haschanges: changed},{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>
           <header>
-            <span :title="item.label+': Edit the name and press enter'" contenteditable="true" @blur="item.label=$event.target.innerText"
+            <span :title="item.label+': Edit the name and press enter'" contenteditable="true" autocomplete="off"
+              autocorrect="off" autocapitalize="off" spellcheck="false" @blur="item.label=$event.target.innerText"
               @keypress.enter.prevent="item.label=$event.target.innerText">{{item.label}}</span>
           </header>
           <section class="actions unsaved btn-group">
@@ -105,11 +109,11 @@
               <div style="border-top: 1px solid black;grid-column: 1 / span 2;padding-top: 10px"></div>
 
               <div>Subsystem access</div>
-              <ui-multiselect class="form-control" viewkey="label" valuekey="id" :options.prop="$root.restEndpoints"
+              <ui-multiselect class="form-control" viewkey="label" valuekey="id" :options.prop="$list.restEndpoints"
                 placeholder="Restrict to subsystems" :value.prop="item.restEndpoints" @input="$set(item,'restEndpoints', $event.target.value)"></ui-multiselect>
 
               <div>Specific Items </div>
-              <ui-multiselect class="form-control" :options.prop="$root.itemlist" viewkey="label" valuekey="name"
+              <ui-multiselect class="form-control" :options.prop="$list.itemlist" viewkey="label" valuekey="name"
                 desckey="name" placeholder="Select items" :value.prop="item.items" @input="item.items=$event.target.value"></ui-multiselect>
 
               <div>Additional items by name (Regex pattern)</div>

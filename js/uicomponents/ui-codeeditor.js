@@ -30,7 +30,7 @@ const NEVER_CANCEL_TOKEN = {
 class OhCodeEditor extends HTMLElement {
   constructor() {
     super();
-    this.resizeTimer = null;
+    this.themechangeBound = () => this.updateTheme();
     //this.attachShadow({ mode: 'open' });
   }
 
@@ -71,17 +71,31 @@ class OhCodeEditor extends HTMLElement {
     }
 
     if (this.editor) {
+      // Dispose old
+      delete this.cached;
       this.haschanges = false;
       this.editor.setModel(null);
       if (this.model) this.model.dispose();
+
+      // Create new model
       this._originalcontent = data.value;
       const editorContent = data.language == "yaml" ? Yaml.dump(data.value, 10, 4).replace(/-     /g, "-\n    ") : data.value;
       this.model = this.monaco.editor.createModel(editorContent, data.language, data.modeluri);
-      this.model.onDidChangeContent(() => this.haschanges = true);
+      this.model.onDidChangeContent(() => {
+        this.haschanges = true;
+        this.undoRedoUpdateAfterModelChange();
+      });
       this.editor.setModel(this.model);
+      // Load language extensions and schemas
       if (data.language == "yaml") this.loadYamlHighlightSupport();
       this.updateSchema();
-      delete this.cached;
+      // Undo/Redo
+      this.initialVersion = this.model.getAlternativeVersionId();
+      this.currentVersion = this.initialVersion;
+      this.lastVersion = this.initialVersion;
+      this.dispatchEvent(new CustomEvent("redoavailable", { detail: false }));
+      this.dispatchEvent(new CustomEvent("undoavailable", { detail: false }));
+
     }
     else
       this.cached = data;
@@ -94,6 +108,14 @@ class OhCodeEditor extends HTMLElement {
       return datavalue;
     }
     return null;
+  }
+
+  addAtCursorPosition(additionalText) {
+    if (!this.model) return;
+    const line = this.editor.getPosition();
+    const range = new this.monaco.Range(line.lineNumber, 1, line.lineNumber, 1);
+    this.editor.executeEdits("my-source", [{ identifier: { major: 1, minor: 1 }, range: range, text: additionalText, forceMoveMarkers: true }]);
+    this.editor.pushUndoStop();
   }
 
   /**
@@ -196,6 +218,43 @@ class OhCodeEditor extends HTMLElement {
     });
   }
 
+  undoRedoUpdateAfterModelChange() {
+    const versionId = this.editor.getModel().getAlternativeVersionId();
+    // undoing
+    if (versionId < this.currentVersion) {
+      this.dispatchEvent(new CustomEvent("redoavailable", { detail: true }));
+      // no more undo possible
+      if (versionId === this.initialVersion) {
+        this.dispatchEvent(new CustomEvent("undoavailable", { detail: false }));
+      }
+    } else {
+      // redoing
+      if (versionId <= this.lastVersion) {
+        // redoing the last change
+        if (versionId == this.lastVersion) {
+          this.dispatchEvent(new CustomEvent("redoavailable", { detail: false }));
+        }
+      } else { // adding new change, disable redo when adding new changes
+        this.dispatchEvent(new CustomEvent("redoavailable", { detail: false }));
+        if (this.currentVersion > this.lastVersion) {
+          this.lastVersion = this.currentVersion;
+        }
+      }
+      this.dispatchEvent(new CustomEvent("undoavailable", { detail: true }));
+    }
+    this.currentVersion = versionId;
+  }
+
+  undo() {
+    this.editor.trigger('aaaa', 'undo', 'aaaa');
+    this.editor.focus();
+  }
+
+  redo() {
+    this.editor.trigger('aaaa', 'redo', 'aaaa');
+    this.editor.focus();
+  }
+
   async getSymbolsForPosition(position) {
     if (!this.quickOpen) return null;
     let symbols = await this.quickOpen.getDocumentSymbols(
@@ -279,6 +338,9 @@ class OhCodeEditor extends HTMLElement {
 
   connectedCallback() {
     while (this.firstChild) { this.firstChild.remove(); }
+    if (this.hasAttribute("themechangeevent")) {
+      document.addEventListener(this.getAttribute("themechangeevent"), this.themechangeBound, { passive: true });
+    }
 
     const that = this;
     this.overlayWidget = {
@@ -327,6 +389,9 @@ class OhCodeEditor extends HTMLElement {
   }
 
   disconnectedCallback() {
+    if (this.hasAttribute("themechangeevent")) {
+      document.removeEventListener(this.getAttribute("themechangeevent"), this.themechangeBound, { passive: true });
+    }
     if (this.resizeBound) window.removeEventListener('resize', this.resizeBound, { passive: true });
     if (this.debounceResizeTimer) clearInterval(this.debounceResizeTimer);
     delete this.debounceResizeTimer;
@@ -337,13 +402,17 @@ class OhCodeEditor extends HTMLElement {
     delete this.editor;
   }
 
+  updateTheme() {
+    this.monaco.editor.setTheme(localStorage.getItem("darktheme") == "true" ? "vs-dark" : "vs");
+  }
+
   startEditor() {
     const el = this;
-    this.monaco.editor.setTheme(localStorage.getItem("darktheme") == "true" ? "vs-dark" : "vs");
     while (this.firstChild) { this.firstChild.remove(); }
     this.editor = this.monaco.editor.create(el);
     this.offset = { width: el.offsetWidth, height: el.offsetHeight - 50 }
     this.editor.layout(this.offset);
+    this.updateTheme();
 
     // Resizing
     if (this.resizeBound) window.removeEventListener('resize', this.resizeBound, { passive: true });

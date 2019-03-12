@@ -23,7 +23,7 @@ class LogViewSimulator {
     delete this.timer;
   }
   rand(min, max) {
-    var seed = this._seed;
+    const seed = this._seed;
     min = min === undefined ? 0 : min;
     max = max === undefined ? 1 : max;
     this._seed = (seed * 9301 + 49297) % 233280;

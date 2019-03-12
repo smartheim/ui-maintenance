@@ -42,29 +42,40 @@ async function addExtensionRepositories(tx) {
   await scriptStore.clear();
   const scripts = [
     {
-      "id": "oh1legacy",
-      "label": "Legacy OH1 addons",
-      "description": "Add-ons in this repository have a newer version already. For compatibility and old installations you might want to enable this however.",
+      "extensionservice": "org.openhab.addons",
+      "label": "Release builds",
+      "description": "The main maven repository for openHAB releases",
+      "url": "https://dl.bintray.com/openhab/mvn",
+      "type": "maven_repository",
+      "fixed": true,
+      "enabled": false
     },
     {
-      "id": "oh1",
-      "label": "OH1 addons",
-      "description": "Some Add-ons do not have an OH2 version available. Enable the this repository to install those.",
+      "extensionservice": "org.openhab.addons",
+      "label": "Milestone builds",
+      "description": "openHAB Milestone repository",
+      "url": "https://openhab.jfrog.io/openhab/online-repo-milestone/2.5",
+      "type": "maven_repository",
+      "fixed": true,
+      "enabled": true
+    },
+    {
+      "extensionservice": "org.openhab.addons",
+      "label": "Legacy OH1 addons",
+      "description": "Add-ons in this repository have a newer version already. For compatibility and old installations you might want to enable this however.",
+      "url": "mvn:org.openhab.distro/openhab-addons-legacy/%version%/xml/features",
+      "type": "karaf_features",
+      "fixed": true,
+      "enabled": false
     },
     {
       "id": "eclipse_marketplace_rules",
-      "label": "Eclipse Marketplace Rule Templates",
-      "description": "Enable this repository to install Rule Templates from the Eclipse Marketplace.",
-    },
-    {
-      "id": "eclipse_marketplace_bindings",
-      "label": "Eclipse Marketplace Bindings",
-      "description": "Enable this repository to install Bindings from the Eclipse Marketplace.",
-    },
-    {
-      "id": "eclipse_marketplace_voice",
-      "label": "Eclipse Marketplace Voice",
-      "description": "Enable this repository to install Voice services from the Eclipse Marketplace.",
+      "label": "Eclipse Marketplace",
+      "description": "Bindings, Rule Templates, Voice services on the Eclipse Marketplace.",
+      "url": "https://marketplace.eclipse.org/taxonomy/term/4988%2C4396/api/p?client=org.eclipse.smarthome",
+      "type": "bundles",
+      "fixed": true,
+      "enabled": true
     },
   ];
   for (let d of scripts) await scriptStore.add(d);

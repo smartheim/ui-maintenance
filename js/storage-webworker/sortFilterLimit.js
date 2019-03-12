@@ -20,9 +20,11 @@ function process(data, options) {
   if (!(filterString) && !sortCriteria) {
     // But limit?
     if (hasmore) {
-      data.splice(limit);
-      data.hasmore = true;
+      const copy = data.slice(0, limit);
+      copy.hasmore = true;
+      return copy;
     }
+
     return data;
   }
 
@@ -30,9 +32,9 @@ function process(data, options) {
   // Array of filter condition tupels [c,f] with c:criteria,f:filterQuery
   let filters = [];
   if (filterString) {
-    var queryParts = filterString.split("&&");
+    const queryParts = filterString.split("&&");
     for (let queryPart of queryParts) {
-      var criteriaAndQuery = queryPart.split(/:(.+)/);
+      const criteriaAndQuery = queryPart.split(/:(.+)/);
       if (criteriaAndQuery.length >= 2) {
         filters.push({ c: criteriaAndQuery[0], f: criteriaAndQuery[1].trim().toLowerCase() });
       } else {
@@ -42,12 +44,12 @@ function process(data, options) {
   }
 
   // First filter if necessary
-  var c = 0;
+  let c = 0;
   const reverse = options.direction == "↓"; // ↓ or ↑
-  var filtered = [];
+  const filtered = [];
   // Filter list. The criteria item property can be an array in which case we check
   // if the filter string is within the array. Do not limit here if we are sorting.
-  for (var item of data) {
+  for (let item of data) {
     if (!applyFilter(filters, item)) continue;
 
     if (sortCriteria && item[sortCriteria])
@@ -128,9 +130,9 @@ function insertInto(collection, newItem, sortCriteria, reverse) {
       return;
   }
 
-  var left = 0;
-  var right = collection.length;
-  var middle = Math.floor((left + right) / 2);
+  let left = 0;
+  let right = collection.length;
+  let middle = Math.floor((left + right) / 2);
   while (left <= right) {
     if (isGreater(newItem, collection[middle], sortCriteria)) {
       left = middle + 1;

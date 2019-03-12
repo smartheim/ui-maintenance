@@ -81,21 +81,21 @@ class UiDropZone extends HTMLElement {
     if (!this.droppedFiles.length) return;
 
     // gathering the form data
-    var formdata = new FormData(form);
+    const formdata = new FormData(form);
     console.log(this.droppedFiles);
     if (this.droppedFiles.length) {
-      for (var file of this.droppedFiles)
+      for (let file of this.droppedFiles)
         formdata.append(input.getAttribute('name'), file);
     }
 
     // ajax request
-    var ajax = new XMLHttpRequest();
+    const ajax = new XMLHttpRequest();
     ajax.open(form.getAttribute('method'), form.getAttribute('action'), true);
 
     ajax.onload = function () {
       form.classList.remove('is-uploading');
       if (ajax.status >= 200 && ajax.status < 400) {
-        var data = JSON.parse(ajax.responseText);
+        const data = JSON.parse(ajax.responseText);
         form.classList.add(data.success == true ? 'is-success' : 'is-error');
         if (!data.success)
           errorMsg.textContent = data.error;

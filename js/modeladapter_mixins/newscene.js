@@ -26,13 +26,13 @@ const Mixin = {
   },
   methods: {
     createNewRandomID: function () {
-      var text = "";
-      var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
-      for (var j = 0; j < 4; j++) {
-        for (var i = 0; i < 4; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+      let text = "";
+      const possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+      for (let j = 0; j < 4; j++) {
+        for (let i = 0; i < 4; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
         text += "-";
       }
-      for (var i = 0; i < 4; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+      for (let i = 0; i < 4; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
       this.uid = text;
     },
     create: function (event) {

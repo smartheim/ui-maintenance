@@ -20,6 +20,7 @@ class UiDropdown extends HTMLElement {
     this.novalue = this.hasAttribute("novalue");
     this.nostate = this.hasAttribute("nostate");
     this.icons = this.hasAttribute("icons") ? this.getAttribute("icons") : null;
+    this.required = this.hasAttribute("required");
 
     this.bodyClickBound = (e) => this.bodyClicked(e);
     this.addEventListener("click", e => e.stopPropagation());
@@ -54,15 +55,18 @@ class UiDropdown extends HTMLElement {
     else
       this.value = this._value;
   }
+  disconnectedCallback() {
+    while (this.firstChild) { this.firstChild.remove(); }
+  }
   static get observedAttributes() {
     return ['value'];
   }
   attributeChangedCallback(name, oldValue, newValue) {
     if (name == "value") this.value = this.getAttribute("value");
     if (name == "options") {
-      var options = {};
-      var items = this.getAttribute("options").split(",");
-      for (var item of items) {
+      const options = {};
+      const items = this.getAttribute("options").split(",");
+      for (let item of items) {
         const data = item.split(":");
         if (data.length == 1) options[item] = { label: item };
         else options[data[0].trim()] = { label: data[1].trim() };
@@ -108,7 +112,7 @@ class UiDropdown extends HTMLElement {
     }
     this._value = key;
     // Change active marker
-    var selectedEl = this.dropdownEl.querySelector(".active");
+    let selectedEl = this.dropdownEl.querySelector(".active");
     if (selectedEl) selectedEl.classList.remove("active");
     selectedEl = this.dropdownEl.querySelector("a[data-key='" + key + "']");
     if (selectedEl) selectedEl.classList.add("active");
@@ -129,7 +133,7 @@ class UiDropdown extends HTMLElement {
         console.warn("No viewkey/valuekey set!");
         return;
       }
-      var options = {};
+      const options = {};
       for (let entry of newValue) {
         const key = entry[this.valuekey];
         const label = entry[this.viewkey];
@@ -141,10 +145,9 @@ class UiDropdown extends HTMLElement {
     this._options = newValue;
 
     while (this.dropdownEl.firstChild) { this.dropdownEl.firstChild.remove(); }
-    for (var key of Object.keys(this._options)) {
+    for (let key of Object.keys(this._options)) {
       const option = this._options[key];
-      const a = document.createElement("a");
-      a.href = "#";
+      const a = document.createElement("div");
       a.classList.add("dropdown-item");
       a.dataset.key = key;
       a.addEventListener("click", (event) => this.select(event.target.dataset.key, event));

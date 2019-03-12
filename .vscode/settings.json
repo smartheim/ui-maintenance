@@ -3,5 +3,7 @@
     "html.format.maxPreserveNewLines": 2,
     "editor.detectIndentation": false,
     "editor.tabSize": 2,
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "workbench.colorTheme": "Default Dark+",
+    "search.usePCRE2": true
 }

@@ -7,10 +7,10 @@ class ModelAdapter {
   }
   stores() { return { "extension-repositories": "items" } };
   getall(options = null) {
-    return this.get(options);
+    return this.get(null, null, options);
   }
-  get(options = null) {
-    return store.get("extension-repositories", null, options).then(items => this.items = items);
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("extension-repositories", null, options);
   }
   dispose() {
   }

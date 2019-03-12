@@ -221,7 +221,7 @@ var script = {
           resizeAnEvent.newHeight && resizeAnEvent.eventId === event.id
             ? resizeAnEvent.newHeight
             : event.height
-        }px`
+          }px`
       };
     },
 
@@ -245,8 +245,8 @@ var script = {
             split3 &&
             Object.keys(this.events.find(e => e.id === eventId).simultaneous)
               .length +
-              1 <
-              3
+            1 <
+            3
           ) {
             split3--;
           }
@@ -309,17 +309,17 @@ var script = {
               // Unique comparison of events.
               comparisonArray[event.id] = this.splits.length
                 ? foregroundEventsList
-                    .filter(
-                      item =>
-                        item.id !== event.id &&
-                        comparisonArrayKeys.indexOf(item.id) === -1 &&
-                        item.split === event.split
-                    )
-                    .map(item => item.id)
+                  .filter(
+                    item =>
+                      item.id !== event.id &&
+                      comparisonArrayKeys.indexOf(item.id) === -1 &&
+                      item.split === event.split
+                  )
+                  .map(item => item.id)
                 : foregroundEventsIdList.filter(
-                    id =>
-                      id !== event.id && comparisonArrayKeys.indexOf(id) === -1
-                  );
+                  id =>
+                    id !== event.id && comparisonArrayKeys.indexOf(id) === -1
+                );
 
               if (comparisonArray[event.id].length)
                 this.checkOverlappingEvents(event, comparisonArray[event.id]);
@@ -574,19 +574,19 @@ var script = {
             Object.keys(eventToDelete.overlapped).forEach(
               id =>
                 delete dayToModify.find(item => item.id === id).overlapping[
-                  eventToDelete.id
+                eventToDelete.id
                 ]
             );
             Object.keys(eventToDelete.overlapping).forEach(
               id =>
                 delete dayToModify.find(item => item.id === id).overlapped[
-                  eventToDelete.id
+                eventToDelete.id
                 ]
             );
             Object.keys(eventToDelete.simultaneous).forEach(
               id =>
                 delete dayToModify.find(item => item.id === id).simultaneous[
-                  eventToDelete.id
+                eventToDelete.id
                 ]
             );
           }
@@ -598,7 +598,7 @@ var script = {
         Object.keys(event.overlapped).forEach(
           id =>
             delete this.events.find(item => item.id === id).overlapping[
-              event.id
+            event.id
             ]
         );
         Object.keys(event.overlapping).forEach(
@@ -608,7 +608,7 @@ var script = {
         Object.keys(event.simultaneous).forEach(
           id =>
             delete this.events.find(item => item.id === id).simultaneous[
-              event.id
+            event.id
             ]
         );
 
@@ -824,7 +824,7 @@ function normalizeComponent(template, style, script, scopeId, isFunctionalTempla
     options._ssrRegister = hook;
   } else if (style) {
     hook = shadowMode ? function () {
-      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+      style.call(this, createInjectorShadow(this.$list.$options.shadowRoot));
     } : function (context) {
       style.call(this, createInjector(context));
     };
@@ -852,7 +852,7 @@ function normalizeComponent(template, style, script, scopeId, isFunctionalTempla
 /* script */
 const __vue_script__ = script;
 /* template */
-var __vue_render__ = function() {
+var __vue_render__ = function () {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
@@ -864,8 +864,8 @@ var __vue_render__ = function() {
         splitted: _vm.splits.length,
         "vuecal__cell--has-events": _vm.events.length
       }),
-      (_obj[_vm.cssClass] = true),
-      _obj),
+        (_obj[_vm.cssClass] = true),
+        _obj),
       style: _vm.cellStyles,
       attrs: {
         tag: "div",
@@ -874,7 +874,7 @@ var __vue_render__ = function() {
       }
     },
     [
-      _vm._l(_vm.splits.length || 1, function(i) {
+      _vm._l(_vm.splits.length || 1, function (i) {
         return _c(
           "div",
           {
@@ -888,136 +888,136 @@ var __vue_render__ = function() {
           [
             _vm.splits.length
               ? _c("div", {
-                  staticClass: "split-label",
-                  domProps: { innerHTML: _vm._s(_vm.splits[i - 1].label) }
-                })
+                staticClass: "split-label",
+                domProps: { innerHTML: _vm._s(_vm.splits[i - 1].label) }
+              })
               : _vm._e(),
             _vm.content
               ? _c("div", {
-                  staticClass: "vuecal__cell-date",
-                  domProps: { innerHTML: _vm._s(_vm.content) }
-                })
+                staticClass: "vuecal__cell-date",
+                domProps: { innerHTML: _vm._s(_vm.content) }
+              })
               : _vm._e(),
             !_vm.events.length &&
-            (["week", "day"].indexOf(_vm.view) > -1 ||
-              (_vm.view === "month" && _vm.eventsOnMonthView))
+              (["week", "day"].indexOf(_vm.view) > -1 ||
+                (_vm.view === "month" && _vm.eventsOnMonthView))
               ? _c(
-                  "div",
-                  { staticClass: "vuecal__no-event" },
-                  [_vm._t("no-event", [_vm._v(_vm._s(_vm.texts.noEvent))])],
-                  2
-                )
+                "div",
+                { staticClass: "vuecal__no-event" },
+                [_vm._t("no-event", [_vm._v(_vm._s(_vm.texts.noEvent))])],
+                2
+              )
               : _vm._e(),
             _vm.events.length &&
-            (["week", "day"].indexOf(_vm.view) > -1 ||
-              (_vm.view === "month" && _vm.eventsOnMonthView))
+              (["week", "day"].indexOf(_vm.view) > -1 ||
+                (_vm.view === "month" && _vm.eventsOnMonthView))
               ? _c(
-                  "div",
-                  { staticClass: "vuecal__cell-events" },
-                  _vm._l(
-                    _vm.splits.length ? _vm.splitEvents[i] : _vm.events,
-                    function(event, j) {
-                      return _c(
-                        "div",
-                        {
-                          key: j,
-                          staticClass: "vuecal__event",
-                          class: _vm.eventClasses(event),
-                          style: _vm.eventStyles(event),
-                          attrs: {
-                            draggable: _vm.draggableEvents && !event.fixed
-                          },
-                          on: {
-                            mouseenter: function($event) {
-                              _vm.onMouseEnter($event, event);
-                            },
-                            mouseleave: function($event) {
-                              _vm.onMouseLeave($event, event);
-                            },
-                            mousedown: function($event) {
-                              _vm.onMouseDown($event, event);
-                            },
-                            dragstart: function($event) {
-                              _vm.onDragStart($event, event);
-                            },
-                            dragend: function($event) {
-                              _vm.onDragEnd($event, event);
-                            },
-                            contextmenu: function($event) {
-                              _vm.onContextMenu($event, event);
-                            },
-                            touchstart: function($event) {
-                              _vm.onTouchStart($event, event);
-                            },
-                            click: function($event) {
-                              _vm.onClick($event, event);
-                            },
-                            dblclick: function($event) {
-                              _vm.onDblClick($event, event);
-                            }
-                          }
+                "div",
+                { staticClass: "vuecal__cell-events" },
+                _vm._l(
+                  _vm.splits.length ? _vm.splitEvents[i] : _vm.events,
+                  function (event, j) {
+                    return _c(
+                      "div",
+                      {
+                        key: j,
+                        staticClass: "vuecal__event",
+                        class: _vm.eventClasses(event),
+                        style: _vm.eventStyles(event),
+                        attrs: {
+                          draggable: _vm.draggableEvents && !event.fixed
                         },
-                        [
-                          _vm.editableEvents
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass: "vuecal__event-delete",
-                                  on: {
-                                    mousedown: function($event) {
-                                      $event.stopPropagation();
-                                      $event.preventDefault();
-                                      _vm.deleteEvent(event);
-                                    },
-                                    touchstart: function($event) {
-                                      $event.stopPropagation();
-                                      $event.preventDefault();
-                                      _vm.touchDeleteEvent(event);
-                                    }
-                                  }
+                        on: {
+                          mouseenter: function ($event) {
+                            _vm.onMouseEnter($event, event);
+                          },
+                          mouseleave: function ($event) {
+                            _vm.onMouseLeave($event, event);
+                          },
+                          mousedown: function ($event) {
+                            _vm.onMouseDown($event, event);
+                          },
+                          dragstart: function ($event) {
+                            _vm.onDragStart($event, event);
+                          },
+                          dragend: function ($event) {
+                            _vm.onDragEnd($event, event);
+                          },
+                          contextmenu: function ($event) {
+                            _vm.onContextMenu($event, event);
+                          },
+                          touchstart: function ($event) {
+                            _vm.onTouchStart($event, event);
+                          },
+                          click: function ($event) {
+                            _vm.onClick($event, event);
+                          },
+                          dblclick: function ($event) {
+                            _vm.onDblClick($event, event);
+                          }
+                        }
+                      },
+                      [
+                        _vm.editableEvents
+                          ? _c(
+                            "div",
+                            {
+                              staticClass: "vuecal__event-delete",
+                              on: {
+                                mousedown: function ($event) {
+                                  $event.stopPropagation();
+                                  $event.preventDefault();
+                                  _vm.deleteEvent(event);
                                 },
-                                [_vm._v(_vm._s(_vm.texts.deleteEvent))]
-                              )
-                            : _vm._e(),
-                          _vm._t("event-renderer", null, {
-                            event: event,
-                            view: _vm.view
-                          }),
-                          _vm.editableEvents &&
+                                touchstart: function ($event) {
+                                  $event.stopPropagation();
+                                  $event.preventDefault();
+                                  _vm.touchDeleteEvent(event);
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(_vm.texts.deleteEvent))]
+                          )
+                          : _vm._e(),
+                        _vm._t("event-renderer", null, {
+                          event: event,
+                          view: _vm.view
+                        }),
+                        _vm.editableEvents &&
                           _vm.time &&
                           event.startTime &&
                           !_vm.allDayEvents &&
                           !event.multipleDays.start &&
                           !event.multipleDays.middle &&
                           _vm.view !== "month"
-                            ? _c("div", {
-                                staticClass: "vuecal__event-resize-handle",
-                                on: {
-                                  mousedown: function($event) {
-                                    _vm.editableEvents &&
-                                      _vm.time &&
-                                      _vm.onDragHandleMouseDown($event, event);
-                                  },
-                                  touchstart: function($event) {
-                                    _vm.editableEvents &&
-                                      _vm.time &&
-                                      _vm.onDragHandleMouseDown($event, event);
-                                  }
-                                }
-                              })
-                            : _vm._e()
-                        ],
-                        2
-                      )
-                    }
-                  ),
-                  0
-                )
+                          ? _c("div", {
+                            staticClass: "vuecal__event-resize-handle",
+                            on: {
+                              mousedown: function ($event) {
+                                _vm.editableEvents &&
+                                  _vm.time &&
+                                  _vm.onDragHandleMouseDown($event, event);
+                              },
+                              touchstart: function ($event) {
+                                _vm.editableEvents &&
+                                  _vm.time &&
+                                  _vm.onDragHandleMouseDown($event, event);
+                              }
+                            }
+                          })
+                          : _vm._e()
+                      ],
+                      2
+                    )
+                  }
+                ),
+                0
+              )
               : _vm._e(),
             _vm.view === "month" &&
-            !_vm.eventsOnMonthView &&
-            _vm.events.length &&
-            !_vm.allDayEvents
+              !_vm.eventsOnMonthView &&
+              _vm.events.length &&
+              !_vm.allDayEvents
               ? _vm._t("events-count-month-view", null, { events: _vm.events })
               : _vm._e()
           ],
@@ -1026,21 +1026,21 @@ var __vue_render__ = function() {
       }),
       _vm.timelineVisible
         ? _c("div", {
-            key: _vm.transitions ? _vm.view + "-now-line" : "now-line",
-            staticClass: "vuecal__now-line",
-            style: "top: " + _vm.todaysTimePosition + "px"
-          })
+          key: _vm.transitions ? _vm.view + "-now-line" : "now-line",
+          staticClass: "vuecal__now-line",
+          style: "top: " + _vm.todaysTimePosition + "px"
+        })
         : _vm._e(),
       _vm.$parent.dragCurrentCell == _vm.cellid
         ? _c(
-            "div",
-            {
-              key: "dragline",
-              staticClass: "uecal__cursor-line",
-              style: "top: " + _vm.$parent.cursorPosition + "px"
-            },
-            [_c("span", [_vm._v(_vm._s(_vm.texts.noEvent))])]
-          )
+          "div",
+          {
+            key: "dragline",
+            staticClass: "uecal__cursor-line",
+            style: "top: " + _vm.$parent.cursorPosition + "px"
+          },
+          [_c("span", [_vm._v(_vm._s(_vm.texts.noEvent))])]
+        )
         : _vm._e()
     ],
     2
@@ -1050,30 +1050,30 @@ var __vue_render__ = function() {
 var __vue_staticRenderFns__ = [];
 __vue_render__._withStripped = true;
 
-  /* style */
-  const __vue_inject_styles__ = undefined;
-  /* scoped */
-  const __vue_scope_id__ = undefined;
-  /* module identifier */
-  const __vue_module_identifier__ = undefined;
-  /* functional template */
-  const __vue_is_functional_template__ = false;
-  /* style inject */
-  
-  /* style inject SSR */
-  
+/* style */
+const __vue_inject_styles__ = undefined;
+/* scoped */
+const __vue_scope_id__ = undefined;
+/* module identifier */
+const __vue_module_identifier__ = undefined;
+/* functional template */
+const __vue_is_functional_template__ = false;
+/* style inject */
 
-  
-  var Cell = normalizeComponent(
-    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
-    __vue_inject_styles__,
-    __vue_script__,
-    __vue_scope_id__,
-    __vue_is_functional_template__,
-    __vue_module_identifier__,
-    undefined,
-    undefined
-  );
+/* style inject SSR */
+
+
+
+var Cell = normalizeComponent(
+  { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+  __vue_inject_styles__,
+  __vue_script__,
+  __vue_scope_id__,
+  __vue_is_functional_template__,
+  __vue_module_identifier__,
+  undefined,
+  undefined
+);
 
 //
 
@@ -1191,11 +1191,11 @@ const VueCal = {
     },
     onEventClick: {
       type: Function,
-      default: () => {}
+      default: () => { }
     },
     onEventDblclick: {
       type: Function,
-      default: () => {}
+      default: () => { }
     },
     transitions: {
       type: Boolean,
@@ -1974,7 +1974,7 @@ const VueCal = {
           }
           title = `${
             this.texts.week
-          } ${date.getWeek()} (${formattedMonthYear})`;
+            } ${date.getWeek()} (${formattedMonthYear})`;
           break;
         case "day":
           title = formatDate(date, this.texts.dateFormat, this.texts);
@@ -2144,7 +2144,7 @@ const VueCal = {
                 selected:
                   this.view.selectedDate &&
                   firstDayOfWeek.addDays(i).getTime() ===
-                    this.view.selectedDate.getTime()
+                  this.view.selectedDate.getTime()
               }
             };
           });
@@ -2167,7 +2167,7 @@ const VueCal = {
                 selected:
                   this.view.selectedDate &&
                   this.view.startDate.getTime() ===
-                    this.view.selectedDate.getTime()
+                  this.view.selectedDate.getTime()
               }
             }
           ];
@@ -2211,7 +2211,7 @@ const VueCal = {
   },
 
   watch: {
-    selectedDate: function(date) {
+    selectedDate: function (date) {
       this.updateSelectedDate(date);
     }
   }
@@ -2220,702 +2220,700 @@ const VueCal = {
 /* script */
 const __vue_script__$1 = VueCal;
 /* template */
-var __vue_render__$1 = function() {
+var __vue_render__$1 = function () {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
   return _vm.ready
     ? _c(
-        "div",
-        {
-          staticClass: "vuecal__flex vuecal",
-          class: _vm.cssClasses,
-          attrs: { column: "column", lang: _vm.locale }
-        },
-        [
-          _c("div", { staticClass: "vuecal__header" }, [
-            !_vm.hideViewSelector
-              ? _c(
-                  "ul",
-                  { staticClass: "vuecal__flex vuecal__menu" },
-                  _vm._l(_vm.views, function(v, id) {
-                    return v.enabled
-                      ? _c(
-                          "li",
-                          {
-                            class: { active: _vm.view.id === id },
-                            on: {
-                              click: function($event) {
-                                _vm.switchView(id, null, true);
-                              }
-                            }
-                          },
-                          [_vm._v(_vm._s(v.label))]
-                        )
-                      : _vm._e()
-                  }),
-                  0
-                )
-              : _vm._e(),
-            !_vm.hideTitleBar
-              ? _c(
+      "div",
+      {
+        staticClass: "vuecal__flex vuecal",
+        class: _vm.cssClasses,
+        attrs: { column: "column", lang: _vm.locale }
+      },
+      [
+        _c("div", { staticClass: "vuecal__header" }, [
+          !_vm.hideViewSelector
+            ? _c(
+              "ul",
+              { staticClass: "vuecal__flex vuecal__menu" },
+              _vm._l(_vm.views, function (v, id) {
+                return v.enabled
+                  ? _c(
+                    "li",
+                    {
+                      class: { active: _vm.view.id === id },
+                      on: {
+                        click: function ($event) {
+                          _vm.switchView(id, null, true);
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(v.label))]
+                  )
+                  : _vm._e()
+              }),
+              0
+            )
+            : _vm._e(),
+          !_vm.hideTitleBar
+            ? _c(
+              "div",
+              { staticClass: "vuecal__title" },
+              [
+                _c(
                   "div",
-                  { staticClass: "vuecal__title" },
+                  {
+                    staticClass: "vuecal__arrow vuecal__arrow--prev",
+                    on: { click: _vm.previous }
+                  },
+                  [
+                    _vm._t("arrowPrev", [_c("i", { staticClass: "angle" })])
+                  ],
+                  2
+                ),
+                _c(
+                  "transition",
+                  {
+                    staticClass: "flex text-xs-center",
+                    class: { clickable: !!_vm.broaderView },
+                    attrs: {
+                      name: "slide-fade--" + _vm.transitionDirection
+                    }
+                  },
                   [
                     _c(
-                      "div",
+                      "span",
                       {
-                        staticClass: "vuecal__arrow vuecal__arrow--prev",
-                        on: { click: _vm.previous }
+                        key: _vm.transitions ? _vm.viewTitle : false,
+                        staticClass: "d-inline-block",
+                        on: {
+                          click: function ($event) {
+                            _vm.switchToBroaderView();
+                          }
+                        }
                       },
                       [
-                        _vm._t("arrowPrev", [_c("i", { staticClass: "angle" })])
+                        _vm._t("title", [_vm._v(_vm._s(_vm.viewTitle))], {
+                          title: _vm.viewTitle,
+                          view: _vm.view
+                        })
                       ],
                       2
-                    ),
+                    )
+                  ]
+                ),
+                _c(
+                  "div",
+                  {
+                    staticClass: "vuecal__arrow vuecal__arrow--next",
+                    on: { click: _vm.next }
+                  },
+                  [
+                    _vm._t("arrowNext", [_c("i", { staticClass: "angle" })])
+                  ],
+                  2
+                )
+              ],
+              1
+            )
+            : _vm._e(),
+          _vm.viewHeadings.length &&
+            !(_vm.hasSplits && _vm.view.id === "week")
+            ? _c(
+              "div",
+              { staticClass: "vuecal__flex vuecal__weekdays-headings" },
+              _vm._l(_vm.viewHeadings, function (heading, i) {
+                return _c(
+                  "div",
+                  {
+                    key: i,
+                    staticClass: "vuecal__flex vuecal__heading",
+                    class: heading.class
+                  },
+                  [
                     _c(
                       "transition",
                       {
-                        staticClass: "flex text-xs-center",
-                        class: { clickable: !!_vm.broaderView },
                         attrs: {
-                          name: "slide-fade--" + _vm.transitionDirection
+                          name: "slide-fade--" + _vm.transitionDirection,
+                          appear: _vm.transitions
                         }
                       },
                       [
                         _c(
                           "span",
                           {
-                            key: _vm.transitions ? _vm.viewTitle : false,
-                            staticClass: "d-inline-block",
-                            on: {
-                              click: function($event) {
-                                _vm.switchToBroaderView();
-                              }
-                            }
+                            key: _vm.transitions
+                              ? i + "-" + heading.label4
+                              : false
                           },
                           [
-                            _vm._t("title", [_vm._v(_vm._s(_vm.viewTitle))], {
-                              title: _vm.viewTitle,
-                              view: _vm.view
-                            })
+                            _vm._l(3, function (j) {
+                              return _c("span", { key: j }, [
+                                _vm._v(_vm._s(heading["label" + j]))
+                              ])
+                            }),
+                            heading.label4
+                              ? _c("span", [_vm._v(" ")])
+                              : _vm._e(),
+                            heading.label4
+                              ? _c("span", [_vm._v(_vm._s(heading.label4))])
+                              : _vm._e()
                           ],
                           2
                         )
                       ]
-                    ),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "vuecal__arrow vuecal__arrow--next",
-                        on: { click: _vm.next }
-                      },
-                      [
-                        _vm._t("arrowNext", [_c("i", { staticClass: "angle" })])
-                      ],
-                      2
                     )
                   ],
                   1
                 )
-              : _vm._e(),
-            _vm.viewHeadings.length &&
-            !(_vm.hasSplits && _vm.view.id === "week")
-              ? _c(
-                  "div",
-                  { staticClass: "vuecal__flex vuecal__weekdays-headings" },
-                  _vm._l(_vm.viewHeadings, function(heading, i) {
-                    return _c(
-                      "div",
-                      {
-                        key: i,
-                        staticClass: "vuecal__flex vuecal__heading",
-                        class: heading.class
+              }),
+              0
+            )
+            : _vm._e(),
+          _vm.showAllDayEvents &&
+            _vm.time &&
+            ["week", "day"].indexOf(_vm.view.id) > -1
+            ? _c("div", { staticClass: "vuecal__flex vuecal__all-day" }, [
+              _vm._m(0),
+              _c(
+                "div",
+                {
+                  staticClass: "vuecal__flex vuecal__cells",
+                  class: _vm.view.id + "-view",
+                  attrs: {
+                    grow: "grow",
+                    wrap: !_vm.hasSplits || _vm.view.id !== "week",
+                    column: _vm.hasSplits
+                  }
+                },
+                _vm._l(_vm.viewCells, function (cell, i) {
+                  return _c(
+                    "vuecal-cell",
+                    {
+                      key: i,
+                      class: cell.class,
+                      attrs: {
+                        "data-id": i,
+                        cellid: i,
+                        date: cell.date,
+                        "formatted-date": cell.formattedDate,
+                        "all-day-events": true,
+                        today: cell.today,
+                        splits:
+                          (["week", "day"].indexOf(_vm.view.id) > -1 &&
+                            _vm.splitDays) ||
+                          []
                       },
-                      [
-                        _c(
-                          "transition",
-                          {
-                            attrs: {
-                              name: "slide-fade--" + _vm.transitionDirection,
-                              appear: _vm.transitions
-                            }
-                          },
-                          [
-                            _c(
-                              "span",
-                              {
-                                key: _vm.transitions
-                                  ? i + "-" + heading.label4
-                                  : false
-                              },
+                      nativeOn: {
+                        dragover: function ($event) {
+                          $event.target.dataset.id &&
+                            _vm.onDragOver($event, cell, i);
+                        },
+                        dragenter: function ($event) {
+                          _vm.onDragEnter($event);
+                        },
+                        drop: function ($event) {
+                          $event.preventDefault();
+                        },
+                        click: function ($event) {
+                          _vm.selectCell(cell);
+                        },
+                        dblclick: function ($event) {
+                          _vm.dblClickToNavigate &&
+                            _vm.switchToNarrowerView();
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "event-renderer",
+                          fn: function (ref) {
+                            var event = ref.event;
+                            var view = ref.view;
+                            return _c(
+                              "div",
+                              { attrs: { view: view, event: event } },
                               [
-                                _vm._l(3, function(j) {
-                                  return _c("span", { key: j }, [
-                                    _vm._v(_vm._s(heading["label" + j]))
-                                  ])
-                                }),
-                                heading.label4
-                                  ? _c("span", [_vm._v(" ")])
-                                  : _vm._e(),
-                                heading.label4
-                                  ? _c("span", [_vm._v(_vm._s(heading.label4))])
-                                  : _vm._e()
+                                _vm._t(
+                                  "event-renderer",
+                                  [
+                                    _vm.editableEvents && event.title
+                                      ? _c("div", {
+                                        staticClass:
+                                          "vuecal__event-title vuecal__event-title--edit",
+                                        attrs: {
+                                          contenteditable:
+                                            "contenteditable"
+                                        },
+                                        domProps: {
+                                          innerHTML: _vm._s(event.title)
+                                        },
+                                        on: {
+                                          blur: function ($event) {
+                                            _vm.onEventTitleBlur(
+                                              $event,
+                                              event
+                                            );
+                                          }
+                                        }
+                                      })
+                                      : event.title
+                                        ? _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "vuecal__event-title"
+                                          },
+                                          [_vm._v(_vm._s(event.title))]
+                                        )
+                                        : _vm._e()
+                                  ],
+                                  { view: view, event: event }
+                                )
                               ],
                               2
                             )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  }),
-                  0
-                )
-              : _vm._e(),
-            _vm.showAllDayEvents &&
-            _vm.time &&
-            ["week", "day"].indexOf(_vm.view.id) > -1
-              ? _c("div", { staticClass: "vuecal__flex vuecal__all-day" }, [
-                  _vm._m(0),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "vuecal__flex vuecal__cells",
-                      class: _vm.view.id + "-view",
-                      attrs: {
-                        grow: "grow",
-                        wrap: !_vm.hasSplits || _vm.view.id !== "week",
-                        column: _vm.hasSplits
-                      }
+                          }
+                        }
+                      ])
                     },
-                    _vm._l(_vm.viewCells, function(cell, i) {
-                      return _c(
-                        "vuecal-cell",
-                        {
-                          key: i,
-                          class: cell.class,
-                          attrs: {
-                            "data-id": i,
-                            cellid: i,
-                            date: cell.date,
-                            "formatted-date": cell.formattedDate,
-                            "all-day-events": true,
-                            today: cell.today,
-                            splits:
-                              (["week", "day"].indexOf(_vm.view.id) > -1 &&
-                                _vm.splitDays) ||
-                              []
-                          },
-                          nativeOn: {
-                            dragover: function($event) {
-                              $event.target.dataset.id &&
-                                _vm.onDragOver($event, cell, i);
-                            },
-                            dragenter: function($event) {
-                              _vm.onDragEnter($event);
-                            },
-                            drop: function($event) {
-                              $event.preventDefault();
-                            },
-                            click: function($event) {
-                              _vm.selectCell(cell);
-                            },
-                            dblclick: function($event) {
-                              _vm.dblClickToNavigate &&
-                                _vm.switchToNarrowerView();
-                            }
-                          },
-                          scopedSlots: _vm._u([
-                            {
-                              key: "event-renderer",
-                              fn: function(ref) {
-                                var event = ref.event;
-                                var view = ref.view;
-                                return _c(
-                                  "div",
-                                  { attrs: { view: view, event: event } },
-                                  [
-                                    _vm._t(
-                                      "event-renderer",
-                                      [
-                                        _vm.editableEvents && event.title
-                                          ? _c("div", {
-                                              staticClass:
-                                                "vuecal__event-title vuecal__event-title--edit",
-                                              attrs: {
-                                                contenteditable:
-                                                  "contenteditable"
-                                              },
-                                              domProps: {
-                                                innerHTML: _vm._s(event.title)
-                                              },
-                                              on: {
-                                                blur: function($event) {
-                                                  _vm.onEventTitleBlur(
-                                                    $event,
-                                                    event
-                                                  );
-                                                }
-                                              }
-                                            })
-                                          : event.title
-                                            ? _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "vuecal__event-title"
-                                                },
-                                                [_vm._v(_vm._s(event.title))]
-                                              )
-                                            : _vm._e()
-                                      ],
-                                      { view: view, event: event }
-                                    )
-                                  ],
-                                  2
-                                )
-                              }
-                            }
-                          ])
-                        },
-                        [_vm._t("no-event", null, { slot: "no-event" })],
-                        2
-                      )
-                    }),
-                    1
+                    [_vm._t("no-event", null, { slot: "no-event" })],
+                    2
                   )
-                ])
-              : _vm._e()
-          ]),
-          !_vm.hideBody
-            ? _c(
-                "div",
+                }),
+                1
+              )
+            ])
+            : _vm._e()
+        ]),
+        !_vm.hideBody
+          ? _c(
+            "div",
+            {
+              staticClass: "vuecal__flex vuecal__body",
+              attrs: { grow: "grow" }
+            },
+            [
+              _c(
+                "transition",
                 {
-                  staticClass: "vuecal__flex vuecal__body",
-                  attrs: { grow: "grow" }
+                  attrs: { name: "slide-fade--" + _vm.transitionDirection }
                 },
                 [
                   _c(
-                    "transition",
+                    "div",
                     {
-                      attrs: { name: "slide-fade--" + _vm.transitionDirection }
+                      key: _vm.transitions ? _vm.view.id : false,
+                      class: { vuecal__flex: !_vm.hasTimeColumn },
+                      staticStyle: { "min-width": "100%" }
                     },
                     [
                       _c(
                         "div",
                         {
-                          key: _vm.transitions ? _vm.view.id : false,
-                          class: { vuecal__flex: !_vm.hasTimeColumn },
-                          staticStyle: { "min-width": "100%" }
+                          staticClass: "vuecal__bg",
+                          attrs: { grow: "grow" }
                         },
                         [
+                          _vm.time &&
+                            ["week", "day"].indexOf(_vm.view.id) > -1
+                            ? _c(
+                              "div",
+                              { staticClass: "vuecal__time-column" },
+                              _vm._l(_vm.timeCells, function (cell, i) {
+                                return _c(
+                                  "div",
+                                  {
+                                    key: i,
+                                    staticClass: "vuecal__time-cell",
+                                    style:
+                                      "height: " +
+                                      _vm.timeCellHeight +
+                                      "px"
+                                  },
+                                  [
+                                    _vm._t(
+                                      "time-cell",
+                                      [
+                                        _c(
+                                          "span",
+                                          { staticClass: "line" },
+                                          [_vm._v(_vm._s(cell.label))]
+                                        )
+                                      ],
+                                      {
+                                        hours: cell.hours,
+                                        minutes: cell.minutes
+                                      }
+                                    )
+                                  ],
+                                  2
+                                )
+                              }),
+                              0
+                            )
+                            : _vm._e(),
                           _c(
                             "div",
                             {
-                              staticClass: "vuecal__bg",
-                              attrs: { grow: "grow" }
+                              staticClass: "vuecal__flex vuecal__cells",
+                              class: _vm.view.id + "-view",
+                              attrs: {
+                                grow: "grow",
+                                wrap:
+                                  !_vm.hasSplits || _vm.view.id !== "week",
+                                column: _vm.hasSplits
+                              }
                             },
                             [
-                              _vm.time &&
-                              ["week", "day"].indexOf(_vm.view.id) > -1
+                              _vm.hasSplits && _vm.view.id === "week"
                                 ? _c(
-                                    "div",
-                                    { staticClass: "vuecal__time-column" },
-                                    _vm._l(_vm.timeCells, function(cell, i) {
-                                      return _c(
-                                        "div",
-                                        {
-                                          key: i,
-                                          staticClass: "vuecal__time-cell",
-                                          style:
-                                            "height: " +
-                                            _vm.timeCellHeight +
-                                            "px"
-                                        },
-                                        [
-                                          _vm._t(
-                                            "time-cell",
-                                            [
-                                              _c(
-                                                "span",
-                                                { staticClass: "line" },
-                                                [_vm._v(_vm._s(cell.label))]
-                                              )
-                                            ],
-                                            {
-                                              hours: cell.hours,
-                                              minutes: cell.minutes
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "vuecal__flex vuecal__weekdays-headings"
+                                  },
+                                  _vm._l(_vm.viewHeadings, function (
+                                    heading,
+                                    i
+                                  ) {
+                                    return _c(
+                                      "div",
+                                      {
+                                        key: i,
+                                        staticClass:
+                                          "vuecal__flex vuecal__heading",
+                                        class: heading.class,
+                                        style: _vm.weekdayCellStyles
+                                      },
+                                      [
+                                        _c(
+                                          "transition",
+                                          {
+                                            attrs: {
+                                              name:
+                                                "slide-fade--" +
+                                                _vm.transitionDirection,
+                                              appear: _vm.transitions
                                             }
-                                          )
-                                        ],
-                                        2
-                                      )
-                                    }),
-                                    0
-                                  )
+                                          },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                key: _vm.transitions
+                                                  ? i +
+                                                  "-" +
+                                                  heading.label4
+                                                  : false
+                                              },
+                                              [
+                                                _vm._l(3, function (j) {
+                                                  return _c(
+                                                    "span",
+                                                    { key: j },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          heading[
+                                                          "label" + j
+                                                          ]
+                                                        )
+                                                      )
+                                                    ]
+                                                  )
+                                                }),
+                                                heading.label4
+                                                  ? _c("span", [
+                                                    _vm._v(" ")
+                                                  ])
+                                                  : _vm._e(),
+                                                heading.label4
+                                                  ? _c("span", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        heading.label4
+                                                      )
+                                                    )
+                                                  ])
+                                                  : _vm._e()
+                                              ],
+                                              2
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  }),
+                                  0
+                                )
                                 : _vm._e(),
                               _c(
                                 "div",
                                 {
-                                  staticClass: "vuecal__flex vuecal__cells",
-                                  class: _vm.view.id + "-view",
+                                  staticClass: "vuecal__flex",
                                   attrs: {
                                     grow: "grow",
                                     wrap:
-                                      !_vm.hasSplits || _vm.view.id !== "week",
-                                    column: _vm.hasSplits
+                                      !_vm.hasSplits ||
+                                      _vm.view.id !== "week"
                                   }
                                 },
-                                [
-                                  _vm.hasSplits && _vm.view.id === "week"
-                                    ? _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "vuecal__flex vuecal__weekdays-headings"
+                                _vm._l(_vm.viewCells, function (cell, i) {
+                                  return _c(
+                                    "vuecal-cell",
+                                    {
+                                      key: i,
+                                      class: cell.class,
+                                      attrs: {
+                                        "data-id": i,
+                                        cellid: i,
+                                        date: cell.date,
+                                        "formatted-date":
+                                          cell.formattedDate,
+                                        today: cell.today,
+                                        content: cell.content,
+                                        splits:
+                                          (["week", "day"].indexOf(
+                                            _vm.view.id
+                                          ) > -1 &&
+                                            _vm.splitDays) ||
+                                          []
+                                      },
+                                      nativeOn: {
+                                        mousemove: function ($event) {
+                                          _vm.onCellMouseMove($event, i);
                                         },
-                                        _vm._l(_vm.viewHeadings, function(
-                                          heading,
-                                          i
-                                        ) {
-                                          return _c(
-                                            "div",
-                                            {
-                                              key: i,
-                                              staticClass:
-                                                "vuecal__flex vuecal__heading",
-                                              class: heading.class,
-                                              style: _vm.weekdayCellStyles
-                                            },
-                                            [
-                                              _c(
-                                                "transition",
-                                                {
-                                                  attrs: {
-                                                    name:
-                                                      "slide-fade--" +
-                                                      _vm.transitionDirection,
-                                                    appear: _vm.transitions
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "span",
-                                                    {
-                                                      key: _vm.transitions
-                                                        ? i +
-                                                          "-" +
-                                                          heading.label4
-                                                        : false
-                                                    },
-                                                    [
-                                                      _vm._l(3, function(j) {
-                                                        return _c(
-                                                          "span",
-                                                          { key: j },
+                                        dragover: function ($event) {
+                                          $event.target.dataset.id &&
+                                            _vm.onDragOver($event, cell, i);
+                                        },
+                                        dragenter: function ($event) {
+                                          _vm.onDragEnter($event);
+                                        },
+                                        drop: function ($event) {
+                                          $event.preventDefault();
+                                        },
+                                        click: function ($event) {
+                                          _vm.selectCell(cell);
+                                        },
+                                        dblclick: function ($event) {
+                                          _vm.dblClickToNavigate &&
+                                            _vm.switchToNarrowerView();
+                                        }
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "events-count-month-view",
+                                          fn: function (ref) {
+                                            var events = ref.events;
+                                            return _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "vuecal__cell-events-count",
+                                                attrs: { events: events }
+                                              },
+                                              [
+                                                _vm._t(
+                                                  "events-count-month-view",
+                                                  [
+                                                    events.length
+                                                      ? _c("span", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            events.length
+                                                          )
+                                                        )
+                                                      ])
+                                                      : _vm._e()
+                                                  ],
+                                                  { events: events }
+                                                )
+                                              ],
+                                              2
+                                            )
+                                          }
+                                        },
+                                        {
+                                          key: "event-renderer",
+                                          fn: function (ref) {
+                                            var event = ref.event;
+                                            var view = ref.view;
+                                            return _c(
+                                              "div",
+                                              {
+                                                attrs: {
+                                                  view: view,
+                                                  event: event
+                                                }
+                                              },
+                                              [
+                                                _vm._t(
+                                                  "event-renderer",
+                                                  [
+                                                    _vm.editableEvents &&
+                                                      event.title
+                                                      ? _c("div", {
+                                                        staticClass:
+                                                          "vuecal__event-title vuecal__event-title--edit",
+                                                        attrs: {
+                                                          contenteditable:
+                                                            "contenteditable"
+                                                        },
+                                                        domProps: {
+                                                          innerHTML: _vm._s(
+                                                            event.title
+                                                          )
+                                                        },
+                                                        on: {
+                                                          blur: function (
+                                                            $event
+                                                          ) {
+                                                            _vm.onEventTitleBlur(
+                                                              $event,
+                                                              event
+                                                            );
+                                                          }
+                                                        }
+                                                      })
+                                                      : event.title
+                                                        ? _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "vuecal__event-title"
+                                                          },
                                                           [
                                                             _vm._v(
                                                               _vm._s(
-                                                                heading[
-                                                                  "label" + j
-                                                                ]
+                                                                event.title
                                                               )
                                                             )
                                                           ]
                                                         )
-                                                      }),
-                                                      heading.label4
-                                                        ? _c("span", [
-                                                            _vm._v(" ")
-                                                          ])
                                                         : _vm._e(),
-                                                      heading.label4
-                                                        ? _c("span", [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                heading.label4
+                                                    event.startTimeMinutes &&
+                                                      !(
+                                                        view === "month" &&
+                                                        _vm.eventsOnMonthView ===
+                                                        "short"
+                                                      )
+                                                      ? _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "vuecal__event-time"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              _vm._f(
+                                                                "formatTime"
+                                                              )(
+                                                                event.startTimeMinutes,
+                                                                _vm.timeFormat ||
+                                                                (_vm
+                                                                  .$props[
+                                                                  "12Hour"
+                                                                ]
+                                                                  ? "h:mm{am}"
+                                                                  : "HH:mm")
                                                               )
                                                             )
-                                                          ])
-                                                        : _vm._e()
-                                                    ],
-                                                    2
-                                                  )
-                                                ]
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        }),
-                                        0
-                                      )
-                                    : _vm._e(),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass: "vuecal__flex",
-                                      attrs: {
-                                        grow: "grow",
-                                        wrap:
-                                          !_vm.hasSplits ||
-                                          _vm.view.id !== "week"
-                                      }
-                                    },
-                                    _vm._l(_vm.viewCells, function(cell, i) {
-                                      return _c(
-                                        "vuecal-cell",
-                                        {
-                                          key: i,
-                                          class: cell.class,
-                                          attrs: {
-                                            "data-id": i,
-                                            cellid: i,
-                                            date: cell.date,
-                                            "formatted-date":
-                                              cell.formattedDate,
-                                            today: cell.today,
-                                            content: cell.content,
-                                            splits:
-                                              (["week", "day"].indexOf(
-                                                _vm.view.id
-                                              ) > -1 &&
-                                                _vm.splitDays) ||
-                                              []
-                                          },
-                                          nativeOn: {
-                                            mousemove: function($event) {
-                                              _vm.onCellMouseMove($event, i);
-                                            },
-                                            dragover: function($event) {
-                                              $event.target.dataset.id &&
-                                                _vm.onDragOver($event, cell, i);
-                                            },
-                                            dragenter: function($event) {
-                                              _vm.onDragEnter($event);
-                                            },
-                                            drop: function($event) {
-                                              $event.preventDefault();
-                                            },
-                                            click: function($event) {
-                                              _vm.selectCell(cell);
-                                            },
-                                            dblclick: function($event) {
-                                              _vm.dblClickToNavigate &&
-                                                _vm.switchToNarrowerView();
-                                            }
-                                          },
-                                          scopedSlots: _vm._u([
-                                            {
-                                              key: "events-count-month-view",
-                                              fn: function(ref) {
-                                                var events = ref.events;
-                                                return _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "vuecal__cell-events-count",
-                                                    attrs: { events: events }
-                                                  },
-                                                  [
-                                                    _vm._t(
-                                                      "events-count-month-view",
-                                                      [
-                                                        events.length
-                                                          ? _c("span", [
+                                                          ),
+                                                          event.endTimeMinutes
+                                                            ? _c("span", [
                                                               _vm._v(
+                                                                " - " +
                                                                 _vm._s(
-                                                                  events.length
+                                                                  _vm._f(
+                                                                    "formatTime"
+                                                                  )(
+                                                                    event.endTimeMinutes,
+                                                                    _vm.timeFormat ||
+                                                                    (_vm
+                                                                      .$props[
+                                                                      "12Hour"
+                                                                    ]
+                                                                      ? "h:mm{am}"
+                                                                      : "HH:mm")
+                                                                  )
                                                                 )
                                                               )
                                                             ])
-                                                          : _vm._e()
-                                                      ],
-                                                      { events: events }
-                                                    )
-                                                  ],
-                                                  2
-                                                )
-                                              }
-                                            },
-                                            {
-                                              key: "event-renderer",
-                                              fn: function(ref) {
-                                                var event = ref.event;
-                                                var view = ref.view;
-                                                return _c(
-                                                  "div",
-                                                  {
-                                                    attrs: {
-                                                      view: view,
-                                                      event: event
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._t(
-                                                      "event-renderer",
-                                                      [
-                                                        _vm.editableEvents &&
-                                                        event.title
-                                                          ? _c("div", {
-                                                              staticClass:
-                                                                "vuecal__event-title vuecal__event-title--edit",
-                                                              attrs: {
-                                                                contenteditable:
-                                                                  "contenteditable"
-                                                              },
-                                                              domProps: {
-                                                                innerHTML: _vm._s(
-                                                                  event.title
-                                                                )
-                                                              },
-                                                              on: {
-                                                                blur: function(
-                                                                  $event
-                                                                ) {
-                                                                  _vm.onEventTitleBlur(
-                                                                    $event,
-                                                                    event
-                                                                  );
-                                                                }
-                                                              }
-                                                            })
-                                                          : event.title
-                                                            ? _c(
-                                                                "div",
-                                                                {
-                                                                  staticClass:
-                                                                    "vuecal__event-title"
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      event.title
-                                                                    )
-                                                                  )
-                                                                ]
-                                                              )
                                                             : _vm._e(),
-                                                        event.startTimeMinutes &&
-                                                        !(
-                                                          view === "month" &&
-                                                          _vm.eventsOnMonthView ===
-                                                            "short"
-                                                        )
-                                                          ? _c(
-                                                              "div",
+                                                          event
+                                                            .multipleDays
+                                                            .daysCount
+                                                            ? _c(
+                                                              "small",
                                                               {
                                                                 staticClass:
-                                                                  "vuecal__event-time"
+                                                                  "days-to-end"
                                                               },
                                                               [
                                                                 _vm._v(
+                                                                  " +" +
                                                                   _vm._s(
-                                                                    _vm._f(
-                                                                      "formatTime"
-                                                                    )(
-                                                                      event.startTimeMinutes,
-                                                                      _vm.timeFormat ||
-                                                                        (_vm
-                                                                          .$props[
-                                                                          "12Hour"
-                                                                        ]
-                                                                          ? "h:mm{am}"
-                                                                          : "HH:mm")
-                                                                    )
+                                                                    event
+                                                                      .multipleDays
+                                                                      .daysCount -
+                                                                    1
+                                                                  ) +
+                                                                  _vm._s(
+                                                                    _vm.texts.day[0].toLowerCase()
                                                                   )
-                                                                ),
-                                                                event.endTimeMinutes
-                                                                  ? _c("span", [
-                                                                      _vm._v(
-                                                                        " - " +
-                                                                          _vm._s(
-                                                                            _vm._f(
-                                                                              "formatTime"
-                                                                            )(
-                                                                              event.endTimeMinutes,
-                                                                              _vm.timeFormat ||
-                                                                                (_vm
-                                                                                  .$props[
-                                                                                  "12Hour"
-                                                                                ]
-                                                                                  ? "h:mm{am}"
-                                                                                  : "HH:mm")
-                                                                            )
-                                                                          )
-                                                                      )
-                                                                    ])
-                                                                  : _vm._e(),
-                                                                event
-                                                                  .multipleDays
-                                                                  .daysCount
-                                                                  ? _c(
-                                                                      "small",
-                                                                      {
-                                                                        staticClass:
-                                                                          "days-to-end"
-                                                                      },
-                                                                      [
-                                                                        _vm._v(
-                                                                          " +" +
-                                                                            _vm._s(
-                                                                              event
-                                                                                .multipleDays
-                                                                                .daysCount -
-                                                                                1
-                                                                            ) +
-                                                                            _vm._s(
-                                                                              _vm.texts.day[0].toLowerCase()
-                                                                            )
-                                                                        )
-                                                                      ]
-                                                                    )
-                                                                  : _vm._e()
+                                                                )
                                                               ]
                                                             )
-                                                          : _vm._e(),
-                                                        event.content &&
-                                                        !(
-                                                          view === "month" &&
-                                                          _vm.eventsOnMonthView ===
-                                                            "short"
-                                                        )
-                                                          ? _c("div", {
-                                                              staticClass:
-                                                                "vuecal__event-content",
-                                                              domProps: {
-                                                                innerHTML: _vm._s(
-                                                                  event.content
-                                                                )
-                                                              }
-                                                            })
-                                                          : _vm._e()
-                                                      ],
-                                                      {
-                                                        view: view,
-                                                        event: event
-                                                      }
-                                                    )
+                                                            : _vm._e()
+                                                        ]
+                                                      )
+                                                      : _vm._e(),
+                                                    event.content &&
+                                                      !(
+                                                        view === "month" &&
+                                                        _vm.eventsOnMonthView ===
+                                                        "short"
+                                                      )
+                                                      ? _c("div", {
+                                                        staticClass:
+                                                          "vuecal__event-content",
+                                                        domProps: {
+                                                          innerHTML: _vm._s(
+                                                            event.content
+                                                          )
+                                                        }
+                                                      })
+                                                      : _vm._e()
                                                   ],
-                                                  2
+                                                  {
+                                                    view: view,
+                                                    event: event
+                                                  }
                                                 )
-                                              }
-                                            }
-                                          ])
-                                        },
-                                        [
-                                          _vm._t(
-                                            "no-event",
-                                            [_vm._v(_vm._s(_vm.texts.noEvent))],
-                                            { slot: "no-event" }
-                                          )
-                                        ],
-                                        2
+                                              ],
+                                              2
+                                            )
+                                          }
+                                        }
+                                      ])
+                                    },
+                                    [
+                                      _vm._t(
+                                        "no-event",
+                                        [_vm._v(_vm._s(_vm.texts.noEvent))],
+                                        { slot: "no-event" }
                                       )
-                                    }),
-                                    1
+                                    ],
+                                    2
                                   )
-                                ]
+                                }),
+                                1
                               )
                             ]
                           )
@@ -2923,16 +2921,18 @@ var __vue_render__$1 = function() {
                       )
                     ]
                   )
-                ],
-                1
+                ]
               )
-            : _vm._e()
-        ]
-      )
+            ],
+            1
+          )
+          : _vm._e()
+      ]
+    )
     : _vm._e()
 };
 var __vue_staticRenderFns__$1 = [
-  function() {
+  function () {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -2943,30 +2943,30 @@ var __vue_staticRenderFns__$1 = [
 ];
 __vue_render__$1._withStripped = true;
 
-  /* style */
-  const __vue_inject_styles__$1 = undefined;
-  /* scoped */
-  const __vue_scope_id__$1 = undefined;
-  /* module identifier */
-  const __vue_module_identifier__$1 = undefined;
-  /* functional template */
-  const __vue_is_functional_template__$1 = false;
-  /* style inject */
-  
-  /* style inject SSR */
-  
+/* style */
+const __vue_inject_styles__$1 = undefined;
+/* scoped */
+const __vue_scope_id__$1 = undefined;
+/* module identifier */
+const __vue_module_identifier__$1 = undefined;
+/* functional template */
+const __vue_is_functional_template__$1 = false;
+/* style inject */
 
-  
-  var index = normalizeComponent(
-    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
-    __vue_inject_styles__$1,
-    __vue_script__$1,
-    __vue_scope_id__$1,
-    __vue_is_functional_template__$1,
-    __vue_module_identifier__$1,
-    undefined,
-    undefined
-  );
+/* style inject SSR */
+
+
+
+var index = normalizeComponent(
+  { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+  __vue_inject_styles__$1,
+  __vue_script__$1,
+  __vue_scope_id__$1,
+  __vue_is_functional_template__$1,
+  __vue_module_identifier__$1,
+  undefined,
+  undefined
+);
 
 export default index;
 export { VueCal };

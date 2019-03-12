@@ -78,7 +78,7 @@ class UImultiSelect extends HTMLElement {
       console.warn("No viewkey/valuekey set!", newValue);
       return;
     }
-    var options = [];
+    const options = [];
     for (let entry of newValue) {
       const id = entry[this.valuekey];
       const label = entry[this.viewkey];
@@ -131,8 +131,8 @@ class UImultiSelect extends HTMLElement {
   }
   renderOptionsList() {
     while (this._list.firstChild) { this._list.firstChild.remove(); }
-    for (var item of this.items) {
-      var liEl = document.createElement("li");
+    for (let item of this.items) {
+      const liEl = document.createElement("li");
       liEl.setAttribute("role", "option");
       liEl.setAttribute("tabindex", -1);
       liEl.dataset.id = item.id;
@@ -148,8 +148,8 @@ class UImultiSelect extends HTMLElement {
         this.selected[item.id] = { id: item.id, label: item.label, desc: item.desc };
       }
 
-      liEl = this._list.appendChild(liEl);
-      liEl.addEventListener("click", (e) => this.selectItem(e.target.closest("li"), e));
+      const liEl2 = this._list.appendChild(liEl);
+      liEl2.addEventListener("click", (e) => this.selectItem(e.target.closest("li"), e));
     }
   }
   renderField() {
@@ -168,8 +168,8 @@ class UImultiSelect extends HTMLElement {
       this.input.setAttribute("value", "-");
     }
 
-    var foundItems = {};
-    var nodes = this._field.querySelectorAll(".multiselect-tag");
+    const foundItems = {};
+    const nodes = this._field.querySelectorAll(".multiselect-tag");
     for (let node of nodes) {
       const id = node.dataset.id;
       if (!keys.includes(id)) { // Remove
@@ -188,14 +188,14 @@ class UImultiSelect extends HTMLElement {
       const id = newTagInfo.id;
       if (!id || foundItems[id]) continue;
 
-      var tag = document.createElement('div');
+      const tag = document.createElement('div');
       tag.dataset.id = id;
       tag.className = 'multiselect-tag';
-      var content = document.createElement('div');
+      const content = document.createElement('div');
       content.className = 'multiselect-tag-text';
       content.textContent = newTagInfo.label;
       if (newTagInfo.desc) content.title = newTagInfo.desc;
-      var removeButton = document.createElement('div');
+      const removeButton = document.createElement('div');
       removeButton.className = 'multiselect-tag-remove-button';
       removeButton.dataset.id = id;
       removeButton.addEventListener('click', (e) => this.removeClick(e));
@@ -232,7 +232,7 @@ class UImultiSelect extends HTMLElement {
   }
   handleEnterKey() {
     if (this._isOpened) {
-      var focusedItem = this.shadowRoot.querySelectorAll('li')[this._focusedItemIndex];
+      const focusedItem = this.shadowRoot.querySelectorAll('li')[this._focusedItemIndex];
       if (focusedItem) this.selectItem(focusedItem);
     }
   }
@@ -255,11 +255,11 @@ class UImultiSelect extends HTMLElement {
     this.close();
   }
   refreshFocusedItem() {
-    var el = this.shadowRoot.querySelectorAll('li')[this._focusedItemIndex];
+    const el = this.shadowRoot.querySelectorAll('li')[this._focusedItemIndex];
     if (el) el.focus();
   }
   handleBackspaceKey() {
-    var selectedItemElements = this.shadowRoot.querySelectorAll("li[selected]");
+    const selectedItemElements = this.shadowRoot.querySelectorAll("li[selected]");
     if (selectedItemElements.length) {
       const item = selectedItemElements[selectedItemElements.length - 1];
       const itemID = item.dataset.id;
@@ -286,7 +286,7 @@ class UImultiSelect extends HTMLElement {
     this.close();
   }
   fireChangeEvent() {
-    var event = new CustomEvent("input");
+    const event = new CustomEvent("input");
     this.dispatchEvent(event);
   }
   togglePopup(show) {
@@ -298,7 +298,7 @@ class UImultiSelect extends HTMLElement {
     event.stopPropagation();
     const id = event.target.dataset.id;
     delete this.selected[id];
-    var item = this._list.querySelector('li[data-id="' + id + '"]');
+    const item = this._list.querySelector('li[data-id="' + id + '"]');
     if (item) {
       item.removeAttribute('selected');
       item.setAttribute('aria-selected', false);
@@ -310,7 +310,7 @@ class UImultiSelect extends HTMLElement {
     if (Object.keys(this.selected).length == 0) this.renderField();
   }
   createPlaceholder() {
-    var placeholder = document.createElement('div');
+    const placeholder = document.createElement('div');
     placeholder.className = 'multiselect-field-placeholder';
     placeholder.textContent = this._options.placeholder;
     return placeholder;
@@ -324,10 +324,10 @@ class UImultiSelect extends HTMLElement {
     //this.shadowRoot.focus();
   }
   selectedItems() {
-    var result = [];
-    var selectedItems = this.shadowRoot.querySelectorAll('li[selected]');
-    for (var i = 0; i < selectedItems.length; i++) {
-      var selectedItem = selectedItems[i];
+    const result = [];
+    const selectedItems = this.shadowRoot.querySelectorAll('li[selected]');
+    for (let i = 0; i < selectedItems.length; i++) {
+      const selectedItem = selectedItems[i];
       result.push(selectedItem.hasAttribute('value')
         ? selectedItem.getAttribute('value')
         : selectedItem.textContent);

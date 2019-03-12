@@ -3,7 +3,7 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
-  <link rel="parent" href="schedules.html" />
+  <link rel="parent" href="schedules.html" data-title="Scheduler list" data-keyid="uid" />
 </head>
 
 <body>
@@ -12,8 +12,7 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add / Edit a timer"></partial>
   <main>
-    <nav-breadcrumb parent="Scheduler list" useParamAsHash="uid"></nav-breadcrumb>
-    <form class="mb-4" action="#">
+    <form class="my-3" action="#">
       <div class="form-group row">
         <div class="col-sm-10" style="display:flex">
           <ui-switch name="enabled" checked="true" label="Enabled" title="Create timers here in this interface, but enable/disable them in Rules for example"></ui-switch>

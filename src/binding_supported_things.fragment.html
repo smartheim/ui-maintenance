@@ -1,9 +1,11 @@
 <h3>Supported Things</h3>
 
 <oh-prop-bind contextfrom="ui-context-help" sourceproperty="contextdata" attribute="fixedfilter"></oh-prop-bind>
-<oh-list-bind for="inboxlist" adapter="modeladapter_lists/thing-types"></oh-list-bind>
-<oh-vue-list id="inboxlist">
-  <div slot="app"></div>
+<oh-list-bind adapter="modeladapter_lists/thing-types"></oh-list-bind>
+<oh-vue-list>
+  <div slot="app">
+    <list></list>
+  </div>
   <template slot="list">
     <partial src="vuelisterrors.html"></partial>
     <div v-else class="w-100" slot="app">

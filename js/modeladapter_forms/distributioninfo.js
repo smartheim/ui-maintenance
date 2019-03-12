@@ -7,7 +7,7 @@ class ModelAdapter {
     this.value = {};
   }
   stores() { return { "about": "value" } };
-  get(id, options = null) {
+  get(table = null, objectid = null, options = null) {
     return store.get("about", null, options)
       .then(v => this.value = Array.isArray(v) ? v[0] : {})
       .catch(e => { this.value = null; throw (e) });

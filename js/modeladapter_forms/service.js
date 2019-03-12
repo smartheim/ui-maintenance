@@ -6,11 +6,11 @@ class ModelAdapter {
     this.runtimeKeys = []; this.value = {}; this.configDescription = null; this.config = {};
   }
   stores() { return { "services": "value" } };
-  async get(serviceid, options = null) {
+  async get(table = null, objectid = null, options = null) {
     try {
-      const value = await store.get("services", serviceid, options);
+      const value = await store.get("services", objectid, options);
       if (value && value.configDescriptionURI)
-        await this.getConfig(serviceid, value.configDescriptionURI);
+        await this.getConfig(objectid, value.configDescriptionURI);
       this.value = value;
       return this.value;
     } catch (e) {
@@ -56,9 +56,13 @@ const ServiceMixin = {
     action(actionid) {
       console.log("actionID", actionid);
     },
-    configValue(param) {
+    getConfigValue(param) {
       return this.config[param.name];
     },
+    setConfigValue() {
+      console.log("CONFIG", arguments);
+      //Vue.set(config, arguments[0], arguments[1])
+    }
   }
 }
 

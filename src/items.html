@@ -16,36 +16,20 @@
     <p>Sort list</p>
     <ul>
       <li>
-        <oh-change-filter target="oh-list-bind" sort="label" direction="↓">
+        <oh-change-filter target="oh-list-bind" sort="label" direction="↓↑">
           <i class="fas fa-sort-alpha-down"></i> By name</oh-change-filter>
       </li>
       <li>
-        <oh-change-filter target="oh-list-bind" sort="label" direction="↑">
-          <i class="fas fa-sort-alpha-up"></i> By name</oh-change-filter>
-      </li>
-      <li>
-        <oh-change-filter target="oh-list-bind" sort="category" direction="↓">
+        <oh-change-filter target="oh-list-bind" sort="category" direction="↓↑">
           <i class="fas fa-sort-amount-down"></i> By category</oh-change-filter>
       </li>
       <li>
-        <oh-change-filter target="oh-list-bind" sort="category" direction="↑">
-          <i class="fas fa-sort-amount-up"></i> By category</oh-change-filter>
-      </li>
-      <li>
-        <oh-change-filter target="oh-list-bind" sort="type" direction="↓">
+        <oh-change-filter target="oh-list-bind" sort="type" direction="↓↑">
           <i class="fas fa-sort-amount-down"></i> By type</oh-change-filter>
       </li>
       <li>
-        <oh-change-filter target="oh-list-bind" sort="type" direction="↑">
-          <i class="fas fa-sort-amount-up"></i> By type</oh-change-filter>
-      </li>
-      <li>
-        <oh-change-filter target="oh-list-bind" sort="state" direction="↓">
+        <oh-change-filter target="oh-list-bind" sort="state" direction="↓↑">
           <i class="fas fa-sort-amount-down"></i> By state</oh-change-filter>
-      </li>
-      <li>
-        <oh-change-filter target="oh-list-bind" sort="state" direction="↑">
-          <i class="fas fa-sort-amount-up"></i> By state</oh-change-filter>
       </li>
     </ul>
     <p>Predefined filters</p>
@@ -70,7 +54,10 @@
 
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Add &amp; remove Items. Change tags, titles and Group affiliations"></partial>
+
   <main>
+
+    <!-- New item Modal Dialog. Hidden by default. Shown if url ends on #new-item -->
     <div id="new-item" class="modal" role="dialog">
       <div class="modal-dialog" role="document">
         <oh-vue-bind adapter="modeladapter_mixins/newitem"></oh-vue-bind>
@@ -146,7 +133,7 @@
     </div>
 
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
-      select="Selection mode">
+      select="Selection mode" additionalButtons="Control,Type,Groups,Meta,Semantic">
       <button class="btn btn-danger" data-action="remove">
         <i class="fas fa-trash"></i> Remove
         <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
@@ -156,42 +143,38 @@
 
     <oh-list-bind adapter="modeladapter_lists/items-full" maxItems="100" filtercriteria="label"></oh-list-bind>
     <oh-vue-list>
-      <partial src="vuelistbasics.html" key="item.name" help="contexthelp/items"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="name" help="contexthelp/items"></partial>
       <template slot="item">
         <article :id="item.name" :class="[{haschanges: changed},{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>
-          <vue-metainfo :uniqueid="item.name"></vue-metainfo>
           <header>
-            <span :title="item.label+': Edit the name and press enter'" contenteditable="true" @blur="setLabel"
-              @keypress.enter.prevent="item.label=$event.target.innerText">{{item.label}}</span>
+            <span :title="item.label+': Edit the name and press enter'" contenteditable="true" autocomplete="off"
+              autocorrect="off" autocapitalize="off" spellcheck="false" @blur="setLabel" @keypress.enter.prevent="item.label=$event.target.innerText">{{item.label}}</span>
           </header>
           <section class="actions unsaved btn-group">
             <button class="btn btn-success" title="Save changes" @click="save()"><i class="fas fa-save"></i></button>
             <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
           </section>
           <section class="actions btn-group">
-            <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
-                class="fas fa-info"></i></button>
+            <oh-doc-link v-if="$list.secondarymode==3" title="About item groups" show href="contexthelp/itemgroupfunctions.md"
+              class="btn btn-info-hover">
+              <i class="fas fa-question-circle"></i></oh-doc-link>
+            <oh-doc-link v-if="$list.secondarymode==4" title="About item meta data" show href="contexthelp/itemmeta.md"
+              class="btn btn-info-hover">
+              <i class="fas fa-question-circle"></i></oh-doc-link>
+            <oh-doc-link v-if="$list.secondarymode==5" title="About semantic tagging" show href="contexthelp/semantictagging.md"
+              class="btn btn-info-hover">
+              <i class="fas fa-question-circle"></i></oh-doc-link>
+            <oh-doc-link show class="btn btn-info-hover" title="Tags and Storage association" href="items_info.fragment.html"
+              :context.prop='item.name'><i class="fas fa-info"></i></oh-doc-link>
             <button class="btn btn-danger-hover" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
           </section>
 
           <section class="description">
-            <ui-tabs upsidedown>
-
-              <div class="tablinks" slot="links">
-                <button class="navlink btn btn-outline-secondary">Control</button>
-                <button class="navlink btn btn-outline-secondary">Type</button>
-                <button class="navlink btn btn-outline-secondary"><abbr title="Group items for switching them with one command">Groups</abbr></button>
-                <button class="navlink btn btn-outline-secondary">Meta
-                  <oh-doc-link title="About group functions" show href="contexthelp/itemmeta.md" class="link ml-2">
-                    <i class="far fa-question-circle"></i></oh-doc-link>
-                </button>
-                <button class="navlink btn btn-outline-secondary">Semantic
-                  <oh-doc-link title="About group functions" show href="contexthelp/semantictagging.md" class="link ml-2">
-                    <i class="far fa-question-circle"></i></oh-doc-link>
-                </button>
-              </div>
-
+            <ui-tabs upsidedown :activetab.prop="$list.secondarymode">
               <div class="tab-content" slot="tabs">
 
                 <section class="itemcontrol">
@@ -225,18 +208,18 @@
                   <div>
                     This is a
                     <ui-dropdown btnclass="btn btn-sm link" icons="itemtypes" viewkey="label" valuekey="id" desckey="description"
-                      :value="item.type" :options.prop="$root.itemtypes" label="No type" @input="item.type = $event.target.value"></ui-dropdown>
+                      :value="item.type" :options.prop="$list.itemtypes" label="No type" @input="item.type = $event.target.value"></ui-dropdown>
                     <template v-if="isGroup">
                       of type
                       <ui-dropdown btnclass="btn btn-sm link" icons="itemtypes" viewkey="label" valuekey="id" desckey="description"
-                        :options.prop="$root.grouptypes" :value="item.groupType" label="Unknown" @input="setGroup($event.target.value)"></ui-dropdown>,
+                        :options.prop="$list.grouptypes" :value="item.groupType" label="Unknown" @input="setGroup($event.target.value)"></ui-dropdown>,
                       <div v-if="item.groupType && item.groupType.length">
                         with 𝒇
                         <ui-dropdown btnclass="btn btn-sm link" viewkey="label" valuekey="id" desckey="description"
                           :options.prop="groupfunctions" :value="item.function ? item.function.name : null" label="No function"
                           @input="$set(item,'function',{name:$event.target.value,params:[]})"></ui-dropdown>
                         <oh-doc-link title="About group functions" show href="contexthelp/itemgroupfunctions.md" class="link ml-2 mr-2">
-                          <i class="far fa-question-circle"></i></oh-doc-link>
+                          <i class="fas fa-question-circle"></i></oh-doc-link>
                         <span v-if="hasFunctionParameters">
                           with parameters
                           <label v-for="(param, index) of functionparameters" :key="param.label" :title="param.description">
@@ -253,40 +236,58 @@
                 </section>
 
                 <section>
-                  <ui-multiselect viewkey="label" desckey="name" valuekey="name" :options.prop="$root.groupItems"
+                  <ui-multiselect viewkey="label" desckey="name" valuekey="name" :options.prop="$list.groupItems"
                     placeholder="Add this item to other Groups" :value.prop="item.groupNames" @input="$set(item,'groupNames', $event.target.value)"></ui-multiselect>
                 </section>
 
-                <section style="overflow-y: auto;max-height: 120px;">
+                <section class="itemmeta">
+
+                  <div class="add">
+                    <label>Add value:</label>
+                    <input placeholder="namespace" ref="namespacename">
+                    <input placeholder="value" ref="namespacevalue">
+                    <button title="Add metadata value" class="btn btn-outline-success btn-sm" @click.prevent="addMeta">
+                      <i class="fas fa-plus"></i> </button>
+                  </div>
+
                   <div v-for="namespace of namespaces">
                     <template v-if="!namespace.hasconfig">
                       <h6>Namespace: {{namespace.name}}</h6>
                       <div v-for="value of namespace.values">
                         {{value.description}}: {{value.value}}
+                        <button title="Remove value" class="btn btn-outline-danger btn-sm resetdefault" @click.prevent="removeMeta(namespace.name,value.id)">
+                          <i class="fas fa-trash"></i> </button>
                       </div>
                     </template>
-                    <vue-config-element v-for="param of namespace.parameters" :allowremove="true" :param="param" :value="namespace.values[param.name]"
-                      :key="namespace.name+'_'+param.name" @input="setMeta(namespace,param,$event)" @remove="setMeta(namespace,param,null)"></vue-config-element>
+                    <div class="elements" v-else>
+                      <template v-for="param of namespace.parameters">
+                        <vue-config-element :param="param" :value="namespace.values[param.name]" @input="setMeta(namespace.name,param.type,param.name,$event)"></vue-config-element>
+                        <label class="form-text text-muted small" :title="param.description">{{param.description}}</label>
+                        <button v-if="namespace.values[param.name]" title="Reset to default" class="btn btn-outline-danger btn-sm resetdefault"
+                          @click.prevent="removeMeta(namespace.name,param.name)">
+                          <i class="fas fa-undo"></i> </button>
+                      </template>
+                    </div>
                   </div>
                 </section>
 
-                <section class="">
-                  <div style="display: grid;grid-template-columns: 25% 25% 25% 25%;grid-gap: 10px" v-if="$root.semantic">
-                    <div style="padding-left: 0.5em">Location</div>
+                <section class="itemsemantic">
+                  <div class="content" v-if="$list.semantic">
+                    <div>Location</div>
                     <div style="padding-left: 0.5em">Property</div>
                     <div style="padding-left: 0.5em">Point</div>
                     <div style="padding-left: 0.5em">Equipment</div>
 
-                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($root.semantic.Location.values())"
+                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($list.semantic.Location.values())"
                       placeholder="Select&hellip;" data-type="Location" :value.prop="getSemanticLocation" @input="setSemanticTag"></ui-multiselect>
 
-                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($root.semantic.Property.values())"
+                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($list.semantic.Property.values())"
                       placeholder="Select&hellip;" data-type="Property" :value.prop="getSemanticProperty" @input="setSemanticTag"></ui-multiselect>
 
-                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($root.semantic.Point.values())"
+                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($list.semantic.Point.values())"
                       placeholder="Select&hellip;" data-type="Point" :value.prop="getSemanticPoint" @input="setSemanticTag"></ui-multiselect>
 
-                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($root.semantic.Equipment.values())"
+                    <ui-multiselect viewkey="tag" desckey="description" valuekey="tag" :options.prop="Array.from($list.semantic.Equipment.values())"
                       placeholder="Select&hellip;" data-type="Equipment" :value.prop="getSemanticEquipment" @input="setSemanticTag"></ui-multiselect>
                   </div>
                   <div v-else>Seem to not be available on your openHAB version :/</div>

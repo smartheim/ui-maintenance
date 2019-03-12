@@ -17,8 +17,6 @@ import { Marked } from "../_marked/index.mjs";
 class OhChangelog extends HTMLElement {
   constructor() {
     super();
-    if (!this.style.display || this.style.display.length == 0)
-      this.style.display = "block";
     this.marked = new Marked();
     this.renderer = new this.marked.Renderer();
     this.toc = [];
@@ -27,7 +25,7 @@ class OhChangelog extends HTMLElement {
      * To get the TOC, we need to listen to the renderer.heading method
      */
     this.renderer.heading = (text, level) => {
-      var slug = text.toLowerCase().replace(/[^\w]+/g, '-');
+      const slug = text.toLowerCase().replace(/[^\w]+/g, '-');
       this.toc.push({
         level: level,
         slug: slug,
@@ -40,6 +38,8 @@ class OhChangelog extends HTMLElement {
     return ['url', 'toctarget', 'cachetime'];
   }
   connectedCallback() {
+    if (!this.style.display || this.style.display.length == 0)
+      this.style.display = "block";
     this.loading = this.getAttribute("loading") || "Loading... ";
     this.error = this.getAttribute("error") || "Failed to fetch! ";
     this.attributeChangedCallback();
@@ -58,13 +58,13 @@ class OhChangelog extends HTMLElement {
       this.innerHTML = "No url given!";
       return;
     }
-    var cacheTimestamp = parseInt(localStorage.getItem("timestamp_" + this.url)) || 0;
-    var cachedData = null;
+    const cacheTimestamp = parseInt(localStorage.getItem("timestamp_" + this.url)) || 0;
+    let cachedData = null;
     if (cacheTimestamp > 0 && (cacheTimestamp + this.cachetime * 60 * 1000 > Date.now())) {
       cachedData = localStorage.getItem(this.url);
     }
     if (cachedData) {
-      var e = this.toctarget ? document.querySelector(this.toctarget) : null;
+      const e = this.toctarget ? document.querySelector(this.toctarget) : null;
       if (e) e.innerHTML = localStorage.getItem("toc_" + this.url);
       while (this.firstChild) { this.firstChild.remove(); }
       this.innerHTML = cachedData;
@@ -85,15 +85,15 @@ class OhChangelog extends HTMLElement {
     fetchWithTimeout(this.url)
       .then(response => response.json())
       .then(async (json) => {
-        var htmlstr = "";
+        let htmlstr = "";
         if (Array.isArray(json)) {
-          for (var i = 0; i < json.length; i++) {
-            var release = json[i];
+          for (let i = 0; i < json.length; i++) {
+            const release = json[i];
             const markdown = await this.marked.parse(release.body, { renderer: this.renderer });
             htmlstr += "<h2>" + release.name + "</h2>" + markdown + "<hr>";
           }
         } else {
-          var release = json;
+          const release = json;
           const markdown = await this.marked.parse(release.body, { renderer: this.renderer });
           htmlstr += "<h2>" + release.name + "</h2>" + markdown;
         }
@@ -101,8 +101,8 @@ class OhChangelog extends HTMLElement {
         localStorage.setItem("timestamp_" + this.url, Date.now());
 
         if (this.toc && this.toc.length) {
-          var tocstr = "";
-          for (var t of this.toc) {
+          const tocstr = "";
+          for (let t of this.toc) {
             if (t.level > 4)
               continue;
             if (t.level == 3) {
@@ -121,14 +121,14 @@ class OhChangelog extends HTMLElement {
         return Promise.resolve({ main: htmlstr, toc: tocstr });
       })
       .then(data => {
-        var e = document.querySelector(this.toctarget);
+        const e = document.querySelector(this.toctarget);
         if (e) e.innerHTML = data.toc;
         while (this.firstChild) { this.firstChild.remove(); }
         this.innerHTML = data.main;
       }).catch(e => {
         while (this.firstChild) { this.firstChild.remove(); }
         console.warn(e);
-        this.innerHTML = this.error + e;
+        this.innerHTML = this.error + e + " " + this.url;
       })
   }
 }

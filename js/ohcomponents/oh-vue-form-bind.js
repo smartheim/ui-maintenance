@@ -18,6 +18,7 @@ import { UpdateAdapter } from './helper/updateAdapter';
 class OhVueFormBind extends HTMLElement {
   constructor() {
     super();
+    this.createdBound = (e) => this.reInitDataFetch();
     this.connectedBound = (e) => this.connected(e.detail);
     this.connectingBound = (e) => this.connecting(e.detail);
     this.disconnectedBound = (e) => this.disconnected(e.detail);
@@ -45,11 +46,14 @@ class OhVueFormBind extends HTMLElement {
         const moreMixins = await importModule('./js/' + mixin + '.js');
         mixins = mixins.concat(moreMixins.mixins);
       }
+      if (this.modeladapter.events) {
+        this.modeladapter.events.addEventListener("created", this.createdBound, { passive: true });
+      }
       this.target.start(this.modeladapter, mixins);
 
-      store.addEventListener("connectionEstablished", this.connectedBound, false);
-      store.addEventListener("connecting", this.connectingBound, false);
-      store.addEventListener("connectionLost", this.disconnectedBound, false);
+      store.addEventListener("connectionEstablished", this.connectedBound, { passive: true });
+      store.addEventListener("connecting", this.connectingBound, { passive: true });
+      store.addEventListener("connectionLost", this.disconnectedBound, { passive: true });
 
       if (store.connected) this.connected(); else this.disconnected();
     } catch (e) {
@@ -59,11 +63,12 @@ class OhVueFormBind extends HTMLElement {
 
   }
   disconnectedCallback() {
-    store.removeEventListener("connectionEstablished", this.connectedBound, false);
-    store.removeEventListener("connecting", this.connectingBound, false);
-    store.removeEventListener("connectionLost", this.disconnectedBound, false);
+    store.removeEventListener("connectionEstablished", this.connectedBound, { passive: true });
+    store.removeEventListener("connecting", this.connectingBound, { passive: true });
+    store.removeEventListener("connectionLost", this.disconnectedBound, { passive: true });
 
     if (this.modeladapter) {
+      if (this.modeladapter.events) this.modeladapter.events.removeEventListener("created", this.createdBound, { passive: true });
       this.modeladapter.dispose();
       delete this.modeladapter;
     }
@@ -73,26 +78,49 @@ class OhVueFormBind extends HTMLElement {
   }
   /**
    * A view must be able to tell the controller when a new "thing" has been created.
-   * @param {String} newId 
+   * This is done by a "created" event on the "this.modeladapter.events" EventTarget.
+   * 
+   * This method will be called as a result. It will determine the objectid, by
+   * inspecting the current "this.modeladapter.value" and depending on the store connection
+   * state will initiate a call to "connected" or "disconnected".
    */
-  idAssigned(newId) {
-    this.objectid = newId;
-    this.setAttribute("objectid", this.objectid);
+  reInitDataFetch() {
+    this._objectid = (this.modeladapter.value ? this.modeladapter.value[this.modeladapter.STORE_ITEM_INDEX_PROP] : null);
+    if (this._objectid)
+      this.setAttribute("objectid", this._objectid)
+    else
+      this.removeAttribute("objectid");
+    if (store.connected) this.connected(); else this.disconnected();
+  }
+
+  /**
+   * The object id property can also be set / changed after the component has been loaded.
+   * The corresponding attribute will be set/unset and depending on the store connection
+   * state a call to "connected" or "disconnected" will follow.
+   */
+  set objectid(objectid) {
+    console.log("SET PROPERTY", objectid);
+    this._objectid = objectid;
+    if (this._objectid)
+      this.setAttribute("objectid", this._objectid)
+    else
+      this.removeAttribute("objectid");
+    if (!this.modeladapter) return;
     if (store.connected) this.connected(); else this.disconnected();
   }
 
   async connected() {
     if (this.updateAdapter) this.updateAdapter.dispose();
 
-    this.objectid = this.hasAttribute("objectid") ? this.getAttribute("objectid") : this.objectid;
-    if (!this.objectid && this.hasAttribute("objectFromURL")) {
-      this.objectid = new URL(window.location).searchParams.get(this.modeladapter.STORE_ITEM_INDEX_PROP);
+    this._objectid = this.hasAttribute("objectid") ? this.getAttribute("objectid") : this._objectid;
+    if (!this._objectid && this.hasAttribute("objectFromURL")) {
+      this._objectid = new URL(window.location).searchParams.get(this.modeladapter.STORE_ITEM_INDEX_PROP);
     }
 
-    this.updateAdapter = new UpdateAdapter(this.modeladapter, store, this.objectid);
+    this.updateAdapter = new UpdateAdapter(this.modeladapter, store, this._objectid);
 
-    if (this.objectid !== undefined) {
-      await this.modeladapter.get(this.objectid);
+    if (this._objectid !== undefined) {
+      await this.modeladapter.get(null, this._objectid, null);
       this.target.vue.status = OhListStatus.READY;
     } else if (!this.hasAttribute("allowNew")) {
       this.error = "No id set and no attribute 'allowNew'";

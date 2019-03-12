@@ -57,7 +57,7 @@ class OhDocLink extends HTMLElement {
     const slot = this.shadowRoot.querySelector('slot');
     const nodes = slot.assignedNodes();
     if (!nodes.length) return;
-    for (var node of nodes) {
+    for (const node of nodes) {
       node.onclick = (e) => this.clickListener(e);
     }
     this.onclick = (e) => this.clickListener(e);
@@ -74,7 +74,7 @@ class OhDocLink extends HTMLElement {
       document.querySelector('body').classList.toggle('showcontext');
     else if (this.show)
       document.querySelector('body').classList.add('showcontext');
-    var el = document.querySelector(this.target);
+    const el = document.querySelector(this.target);
     if (!el) {
       console.warn("Did not find target element: ", this.target);
       return;

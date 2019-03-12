@@ -15,20 +15,28 @@
   <main>
     <oh-list-bind adapter="modeladapter_lists/services-full" fixedfilter="category:system"></oh-list-bind>
     <oh-vue-list>
-      <div slot="app"></div>
-      <template slot="list">
-        <partial src="vuelisterrors.html"></partial>
-        <div slot="app" v-else>
-          <oh-vue-listitem v-for="item in items" :key="item.id" :listitem="item"></oh-vue-listitem>
-        </div>
-      </template>
+      <div slot="app">
+        <list>
+          <template #empty>
+            <p>Loading &hellip;</p>
+          </template>
+        </list>
+      </div>
+
+      <partial src="vuelistbasics.html" KEY="id" help="help"></partial>
+
       <template slot="item">
         <section class="config">
           <h4 :title="item.id">{{item.label}}</h4>
           <div v-if="!configuration">No further configuration available</div>
           <div class="elements" v-else>
-            <vue-config-element v-for="param in configuration.parameters" :allowremove="true" :key="param.name" :param="param"
-              :value="configValue(param)"></vue-config-element>
+            <template v-for="param in configuration.parameters">
+              <vue-config-element :param="param" :value="getConfigValue(param)" @input="setConfigValue"></vue-config-element>
+              <label class="form-text text-muted small" :title="param.description">{{param.name}}</label>
+              <button v-if="getConfigValue(param)" title="Reset to default" class="btn btn-outline-danger btn-sm resetdefault"
+                @click.prevent="removeConfigValue(param)">
+                <i class="fas fa-undo"></i> </button>
+            </template>
           </div>
           <div class="btn-group btnbar" role="group">
             <a href="#" class="btn btn-primary disabled"><i class="fas fa-save"></i> Save</a>

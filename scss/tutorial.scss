@@ -2,6 +2,13 @@
 @import "../node_modules/shepherd.js/src/scss/shepherd-theme-square.scss";
 main.tutorial {
     display: block;
+    padding-top: 20px;
+}
+
+section.header {
+    .helpbtn {
+        display: none;
+    }
 }
 
 oh-tutorial-starter {

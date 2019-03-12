@@ -10,10 +10,10 @@ class ModelAdapter {
   getall(options = null) {
     return store.get("items", null, { force: true })
       .then(json => this.itemlist = json)
-      .then(() => this.get(options));
+      .then(() => this.get(null, null, options));
   }
-  get(options = null) {
-    return store.get("user-roles", null, options).then(items => this.items = items);
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("user-roles", null, options);
   }
   dispose() {
   }

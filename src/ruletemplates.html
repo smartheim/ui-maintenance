@@ -33,7 +33,10 @@
 
     <oh-list-bind adapter="modeladapter_lists/ruletemplates"></oh-list-bind>
     <oh-vue-list filtercriteria="name">
-      <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/ruletemplates"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="uid" help="contexthelp/ruletemplates"></partial>
       <template slot="item">
         <article :id="item.uid">
           <vue-inprogress></vue-inprogress>

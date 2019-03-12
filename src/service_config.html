@@ -12,8 +12,8 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Service configuration"></partial>
   <main>
-    <oh-attribute-bind attribute="filter" queryParameter="id"></oh-attribute-bind>
-    <ui-github-issues class="bs-callout bs-callout-danger" title="There are known issues with this service:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
+    <oh-prop-bind attribute="filter" queryParameter="id"></oh-prop-bind>
+    <ui-github-issues class="bs-callout bs-callout-danger" label="There are known issues with this service:" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
 
     <oh-form-bind adapter="modeladapter_forms/service" objectFromURL></oh-form-bind>
     <oh-vue-form></oh-vue-form>
@@ -35,8 +35,13 @@
         <section class="config" v-else>
           <h4>Configuration</h4>
           <div class="elements">
-            <vue-config-element v-for="param in configuration.parameters" :allowremove="true" :key="param.name" :param="param"
-              :value="configValue(param)"></vue-config-element>
+            <template v-for="param in configuration.parameters">
+              <vue-config-element :param="param" :value="getConfigValue(param)" @input="setConfigValue"></vue-config-element>
+              <label class="form-text text-muted small" :title="param.description">{{param.name}}</label>
+              <button v-if="getConfigValue(param)" title="Reset to default" class="btn btn-outline-danger btn-sm resetdefault"
+                @click.prevent="removeConfigValue(param)">
+                <i class="fas fa-undo"></i> </button>
+            </template>
           </div>
         </section>
         <div class="btn-group btnbar mt-4" role="group">

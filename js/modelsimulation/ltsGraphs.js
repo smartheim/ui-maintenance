@@ -8,8 +8,8 @@ class LtsGraphsSimulation {
     this.generateFor("threads");
   }
   generateFor(datatype) {
-    var min = 0;
-    var max = 100;
+    let min = 0;
+    let max = 100;
     switch (datatype) {
       case 'memory':
         min = 120;
@@ -25,7 +25,7 @@ class LtsGraphsSimulation {
         break;
     }
 
-    var t = Date.now() - 1000 * 60;
+    let t = Date.now() - 1000 * 60;
     const minute = Array(30).fill().map(e => {
       return {
         x: (() => { t = t + (2000); return t; })(),
@@ -66,7 +66,7 @@ class LtsGraphsSimulation {
     delete this.timer;
   }
   rand(min, max) {
-    var seed = this._seed;
+    const seed = this._seed;
     min = min === undefined ? 0 : min;
     max = max === undefined ? 1 : max;
     this._seed = (seed * 9301 + 49297) % 233280;

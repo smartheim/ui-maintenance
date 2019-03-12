@@ -17,7 +17,9 @@
     <p>Start manual discovery</p>
     <oh-list-bind adapter="modeladapter_lists/discovery" filtercriteria="id"></oh-list-bind>
     <oh-vue-list style="display: block;" class="wrapper" id="manualdiscover">
-      <div slot="app"></div>
+      <div slot="app">
+        <list></list>
+      </div>
       <template slot="list">
         <partial src="vuelisterrors.html"></partial>
         <ul slot="app" v-else>
@@ -55,29 +57,22 @@
       </div>
     </ui-filter>
 
-    <oh-list-bind for="inboxlist" adapter="modeladapter_lists/inbox" filtercriteria="label"></oh-list-bind>
-    <oh-vue-list id="inboxlist">
+    <oh-list-bind adapter="modeladapter_lists/inbox" filtercriteria="label"></oh-list-bind>
+    <oh-vue-list>
+      <div slot="app">
+        <list></list>
+        <template #empty>
+          <p>No services found?!</p>
+        </template>
 
-      <div slot="app"></div>
-
-      <template slot="list">
-        <partial src="vuelisterrors.html"></partial>
-        <div v-else class="w-100" slot="app">
-          <div v-if="status==OhListStatus.READY && items.length==0" class="emptylist">
-            <p>No content found. You might find the help text interesting.</p>
-            <ui-context-help url="contexthelp/inbox.md" class="card"></ui-context-help>
-          </div>
-          <transition-group name="fade" tag="div" id="listcontainer" :class="[{selectionmode:selectmode},viewmode]">
-            <oh-vue-listitem v-for="item in items" :key="item.thingUID" :listitem="item"></oh-vue-listitem>
-          </transition-group>
+        <template #afterlist="{list}">
           <portal name="testname" target-el="#clearresults" breakshadow slim>
-            <a href="#" @click.prevent="clear" :class="{disabled:empty}">Clear Inbox</a>
+            <a href="#" @click.prevent="clear" :class="{disabled:list.empty}">Clear Inbox</a>
           </portal>
-          <div v-if="items.hasmore" class="text-center">
-            <button class="btn btn-primary-hover" @click="showMore()">Show 50 more &hellip;</button>
-          </div>
-        </div>
-      </template>
+        </template>
+      </div>
+
+      <partial src="vuelistbasics.html" KEY="thingUID" help="contexthelp/inbox"></partial>
 
       <template slot="item">
         <article :id="item.thingUID.replace(/:/g,'_')" :class="[{pulseAnimation: pulseAnimation}]">

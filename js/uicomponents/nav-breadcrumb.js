@@ -1,47 +1,68 @@
 /**
  * @category Web Components
  * @customelement nav-breadcrumb
- * @description A navigation breadcrumb
-
+ * @description A navigation breadcrumb.
+ * This is rendered as a disabled <a> tag if no parent is known.
+ * 
+ * A parent is declared via a link tag in the header, like:
+ * <link rel="parent" href="rules.html" data-title="Rule list" data-idkey="uid" />
+ * 
+ * If you do not set the "data-title" attribute, then "Home" will be used.
+ * 
+ * The "data-idkey" attribute is used to extract that parameter from the query url.
+ * It will be used for the parent links hash.
+ * So if the page has an url of "http://abc.org?uid=myThing", then the parent link
+ * will be constructed as "http://abc.org/rules.html#uid=myThing".
+ * 
+ * @attribute label The label for the current page. Reactive.
+ * 
  * @example <caption>An example</caption>
- * <nav-breadcrumb></nav-breadcrumb>
+ * <nav-breadcrumb label="My page"></nav-breadcrumb>
  */
 class NavBreadcrumb extends HTMLElement {
   constructor() {
     super();
-    this.style.display = "block";
-    this.parentLink = this.getAttribute("parentLink");
-    this.parent = this.hasAttribute("parent") ? this.getAttribute("parent") : "Home";
-    this.title = this.hasAttribute("title") ? this.getAttribute("title") : null;
+  }
+  static get observedAttributes() {
+    return ['label'];
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name == "label") {
+      this.label = this.getAttribute("label");
+      this.render();
+    }
   }
   connectedCallback() {
-    var paramAsHash = this.hasAttribute("useParamAsHash") ? this.getAttribute("useParamAsHash") : null;
-    if (paramAsHash) {
-      paramAsHash = new URL(window.location).searchParams.get(paramAsHash);
-      if (!paramAsHash)
-        paramAsHash = "";
-      else
-        paramAsHash = paramAsHash.replace(/:/g, '_'); // Replace potential colons, as they are not valid for IDs
-    }
-    if (!this.parentLink) {
-      var link = document.querySelector('link[rel="parent"]');
-      if (link) this.parentLink = link.href + "#" + paramAsHash;
-      else this.parentLink = "#" + paramAsHash;
+    this.style.display = "block";
+
+    const link = document.querySelector('link[rel="parent"]');
+    if (link) {
+      let paramAsHash = link.dataset.idkey;
+      if (paramAsHash) {
+        paramAsHash = new URL(window.location).searchParams.get(paramAsHash);
+        if (!paramAsHash)
+          paramAsHash = "";
+        else
+          paramAsHash = paramAsHash.replace(/:/g, '_'); // Replace potential colons, as they are not valid for IDs
+      }
+
+      this.parentLink = link.href + "#" + paramAsHash;
+      this.parent = link.dataset.title ? link.dataset.title : "Home";
     }
 
-    if (this.title) {
-      var link = document.querySelector('section.header > h4');
-      if (link)
-        this.title = link.innerText;
-      if (!this.title)
-        this.title = document.title;
+    if (this.hasAttribute("label"))
+      this.attributeChangedCallback("label");
+    else {
+      if (!this.label)
+        this.label = document.title;
+      this.render();
     }
-
+  }
+  render() {
     while (this.firstChild) { this.firstChild.remove(); }
-
     this.innerHTML = `
-      <a class="" href="${this.parentLink}">${this.parent}</a> →
-      <a class="disabled" href="#">${this.title}</a>`;
+      ${this.parentLink ? `<a href="${this.parentLink}">${this.parent}</a> <span>→</span>` : ``}
+      <span>${this.label}</span>`;
   }
 }
 

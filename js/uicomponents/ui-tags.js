@@ -23,11 +23,11 @@ class UiTags extends HTMLElement {
     this.classList.add("ui-tags");
     if (this.hasAttribute("suggestions")) {
       this.suggestionsDomID = Math.random().toString(36).slice(2);
-      var suggestionsEl = document.createElement("datalist");
+      const suggestionsEl = document.createElement("datalist");
       suggestionsEl.id = this.suggestionsDomID;
-      var items = this.getAttribute("suggestions").split(",");
-      for (var item of items) {
-        var openEL = document.createElement("option");
+      const items = this.getAttribute("suggestions").split(",");
+      for (let item of items) {
+        const openEL = document.createElement("option");
         openEL.setAttribute("value", item);
         suggestionsEl.appendChild(openEL);
       }

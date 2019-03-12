@@ -1,7 +1,10 @@
 import Vue from 'vue/dist/vue.esm.js';
+import { createNotification } from './app.js'; // Pre-bundled, external reference
 
 import { OhListStatus } from './oh-vue-list-status'
-import VueConfigElement from '../_vuecomponents/vue-config-element';
+import VueConfigElement from '../_vuecomponents/vue-config-element.vue';
+import VueConfigElementWithLabel from '../_vuecomponents/vue-config-element-with-label.vue';
+import { DynamicLoadMixin } from '../_vuecomponents/vue-mixin-dynamicload';
 
 Vue.config.ignoredElements = [
   /^oh-/, /^ui-/
@@ -23,10 +26,7 @@ class OhVueForm extends HTMLElement {
   }
   connectedCallback() {
     const forid = this.getAttribute("for");
-    var tmpEl = document.getElementById(forid);
-    if (!tmpEl) {
-      tmpEl = this.nextElementSibling;
-    }
+    const tmpEl = document.getElementById(forid) || this.nextElementSibling;
     if (!tmpEl) {
       this.innerHTML = "<div>Template required</div>";
       return;
@@ -56,9 +56,10 @@ class OhVueForm extends HTMLElement {
         this.store = adapter;
         this.ignoreWatch = false;
       },
-      mixins: [...mixins],
+      mixins: [...mixins, DynamicLoadMixin],
       components: {
-        'vue-config-element': VueConfigElement
+        'vue-config-element': VueConfigElement,
+        'vue-config-element-with-label': VueConfigElementWithLabel
       },
       template: this.tmpl,
       data: function () {
@@ -66,7 +67,16 @@ class OhVueForm extends HTMLElement {
           message: "",
           status: OhListStatus.PENDING,
           changed: false,
+          valuecopy: {}
         });
+      },
+      methods: {
+        undo() {
+          this.changed = false;
+          document.dispatchEvent(new CustomEvent("unsavedchanges", { detail: false }))
+          this.ignoreWatch = true;
+          this.valuecopy = JSON.parse(JSON.stringify(this.value));
+        }
       },
       computed: {
         unchanged: function () {
@@ -76,14 +86,25 @@ class OhVueForm extends HTMLElement {
       watch: {
         value: {
           handler: function (newVal, oldVal) {
+            if (this.changed) {
+              createNotification("clipboard", `Database has changed. Your current copy will overwrite it on save!`, true, 3000);
+              return;
+            }
+            this.ignoreWatch = true;
+            this.valuecopy = JSON.parse(JSON.stringify(this.value));
+          }, deep: true, immediate: true,
+        },
+        valuecopy: {
+          handler: function (newVal, oldVal) {
             if (this.ignoreWatch) {
               console.debug("oh-vue-form, ignore data change", newVal);
               this.ignoreWatch = false;
               return;
             }
+            document.dispatchEvent(new CustomEvent("unsavedchanges", { detail: true }))
             this.changed = true;
           }, deep: true, immediate: true,
-        }
+        },
       },
       mounted: function () {
         this.changed = false;

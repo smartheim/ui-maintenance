@@ -36,7 +36,10 @@
 
     <oh-list-bind adapter="modeladapter_lists/scripts" maxItems="100" filtercriteria="name"></oh-list-bind>
     <oh-vue-list>
-      <partial src="vuelistbasics.html" key="item.filename" help="contexthelp/scripts"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="filename" help="contexthelp/scripts"></partial>
       <template slot="item">
         <article :id="item.filename" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>

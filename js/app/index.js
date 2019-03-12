@@ -8,6 +8,10 @@
 import { register, unregister } from 'register-service-worker'
 import { StorageConnector } from './store';
 export * from '../_common/fetch';
+import { createNotification } from './notification';
+import { versioncheck } from './versioncheck';
+
+export { createNotification };
 
 // Service worker for caching
 // register('./sw.js', {
@@ -22,28 +26,11 @@ export * from '../_common/fetch';
 console.warn("Service worker disabled for development!");
 unregister();
 
+versioncheck();
+
 window.toggleSidebar = (event) => {
   document.querySelector('body').classList.toggle('showsidebar');
   event.preventDefault();
-}
-
-/**
- * Creates a notification dom element.
- * 
- * @param {String} id The dom ID
- * @param {String} message The message
- * @param {Boolean} persistent If set to true, the notification will not auto-dismiss
- * @param {Integer} timeout The timeout in milliseconds.
- * @see module:uicomponents
- */
-export function createNotification(id, message, persistent = false, timeout = 5000) {
-  const oldEl = id ? document.getElementById(id) : null;
-  const el = oldEl ? oldEl : document.createElement("ui-notification");
-  if (id) el.id = id;
-  el.setAttribute("closetime", timeout);
-  if (persistent) el.setAttribute("persistent", "true");
-  el.innerHTML = `<div>${message}</div>`;
-  document.body.appendChild(el);
 }
 
 /**

@@ -7,10 +7,10 @@ class ModelAdapter {
   }
   stores() { return { "persistence-services": "items" } };
   getall(options = null) {
-    return this.get(options);
+    return this.get(null, null, options);
   }
-  get(options = null) {
-    return store.get("persistence-services", null, options).then(items => this.items = items);
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("persistence-services", null, options);
   }
   dispose() {
   }

@@ -28,7 +28,8 @@ class NavAjaxPageLoad extends HTMLElement {
     super();
 
     this.nav = new Navigator((loader, event) => {
-      event.target.classList.add("disabled");
+      if (event && event.target && event.target.classList)
+        event.target.classList.add("disabled");
       loader.load()
         .then(page => page.addNewStyles("body"))
         .then(page => this.checkReload(event.target, "aside") ? page.replaceContent('aside') : page)
@@ -41,7 +42,7 @@ class NavAjaxPageLoad extends HTMLElement {
         .then(page => page.replaceScripts("body"))
         .then(() => this.prepareLoadedContent(event))
         .catch(e => { // Connection lost? Check login
-          console.log("Failed to load page:", e.message);
+          console.log("Failed to load page:", e);
           document.querySelector("main").innerHTML = `
 <main class='centered m-4'>
   <section class='card p-4'>
@@ -53,14 +54,37 @@ class NavAjaxPageLoad extends HTMLElement {
           document.dispatchEvent(new Event('FailedLoading'));
         })
     });
+
+    // Perform default action if clicking on a same page link where only the hash differs.
+    // Required for anchor links
+    this.nav.addFilter((el, url) => ((el && el.dataset && !el.dataset.noReload) && new URL(url).pathname == window.location.pathname));
+
+    // Abort page request on demand
     this.nav.addFilter((el, url) => {
-      if (!el.dataset.noReload && new URL(url).pathname == window.location.pathname) return false;
-      return true;
+      if (this.hasUnsavedChanges) {
+        const r = window.confirm("You have unsaved changes. Dismiss them?");
+        if (r) this.hasUnsavedChanges = false;
+        return r ? false : null; // Perform a normal xhr page replacement or abort the request
+      }
+      return false;
     });
+
+    this.boundUnsavedChanges = (event) => {
+      this.hasUnsavedChanges = event.detail;
+      window.removeEventListener("beforeunload", this.boundBeforeUnload, { passive: false });
+      if (this.hasUnsavedChanges) window.addEventListener("beforeunload", this.boundBeforeUnload, { passive: false });
+    }
+    this.boundBeforeUnload = (event) => {
+      if (this.hasUnsavedChanges) {
+        event.preventDefault();
+        event.returnValue = 'You have unsaved changes which will not be saved.';
+        return event.returnValue;
+      }
+    }
   }
 
   prepareLoadedContent(event) {
-    if (event.target) event.target.classList.remove("disabled");
+    if (event.target && event.target.classList) event.target.classList.remove("disabled");
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       document.dispatchEvent(new Event('DOMContentLoaded'));
@@ -68,15 +92,17 @@ class NavAjaxPageLoad extends HTMLElement {
   }
 
   checkReload(target, section) {
-    var d = target.dataset.noReload ? target.dataset.noReload.split(",") : [];
+    const d = (target && target.dataset && target.dataset.noReload) ? target.dataset.noReload.split(",") : [];
     return !d.includes(section);
   }
 
   connectedCallback() {
     this.nav.init();
 
+    document.addEventListener("unsavedchanges", this.boundUnsavedChanges, { passive: true });
+
     if (localStorage.getItem('skiphome') != "true") return;
-    var hasRedirected = sessionStorage.getItem("redirected");
+    const hasRedirected = sessionStorage.getItem("redirected");
     if (!hasRedirected) {
       sessionStorage.setItem("redirected", "true");
       if (window.location.pathname === "/index.html") {
@@ -84,6 +110,10 @@ class NavAjaxPageLoad extends HTMLElement {
         return;
       }
     }
+  }
+  disconnectedCallback() {
+    document.removeEventListener("unsavedchanges", this.boundUnsavedChanges, { passive: true });
+    window.removeEventListener("beforeunload", this.boundBeforeUnload, { passive: false });
   }
 }
 

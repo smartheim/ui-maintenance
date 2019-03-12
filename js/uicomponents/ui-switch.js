@@ -16,7 +16,7 @@ class UiSwitch extends HTMLElement {
 
     if (!noevents && !this.disabled) this.dispatchEvent(new Event("input"));
     if (this.showid) {
-      var el = document.getElementById(this.showid);
+      const el = document.getElementById(this.showid);
       if (el) {
         if (this.input.checked) {
           el.classList.add("show");
@@ -29,7 +29,7 @@ class UiSwitch extends HTMLElement {
     }
   }
   set value(newValue) {
-    var nv = (newValue == 'true');
+    const nv = (newValue == 'true');
 
     if (this.input)
       this.setCheck(nv, true);
@@ -58,7 +58,7 @@ class UiSwitch extends HTMLElement {
       if (this.documentevent) document.dispatchEvent(new Event(this.documentevent));
     });
     root.appendChild(document.createElement("span"));
-    var titleEl = root.appendChild(document.createElement("div"));
+    const titleEl = root.appendChild(document.createElement("div"));
 
     this.showid = this.hasAttribute("showid") ? this.getAttribute("showid") : null;
     titleEl.title = this.hasAttribute("title") ? this.getAttribute("title") : "";
@@ -66,8 +66,8 @@ class UiSwitch extends HTMLElement {
     if (this.disabled) this.classList.add("disabled"); else this.classList.remove("disabled");
 
     this.attributeChangedCallback("showid");
-    var isChecked = this.hasAttribute("checked") ? this.getAttribute("checked") == "true" : this._value;
-    var cached = this.storekey ? localStorage.getItem(this.storekey) == "true" : this._value;
+    const isChecked = this.hasAttribute("checked") ? this.getAttribute("checked") == "true" : this._value;
+    const cached = this.storekey ? localStorage.getItem(this.storekey) == "true" : this._value;
     window.requestAnimationFrame(() => this.setCheck(isChecked || cached, true));
   }
   static get observedAttributes() {

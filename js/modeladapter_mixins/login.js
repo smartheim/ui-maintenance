@@ -1,4 +1,4 @@
-import { store } from '../app.js'; // Pre-bundled, external reference
+import { store, createNotification } from '../app.js'; // Pre-bundled, external reference
 
 const Mixin = {
   created: function () {
@@ -67,6 +67,10 @@ const Mixin = {
     submitted: function (event) {
       event.preventDefault();
       const host = new FormData(event.target).get("host");
+      if (!host.startsWith("http://") && !host.startsWith("https://")) {
+        createNotification("login", "Host must start with http(s)://!", false);
+        return;
+      }
       this.connecting = true;
       localStorage.setItem("host", host);
       store.reconnect(host).then(() => document.getElementById("home").click()).catch(() => { });
@@ -82,8 +86,8 @@ const Mixin = {
       this.dumpInProgress = true;
       store.dump().then(json => {
         this.dumpInProgress = false;
-        var ourl = window.URL.createObjectURL(new Blob([JSON.stringify(json, null, 2)], { type: "application/json" }));
-        var a = document.createElement('a');
+        const ourl = window.URL.createObjectURL(new Blob([JSON.stringify(json, null, 2)], { type: "application/json" }));
+        const a = document.createElement('a');
         a.download = "demodata.json";
         a.href = ourl;
         a.textContent = "Download demodata.json";

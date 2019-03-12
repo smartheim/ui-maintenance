@@ -14,10 +14,10 @@ class ModelAdapter {
         mapAccumulator.set(obj.id, obj);
         return mapAccumulator;
       }, new Map()))
-      .then(() => this.get(options))
+      .then(() => this.get(null, null, options))
   }
-  get(options = null) {
-    return store.get("discovery", null, options).then(items => this.items = items);
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("discovery", null, options);
   }
   dispose() {
   }
@@ -31,12 +31,12 @@ const DiscoveryMixin = {
   },
   methods: {
     description() {
-      const bindings = this.$root.store.bindings.get(this.item.id);
+      const bindings = this.$list.store.bindings.get(this.item.id);
       if (bindings) return bindings.description;
       return "Binding not found";
     },
     label() {
-      const bindings = this.$root.store.bindings.get(this.item.id);
+      const bindings = this.$list.store.bindings.get(this.item.id);
       if (bindings) return bindings.name;
       return "Binding not found";
     },

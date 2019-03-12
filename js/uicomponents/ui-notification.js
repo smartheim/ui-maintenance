@@ -1,4 +1,4 @@
-var idcounter = 0;
+let idcounter = 0;
 
 /**
 * @category Web Components
@@ -13,7 +13,7 @@ var idcounter = 0;
 * <ui-notification persistent>My awesome text</ui-notification>
 * 
 * @example <caption>Dynamic usage</caption>
-* var el = document.createElement("ui-notification");
+* const el = document.createElement("ui-notification");
 * el.id = "login";
 * el.setAttribute("closetime", 3000);
 * el.innerHTML = "My dynamic <b>html</b> text";
@@ -70,7 +70,7 @@ class UiNotification extends HTMLElement {
       return;
     }
 
-    var closelink = document.createElement("a");
+    const closelink = document.createElement("a");
     closelink.href = "#";
     closelink.setAttribute("data-close", "");
     closelink.style.float = "right";
@@ -83,7 +83,7 @@ class UiNotification extends HTMLElement {
     nodes[0].prepend(closelink);
 
     for (const node of nodes) {
-      var linksThatClose = node.querySelectorAll("a[data-close]");
+      const linksThatClose = node.querySelectorAll("a[data-close]");
       linksThatClose.forEach(link => {
         if (this.hidebutton) node.querySelector("a[data-close]").classList.add("d-none");
         else

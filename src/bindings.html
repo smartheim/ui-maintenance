@@ -30,7 +30,10 @@
 
     <oh-list-bind for="bindingslist" adapter="modeladapter_lists/bindings" filtercriteria="name"></oh-list-bind>
     <oh-vue-list id="bindingslist">
-      <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addons"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="id" help="contexthelp/addons"></partial>
       <template slot="item">
         <article :id="item.id" class="wider" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>

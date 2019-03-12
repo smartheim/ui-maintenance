@@ -30,8 +30,7 @@ class OhLoginStatusLink extends HTMLElement {
     const slots = this.shadowRoot.querySelectorAll('slot');
     for (let slot of slots) {
       for (let node of slot.assignedNodes()) {
-
-        var items = node.querySelectorAll(".hostname");
+        const items = node.querySelectorAll(".hostname");
         for (let item of items) this.items.push(item);
       }
     }

@@ -2,7 +2,7 @@
 
 import Chart from './../../Chart.js';
 
-var helpers = Chart.helpers;
+const helpers = Chart.helpers;
 
 helpers.cancelAnimFrame = (function () {
   if (typeof window !== 'undefined') {
@@ -19,7 +19,7 @@ helpers.cancelAnimFrame = (function () {
 
 helpers.startFrameRefreshTimer = function (context, func) {
   if (!context.frameRequestID) {
-    var frameRefresh = function () {
+    const frameRefresh = function () {
       func();
       context.frameRequestID = helpers.requestAnimFrame.call(window, frameRefresh);
     };
@@ -28,7 +28,7 @@ helpers.startFrameRefreshTimer = function (context, func) {
 };
 
 helpers.stopFrameRefreshTimer = function (context) {
-  var frameRequestID = context.frameRequestID;
+  const frameRequestID = context.frameRequestID;
 
   if (frameRequestID) {
     helpers.cancelAnimFrame.call(window, frameRequestID);

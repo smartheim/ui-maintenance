@@ -43,11 +43,11 @@ class UiFilterBar extends HTMLElement {
     this.classList.add("ui-filterbar");
     if (this.hasAttribute("suggestions")) {
       this.suggestionsDomID = Math.random().toString(36);
-      var suggestionsEl = document.createElement("datalist");
+      const suggestionsEl = document.createElement("datalist");
       suggestionsEl.id = this.suggestionsDomID;
-      var items = this.getAttribute("suggestions").split(",");
-      for (var item of items) {
-        var openEL = document.createElement("option");
+      const items = this.getAttribute("suggestions").split(",");
+      for (let item of items) {
+        const openEL = document.createElement("option");
         openEL.setAttribute("value", item);
         suggestionsEl.appendChild(openEL);
       }
@@ -58,24 +58,28 @@ class UiFilterBar extends HTMLElement {
     this.mode = this.getAttribute("mode") || "grid";
     this.grid = this.getAttribute("grid");
     this.list = this.getAttribute("list");
+    this.foritems = this.hasAttribute("additionalButtons") ? this.getAttribute("additionalButtons").split(",") : [];
     this.textual = this.getAttribute("textual");
     this.select = this.getAttribute("select");
     this.selectmode = this.getAttribute("selectmode") || false;
 
     // Non-shadow-dom but still slots magic - Part 1
-    var slotElements = [];
-    for (var node of this.childNodes) {
+    const slotElements = [];
+    for (let node of this.childNodes) {
       slotElements.push(node.cloneNode(true));
     }
     while (this.firstChild) { this.firstChild.remove(); }
 
+    const additionalButtons = [];
+    let btnIndex = 0;
+    for (const i of this.foritems) {
+      additionalButtons.push(html`<button data-btnindex="${btnIndex}" class="btn btn-light" @click="${this.additionalButtonClicked.bind(this)}">${i}</button>`);
+      ++btnIndex;
+    }
+
     render(html`
         <form @submit="${this.search.bind(this)}" class="ui-filterbar">
-        ${!this.select ? '' : html`<button type="button" title="${this.select}" @click="${this.selectChanged.bind(this)}" class="selectbtn mr-3 btn ${this.selectmode ? "btn-primary" : "btn-secondary"}">
-            <i class="fas fa-check-double"></i>
-          </button>
-          <div class="hidden selectcomponents mr-3"></div>
-          `}
+        <div class="btn-group additionalButtons" role="group" aria-label="Editor bar">${additionalButtons}</div>
           <div class="input-group">
             <input class="form-control py-2 filterinput" type="search" name="filter" placeholder="${this.placeholder}"
               value="${this.value}" @input="${this.searchI.bind(this)}">
@@ -86,6 +90,11 @@ class UiFilterBar extends HTMLElement {
             </span>
           </div>
           <div class="btn-group ml-3 viewmode" role="group" aria-label="Change view mode"></div>
+          ${!this.select ? '' :
+        html`<div class="hidden selectcomponents ml-3"></div>
+          <button type="button" title="${this.select}" @click="${this.selectChanged.bind(this)}" class="selectbtn ml-3 btn ${this.selectmode ? "btn-info" : "btn-light"}">
+            <i class="fas fa-check-double"></i>
+          </button>`}
         </form>
         <div class="ui-editorbar">
           <span class="editorHintMessage"></span>
@@ -102,14 +111,16 @@ class UiFilterBar extends HTMLElement {
     this.selectbtn = this.querySelector(".selectbtn");
     this.selectcomponents = this.querySelector(".selectcomponents");
     this.editorHintMessage = this.querySelector(".editorHintMessage");
+    this.additionalButtons = this.querySelector(".additionalButtons");
+    if (this.foritems.length) this.selectAdditionalButton(0);
 
     this.editorbar.classList.add("hidden");
 
     // Non-shadow-dom but still slots magic - Part 2
     if (slotElements.length) {
-      var slot = this.selectcomponents;
+      const slot = this.selectcomponents;
 
-      for (var el of slotElements) {
+      for (let el of slotElements) {
         slot.appendChild(el);
       }
 
@@ -144,7 +155,7 @@ class UiFilterBar extends HTMLElement {
   }
   search(event) {
     event.preventDefault();
-    var formData = new FormData(event.target);
+    const formData = new FormData(event.target);
     this.value = formData.get("filter");
     this.dispatchEvent(new CustomEvent('filter', { detail: { value: this.value } }));
   }
@@ -156,9 +167,27 @@ class UiFilterBar extends HTMLElement {
     if (this.mode == "textual") {
       this.selectmode = false;
       this.selectbtn.classList.add("hidden");
+      this.additionalButtons.classList.add("hidden");
     } else {
       this.selectbtn.classList.remove("hidden");
+      this.additionalButtons.classList.remove("hidden");
     }
+  }
+  selectAdditionalButton(index) {
+    for (let c of this.additionalButtons.children) {
+      if (index == parseInt(c.dataset.btnindex)) {
+        c.classList.remove("btn-light");
+        c.classList.add("btn-info");
+        this.dispatchEvent(new CustomEvent("secondaryMode", { detail: index }))
+      } else {
+        c.classList.add("btn-light");
+        c.classList.remove("btn-info");
+      }
+    }
+  }
+  additionalButtonClicked(event) {
+    event.preventDefault();
+    this.selectAdditionalButton(parseInt(event.target.dataset.btnindex))
   }
   setEditorContentChanged(val, message = "") {
     if (val) {
@@ -169,6 +198,7 @@ class UiFilterBar extends HTMLElement {
       this.editorbar.classList.add("hidden");
       this.filterbar.classList.remove("hidden");
     }
+    document.dispatchEvent(new CustomEvent("unsavedchanges", { detail: val }))
   }
   editorSave() {
     this.dispatchEvent(new CustomEvent('editor', { detail: { save: true } }));
@@ -188,11 +218,11 @@ class UiFilterBar extends HTMLElement {
   }
   renderViewMode() {
     render(html`${!this.grid ? '' : html`<button type="button" title="${this.grid} (Alt+g)" accesskey="g" data-mode="grid" @click="${this.modeChange.bind(this)}"
-              class="btn ${this.mode == "grid" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-large"></i></button>`}
+              class="btn ${this.mode == "grid" ? "btn-info" : "btn-light"}"><i class="fas fa-th-large"></i></button>`}
           ${!this.list ? '' : html`<button type="button" title="${this.list} (Alt+l)" data-mode="list" accesskey="l" @click="${this.modeChange.bind(this)}"
-              class="btn ${this.mode == "list" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-th-list"></i></button>`}
+              class="btn ${this.mode == "list" ? "btn-info" : "btn-light"}"><i class="fas fa-th-list"></i></button>`}
           ${!this.textual ? '' : html`<button type="button" title="${this.textual} (Alt+t)" data-mode="textual" accesskey="t" @click="${this.modeChange.bind(this)}"
-              class="btn ${this.mode == "textual" ? "btn-primary" : "btn-secondary"}"><i class="fas fa-align-justify"></i></button>`}
+              class="btn ${this.mode == "textual" ? "btn-info" : "btn-light"}"><i class="fas fa-align-justify"></i></button>`}
               `, this.querySelector(".viewmode"));
   }
 }

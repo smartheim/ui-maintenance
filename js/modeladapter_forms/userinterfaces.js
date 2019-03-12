@@ -6,9 +6,8 @@ class ModelAdapter {
     this.runtimeKeys = []; this.value = [];
   }
   stores() { return { "user-interfaces": "value" } };
-  get(id, options = null) {
-    return store.get("user-interfaces", null, options)
-      .then(v => this.value = v);
+  async get(table = null, objectid = null, options = null) {
+    this.value = await store.get("user-interfaces", null, options);
   }
   dispose() {
   }

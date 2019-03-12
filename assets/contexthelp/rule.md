@@ -3,8 +3,6 @@
 
 In the middle part of the screen you see the graphical rule editor.
 
-To make you more space to edit your rule, you can collapse the name, description and UID section.
-
 To your very left there is a list of available rule components.
 There are three different types of components. For easy navigation
 they are color coded:
@@ -15,25 +13,23 @@ they are color coded:
 <li style="background-color: #f3b7bd;padding:5px"><b>Action</b>: Defines what actions the Rule takes when it runs. This is optional (though the Rule won’t do anything) and there can be more than one Action. Actions are performed in the order they are connected.
 </ul>
 
-Just drag&drop the component from the list onto the grid pattern.
-To remove a component, click the trash icon in the top-right of that component.
+Just drag&drop the component from the list onto the grid pattern or double click it.
 
-
-## More actions/triggers
+### More &hellip;
 
 Certain [Add-ons](addons.html) add more actions and triggers to the table.
-
-## Use the filter
-
-Just type in your search term and while you type the component list reduces to found results.
-You can also use special search patterns like "type:trigger", "type:condition" or "type:action"
-to filter for the respective component type.
 
 ## Component configuration
 
 Usually a component requires configuration. A specific time trigger component for example
 requires you to enter the actual date/time. Click on the respective input field and edit the
 value. Some configurations cannot be performed inline. Click on the *Edit* button instead.
+
+#### Edit full
+
+By default there are only 2 configuration parameters shown. If a component requires more,
+it will show a button labeled "Edit full component". That allows you to edit the component
+in a zoomed in variant.
 
 ## Connect components
 

@@ -10,10 +10,6 @@ If you want to bundle multiple files into a single file,
 put your files under `js/your-bundle-name/` with an entry point file called `index.js`.
 During the build, a single, tree-shaked, minified file is created under `js/your-bundle-name.js`.
 
-No transpiling is performed during the build, as **all** javascript capable browsers
-support ES6 modules and async/await by now. (This app is not targeting Internet Explorer).
-Use only JS features that have been available for all evergreen browsers for at least 3 months.
-
 Embed your js files into a webpage by either adding it to `partials/head.html` or
 by adding it to the `<body>` section of a page.
 
@@ -22,7 +18,25 @@ by adding it to the `<body>` section of a page.
 * Do NOT add inline javascript to pages (exception: Theme handling in `<head>`).
 
 
-### Web components
+## Code style
+
+No old javascript please! The codebase is "var" free and uses ES6 classes and ES8 async/await
+and is JSDoc commented/annotated. An external library MUST comply to these standards or cannot
+be used.
+
+Use only JS features that have been available for all evergreen browsers for at least 3 months though.
+(At the moment that means for example no dynamic `import`. A polyfill is in place.)
+
+Libraries written in Typescript, coffescript, flow, closure and other meta languages
+must be transpiled into ES8 or newer.
+
+At the moment not all external libraries provide non-transpiled modules via npm. Those libraries
+have been added in a bundled, non-transpiled variant to the codebase and an Issue has been opened.
+The idea is to use all external libraries from npm at some point.
+
+Especially chart.js and the VS code monaco editor must be observed for native ES8 variants in the future.
+
+## Web components
 
 Webcomponents for
 
@@ -50,7 +64,7 @@ footprint.
 A Model-View-Adapter (MVA) concept is in place and illustrated in
 the following diagram:
 
-![Model-View-Adapter](docs/paperui-ng-dataflow.svg "Model-View-Adapter Architecture")
+![Model-View-Adapter](docs/paperui-ng-dataflow.png "Model-View-Adapter Architecture")
 
 [Image source](https://drive.google.com/file/d/1lqg5GJHdkVk5PlnCgbheggQ7MSwSDHfj/view?usp=sharing)
 

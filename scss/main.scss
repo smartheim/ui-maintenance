@@ -1,16 +1,16 @@
 :root {
-    --background-color: white;
-    --main-bg: white;
-    --card-bg: white;
-    --color: #2c3e50; // #5f6368
-    --light: #343a40;
-    --color-btn: #212529;
-    --color-card-header: #5f6368;
-    --ui-bg: #ccc;
-    --calendar-lines: #4242422c;
-    --border-btn: #f8f9fa;
-    --primary: #ff7214;
-    --primary-light: #ff72146b;
+  --background-color: white;
+  --main-bg: white;
+  --card-bg: white;
+  --color: #2c3e50; // #5f6368
+  --light: #343a40;
+  --color-btn: #212529;
+  --color-card-header: #5f6368;
+  --ui-bg: #ccc;
+  --calendar-lines: #4242422c;
+  --border-btn: #f8f9fa;
+  --primary: #ff7214;
+  --primary-light: #ff72146b;
 }
 
 @import "partials/_variables";
@@ -31,228 +31,238 @@
 @import "ui-components/ui-filterbar";
 @import "ui-components/ui-radio-button-group";
 progress::-webkit-progress-value {
-    background-image: linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), linear-gradient(left, #09c, #f44);
-    border-radius: 2px;
-    background-size: 35px 20px, 100% 100%, 100% 100%;
-    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+  background-image: linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), linear-gradient(left, #09c, #f44);
+  border-radius: 2px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
 }
 
 progress::-moz-progress-bar {
-    border-radius: 12px;
-    background-image: linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), linear-gradient(left, #09c, #f44);
-    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.4), 0 2px 5px 0px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  background-image: linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), linear-gradient(left, #09c, #f44);
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.4), 0 2px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
+.btn {
+  cursor: pointer;
 }
 
 .btn-primary {
-    background-color: var(--primary);
-    color: var(--background-color);
-    border-color: var(--primary);
+  background-color: var(--primary);
+  color: var(--background-color);
+  border-color: var(--primary);
 }
 
 details[open] summary~* {
-    animation: swinginxr .5s ease-in-out;
+  animation: swinginxr .5s ease-in-out;
 }
 
 ::selection {
-    background: var(--primary);
-    color: var(--color-btn);
+  background: var(--primary);
+  color: var(--color-btn);
 }
 
-::-webkit-scrollbar {
-    width: 15px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 20px;
-}
-
-::-webkit-scrollbar-track {
-    background: #ddd;
-    border-radius: 20px;
-}
-
+// ::-webkit-scrollbar {
+//     width: 15px;
+// }
+// ::-webkit-scrollbar-thumb {
+//     background: var(--primary);
+//     border-radius: 20px;
+// }
+// ::-webkit-scrollbar-track {
+//     background: #ddd;
+//     border-radius: 20px;
+// }
 /* Webkit/Chrome/Firefox: Remove combo box arrow symbol */
 
 .custom-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 input:focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(255, 114, 20, .25);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(255, 114, 20, .25);
 }
 
 /* bootstrap link class for non a-elements */
 
 .link {
-    cursor: pointer;
-    color: $link-color;
-    text-decoration: $link-decoration;
-    background-color: transparent; // Remove the gray background on active links in IE 10.
-    @include hover {
-        color: $link-hover-color;
-        text-decoration: $link-hover-decoration;
-    }
+  cursor: pointer;
+  color: $link-color;
+  text-decoration: $link-decoration;
+  background-color: transparent; // Remove the gray background on active links in IE 10.
+  @include hover {
+    color: $link-hover-color;
+    text-decoration: $link-hover-decoration;
+  }
 }
 
 input,
 .form-control {
-    background-color: var(--background-color);
+  background-color: var(--background-color);
 }
 
 .card {
-    background-color: var(--card-bg);
+  background-color: var(--card-bg);
 }
 
 // Main page
 html {
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    box-sizing: border-box;
-    scrollbar-color: var(--primary) #ddd;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  scrollbar-color: var(--primary) #ddd;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    font-size: 16px;
-    color: var(--color);
-    background-color: var(--background-color);
-    width: 100%;
-    overflow-y: scroll;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 16px;
+  color: var(--color);
+  background-color: var(--background-color);
+  width: 100%;
+  overflow-y: scroll;
 }
 
 main {
-    background-color: inherit;
-    display: flex;
-    flex-direction: column;
+  background-color: inherit;
+  display: flex;
+  flex-direction: column;
 }
 
 main>* {
-    margin-left: 20px;
-    margin-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .centeredsmallcard {
-    margin: 10px auto 30px;
-    width: 70%;
-    min-width: 300px;
-    max-width: 600px;
-    padding: 50px 30px 30px 30px;
+  margin: 10px auto 30px;
+  width: 70%;
+  min-width: 300px;
+  max-width: 600px;
+  padding: 50px 30px 30px 30px;
 }
 
 // Links
 a {
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    color: theme-color("orange");
-    padding: 0;
-    text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  color: theme-color("orange");
+  padding: 0;
+  text-decoration: none;
 }
 
 a:focus {
-    outline: none;
+  outline: none;
 }
 
 a.active,
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 a.disabled {
-    color: gray;
-    pointer-events: none;
-    opacity: 0.8;
+  color: gray;
 }
 
 .demolink {
-    margin-right: 10px;
-    margin-left: 10px;
-    position: relative;
-    display: inline-block;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.4rem;
-    color: inherit;
-    padding: 0;
-    text-decoration: none;
-    margin-bottom: -2px;
-    border-bottom: 2px solid theme-color("primary");
-    &:after {
-        border: .25em solid salmon;
-        border-top: none;
-        border-radius: 1.5em 1em 2em 1.5em;
-        bottom: -.5em;
-        content: '';
-        left: -.5em;
-        position: absolute;
-        right: -.5em;
-        top: -.1em;
-    }
-    &:before {
-        border-top: .25em solid salmon;
-        border-radius: .5em;
-        content: '';
-        height: 1em;
-        left: -.2em;
-        position: absolute;
-        top: -.2em;
-        transform: rotate(-10deg);
-        width: 2em;
-    }
+  margin-right: 10px;
+  margin-left: 10px;
+  position: relative;
+  display: inline-block;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.4rem;
+  color: inherit;
+  padding: 0;
+  text-decoration: none;
+  margin-bottom: -2px;
+  border-bottom: 2px solid theme-color("primary");
+  &:after {
+    border: .25em solid salmon;
+    border-top: none;
+    border-radius: 1.5em 1em 2em 1.5em;
+    bottom: -.5em;
+    content: '';
+    left: -.5em;
+    position: absolute;
+    right: -.5em;
+    top: -.1em;
+  }
+  &:before {
+    border-top: .25em solid salmon;
+    border-radius: .5em;
+    content: '';
+    height: 1em;
+    left: -.2em;
+    position: absolute;
+    top: -.2em;
+    transform: rotate(-10deg);
+    width: 2em;
+  }
+}
+
+// Icons -> Adapt to bootstrap line height
+i.fas {
+  line-height: 1.5;
 }
 
 // Notifications
 .alert-area {
-    max-height: 100%;
-    position: fixed;
-    bottom: 5px;
-    left: 20px;
-    right: 20px;
-    z-index: 30;
+  max-height: 100%;
+  position: fixed;
+  bottom: 5px;
+  left: 20px;
+  right: 20px;
+  z-index: 30;
 }
 
 @media (max-width: 767px) and (min-width: 481px) {
-    .alert-area {
-        left: 100px;
-        right: 100px;
-    }
+  .alert-area {
+    left: 100px;
+    right: 100px;
+  }
 }
 
 @media (min-width: 768px) {
-    .alert-area {
-        width: 350px;
-        left: auto;
-        right: 0;
-    }
+  .alert-area {
+    width: 350px;
+    left: auto;
+    right: 0;
+  }
 }
 
 /* Use this for a btn bar. Usually in combination on a btn-group */
 
 .btnbar {
-    justify-content: flex-end;
-    display: flex;
-    &>.btn {
-        flex: initial;
-    }
+  justify-content: flex-end;
+  display: flex;
+  &>.btn {
+    flex: initial;
+  }
 }
 
 ui-community-topics ul {
-    list-style-type: none;
-    margin: 0;
-    padding-left: 0;
+  list-style-type: none;
+  margin: 0;
+  padding-left: 0;
 }
 
 nav-breadcrumb {
-    padding: 20px 0;
+  padding: 20px 0;
 }
 
 oh-vue-list:not(:defined),
 ui-community-topics:not(:defined) {
-    display: none;
+  display: none;
 }

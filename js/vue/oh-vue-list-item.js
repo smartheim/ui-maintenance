@@ -4,9 +4,10 @@ import Vue from 'vue/dist/vue.esm.js';
 
 import { ItemSelectionMixin } from '../_vuecomponents/vue-mixin-itemselection';
 
-import VueConfigElement from '../_vuecomponents/vue-config-element';
+import VueConfigElement from '../_vuecomponents/vue-config-element.vue';
+import VueConfigElementWithLabel from '../_vuecomponents/vue-config-element-with-label.vue';
 import VueInProgress from '../_vuecomponents/vue-inprogress';
-import VueMetaInfo from '../_vuecomponents/vue-meta-info';
+import { DynamicLoadMixin } from '../_vuecomponents/vue-mixin-dynamicload';
 
 export function createItemComponent(mixins, template) {
   return {
@@ -31,11 +32,11 @@ export function createItemComponent(mixins, template) {
         pulseAnimation: false // A pulsing animation -> used if new values have been received
       }
     },
-    mixins: [ItemSelectionMixin, ...mixins],
+    mixins: [ItemSelectionMixin, DynamicLoadMixin, ...mixins],
     components: {
       'vue-inprogress': VueInProgress,
-      'vue-metainfo': VueMetaInfo,
-      'vue-config-element': VueConfigElement
+      'vue-config-element': VueConfigElement,
+      'vue-config-element-with-label': VueConfigElementWithLabel
     },
     methods: {
       discard: function () {
@@ -46,7 +47,7 @@ export function createItemComponent(mixins, template) {
         console.log("discarded");
       },
       copyClipboard: function (event, itemid) {
-        var range = document.createRange();
+        const range = document.createRange();
         range.selectNode(event.target);
         window.getSelection().removeAllRanges();
         window.getSelection().addRange(range);
@@ -101,6 +102,7 @@ export function createItemComponent(mixins, template) {
     created: function () {
       this.changed = false;
       this.inProgress = false;
+      this.$list = this.$root.$list;
     }
   }
 };

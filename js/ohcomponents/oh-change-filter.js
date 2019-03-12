@@ -22,7 +22,7 @@ class OhChangeFilter extends HTMLElement {
   clickListener(e) {
     e.preventDefault();
     e.stopPropagation();
-    var el = document.querySelector(this.target);
+    const el = document.querySelector(this.target);
     if (!el) {
       console.warn("Did not find target element: ", this.target);
       return;

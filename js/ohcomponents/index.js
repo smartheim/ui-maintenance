@@ -4,7 +4,6 @@ export * from './oh-doc-link';
 export * from './oh-change-filter';
 export * from './oh-websocket-data';
 export * from './oh-tutorial-starter';
-export * from './oh-attribute-bind';
 export * from './oh-event-bind';
 export * from './oh-prop-bind';
 export * from './oh-dropdown-bind';

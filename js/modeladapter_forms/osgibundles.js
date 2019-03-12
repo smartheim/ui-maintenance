@@ -7,9 +7,8 @@ class ModelAdapter {
     this.value = [];
   }
   stores() { return { "bundle-status": "value" } };
-  get(id, options = null) {
-    return store.get("bundle-status", null, options)
-      .then(v => this.value = v);
+  async get(table = null, objectid = null, options = null) {
+    this.value = await store.get("bundle-status", null, options);
   }
   dispose() {
   }

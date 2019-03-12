@@ -14,6 +14,11 @@
 // Gulp + browser opening plugin + web server
 var gulp = require('gulp');
 var open = require('gulp-open');
+var gulpmode = require('gulp-mode')({
+  modes: ["production", "development"],
+  default: "development",
+  verbose: false
+});
 var connect = require('gulp-connect');
 // Gulp utils
 var del = require('del');
@@ -29,11 +34,14 @@ var csslint = require('gulp-csslint');
 // Server worker generator
 const workboxBuild = require('workbox-build');
 // Rollup (bundles js, includes npm dependencies, includes referenced style sheets)
-const rollup = require('gulp-better-rollup');
+const rollupBetter = require('gulp-better-rollup');
+const rollupStream = require('rollup-stream');
 const rollupEach = require('gulp-rollup-each');
 const rollupPluginNodeModuleResolve = require('rollup-plugin-node-resolve');
 const rollupPluginCss = require('rollup-plugin-css-only');
 const rollupPluginReplace = require('rollup-plugin-replace');
+const rollupPluginJson = require('rollup-plugin-json');
+const rollupPluginVue = require('rollup-plugin-vue');
 // Rete requires some more plugins
 const rollupPluginSass = require('rollup-plugin-sass'); // Rete is using sass imports
 
@@ -135,8 +143,10 @@ const compileBundle = (dir, _rollup, modulename, singleFileBundle) =>
       cache: false,
       plugins: [
         rollupPluginNodeModuleResolve({ main: false, browser: false, modulesOnly: true }),
+        rollupPluginVue({ normalizer: '~vue-runtime-helpers/dist/normalize-component.mjs' }),
         rollupPluginSass({ output: false, insert: false, options: { includePaths: [".", "./scss"] } }),
         rollupPluginCss({}),
+        rollupPluginJson({}),
         rollupPluginReplace({ 'process.env.NODE_ENV': '"development"' }) // // production
       ]
     }, { format: "esm" }, require('rollup')))
@@ -154,13 +164,19 @@ const compileBundle = (dir, _rollup, modulename, singleFileBundle) =>
       console.log('Build: ' + path.dirname + "/" + path.basename);
       return path;
     }))
-    //        .pipe(uglify())
+    .pipe(gulpmode.production(uglify()))
     .pipe(gulp.dest(config.paths.distjs)).pipe(connect.reload());
 
 const compileBundles = () => compileBundle(config.paths.src.js_bundles_entry, rollupEach, null, false);
 const compileBundles2 = () => compileBundle(config.paths.src.js, rollupEach, null, true);
 compileBundles.displayName = "Creating js bundles"
 compileBundles2.displayName = "Creating js single-file bundles"
+compileBundles.flags = {
+  '--prod': 'Builds in production mode (minification, etc).'
+};
+compileBundles2.flags = {
+  '--prod': 'Builds in production mode (minification, etc).'
+};
 
 const startLocalWebserver = () => connect.server(
   {
@@ -188,7 +204,7 @@ const watchTask = () => { // Watch the file system and rebuild automatically
   const rebuildOneBundle = (callback) => {
     var bundlename = filename.match(/(.*?)\/(.*?)\//);
     filename = "";
-    var result = compileBundle(`./js/${bundlename[2]}/index.js`, rollup, bundlename[2], false);
+    var result = compileBundle(`./js/${bundlename[2]}/index.js`, rollupEach, bundlename[2], false);
     return result.on('error', e => console.error("An error happened", e));
   };
   gulp.watch(config.paths.src.js_bundles_watch, rebuildOneBundle).on("change", (file) => filename = file);

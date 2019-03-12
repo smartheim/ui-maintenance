@@ -102,10 +102,11 @@ class ModelAdapter {
         }
         this.semantic = semantic;
       })
-      .then(() => this.get(options))
+      .then(() => this.get(null, null, options))
   }
-  get(options = null) {
-    return store.get("items", null, options).then(items => this.items = items).then(() => this.adaptSchema());
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("items", null, options);
+    this.adaptSchema();
   }
   dispose() {
   }
@@ -180,27 +181,27 @@ const ItemsMixin = {
       return null;
     },
     itemcommands() {
-      let commands = this.$root.store.getCommands(this.item.groupType ? this.item.groupType : this.item.type);
+      let commands = this.$list.store.getCommands(this.item.groupType ? this.item.groupType : this.item.type);
       if (commands.length)
         return commands.join(",");
       return "";
     },
     groupfunctions() {
-      return this.$root.store.functiontypes.filter(e => e.compatible.length == 0 || e.compatible.includes(this.item.groupType));
+      return this.$list.store.functiontypes.filter(e => e.compatible.length == 0 || e.compatible.includes(this.item.groupType));
     },
     hasFunctionParameters() {
       if (!this.item.function || !this.item.function.name) return false;
-      let fun = this.$root.store.functiontypes.find(e => e.id == this.item.function.name);
+      let fun = this.$list.store.functiontypes.find(e => e.id == this.item.function.name);
       return (fun && fun.params);
     },
     functionparameters() {
-      let fun = this.$root.store.functiontypes.find(e => e.id == this.item.function.name);
+      let fun = this.$list.store.functiontypes.find(e => e.id == this.item.function.name);
       if (!fun || !fun.params) return [];
-      var params = [];
+      const params = [];
       for (let i = 0; i < fun.params.length; ++i) {
         let param = fun.params[i];
         const value = (this.item.function.params && this.item.function.params.length > i) ? this.item.function.params[i] : null;
-        let allowedStates = this.$root.store.getAllowedStates(this.item.groupType);
+        let allowedStates = this.$list.store.getAllowedStates(this.item.groupType);
         if (allowedStates.length) allowedStates = allowedStates.join(",");
         params.push(Object.assign({ value, allowedStates }, param));
       }
@@ -208,7 +209,7 @@ const ItemsMixin = {
     },
     namespaces: function () {
       let result = [];
-      const configs = this.$root.store.config || [];
+      const configs = this.$list.store.config || [];
       const metadata = this.item.metadata || {};
 
       for (let config of configs) {
@@ -226,7 +227,7 @@ const ItemsMixin = {
         let values = [];
         const rawData = Object.keys(namespace);
         for (let key of rawData) {
-          values.push({ description: key, value: Object.assign({}, rawData[key]) });
+          values.push({ id: key, description: key, value: Object.assign({}, rawData[key]) });
         }
 
         result.push({ name: namespaceName, values: values, hasconfig: false })
@@ -234,16 +235,16 @@ const ItemsMixin = {
       return result;
     },
     getSemanticLocation() {
-      return this.item.tags.filter(e => this.$root.semantic.Location.has(e));
+      return this.item.tags.filter(e => this.$list.semantic.Location.has(e));
     },
     getSemanticProperty() {
-      return this.item.tags.filter(e => this.$root.semantic.Property.has(e));
+      return this.item.tags.filter(e => this.$list.semantic.Property.has(e));
     },
     getSemanticPoint() {
-      return this.item.tags.filter(e => this.$root.semantic.Point.has(e));
+      return this.item.tags.filter(e => this.$list.semantic.Point.has(e));
     },
     getSemanticEquipment() {
-      return this.item.tags.filter(e => this.$root.semantic.Equipment.has(e));
+      return this.item.tags.filter(e => this.$list.semantic.Equipment.has(e));
     }
   },
   methods: {
@@ -266,7 +267,7 @@ const ItemsMixin = {
       const dest = event.target.dataset.type;
 
       const itemTags = new Set(this.item.tags);
-      const destTags = this.$root.semantic[dest].keys();
+      const destTags = this.$list.semantic[dest].keys();
       for (let destTag of destTags) {
         itemTags.delete(destTag);
       }
@@ -276,37 +277,69 @@ const ItemsMixin = {
       this.item.tags = [...itemTags];
       console.log("SETTYPE TAGS", selectedTags, itemTags, this.item.tags);
     },
-    setMeta(namespace, param, value) {
+    addMeta() {
+      if (!this.$refs.namespacename.value.length) return;
+      if (!this.$refs.namespacevalue.value.length) return;
+      this.setMeta(this.$refs.namespacename.value, 'TEXT', "value", this.$refs.namespacevalue.value)
+      this.$refs.namespacename.value = "";
+      this.$refs.namespacevalue.value = "";
+      this.$refs.namespacename.focus();
+    },
+    /**
+     * At the moment "name" is always "value", because a namespace can only hold one single "value".
+     */
+    removeMeta(namespacename, name) {
       let data = this.item.metadata || {};
-      data = data[namespace.name] || {};
-      switch (param.type) {
+      if (!data[namespacename]) return;
+      let promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespacename, "DELETE");
+      promise.then(r => {
+        this.messagetitle = "Removed '" + namespacename + "'";
+        this.changeNotification();
+        setTimeout(() => {
+          this.inProgress = false;
+        }, 500);
+      }).catch(e => {
+        console.log(e);
+        if (e.status && e.status == 400) {
+          this.message = "Meta writing failed!";
+        } else
+          this.message = e.toString();
+      })
+    },
+    /**
+     * At the moment "name" is always "value", because a namespace can only hold one single "value".
+     */
+    setMeta(namespacename, type, name, value) {
+      let data = this.item.metadata || {};
+      data = data[namespacename] || {};
+      switch (type) {
         case "BOOLEAN":
-          data[param.name] = value === "true";
+          data[name] = value === "true";
           break;
         case "DECIMAL":
-          data[param.name] = parseFloat(value);
+          data[name] = parseFloat(value);
           break;
         case "INTEGER":
-          data[param.name] = parseInt(value);
+          data[name] = parseInt(value);
           break;
         default:
-          data[param.name] = value;
+          data[name] = value;
       }
       if (value == null) {
-        delete data[param.name];
+        delete data[name];
       }
       data = JSON.stringify(data);
       this.message = null;
-      this.messagetitle = "Write meta: '" + namespace.name + "'";
+      this.messagetitle = "Write meta: '" + namespacename + "'";
       this.inProgress = true;
       let promise;
       if (data.length == 2) // Empty object "{}"
-        promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespace.name, "DELETE");
+        promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespacename, "DELETE");
       else
-        promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespace.name, "PUT", data);
+        promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespacename, "PUT", data);
 
       promise.then(r => {
-        this.messagetitle = "Success '" + namespace.name + "'";
+        this.messagetitle = "Success '" + namespacename + "'";
         this.changeNotification();
         setTimeout(() => {
           this.inProgress = false;
@@ -321,9 +354,6 @@ const ItemsMixin = {
     },
     showIconDialog() {
       document.getElementById('change-icon-source').context = this.item;
-    },
-    commontags: function () {
-      return ["Switchable", "Lighting", "ColorLighting"];
     },
     setGroup: function (groupType) {
       if (groupType != "-")
@@ -396,6 +426,11 @@ const ItemsMixin = {
 }
 
 const ItemListMixin = {
+  data() {
+    return {
+      viewmode: '0'
+    }
+  },
   mounted() {
     this.modelschema = schema;  // Don't freeze: The schema is adapted dynamically
   },

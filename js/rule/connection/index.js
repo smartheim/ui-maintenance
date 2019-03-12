@@ -2,97 +2,97 @@ import { Picker } from './picker';
 import { defaultPath, renderConnection, renderPathData, updateConnection } from './utils';
 
 function install(editor) {
-    editor.bind('connectionpath');
-    
-    var picker = new Picker(editor)
+  editor.bind('connectionpath');
 
-    function pickOutput(output) {
-        if (output && !picker.output) {
-            picker.output = output;
-            return;
-        }
+  const picker = new Picker(editor)
+
+  function pickOutput(output) {
+    if (output && !picker.output) {
+      picker.output = output;
+      return;
+    }
+  }
+
+  function pickInput(input) {
+    if (picker.output === null) {
+      if (input.hasConnection()) {
+        picker.output = input.connections[0].output;
+        editor.removeConnection(input.connections[0]);
+      }
+      return true;
     }
 
-    function pickInput(input) {
-        if (picker.output === null) {
-            if (input.hasConnection()) {
-                picker.output = input.connections[0].output;
-                editor.removeConnection(input.connections[0]);
-            }
-            return true;
-        }
+    if (!input.multipleConnections && input.hasConnection())
+      editor.removeConnection(input.connections[0]);
 
-        if (!input.multipleConnections && input.hasConnection())
-            editor.removeConnection(input.connections[0]);
-        
-        if (!picker.output.multipleConnections && picker.output.hasConnection())
-            editor.removeConnection(picker.output.connections[0]);
-        
-        if (picker.output.connectedTo(input)) {
-            var connection = input.connections.find(c => c.output === picker.output);
+    if (!picker.output.multipleConnections && picker.output.hasConnection())
+      editor.removeConnection(picker.output.connections[0]);
 
-            editor.removeConnection(connection);
-        }
+    if (picker.output.connectedTo(input)) {
+      const connection = input.connections.find(c => c.output === picker.output);
 
-        editor.connect(picker.output, input);
-        picker.output = null
+      editor.removeConnection(connection);
     }
 
-    function pickConnection(connection) {
-        const { output } = connection;
+    editor.connect(picker.output, input);
+    picker.output = null
+  }
 
-        editor.removeConnection(connection);
-        picker.output = output;
+  function pickConnection(connection) {
+    const { output } = connection;
+
+    editor.removeConnection(connection);
+    picker.output = output;
+  }
+
+  editor.on('rendersocket', ({ el, input, output }) => {
+
+    let prevent = false;
+
+    function mouseHandle(e) {
+      if (prevent) return;
+      e.stopPropagation();
+      e.preventDefault();
+
+      if (input)
+        pickInput(input)
+      else if (output)
+        pickOutput(output)
     }
 
-    editor.on('rendersocket', ({ el, input, output }) => {
+    el.addEventListener('mousedown', e => (mouseHandle(e), prevent = true));
+    el.addEventListener('mouseup', mouseHandle);
+    el.addEventListener('click', e => (mouseHandle(e), prevent = false));
+    el.addEventListener('mousemove', () => (prevent = false));
+  });
 
-        var prevent = false;
+  editor.on('mousemove', () => { picker.updateConnection() });
 
-        function mouseHandle(e) {
-            if (prevent) return;
-            e.stopPropagation();
-            e.preventDefault();
-            
-            if (input)
-                pickInput(input)
-            else if (output)
-                pickOutput(output)
-        }
+  editor.view.container.addEventListener('mousedown', () => {
+    picker.output = null;
+  });
 
-        el.addEventListener('mousedown', e => (mouseHandle(e), prevent = true));
-        el.addEventListener('mouseup', mouseHandle);
-        el.addEventListener('click', e => (mouseHandle(e), prevent = false));
-        el.addEventListener('mousemove', () => (prevent = false));
+  editor.on('renderconnection', ({ el, connection, points }) => {
+    const d = renderPathData(editor, points, connection);
+
+    el.addEventListener('contextmenu', e => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      pickConnection(connection)
     });
 
-    editor.on('mousemove', () => { picker.updateConnection() });
+    renderConnection({ el, d, connection })
+  });
 
-    editor.view.container.addEventListener('mousedown', () => { 
-        picker.output = null;
-    });
+  editor.on('updateconnection', ({ el, connection, points }) => {
+    const d = renderPathData(editor, points, connection);
 
-    editor.on('renderconnection', ({ el, connection, points }) => {
-        const d = renderPathData(editor, points, connection);
-
-        el.addEventListener('contextmenu', e => {
-            e.stopPropagation();
-            e.preventDefault();
-            
-            pickConnection(connection)
-        });
-
-        renderConnection({ el, d, connection })
-    });
-
-    editor.on('updateconnection', ({ el, connection, points }) => {
-        const d = renderPathData(editor, points, connection);
-
-        updateConnection({ el, connection, d });
-    });
+    updateConnection({ el, connection, d });
+  });
 }
 
 export default {
-    install,
-    defaultPath
+  install,
+  defaultPath
 }

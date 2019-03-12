@@ -86,7 +86,10 @@
 
     <oh-list-bind adapter="modeladapter_lists/rules" fixedfilter="tags:scene" maxItems="100" filtercriteria="name"></oh-list-bind>
     <oh-vue-list>
-      <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/scenes"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="uid" help="contexthelp/scenes"></partial>
       <template slot="item">
         <article class="hasimage" :id="item.uid" :class="[{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>

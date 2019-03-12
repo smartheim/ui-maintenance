@@ -36,13 +36,13 @@
       if (darkthemecss) darkthemecss.remove();
     }
     if (localStorage.getItem("widetheme") === "true") {
-      window.requestAnimationFrame(() => {
-        document.querySelector("body").classList.add("wide");
-        window.dispatchEvent(new UIEvent("resize"));
-      });
+      document.querySelector("body").classList.add("wide");
     } else {
-      window.requestAnimationFrame(() => document.querySelector("body").classList.remove("wide"));
+      document.querySelector("body").classList.remove("wide");
     }
+    window.requestAnimationFrame(() => {
+      window.dispatchEvent(new Event("resize"));
+    });
   }
   window.toggleWideTheme = function (event) {
     event.preventDefault();

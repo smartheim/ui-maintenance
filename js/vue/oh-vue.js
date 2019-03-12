@@ -21,10 +21,7 @@ class OhVue extends HTMLElement {
   }
   connectedCallback() {
     const forid = this.getAttribute("for");
-    var tmpEl = document.getElementById(forid);
-    if (!tmpEl) {
-      tmpEl = this.nextElementSibling;
-    }
+    const tmpEl = document.getElementById(forid) || this.nextElementSibling;
     if (!tmpEl) {
       this.innerHTML = "<div>Template required</div>";
       return;

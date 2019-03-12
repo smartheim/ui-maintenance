@@ -7,9 +7,8 @@ class ModelAdapter {
     this.value = []
   }
   stores() { return { "icon-set": "itemCategories" } };
-  get(id, options = null) {
-    return store.get("icon-set", null, options)
-      .then(v => this.value = v);
+  async get(table = null, objectid = null, options = null) {
+    this.value = await store.get("icon-set", null, options);
   }
   dispose() {
   }

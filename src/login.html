@@ -37,15 +37,17 @@
       <div>
         <h4 class="text-center">You are currently: <mark v-if="connected">Connected</mark>
           <mark v-else>Not connected ({{connectionStatus}})</mark></h4>
-        <form class="card centeredsmallcard" :class="{wronglog:notconnectedpulse}" @submit="submitted">
+        <form class="card centeredsmallcard was-validated" :class="{wronglog:notconnectedpulse}" @submit="submitted">
           <div class="text-center">
             <h4 class="text-dark">openHAB Server</h4>
             <p class="text-muted">Please enter your openHAB network address<span v-if="credentialsRequired">, username
                 and password</span>!</p>
           </div>
           <div class="form-group">
-            <label class="w-100">Host (<span class="text-muted">Enter "demo" for a demo data set.</span>)
-              <input :class="{'text-danger':notconnected}" class="form-control" name="host" v-model="host" placeholder="Host">
+            <label class="w-100">Host (Example: http://127.0.0.1:80
+              <span class="text-muted">Enter "demo" for a demo data set.</span>)
+              <input :class="{'text-danger':notconnected}" class="form-control" name="host" required pattern="(http|https)://(.*)"
+                v-model="host" placeholder="http://127.0.0.1:80">
             </label>
           </div>
           <div v-if="credentialsRequired" class="form-group"> User credentials <label class="w-100"><input type="username"

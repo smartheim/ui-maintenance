@@ -1,41 +1,61 @@
 @import "partials/_variables";
 #listcontainer.grid article {
-    ui-tabs {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
+  ui-tabs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .tab-content {
+    flex: 1;
+  }
+  .tablinks {
+    abbr[title] {
+      text-decoration: none;
     }
-    .tab-content {
-        flex: 1;
+    display: flex;
+    margin-top:10px;
+    button.btn.active {
+      color: var(--primary);
     }
-    .tablinks {
-        abbr[title] {
-            text-decoration: none;
-        }
-        display: flex;
-        margin-top:10px;
-        button.btn.active {
-            color: var(--primary);
-        }
-    }
+  }
 }
 
 // For the control tab of an item
 .itemcontrol {
-    display: flex;
-    a.icon img {
-        width: 80px;
-        height: 80px;
-        margin-right: 20px; //border: 1px solid black;
-        border-radius: 50%;
-        box-shadow: 0 0 8px 0 #00000052;
-        &:hover {
-            box-shadow: 0 0 8px 0 #000000;
-            cursor: pointer;
-        }
+  display: flex;
+  a.icon img {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px; //border: 1px solid black;
+    border-radius: 50%;
+    box-shadow: 0 0 8px 0 #00000052;
+    &:hover {
+      box-shadow: 0 0 8px 0 #000000;
+      cursor: pointer;
     }
-    .cmdwrapper {
-        flex: 1;
+  }
+  .cmdwrapper {
+    flex: 1;
+  }
+}
+
+// For the meta tab of an item
+.itemmeta {
+  overflow-y: auto;
+  max-height: 80px;
+  &>.add {
+    input {
+      max-width: 20%;
     }
+  }
+}
+
+// For the semantic tab of an item
+.itemsemantic {
+  .content {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-gap: 10px
+  }
 }

@@ -5,22 +5,46 @@
   */
 
 .config {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    .elements {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
-    .element {
-        margin: 10px;
-        flex: 1;
-        min-width: 45%;
-    }
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .elements {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .element {
+    margin: 10px;
+    flex: 1;
+    min-width: 45%;
+  }
 }
 
 ui-github-issues {
-    ul {
-        margin-bottom: 0;
-    }
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+.resetdefault {
+  align-self: center;
+}
+
+.configheadergrid {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: min-content 1fr;
+  margin-top: 10px;
+  label {
+    white-space: nowrap;
+  }
+  &>.bs-callout,
+  &>.config,
+  &>.btnbar {
+    grid-column: span 2;
+  }
+  &>.statusinfo {
+    display: flex;
+    align-items: center;
+    grid-column: span 2;
+  }
 }

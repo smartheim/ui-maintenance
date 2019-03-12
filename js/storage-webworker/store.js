@@ -64,6 +64,10 @@ class StateWhileRevalidateStore extends EventTarget {
     this.expireDurationMS = 1000 * 60 * 60; // 1 hour cache for `getAll`
     this.lastRefresh = {}; // Will contain entries like url:time where time is Date.now()-like.
   }
+
+  /**
+   * Closes the database connection and the server-send-event connection for updates.
+   */
   dispose() {
     this.activeRESTrequests = {};
     if (this.evtSource) { this.evtSource.onerror = null; this.evtSource.onmessage = null; this.evtSource.close(); }
@@ -77,7 +81,8 @@ class StateWhileRevalidateStore extends EventTarget {
    * Waits for the database to be ready, refreshes some REST endpoints and starts Server-Send-Events
    * Start Server Send Events.
    * 
-   * Return a promise that resolves to true on a successful connection and an Error otherwise.
+   * @param {String} host The host to connect to
+   * @returns {Promise} Return a promise that resolves to true on a successful connection and an Error otherwise.
    */
   async reconnect(host) {
     if (this.host != host) {
@@ -144,6 +149,7 @@ class StateWhileRevalidateStore extends EventTarget {
   }
   /**
    * First retrieve fresh data for all tables, then dump the entire indexeddb.
+   * @returns {Object} Returns an object containing all database entries.
    */
   async dump() {
     if (this.dumpRunning) return;
@@ -197,15 +203,58 @@ class StateWhileRevalidateStore extends EventTarget {
     return dumpobject;
   }
 
+  /**
+   * Configures the database
+   * 
+   * @param {Number} expireDurationMS The cache expire time in milliseconds
+   * @param {Number} throttleTimeMS The throttle time in milliseconds
+   */
   async configure(expireDurationMS, throttleTimeMS) {
     this.throttleTimeMS = throttleTimeMS;
     this.expireDurationMS = expireDurationMS;
     return true;
   }
 
+  convertToMap(tableLayout, options, values) {
+    if (options.asmap === true) {
+      const KEY = tableLayout.key;
+      return values.then(arraydata => arraydata.reduce((a, v) => (a[v[KEY]] = v, a), {}))
+    } else if (options.asmap) {
+      const KEY = options.asmap;
+      return values.then(arraydata => arraydata.reduce((a, v) => {
+        const INDEX = v[KEY];
+        if (!a[INDEX]) a[INDEX] = [];
+        a[INDEX].push(v);
+        return a;
+      }, {}))
+    }
+
+    return values;
+  }
+
+  /**
+   * Request an array of items from a table (rest endpoint).
+   * This method will first return what is found in the cache
+   * (if the cache is still valid) and then also perform
+   * a REST request for fresh data.
+   * 
+   * @param {String} storename The table name
+   * @param {Object} options Options
+   * @param {Boolean} options.force If the cache has no data, wait for
+   *  HTTP received data
+   * @param {Boolean} options.asmap Returns a map instead of an array,
+   *  mapping from the index key to the entry
+   */
   async getAll(storename, options) {
+    const tableLayout = tableIDtoEntry[storename];
+    if (tableLayout.virtual) { // virtual tables support
+      return this.convertToMap(tableLayout, options, tableLayout.virtual(this, options));
+    }
+
     const tx = this.db.transaction(storename, 'readonly');
     let val = tx.objectStore(storename).getAll();
+
+    val = this.convertToMap(tableLayout, options, val);
 
     try {
       await tx.complete
@@ -217,7 +266,7 @@ class StateWhileRevalidateStore extends EventTarget {
     if (this.blockRESTrequest(storename))
       return val;
 
-    const uri = tableIDtoEntry[storename].uri;
+    const uri = tableLayout.uri;
     if (!uri) {
       console.warn("No URI for", storename);
       throw new Error("No URI for " + storename);
@@ -228,23 +277,44 @@ class StateWhileRevalidateStore extends EventTarget {
     }
 
     // Return cached value but also request a new value
-    const newVal = this.performRESTandNotify(uri)
+    let newVal = this.performRESTandNotify(uri)
       .catch(e => { console.warn("Failed to fetch", uri); throw e; })
       .then(json => { if (!Array.isArray(json)) throw new Error("Returned value is not an array"); return json; })
       .then(json => this.replaceStore(storename, json))
 
+    newVal = this.convertToMap(tableLayout, options, newVal);
     if (options.force) { // forced: if no cached OR empty cache value, return http promise
       if (!val || val.length == 0) return newVal;
     }
     return val || newVal; // If no cached value return http promise
   }
 
+  /**
+   * Request a single item from a table (rest endpoint).
+   * This method will first return what is found in the cache
+   * (if the cache is still valid) and then also perform
+   * a REST request for fresh data.
+   * 
+   * Some tables do not have an index key or a REST endpoint
+   * for requesting a single item. The entire table is fetched
+   * then and filtered afterwards.
+   * 
+   * @param {String} storename The table name
+   * @param {String} objectid The object id
+   * @param {Object} options Options
+   * @param {Boolean} options.force If the cache has no data, wait for
+   *  HTTP received data
+   */
   async get(storename, objectid, options) {
     if (!objectid) throw new Error("No object id set for " + storename);
+    const tableLayout = tableIDtoEntry[storename];
+    if (tableLayout.virtual) { // virtual tables support
+      return tableLayout.virtual(this, options, objectid);
+    }
+
     const tx = this.db.transaction(storename, 'readonly');
     let val = tx.objectStore(storename).get(objectid);
 
-    const tableLayout = tableIDtoEntry[storename];
 
     val = unwrapIfRequired(tableLayout, val);
 
@@ -328,6 +398,7 @@ class StateWhileRevalidateStore extends EventTarget {
       case "ItemAddedEvent":
       case "RuleAddedEvent":
       case "InboxAddedEvent":
+      case "ThingAddedEvent":
         newState = JSON.parse(data.payload);
         this.insertIntoStore(storename, newState);
         return;
@@ -337,6 +408,8 @@ class StateWhileRevalidateStore extends EventTarget {
         this.insertIntoStore(storename, newState);
         return;
       case "ItemUpdatedEvent":
+      case "RuleUpdatedEvent":
+      case "ThingUpdatedEvent":
         newState = JSON.parse(data.payload)[0];
         this.insertIntoStore(storename, newState);
         return;
@@ -344,6 +417,7 @@ class StateWhileRevalidateStore extends EventTarget {
       case "ItemRemovedEvent":
       case "RuleRemovedEvent":
       case "InboxRemovedEvent":
+      case "ThingRemovedEvent":
         this.removeFromStore(storename, JSON.parse(data.payload));
         return;
       // -- State info changed --
@@ -355,7 +429,12 @@ class StateWhileRevalidateStore extends EventTarget {
         newState = JSON.parse(data.payload);
         this.changeItemState(storename, topic[2], newState, "status");
         return;
+      case "ThingStatusInfoEvent":
+        newState = JSON.parse(data.payload);
+        this.changeItemState(storename, topic[2], newState, "statusInfo");
+        return;
       // -- Ignored events
+      case "ThingStatusInfoChangedEvent":
       case "ItemStateChangedEvent":
       case "ItemStatePredicatedEvent":
       case "ItemCommandEvent":
@@ -502,7 +581,7 @@ class StateWhileRevalidateStore extends EventTarget {
       // Vue to match existing DOM nodes. Maybe it doesn't matter.. Has to be decided.
       let value = await this.db.transaction(storename, 'readonly').objectStore(storename).getAll();
       if (!compare.ok) {
-        this.dispatchEvent(new CustomEvent("storeChanged", { detail: { value, storename } }));
+        this.dispatchEvent(new CustomEvent("storeChanged", { detail: { storename } }));
       }
       return value;
     } catch (e) {

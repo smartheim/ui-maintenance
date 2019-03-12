@@ -21,21 +21,30 @@
   <partial src="pagetitleheader.html" title="Add-ons Repositories"></partial>
   <main>
     <ui-filter class="mt-4" placeholder="Filter..." mode="grid"></ui-filter>
+    <div class="mt-2">Add new repository: <input> <button class="btn btn-primary-hover">Add</button></div>
 
     <oh-list-bind adapter="modeladapter_lists/addon-repositories" filtercriteria="label" maxItems="100"></oh-list-bind>
     <oh-vue-list>
-      <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addon_repositories"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="url" help="contexthelp/addon_repositories"></partial>
       <template slot="item">
         <article :id="item.id" style="width: 100%;">
           <vue-inprogress></vue-inprogress>
           <header><span>{{item.label}}</span></header>
-          <section class="actions showinlist">
-            <span class="btn-group" role="group">
-              <button class="btn btn-success" @click="enable()"><i class="fas fa-check"></i> <span>Enable</span></button>
-              <button class="btn btn-danger" @click="disable()"><i class="fas fa-trash"></i> <span>Disable</span></button>
-            </span>
+          <section class="description mb-2">
+            <div>Type: <i>{{item.type}}</i></div>
+            {{item.description}}
           </section>
-          <section class="description mb-2">{{item.description}}</section>
+          <footer>
+            <small :title="item.url" style="white-space: nowrap;overflow-x: hidden;text-overflow: ellipsis">{{item.url}}</small>
+            <div class="ml-auto"></div>
+            <button v-if="!item.fixed" title="Remove" class="btn btn-outline-danger text-nowrap">
+              Remove</button>
+            <button v-if="item.enabled" title="Disable" class="btn btn-outline-danger text-nowrap" @click="enable">Disable</button>
+            <button v-else title="Enable" class="btn btn-outline-success text-nowrap" @click="disable">Enable</button>
+          </footer>
         </article>
       </template>
     </oh-vue-list>

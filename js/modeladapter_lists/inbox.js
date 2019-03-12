@@ -11,10 +11,10 @@ class ModelAdapter {
       .then(json => this.thingtypes = json)
       .then(() => store.get("bindings", null, { force: true }))
       .then(json => this.bindings = json)
-      .then(() => this.get(options));
+      .then(() => this.get(null, null, options));
   }
-  get(options = null) {
-    return store.get("inbox", null, options).then(items => this.items = items);
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("inbox", null, options);
   }
   getThingTypeFor(uid) {
     for (const type of this.thingtypes) {
@@ -37,12 +37,12 @@ const InboxMixin = {
   methods: {
     binding() {
       const bindingid = this.item.thingTypeUID.split(":")[0];
-      const bindings = this.$root.store.getBindingFor(bindingid);
+      const bindings = this.$list.store.getBindingFor(bindingid);
       if (bindings) return bindings.name;
       return "Binding not found";
     },
     description() {
-      const type = this.$root.store.getThingTypeFor(this.item.thingTypeUID);
+      const type = this.$list.store.getThingTypeFor(this.item.thingTypeUID);
       if (type) return type.description;
       return "No Thing description available";
     },

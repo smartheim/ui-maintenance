@@ -10,159 +10,361 @@ $bg-size: 32;
 $node-border: 0;
 $node-width: $bg-size*6-2*$node-border;
 $node-height: $bg-size*3-2*$node-border;
-main {
-    display: flex;
-    flex-direction: column;
+main.rule {
+  display: flex;
+  flex-direction: column;
+}
+
+.fullflex {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  &>form {
+    margin-top: 20px;
+    display: grid;
+    align-items: center;
+    grid-template-areas: "l1 rulename l2 ruleuid" "l3 desc desc desc" "l4 tags buttons buttons";
+    grid-template-columns: min-content 1fr min-content auto;
+    grid-gap: 10px;
+    label[for="rulename"] {
+      grid-area: l1;
+    }
+    #rulename {
+      grid-area: rulename;
+    }
+    label[for="ruleuid"] {
+      grid-area: l2;
+    }
+    #ruleuid {
+      grid-area: ruleuid;
+    }
+    label[for="ruledescription"] {
+      grid-area: l3;
+    }
+    #ruledescription {
+      grid-area: desc;
+    }
+    label[for="ruletags"] {
+      grid-area: l4;
+    }
+    #ruletags {
+      grid-area: tags;
+      padding: 0;
+      height: initial;
+    }
+    .buttons {
+      justify-self: flex-end;
+      grid-area: buttons;
+    }
+  }
 }
 
 .search {
-    position: fixed;
-    z-index: 10;
-    width: 100%;
-    width: -moz-available;
-    width: -webkit-fill-available;
-    width: fill-available;
+  position: sticky;
+  z-index: 10;
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
+  height: initial;
 }
 
 .rete-background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    &.default {
-        background-size: $bg-size*1px $bg-size*1px;
-        background-image: linear-gradient(to right, $bg-color 1px, transparent 1px), linear-gradient(to bottom, $bg-color 1px, transparent 1px);
-    }
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  &.default {
+    background-size: $bg-size*1px $bg-size*1px;
+    background-image: linear-gradient(to right, $bg-color 1px, transparent 1px), linear-gradient(to bottom, $bg-color 1px, transparent 1px);
+  }
+}
+
+.moduletypelist {
+  display: grid;
+  grid-gap: 10px;
+  padding: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.moduletype {
+  min-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .connection {
-    overflow: visible !important;
+  overflow: visible !important;
 }
 
 .connection .main-path {
-    fill: none;
-    stroke-width: 5px;
-    stroke: lighten(theme-color("info"), 10%);
+  fill: none;
+  stroke-width: 5px;
+  stroke: lighten(theme-color("info"), 10%);
 }
 
 .socket {
-    background: theme-color("orange");
-    display: inline-block;
-    cursor: pointer;
-    border: 1px solid white;
-    border-radius: $socket-size/2.0;
-    width: $socket-size;
-    height: $socket-size;
-    margin: $socket-margin;
-    vertical-align: middle;
-    z-index: 2;
-    box-sizing: border-box;
-    &:hover {
-        border-width: 4px
-    }
-    &.multiple {
-        border-color: yellow
-    }
-    &.output {
-        margin-right: - $socket-size / 2
-    }
-    &.input {
-        margin-left: - $socket-size / 2
-    }
+  background: theme-color("orange");
+  display: inline-block;
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: $socket-size/2.0;
+  width: $socket-size;
+  height: $socket-size;
+  margin: $socket-margin;
+  vertical-align: middle;
+  z-index: 2;
+  box-sizing: border-box;
+  &:hover {
+    border-width: 4px
+  }
+  &.multiple {
+    border-color: yellow
+  }
+  &.output {
+    margin-right: - $socket-size / 2
+  }
+  &.input {
+    margin-left: - $socket-size / 2
+  }
+}
+
+h4.trigger {
+  border-bottom: 1px solid var(--success);
+}
+
+h4.condition {
+  border-bottom: 1px solid var(--info);
+}
+
+h4.action {
+  border-bottom: 1px solid var(--danger);
+}
+
+.node.trigger {
+  border: 1px solid var(--success);
+}
+
+.node.condition {
+  border: 1px solid var(--info);
+}
+
+.node.action {
+  border: 1px solid var(--danger);
+}
+
+.node.condition::before,
+.node.action::before {
+  content: "";
+  transition: opacity 0.5s;
+  width: 20px;
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: -20px;
+  clip-path: polygon(100% 50%, 0 0, 100% 0, 100% 100%, 0 100%);
+  z-index: -2;
+  opacity: 0.1;
+}
+
+.node.condition:hover::before,
+.node.action:hover::before {
+  opacity: 1;
+}
+
+.node.action::after,
+.node.trigger::after {
+  content: "";
+  transition: opacity 0.5s;
+  width: 20px;
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  right: -20px;
+  clip-path: polygon(0% 0, 100% 50%, 0% 100%);
+  z-index: -2;
+  opacity: 0.1;
+}
+
+.node.action:hover::after,
+.node.trigger:hover::after {
+  opacity: 1;
+}
+
+.node.trigger::before,
+.node.trigger::after {
+  background-color: var(--success);
+}
+
+.node.action::before,
+.node.action::after {
+  background-color: var(--danger);
+}
+
+.node.condition::before,
+.node.condition::after {
+  background-color: var(--info);
+}
+
+.nodewrapper {
+  position: absolute;
+  z-index: 0;
+  display: flex;
 }
 
 .node {
-    &.trigger {
-        background-color: lighten(theme-color("success"), 50%);
-        &:hover {
-            background-color: lighten(theme-color("success"), 40%);
-        }
+  &:hover {
+    box-shadow: 0 1px 3px 1px rgba(60, 64, 67, .2), 0 2px 8px 4px rgba(60, 64, 67, .1);
+  }
+  border: 1px solid transparent;
+  transition: box-shadow 135ms cubic-bezier(.4, 0, .2, 1);
+  color: var(--color); // box-shadow: 0 1px 1px 0 rgba(60, 64, 67, .08),
+  // 0 1px 3px 1px rgba(60, 64, 67, .16);
+  // filter: drop-shadow(0 1px 1px 0 rgba(60, 64, 67, .08), 0 1px 3px 1px rgba(60, 64, 67, .16));
+  position: relative;
+  background-color: var(--card-bg);
+  min-width: $node-width * 1px;
+  min-height: $node-height * 1px;
+  box-sizing: content-box;
+  position: relative;
+  user-select: none;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas: "title title title" "input control output" "actions actions actions";
+  grid-template-rows: min-content 1fr min-content;
+  grid-template-columns: min-content 1fr min-content;
+  &.selected {
+    background: $node-color-selected;
+    border-color: #e3c000;
+  }
+  .title {
+    grid-area: title;
+    color: black;
+    font-family: sans-serif;
+    font-size: 18px;
+    padding: 8px;
+    max-width: 300px;
+    &>div:nth-of-type(2) {
+      font-size: 12px;
     }
-    &.condition {
-        background-color: lighten(theme-color("info"), 10%);
-        &:hover {
-            background-color: lighten(theme-color("info"), 0%);
-        }
+  }
+  .output {
+    grid-area: output;
+    text-align: right;
+    &>div {
+      white-space: nowrap;
     }
-    &.action {
-        background-color: lighten(theme-color("danger"), 30%);
-        &:hover {
-            background-color: lighten(theme-color("danger"), 20%);
-        }
+  }
+  .input {
+    grid-area: input;
+    text-align: left;
+    &>div {
+      white-space: nowrap;
     }
-    border: $node-border*1px solid #4e58bf;
-    border-radius: 10px;
-    cursor: pointer;
-    min-width: $node-width * 1px;
-    min-height: $node-height * 1px;
-    height: auto;
-    margin-bottom: 6px;
-    box-sizing: content-box;
-    position: relative;
-    user-select: none;
-    &.selected {
-        background: $node-color-selected;
-        border-color: #e3c000;
+  }
+  .input-title,
+  .output-title {
+    vertical-align: middle;
+    color: black;
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    overflow-x: hidden;
+    max-width: 80px;
+    text-overflow: ellipsis;
+  }
+  .input-control {
+    z-index: 1;
+    width: calc(100% - #{$socket-size + 2*$socket-margin});
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .control {
+    grid-area: control;
+    display: grid;
+    grid-template-columns: min-content minmax(auto, 230px);
+    grid-template-rows: min-content;
+    align-items: flex-start;
+    grid-gap: 10px;
+    min-width: 300px;
+    label {
+      min-width: 60px;
+      max-width: 105px;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    .title {
-        color: black;
-        font-family: sans-serif;
-        font-size: 18px;
-        padding: 8px;
+    ui-switch {
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    .output {
-        text-align: right;
-    }
-    .input {
-        text-align: left;
-    }
-    .input-title,
-    .output-title {
-        vertical-align: middle;
-        color: black;
-        display: inline-block;
-        font-family: sans-serif;
-        font-size: 14px;
-        margin: 6px;
-        line-height: 24px;
-    }
-    .input-control {
-        z-index: 1;
-        width: calc(100% - #{$socket-size + 2*$socket-margin});
-        vertical-align: middle;
-        display: inline-block;
-    }
-    .control {
-        padding: $socket-margin $socket-size/2 + $socket-margin;
-    }
+  }
+  .actions {
+    grid-area: actions;
+    display: flex;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
 }
 
 oh-rule-components {
-    flex: 1;
-    overflow-y: auto;
+  flex: 1;
+  overflow-y: auto;
 }
 
-oh-rule-editor {
-    margin: 0;
-    position: relative;
-    height: 100%;
-    flex: 1;
-    height: 100% !important;
-    overflow: auto !important;
-    &>div {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-    }
-}
-
-nav.sidebar {
-    display: flex;
-    flex-direction: column;
+nav.sidebar.rule {
+  display: flex;
+  flex-direction: column;
 }
 
 .remove {
-    float: right;
-    font-size: 1.7rem;
-    left: 10px;
-    top: -10px;
+  float: right;
+  font-size: 1.7rem;
+  left: 10px;
+  top: -10px;
+}
+
+// The modal dialog
+#scripteditor {
+  display: grid;
+  grid-template-areas: "buttonbar buttonbar" "editor snippets";
+  grid-template-rows: min-content auto; // grid-template-columns: 1fr min-content;
+  grid-template-columns: 1fr 200px;
+  background-color: var(--background-color);
+  ;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, .08), 0 1px 3px 1px rgba(60, 64, 67, .16);
+  &>.buttonbar {
+    grid-area: buttonbar;
+    display: flex;
+    align-items: center;
+  }
+  &>.snippets {
+    grid-area: snippets;
+    ul {
+      list-style: none;
+    }
+  }
+  &>ui-codeeditor {
+    grid-area: editor;
+    flex: 1;
+    display: block;
+    margin: 10px;
+    border-radius: 10px;
+  }
+}
+
+:not(.wide) nav oh-vue-list>div {
+  padding-left: 20px;
+  padding-right: 20px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.wide nav oh-vue-list>div {
+  max-height: calc(100vh - 180px);
+  overflow-y: scroll;
 }

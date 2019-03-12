@@ -29,13 +29,13 @@ class OhNavAutoLink extends HTMLElement {
    * This method is automatically called on every "DOMContentLoaded" event.
    */
   checkLinks() {
-    var parentlink = document.querySelector('link[rel="parent"]');
+    let parentlink = document.querySelector('link[rel="parent"]');
     if (parentlink) parentlink = parentlink.href;
 
-    var elems = this.parentNode.children;
-    for (var elem of elems) {
+    const elems = this.parentNode.children;
+    for (let elem of elems) {
       if (elem == this) continue;
-      var link = elem.children[0];
+      const link = elem.children[0];
       if (!link.href) continue;
       const classlist = link.classList;
       classlist.remove("active");

@@ -21,14 +21,14 @@ class UiYoutube extends HTMLElement {
     this.style.backgroundImage = 'url(http://i.ytimg.com/vi/' + this.videoid + '/sddefault.jpg)';
 
     // Overlay the Play icon to make it look like a video player
-    var play = document.createElement("div");
+    const play = document.createElement("div");
     play.setAttribute("class", "play");
     play = this.appendChild(play);
 
     this.onclick = function () {
       // Create an iFrame with autoplay set to true
-      var iframe = document.createElement("iframe");
-      var iframe_url = "https://www.youtube.com/embed/" + this.videoid + "?autoplay=1&autohide=1";
+      const iframe = document.createElement("iframe");
+      const iframe_url = "https://www.youtube.com/embed/" + this.videoid + "?autoplay=1&autohide=1";
       if (this.videoparams) iframe_url += '&' + this.videoparams;
       iframe.setAttribute("src", iframe_url);
       iframe.setAttribute("frameborder", '0');

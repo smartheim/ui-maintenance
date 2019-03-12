@@ -34,10 +34,11 @@ export async function fetchWithTimeout(url, timeout = 5000) {
   const signal = controller.signal;
   setTimeout(() => controller.abort(), timeout);
   const response = await fetch(url, { signal: signal, validateHttpsCertificates: false, muteHttpExceptions: true }).catch(e => {
-    throw (e instanceof DOMException && e.name === "AbortError" ? "Timeout after " + (timeout / 1000) + "s" : e);
+    throw (e instanceof DOMException && e.name === "AbortError" ? "Timeout after " + (timeout / 1000) + "s." : e);
   });
   if (!response.ok) {
-    throw new FetchError(response.statusText, response.status);
+    const body = await response.text();
+    throw new FetchError(response.statusText + " " + body, response.status);
   }
   return response;
 }
@@ -51,7 +52,7 @@ export async function fetchMethodWithTimeout(url, method, body, contentType = 'a
   const options = { signal, method, mode, body, validateHttpsCertificates, muteHttpExceptions };
   setTimeout(() => controller.abort(), timeout);
   const response = await fetch(url, contentType ? Object.assign(options, { headers }) : options).catch(e => {
-    throw (e instanceof DOMException && e.name === "AbortError" ? "Timeout after " + (timeout / 1000) + "s" : e);
+    throw (e instanceof DOMException && e.name === "AbortError" ? "Timeout after " + (timeout / 1000) + "s." : e);
   });;
   if (!response.ok) {
     throw new FetchError(response.statusText, response.status);

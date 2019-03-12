@@ -11,7 +11,7 @@ import streamingPlugin from './streaming/streaming'
 class UITimeGraph extends HTMLElement {
   constructor() {
     super();
-    var dom = this.attachShadow({ mode: 'open' });
+    const dom = this.attachShadow({ mode: 'open' });
     this.origData = [];
 
     this.config = {
@@ -214,7 +214,7 @@ class UITimeGraph extends HTMLElement {
     }
     this.applyColors();
     this.canvas = document.createElement("canvas");
-    var ctx = this.canvas.getContext('2d');
+    const ctx = this.canvas.getContext('2d');
     this.charts = new Chart(ctx, this.config);
     root.appendChild(this.canvas);
     this.show(null, { datasetIndex: 2 });
@@ -250,13 +250,13 @@ class UITimeGraph extends HTMLElement {
     this.fontColor = fontColor;
   }
   show(e, legendItem) {
-    for (var i = 1; i < this.config.data.datasets.length; ++i) {
-      var dataset = this.config.data.datasets[i];
+    for (let i = 1; i < this.config.data.datasets.length; ++i) {
+      const dataset = this.config.data.datasets[i];
       dataset.backgroundColor = "lightgray";
       dataset.borderColor = this.fontColor;
       dataset.fontColor = this.fontColor;
     }
-    var dataset = this.config.data.datasets[legendItem.datasetIndex];
+    const dataset = this.config.data.datasets[legendItem.datasetIndex];
     dataset.backgroundColor = 0;
     dataset.borderColor = 0;
     this.config.options.scales.xAxes[0].realtime.duration = dataset.streaming.duration;

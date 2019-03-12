@@ -3,7 +3,7 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
-  <link rel="parent" href="bindings.html" />
+  <link rel="parent" href="bindings.html" data-title="Add-Ons" />
 </head>
 
 <body>
@@ -11,9 +11,8 @@
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Binding - Custom page"></partial>
   <main>
-    <nav-breadcrumb parent="Add-Ons"></nav-breadcrumb>
-    <oh-attribute-bind attribute="url" queryParameter="customurl"></oh-attribute-bind>
-    <ui-context-help cachetime="0"></ui-context-help>
+    <oh-prop-bind attribute="url" queryParameter="customurl"></oh-prop-bind>
+    <ui-context-help class="mt-3" cachetime="0"></ui-context-help>
   </main>
   <footer></footer>
   <aside></aside>

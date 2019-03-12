@@ -60,8 +60,8 @@ class OhDropdownBind extends HTMLElement {
   }
 
   async connected() {
-    let list = await this.modeladapter.getall();
-    this.target.options = list;
+    await this.modeladapter.getall();
+    this.target.options = this.modeladapter.items;
   }
 
   connecting() {

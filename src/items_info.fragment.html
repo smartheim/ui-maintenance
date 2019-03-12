@@ -1,0 +1,34 @@
+<h3>Item tags / storage</h3>
+
+<oh-prop-bind contextfrom="ui-context-help" sourceproperty="contextdata" property="objectid"></oh-prop-bind>
+<oh-form-bind adapter="modeladapter_forms/item" allowNew></oh-form-bind>
+<oh-vue-form></oh-vue-form>
+<template>
+  <div>
+    <h5>
+      <oh-doc-link title="About unique IDs" show href="contexthelp/uniqueid.md" class="link mr-2"><i class="far fa-question-circle"></i></oh-doc-link>
+      ID
+    </h5>
+    <div :title="value.name" @click="copyClipboard($event, value.name)">{{value.name}}</div>
+
+    <h5>
+      <oh-doc-link show href="contexthelp/storage.md" class="link mr-2"><i class="far fa-question-circle"></i></oh-doc-link>
+      Storage
+    </h5>
+    <div v-if="value.storage">
+      Association: <input value="value.storage">
+      @ <input value="value.storage" type="number" placeholder="Position">
+    </div>
+
+    <h5>
+      <oh-doc-link show href="contexthelp/tags.md" class="link mr-2"><i class="far fa-question-circle"></i></oh-doc-link>
+      Tags
+    </h5>
+    <ui-tags v-if="value.tags" :suggestions="commontags()" :value.prop="value.tags" @input="value.tags = $event.target.value"></ui-tags>
+
+    <div class="btn-group btnbar my-2" role="group">
+      <button @click.prevent="save" class="btn btn-primary" :class="{disabled:unchanged}">
+        <i class="fas fa-save"></i> Save</button>
+    </div>
+  </div>
+</template>

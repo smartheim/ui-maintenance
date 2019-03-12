@@ -1,7 +1,10 @@
 <section class="header">
-    <oh-attribute-bind setcontent queryParameter="title"></oh-attribute-bind>
-    <h4>@@title</h4>
-    <a href="" class="roundbtn" onclick="toggleWideTheme(event)"><i class="fas fa-arrows-alt-h"></i></a>
-    <oh-doc-link toggle><a title="Open/Close context help" href="#" class="helpbtn roundbtn">
-            <i class="fas fa-times"></i><i class="fas fa-question"></i></a></oh-doc-link>
+  <div>
+    <oh-prop-bind attribute="label" queryParameter="title"></oh-prop-bind>
+    <nav-breadcrumb label="@@title"></nav-breadcrumb>
+  </div>
+  <span class="link roundbtn" onclick="toggleWideTheme(event)"><i class="fas fa-arrows-alt-h"></i></span>
+  <oh-doc-link toggle class="link helpbtn roundbtn" title="Open/Close context help">
+    <i class="fas fa-times"></i><i class="fas fa-question"></i>
+  </oh-doc-link>
 </section>

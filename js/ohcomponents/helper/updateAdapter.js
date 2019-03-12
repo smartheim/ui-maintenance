@@ -7,10 +7,11 @@
  * which in turn will update the views.
  */
 export class UpdateAdapter {
-  constructor(modeladapter, store, objectid = null) {
+  constructor(modeladapter, store, objectid = null, viewOptions = null) {
     this.modeladapter = modeladapter;
     this.store = store;
     this.objectid = objectid;
+    this.viewOptions = viewOptions;
     this.listChangedBound = (e) => this.listChanged(e.detail);
     this.listEntryChangedBound = (e) => this.listEntryChanged(e.detail);
     this.listEntryRemovedBound = (e) => this.listEntryRemoved(e.detail);
@@ -26,26 +27,19 @@ export class UpdateAdapter {
     this.store.removeEventListener("storeItemChanged", this.listEntryChangedBound, false);
     this.store.removeEventListener("storeItemRemoved", this.listEntryRemovedBound, false);
     this.store.removeEventListener("storeItemAdded", this.listEntryAddedBound, false);
+    this.store = null;
+    this.objectid = null;
+    this.modeladapter = null;
+    this.viewOptions = null;
   }
 
   /**
-  * The entire list changed. Find the matching entry and update it.
+  * The entire list changed. Request a model refresh.
   */
   listChanged(e) {
     let adapterField = this.modeladapter.stores()[e.storename];
     if (!adapterField) return;
-    let value = val(adapterField, this);
-    if (Array.isArray(value)) {
-      value.splice(0, value.length, ...e.value);
-      console.log("listChanged->update view", e.storename, value.length);
-    } else {
-      for (let entry of e.value) {
-        if (entry[this.modeladapter.STORE_ITEM_INDEX_PROP] != this.objectid) continue;
-        console.debug("listChanged->update view", e.storename, entry);
-        setval(adapterField, this, entry);
-        return;
-      }
-    }
+    this.modeladapter.get(e.storename, this.objectid, this.viewOptions);
   }
 
   listEntryChanged(e) {
@@ -64,7 +58,6 @@ export class UpdateAdapter {
         let entry = value[i];
         if (entry[this.modeladapter.STORE_ITEM_INDEX_PROP] == id) {
           value.splice(i, 1, e.value);
-          console.warn(value);
           return;
         }
       }

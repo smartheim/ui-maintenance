@@ -10,6 +10,33 @@ Vue.config.ignoredElements = [
   /^oh-/, /^ui-/
 ]
 
+function createItemListComponent(adapter, listmixins, itemMixins, listTmpl, itemTmpl) {
+  return {
+    created: function () {
+      this.OhListStatus = OhListStatus;
+      this.store = adapter;
+      this.$root.$list = this;
+      this.$list = this;
+    },
+    mixins: [ListModeMixin, EditorMixin, ListViewSelectionModeMixin, ...listmixins],
+    template: listTmpl,
+    data: function () {
+      return Object.assign(adapter, {
+        message: "",
+        status: OhListStatus.READY,
+      });
+    },
+    computed: {
+      empty: function () {
+        return this.items.length == 0;
+      }
+    },
+    components: {
+      'oh-vue-listitem': createItemComponent(itemMixins, itemTmpl)
+    }
+  }
+}
+
 /**
  * @category Web Components (Reactive)
  * @customelement oh-vue-list
@@ -28,8 +55,8 @@ class OhViewList extends HTMLElement {
     this.vue = {};
     this.ok = false;
     this.shadowRoot.innerHTML = `<slot name="app"></slot><slot name="list"></slot><slot name="item"></slot>`;
-    var elList = this.shadowRoot.querySelector('slot[name="list"]');
-    var elItem = this.shadowRoot.querySelector('slot[name="item"]');
+    let elList = this.shadowRoot.querySelector('slot[name="list"]');
+    let elItem = this.shadowRoot.querySelector('slot[name="item"]');
     if (!elList || !elItem) {
       this.shadowRoot.innerHTML = "<div>No template slots given!</div>";
       return;
@@ -65,33 +92,12 @@ class OhViewList extends HTMLElement {
   start(adapter, listmixins, itemMixins) {
     if (!this.ok) return;
 
-    const filtercriteria = this.getAttribute("filtercriteria");
-    const fixedfilterAttr = this.hasAttribute("fixedfilter") ? this.getAttribute("fixedfilter") : null;
     this.vue = new Vue({
       created: function () {
-        this.OhListStatus = OhListStatus;
         this.store = adapter;
-        this.filtercriteria = filtercriteria;
-        this.fixedfilter = fixedfilterAttr;
-      },
-      mixins: [ListModeMixin, EditorMixin, ListViewSelectionModeMixin, ...listmixins],
-      template: this.listTmpl,
-      data: function () {
-        return Object.assign(adapter, {
-          message: "",
-          status: OhListStatus.READY,
-        });
-      },
-      computed: {
-        empty: function () {
-          return this.items.length == 0;
-        }
       },
       components: {
-        'oh-vue-listitem': createItemComponent(itemMixins, this.itemTmpl.cloneNode(true))
-      },
-      mounted: function () {
-        this.$el.setAttribute("slot", "app");
+        'list': createItemListComponent(adapter, listmixins, itemMixins, this.listTmpl, this.itemTmpl.cloneNode(true))
       }
     }).$mount(this.mountEl);
     this.pending = true;

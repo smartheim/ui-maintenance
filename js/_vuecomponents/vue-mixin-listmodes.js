@@ -4,7 +4,8 @@ const ListModeMixin = {
   data: function () {
     return {
       viewmode: "list",
-      hasMore: false
+      hasMore: false,
+      secondarymode: 0
     }
   },
   watch: {
@@ -28,11 +29,14 @@ const ListModeMixin = {
       this.viewmode = this.filterbar.mode;
       this.updateViewModeBound = (event) => this.updateViewMode(event);
       this.filterbar.addEventListener("mode", this.updateViewModeBound);
+      this.updateSecondaryModeBound = (event) => this.updateSecondaryMode(event);
+      this.filterbar.addEventListener("secondaryMode", this.updateSecondaryModeBound);
     }
   },
   beforeDestroy: function () {
     if (this.filterbar) {
       this.filterbar.removeEventListener("mode", this.updateViewModeBound);
+      this.filterbar.removeEventListener("secondaryMode", this.updateSecondaryModeBound);
       delete this.filterbar;
     }
   },
@@ -42,6 +46,9 @@ const ListModeMixin = {
     },
     updateViewMode: function (event) {
       this.viewmode = event.detail.mode;
+    },
+    updateSecondaryMode(event) {
+      this.secondarymode = event.detail;
     },
     addEditorReadyListener(callback) {
       this.editorListeners.add(callback);

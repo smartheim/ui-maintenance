@@ -103,16 +103,20 @@ body.wide .navbarui {
 }
 
 section.header {
-    color: var(--color);
-    text-align: center;
+    color: var(--color-card-header);
     height: 70px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    h4 {
+    animation: fadein 0.5s;
+    div {
         margin: 0;
         padding: 0;
         flex: 1;
+        nav-breadcrumb {
+            margin-left: 20px;
+            padding: 0;
+            font-size: x-large;
+        }
     }
 }
 

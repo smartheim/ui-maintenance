@@ -66,13 +66,16 @@
 
     <oh-list-bind adapter="modeladapter_lists/persistence" filtercriteria="label"></oh-list-bind>
     <oh-vue-list class="mb-4">
-      <partial src="vuelistbasics.html" key="item.uid" help="contexthelp/persistence"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="uid" help="contexthelp/persistence"></partial>
       <template slot="item">
         <article :id="item.uid" :class="[{haschanges: changed},{pulseAnimation: pulseAnimation}]">
           <vue-inprogress></vue-inprogress>
-          <vue-metainfo :uniqueid="item.uid"></vue-metainfo>
           <header>
-            <span :title="item.label+': Edit the name and press enter'" contenteditable="true" @blur="item.label=$event.target.innerText"
+            <span :title="item.label+': Edit the name and press enter'" contenteditable="true" autocomplete="off"
+              autocorrect="off" autocapitalize="off" spellcheck="false" @blur="item.label=$event.target.innerText"
               @keypress.enter.prevent="item.label=$event.target.innerText">{{item.label}}</span>
           </header>
           <section class="actions unsaved btn-group">
@@ -80,8 +83,8 @@
             <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
           </section>
           <section class="actions btn-group">
-            <button class="btn btn-info-hover" title="Info like ID and Storage association" @click="showmeta=!showmeta"><i
-                class="fas fa-info"></i></button>
+            <oh-doc-link show class="btn btn-info-hover" title="Tags and Storage association" href="items_info.fragment.html"
+              :context.prop='item.uid'></oh-doc-link><i class="fas fa-info"></i></oh-doc-link>
             <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
           </section>
           <section class="description mb-2">
@@ -92,7 +95,7 @@
             <ui-multiselect :options.prop="getStrategies()" viewkey="label" valuekey="id" :value.prop="item.strategy"
               placeholder="Select strategy" @input="item.strategy=$event.target.value"></ui-multiselect>
             Items: <br>
-            <ui-multiselect :options.prop="$root.itemlist" viewkey="label" valuekey="name" desckey="name" placeholder="Select items"
+            <ui-multiselect :options.prop="$list.itemlist" viewkey="label" valuekey="name" desckey="name" placeholder="Select items"
               :value.prop="item.items" @input="item.items=$event.target.value"></ui-multiselect>
             Additional items by name:<br>
             <input placeholder="Regex item pattern" v-model="item.itemByNamePattern">

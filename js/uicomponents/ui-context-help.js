@@ -55,8 +55,8 @@ class OhContextHelp extends HTMLElement {
       this.innerHTML = "No url given!";
       return;
     }
-    var cacheTimestamp = parseInt(localStorage.getItem("timestamp_" + this.url)) || 0;
-    var cachedData = null;
+    const cacheTimestamp = parseInt(localStorage.getItem("timestamp_" + this.url)) || 0;
+    let cachedData = null;
     if (cacheTimestamp > 0 && (cacheTimestamp + this.cachetime * 60 * 1000 > Date.now())) {
       cachedData = localStorage.getItem(this.url);
     }
@@ -90,7 +90,7 @@ class OhContextHelp extends HTMLElement {
       this.renderData(html);
     }
     ).catch(e => {
-      this.innerHTML = this.error + e;
+      this.innerHTML = this.error + e + " " + this.url;
     }
     )
   }

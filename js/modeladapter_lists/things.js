@@ -82,10 +82,11 @@ class ModelAdapter {
   getall(options = null) {
     return store.get("thing-types", null, { force: true })
       .then(v => this.thingtypes = v)
-      .then(() => this.get(options))
+      .then(() => this.get(null, null, options))
   }
-  get(options = null) {
-    return store.get("things", null, options).then(items => this.items = items).then(() => this.adaptSchema());
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("things", null, options)
+    this.adaptSchema();
   }
   getThingTypeFor(uid) {
     for (const thingType of this.thingtypes) {
@@ -114,20 +115,33 @@ class ModelAdapter {
 }
 
 const ThingsMixin = {
-  methods: {
-    commontags: function () {
-      return [];
-    },
-    statusinfo: function () {
+  data: () => {
+    return {
+      actions: []
+    }
+  },
+  watch: {
+    listitem: {
+      handler: function (newVal, oldVal) {
+        // Create actions array
+        this.actions = [];
+        if (newVal.statusInfo.statusDetail === "DISABLED")
+          this.actions.push({ id: "enable", label: "Enable", description: "Enable this Thing" });
+        else
+          this.actions.push({ id: "disable", label: "Disable", description: "Disable this Thing. A disabled thing will not connect to its peer device" });
+        if (!this.item.actions) return null;
+        for (let action of this.item.actions) this.actions.push(action);
+      }, deep: false, immediate: true,
+    }
+  },
+  computed: {
+    statusInfo() {
       return this.item.statusInfo ? this.item.statusInfo.status.toLowerCase().replace(/^\w/, c => c.toUpperCase()) : "Unknown";
     },
-    statusDetails: function () {
-      return this.item.statusInfo ? this.item.statusInfo.statusDetail : "";
+    statusDetails() {
+      return this.item.statusInfo ? this.item.statusInfo.statusDetail + " - " + this.item.statusInfo.description : "";
     },
-    statusmessage: function () {
-      return this.item.statusInfo ? this.item.statusInfo.message : "";
-    },
-    statusBadge: function () {
+    statusBadge() {
       const status = this.item.statusInfo ? this.item.statusInfo.status : "";
       switch (status) {
         case "ONLINE": return "badge badge-success";
@@ -135,35 +149,58 @@ const ThingsMixin = {
         case "UNINITIALIZED": return "badge badge-info";
       }
       return "badge badge-light";
+    }
+  },
+  methods: {
+    commontags() {
+      return [];
     },
     description() {
-      const thingType = this.$root.store.getThingTypeFor(this.item.thingTypeUID);
+      const thingType = this.$list.store.getThingTypeFor(this.item.thingTypeUID);
       if (thingType) return thingType.description;
       return "No Thing description available";
     },
     triggerAction(actionEvent) {
-      console.log("triggered", actionEvent.target.dataset.uid, actionEvent.detail);
-      this.message = null;
-      this.messagetitle = "Performing action...";
-      this.inProgress = true;
-      this.changed = false;
-      setTimeout(() => {
-        this.inProgress = false;
-      }, 500);
+      if (actionEvent.detail == "enable") {
+        this.setEnabled(actionEvent, true);
+      } else if (actionEvent.detail == "disable") {
+        this.setEnabled(actionEvent, false);
+      } else {
+        console.log("triggered", actionEvent.target.dataset.uid, actionEvent.detail);
+        this.message = null;
+        this.messagetitle = "Performing action...";
+        this.inProgress = true;
+        this.changed = false;
+        setTimeout(() => {
+          this.inProgress = false;
+        }, 500);
+      }
     },
     haschannels() {
       return this.item.channels.length > 0;
     },
-    remove: function () {
+    remove() {
       this.message = null;
       this.messagetitle = "Removing...";
       this.inProgress = true;
-      fetchMethodWithTimeout(store.host + "/rest/things/" + this.item.UID, "DELETE", null)
+      const forceQuery = this.item.statusInfo.status == "REMOVING" ? "?force=true" : "";
+      fetchMethodWithTimeout(store.host + "/rest/things/" + this.item.UID + forceQuery, "DELETE", null)
         .then(r => {
           this.message = "Thing '" + this.item.label + "' removed";
           this.inProgress = false;
         }).catch(e => {
           this.message = e.toString();
+        })
+    },
+    setEnabled(event, value) {
+      event.target.classList.add("disabled");
+      fetchMethodWithTimeout(store.host + "/rest/things/" + this.item.UID + "/enable", "PUT", value)
+        .then(r => {
+          event.target.classList.remove("disabled");
+          createNotification(null, `Thing ${this.item.label} is now ${value ? "enabled" : "disabled"}`, false, 2000);
+        }).catch(e => {
+          event.target.classList.remove("disabled");
+          createNotification(null, `Failed to en/disable ${this.item.label}: ${e}`, false, 4000);
         })
     },
   }
@@ -242,10 +279,10 @@ const ItemListMixin = {
       if (this.last.thingTypeUID != thingTypeUID) {
         this.last.thingTypeUID = thingTypeUID;
         const bindingID = thingTypeUID.split(":")[0];
-        const thingType = await this.$root.store.getExtendedThingTypeFor(thingTypeUID);
-        //   const configurationType = await this.$root.store.getThingTypeConfigDescriptionsFor(thingTypeUID);
-        const channelConfigTypes = await this.$root.store.getChannelTypesConfigDescriptionsFor(bindingID) || [];
-        const channelTypes = await this.$root.store.getChannelTypes(bindingID) || [];
+        const thingType = await this.$list.store.getExtendedThingTypeFor(thingTypeUID);
+        //   const configurationType = await this.$list.store.getThingTypeConfigDescriptionsFor(thingTypeUID);
+        const channelConfigTypes = await this.$list.store.getChannelTypesConfigDescriptionsFor(bindingID) || [];
+        const channelTypes = await this.$list.store.getChannelTypes(bindingID) || [];
         let thingSchema = JSON.parse(JSON.stringify(schema.schema.definitions.item.properties));
         thingSchema.thingTypeUID.enum = [];
         context = { thingType, channelConfigTypes, channelTypes, schema: thingSchema }; // configurationType

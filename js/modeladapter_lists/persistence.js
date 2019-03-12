@@ -11,10 +11,10 @@ class ModelAdapter {
       .then(json => this.services = json)
       .then(() => store.get("items", null, options))
       .then(itemlist => this.itemlist = itemlist)
-      .then(() => this.get(options));
+      .then(() => this.get(null, null, options));
   }
-  get(options = null) {
-    return store.get("persistence", null, options).then(items => this.items = items);
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("persistence", null, options);
   }
   dispose() {
   }
@@ -60,15 +60,15 @@ const schema = {
 const ListMixin = {
   methods: {
     getServices() {
-      return this.$root.store.services;
+      return this.$list.store.services;
     },
     getStrategies() {
-      const service = this.$root.store.getService(this.item.serviceid);
+      const service = this.$list.store.getService(this.item.serviceid);
       if (service) return service.strategies;
       return [];
     },
     persistenceService: function () {
-      const service = this.$root.store.getService(this.item.serviceid);
+      const service = this.$list.store.getService(this.item.serviceid);
       if (service) return service.label;
       return this.item.serviceid;
     },

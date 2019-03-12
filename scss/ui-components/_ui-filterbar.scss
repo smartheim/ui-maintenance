@@ -1,44 +1,48 @@
 .ui-filterbar>form {
-    display: flex;
-    margin: 0;
-    color: inherit;
+  display: flex;
+  margin: 0;
+  color: inherit;
+  align-items: flex-start;
+  .selectcomponents {
+    margin-top: -1px;
+  }
+}
+
+.ui-editorbar {
+  display: flex;
 }
 
 .ui-filterbar>form>.input-group {
-    flex: 1;
-    justify-content: flex-end;
-    widows: 100%;
-    input {
-        transition: max-width 1s;
-        max-width: 100px;
-    }
-    input:hover,
-    input:active,
-    input:focus {
-        max-width: initial;
-    }
+  flex: 1;
+  justify-content: flex-end;
+  widows: 100%;
+  input {
+    transition: max-width 1s;
+    max-width: 100px;
+  }
+  input:hover,
+  input:active,
+  input:focus {
+    max-width: initial;
+  }
 }
 
 .ui-filterbar>form i {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .ui-filterbar>form input::before {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    animation: bgconfirm 1s ease-in-out 0s 1;
-    animation-play-state: paused;
+  content: ' ';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  animation: bgconfirm 1s ease-in-out 0s 1;
+  animation-play-state: paused;
 }
 
 .ui-filterbar .hidden,
 .ui-editorbar .hidden {
-    display: none;
-}
-
-.ui-editorbar {
-    display: flex;
+  display: none;
 }

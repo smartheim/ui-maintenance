@@ -8,36 +8,38 @@
 <body>
   <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
   <nav class="sidebar leftright">
-    <h4>Navigation</h4>
-    <ul>
-      <oh-nav-auto-link></oh-nav-auto-link>
-      <li><a href="bindings.html">Installed Add-ons</a></li>
-      <li><a href="addon_files.html">Manage file Add-ons</a></li>
-      <li><a href="addon_repositories.html">Add-on Repositories</a></li>
-      <li><a href="addon_install.html">Install Add-ons</a></li>
-    </ul>
-    <p title="Official and Marketplace addons">Filter</p>
-    <ul>
-      <oh-nav-auto-link></oh-nav-auto-link>
-      <li>
-        <oh-change-filter target="ui-filter" filter="type:binding">Binding</oh-change-filter>
-      </li>
-      <li>
-        <oh-change-filter target="ui-filter" filter="type:misc">System integration</oh-change-filter>
-      </li>
-      <li>
-        <oh-change-filter target="ui-filter" filter="type:ui">Graphical interfaces</oh-change-filter>
-      </li>
-      <li>
-        <oh-change-filter target="ui-filter" filter="type:persistence">Persistence service</oh-change-filter>
-      </li>
-      <li>
-        <oh-change-filter target="ui-filter" filter="type:transformation">Transformation</oh-change-filter>
-      </li>
-      <li>
-        <oh-change-filter target="ui-filter" filter="type:voice">Voice service</oh-change-filter>
-      </li>
-    </ul>
+    <div class="wrapper fixedwrapper">
+      <h4>Navigation</h4>
+      <ul>
+        <oh-nav-auto-link></oh-nav-auto-link>
+        <li><a href="bindings.html">Installed Add-ons</a></li>
+        <li><a href="addon_files.html">Manage file Add-ons</a></li>
+        <li><a href="addon_repositories.html">Add-on Repositories</a></li>
+        <li><a href="addon_install.html">Install Add-ons</a></li>
+      </ul>
+      <p title="Official and Marketplace addons">Filter</p>
+      <ul>
+        <oh-nav-auto-link></oh-nav-auto-link>
+        <li>
+          <oh-change-filter target="ui-filter" filter="type:binding">Binding</oh-change-filter>
+        </li>
+        <li>
+          <oh-change-filter target="ui-filter" filter="type:misc">System integration</oh-change-filter>
+        </li>
+        <li>
+          <oh-change-filter target="ui-filter" filter="type:ui">Graphical interfaces</oh-change-filter>
+        </li>
+        <li>
+          <oh-change-filter target="ui-filter" filter="type:persistence">Persistence service</oh-change-filter>
+        </li>
+        <li>
+          <oh-change-filter target="ui-filter" filter="type:transformation">Transformation</oh-change-filter>
+        </li>
+        <li>
+          <oh-change-filter target="ui-filter" filter="type:voice">Voice service</oh-change-filter>
+        </li>
+      </ul>
+    </div>
   </nav>
   <partial src="mainnav.html"></partial>
   <partial src="pagetitleheader.html" title="Install new Add-ons"></partial>
@@ -51,9 +53,12 @@
       </button>
     </ui-filter>
 
-    <oh-list-bind adapter="modeladapter_lists/addons" filtercriteria="label" maxItems="100"></oh-list-bind>
+    <oh-list-bind adapter="modeladapter_lists/addons" filtercriteria="label" maxItems="10"></oh-list-bind>
     <oh-vue-list>
-      <partial src="vuelistbasics.html" key="item.id" help="contexthelp/addons_install"></partial>
+      <div slot="app">
+        <list></list>
+      </div>
+      <partial src="vuelistbasics.html" KEY="id" help="contexthelp/addons_install"></partial>
       <template slot="item">
         <article :id="item.id">
           <vue-inprogress></vue-inprogress>
@@ -75,7 +80,7 @@
             </div>
           </section>
           <footer>
-            <oh-doc-link v-if="item.url_changelog" show :href="item.url_changelog" class="btn btn-outline-secondary text-nowrap">
+            <oh-doc-link v-if="item.url_changelog" show :href="item.url_changelog" style="cursor: pointer" class="btn btn-outline-secondary text-nowrap">
               <span>Changelog</span></oh-doc-link>
             <button class="ml-auto btn btn-outline-success text-nowrap" @click="install()"><i class="fas fa-check"></i>
               <span>Install</span></button>

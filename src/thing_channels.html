@@ -3,23 +3,22 @@
 <head>
   <partial src="head.html"></partial>
   <title>openHAB - Empowering the smart home</title>
-  <link rel="parent" href="things.html" />
+  <link rel="parent" href="things.html" data-title="Thing list" data-keyid="UID" />
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/thingchannels.css" type="text/css" />
   <link rel="stylesheet" href="css/config.css" type="text/css" />
+  <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
+  <link rel="stylesheet" href="css/thingchannels.css" type="text/css" />
 
   <nav class="sidebar leftright">
-    <h4>Actions</h4>
-    <ul>
-      <li><a href="#"><i class="fas fa-plus"></i> Add channel</a></li>
-      <li><a href="#"><i class="fas fa-redo"></i> Synchronize channels</a></li>
-      <li>
-        <hr>
-      </li>
-      <li><a href="#" class="disabled"><i class="fas fa-save"></i> Save changes</a></li>
-    </ul>
+    <div class="wrapper fixedwrapper">
+      <div id="thingdescription" class="wrapper fixedwrapper mt-3"></div>
+      <p>Actions</p>
+      <ul id="additionalactions">
+      </ul>
+    </div>
+    <div id="newchannels" class="wrapper fixedwrapper mt-3"></div>
   </nav>
 
   <partial src="mainnav.html"></partial>
@@ -27,70 +26,109 @@
 
   <main>
 
-    <nav-breadcrumb parent="Thing list" useParamAsHash="UID"></nav-breadcrumb>
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
+      select="Selection mode">
+      <button class="btn btn-danger" data-action="remove">
+        <i class="fas fa-check"></i> Create missing links
+        <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
+        <span class="badge badge-light ml-2">0</span>
+      </button>
+    </ui-filter>
 
-    <oh-form-bind adapter="modeladapter_forms/thing" objectFromURL></oh-form-bind>
-    <oh-vue-form></oh-vue-form>
-    <template>
-      <partial src="vuelisterrors.html"></partial>
-      <div v-else>
-        <div id="listcontainer">
-          <div v-if="!value.channels || value.channels.length==0">No channels found</div>
+    <oh-list-bind adapter="modeladapter_lists/thing-channels" filtercriteria="label" objectFromURL></oh-list-bind>
+    <oh-vue-list>
 
-          <section v-else v-for="item in value.channels" :key="item.id" :id="item.id">
-            <h4 contenteditable="true" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</h4>
-            <a class="ml-2" href="#"><i class="fas fa-trash"></i></a>
-            <div class="ml-3">
-              <p>{{channelDescription(item)}}</p>
-              <details class="mb-2">
-                <summary>Technical details</summary>
-                <div class="ml-3 technicaldetails">
-                  <b>UID</b> <span>{{item.uid}}</span>
-                  <b>Channel Type</b> <span>{{item.channelTypeUID}}</span>
-                  <b>Item Type</b> <span>{{item.itemType}}</span>
-                  <b>Kind</b> <span>{{item.kind}}</span>
-                  <b>Item Tags</b> <span v-for="tag in item.defaultTags">{{tag}} </span>
-                </div>
-              </details>
-              <details class="mb-2 config">
-                <summary>Configuration</summary>
-                <div v-if="!channelConfigParameters(item)">No fuher configuration available</div>
-                <div class="elements" v-else>
-                  <vue-config-element v-for="param in channelConfigParameters(item)" :key="param.name" :param="param"
-                    :value="configValue(item,param)"></vue-config-element>
-                </div>
-              </details>
-              <div style="float: left;transform: rotate(270deg);margin-top: 20px;">Links</div>
-              <table class="table table-hover linkeditems">
-                <tr>
-                  <td>An item <small>(item id)</small></td>
-                  <td>
-                    <oh-dropdown-bind adapter="modeladapter_lists/profiles"></oh-dropdown-bind>
-                    <ui-dropdown title="Profile" viewkey="label" desckey="description" valuekey="uid" label="Profile"></ui-dropdown>
-                    <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
-                  </td>
-                  <td><button class="btn btn-danger-hover btn-sm"><i class="fas fa-trash"></i> Remove</button></td>
-                </tr>
-                <tr class="newitem">
-                  <td>
-                    <oh-dropdown-bind adapter="modeladapter_lists/items"></oh-dropdown-bind>
-                    <ui-dropdown label="Item" viewkey="label" desckey="name" valuekey="name" label="Select item"></ui-dropdown>
-                  </td>
-                  <td>
-                    <oh-dropdown-bind adapter="modeladapter_lists/profiles"></oh-dropdown-bind>
-                    <ui-dropdown title="Profile" viewkey="label" desckey="description" valuekey="uid" value="system:default"></ui-dropdown>
-                  </td>
-                  <td><button class="btn btn-success-hover btn-sm"><i class="fas fa-check"></i> Add</button></td>
-                </tr>
-              </table>
+      <div slot="app">
+        <list>
+          <template #empty>
+            <p>No channels found.</p>
+          </template>
+
+          <template #beforelist="{list}">
+            <ui-github-issues v-if="list.bindingid" :filter="list.bindingid" class="bs-callout bs-callout-danger mt-4"
+              label="There are known issues with the binding that provides this Thing" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
+          </template>
+
+          <template #afterlist="{list}">
+
+            <div v-if="list.items && list.items.length>0" class="btn-group btnbar my-2" role="group">
+              <button href="#" @click.prevent="save" class="btn btn-primary" :class="{disabled:list.unchanged}">
+                <i class="fas fa-save"></i> Save</button>
+            </div>
+
+            <portal target-el="#additionalactions" breakshadow slim>
+              <li><a href="#" @click.prevent="save" :class="{disabled:list.unchanged}">
+                  <i class="fas fa-save"></i> Save changes</a></li>
+              <li><a :href="'thing_configuration.html?UID='+list.value.UID">
+                  <i class="fas fa-external-link-alt"></i> Configure Thing</a></li>
+            </portal>
+
+            <portal v-if="list.extensibleChannelTypeIds.length" target-el="#newchannels" breakshadow slim>
+              <p>Create a new Channel</p>
+              <input style="display: block" placeholder="Channel label" v-model="list.newchannel.label"
+                v-on:keyup.enter="create">
+              <ui-dropdown :options.prop="list.extensibleChannelTypeIds" title="Select a channel-type" viewkey="label"
+                desckey="description" valuekey="UID" label="Channel-Type" @input="list.newchannel.channelTypeUID=$event.target.value"></ui-dropdown>
+              <button class="btn btn-outline-success" @click.prevent="create">Create</button>
+            </portal>
+
+            <portal v-if="list.hasDescription" target-el="#thingdescription" breakshadow slim>
+              <div class="bs-callout bs-callout-info" style="    width: min-content; min-width: 100%; padding: 10px;">{{list.description()}}</div>
+            </portal>
+
+          </template>
+        </list>
+      </div>
+
+      <partial src="vuelistbasics.html" KEY="id" help="help"></partial>
+
+      <template slot="item">
+        <article :id="item.id.replace(/[:#]/g,'_')" :class="[{pulseAnimation: pulseAnimation}]">
+          <vue-inprogress></vue-inprogress>
+          <header class="title">
+            <span :title="item.label" contenteditable="true" autocomplete="off" autocorrect="off" autocapitalize="off"
+              spellcheck="false" @blur="item.label=$event.target.textContent" style="display: inline-block;min-width: 80px;">{{item.label}}</span>
+            <div class="text-muted small">{{channelDescription()}}</div>
+          </header>
+          <section class="actions btn-group">
+            <oh-doc-link show class="btn btn-outline-secondary" style="cursor: pointer" href="thing_channels_technical.fragment.html"
+              :context.prop='technical()' title="Technical details">
+              <i class="fas fa-info"></i>
+            </oh-doc-link>
+            <button v-if="item.isExtended" class="btn btn-outline-danger" title="Remove item" @click="remove()"><i
+                class="fas fa-trash"></i></button>
+          </section>
+          <section class="description py-0">
+            <div v-if="!configurationParameters()">No fuher configuration available</div>
+            <div class="elements" v-else>
+              <template v-for="param in configurationParameters()">
+                <vue-config-element :param="param" :value="getConfigValue(param)" @input="setConfigValue"></vue-config-element>
+                <label class="form-text text-muted small" :title="param.description">{{param.name}}</label>
+                <button v-if="getConfigValue(param)" title="Reset to default" class="btn btn-outline-danger btn-sm resetdefault"
+                  @click.prevent="removeConfigValue(param)">
+                  <i class="fas fa-undo"></i> </button>
+              </template>
+            </div>
+
+            <div class="links">
+              <div>An item <small>(item id)</small></div>
+              <ui-dropdown v-dynamicload:profile-types="" title="Profile" viewkey="label" desckey="description"
+                valuekey="uid" label="Profile"></ui-dropdown>
+              <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
+              <td></td><button class="btn btn-danger-hover btn-sm text-nowrap"><i class="fas fa-trash"></i> Remove</button></td>
             </div>
           </section>
+          <footer>
 
-          <div v-if="value.channels && value.channels.length>0" class="btn-group btnbar mb-2" role="group">
-            <a href="#" class="btn btn-primary" :class="{disabled:unchanged}"><i class="fas fa-save"></i> Save</a>
-          </div>
-        </div>
-    </template>
+            <ui-dropdown v-dynamicload:items="" class="ml-auto" label="Item" viewkey="label" desckey="name" valuekey="name"
+              label="Select item"></ui-dropdown>
+            <ui-dropdown v-dynamicload:profile-types="" title="Profile" viewkey="label" desckey="description" valuekey="uid"
+              value="system:default"></ui-dropdown>
+            <button class="btn btn-outline-success text-nowrap">Create link</button>
+          </footer>
+        </article>
+      </template>
+    </oh-vue-list>
 
   </main>
   <footer></footer>

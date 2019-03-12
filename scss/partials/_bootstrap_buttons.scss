@@ -1,52 +1,50 @@
 @each $color,
 $value in $theme-colors {
-    .btn-#{$color}-hover {
-        @include button-variant(theme-color(light), theme-color(light), $hover-background: lighten($value, 7.5%), $hover-border: lighten($value, 10%), $active-background: lighten($value, 10%), $active-border: lighten($value, 12.5%));
-        &:focus,
-        &:active,
-        &:not(:disabled):not(.disabled):active:focus {
-            box-shadow: initial;
-        }
-        & {
-            background-color: var(--light);
-            color: var(--color-btn);
-            border-color: var(--border-btn);
-        }
+  .btn-#{$color}-hover {
+    @include button-variant(theme-color(light), theme-color(light), $hover-background: lighten($value, 7.5%), $hover-border: lighten($value, 10%), $active-background: lighten($value, 10%), $active-border: lighten($value, 12.5%));
+    &:active,
+    &:not(:disabled):not(.disabled):active {
+      box-shadow: initial;
     }
-    .btn-#{$color}-underline {
-        @include button-variant(transparent, transparent, $hover-background: lighten($value, 7.5%), $hover-border: lighten($value, 10%), $active-background: lighten($value, 10%), $active-border: lighten($value, 12.5%));
-        &:focus,
-        &:active,
-        &:not(:disabled):not(.disabled):active:focus {
-            box-shadow: initial;
-        }
-        & {
-            border: none;
-            border-bottom: 1px solid rgba(0, 0, 0, .125);
-            color: inherit;
-        }
+    & {
+      background-color: var(--light);
+      color: var(--color-btn);
+      border-color: var(--border-btn);
     }
-    .btn-outline-#{$color} {
-        @include button-variant(transparent, theme-color($color), $hover-background: $value, $hover-border: lighten($value, 10%), $active-background: transparent, $active-border: lighten($value, 12.5%));
-        &:focus,
-        &:active,
-        &.active,
-        &:not(:disabled):not(.disabled).active,
-        &:not(:disabled):not(.disabled).active:focus,
-        &:not(:disabled):not(.disabled):active:focus {
-            box-shadow: initial;
-            color: theme-color($color);
-        }
-        & {
-            color: theme-color($color);
-            font-size: .875rem;
-            font-weight: 500;
-        }
-        &:not(.active, .btn-outline-visible) {
-            border: 1px solid transparent;
-        }
-        &.btn-outline-visible {
-            border-color: lighten($value, 12.5%);
-        }
+  }
+  .btn-#{$color}-underline {
+    @include button-variant(transparent, transparent, $hover-background: lighten($value, 7.5%), $hover-border: lighten($value, 10%), $active-background: lighten($value, 10%), $active-border: lighten($value, 12.5%));
+    &:active,
+    &:not(:disabled):not(.disabled):active {
+      box-shadow: initial;
     }
+    & {
+      border: none;
+      border-bottom: 1px solid rgba(0, 0, 0, .125);
+      color: inherit;
+    }
+  }
+  .btn-outline-#{$color} {
+    @include button-variant(transparent, theme-color($color), $hover-background: $value, $hover-border: lighten($value, 10%), $active-background: transparent, $active-border: lighten($value, 12.5%));
+    &:focus,
+    &:active,
+    &.active,
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled).active:focus,
+    &:not(:disabled):not(.disabled):active:focus {
+      box-shadow: initial;
+      color: theme-color($color);
+    }
+    & {
+      color: theme-color($color);
+      font-size: .875rem;
+      font-weight: 500;
+    }
+    &:not(.active, .btn-outline-visible) {
+      border: 1px solid transparent;
+    }
+    &.btn-outline-visible {
+      border-color: lighten($value, 12.5%);
+    }
+  }
 }
