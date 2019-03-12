@@ -21,7 +21,7 @@ class UiYoutube extends HTMLElement {
     this.style.backgroundImage = 'url(http://i.ytimg.com/vi/' + this.videoid + '/sddefault.jpg)';
 
     // Overlay the Play icon to make it look like a video player
-    const play = document.createElement("div");
+    let play = document.createElement("div");
     play.setAttribute("class", "play");
     play = this.appendChild(play);
 

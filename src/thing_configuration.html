@@ -71,7 +71,7 @@
           <div class="elements">
             <template v-for="param in configurationParameters">
               <vue-config-element :param="param" :value="getConfigValue(param)" @input="setConfigValue(param,$event)"></vue-config-element>
-              <label class="form-text text-muted small" :title="param.description">{{param.name}}</label>
+              <label :title="param.description">{{param.name}}</label>
               <button v-if="getConfigValue(param)" title="Reset to default" class="mr-2 btn btn-outline-danger btn-sm resetdefault"
                 @click.prevent="removeConfigValue(param)">
                 <i class="fas fa-undo"></i> </button>

@@ -60,16 +60,13 @@
     <oh-list-bind adapter="modeladapter_lists/inbox" filtercriteria="label"></oh-list-bind>
     <oh-vue-list>
       <div slot="app">
-        <list></list>
-        <template #empty>
-          <p>No services found?!</p>
-        </template>
-
-        <template #afterlist="{list}">
-          <portal name="testname" target-el="#clearresults" breakshadow slim>
-            <a href="#" @click.prevent="clear" :class="{disabled:list.empty}">Clear Inbox</a>
-          </portal>
-        </template>
+        <list>
+          <template #afterlist="{list}">
+            <portal name="testname" target-el="#clearresults" breakshadow slim>
+              <a href="#" @click.prevent="clear" :class="{disabled:list.empty}">Clear Inbox</a>
+            </portal>
+          </template>
+        </list>
       </div>
 
       <partial src="vuelistbasics.html" KEY="thingUID" help="contexthelp/inbox"></partial>

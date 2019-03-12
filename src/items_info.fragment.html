@@ -1,7 +1,8 @@
 <h3>Item tags / storage</h3>
 
-<oh-prop-bind contextfrom="ui-context-help" sourceproperty="contextdata" property="objectid"></oh-prop-bind>
-<oh-form-bind adapter="modeladapter_forms/item" allowNew></oh-form-bind>
+<oh-prop-bind for="formbind" contextfrom="ui-context-help" sourceproperty="contextdata" attribute="adapter" unwrap="adapter"></oh-prop-bind>
+<oh-prop-bind for="formbind" contextfrom="ui-context-help" sourceproperty="contextdata" property="objectid" unwrap="id"></oh-prop-bind>
+<oh-form-bind id="formbind" allowNew></oh-form-bind>
 <oh-vue-form></oh-vue-form>
 <template>
   <div>
@@ -9,22 +10,23 @@
       <oh-doc-link title="About unique IDs" show href="contexthelp/uniqueid.md" class="link mr-2"><i class="far fa-question-circle"></i></oh-doc-link>
       ID
     </h5>
-    <div :title="value.name" @click="copyClipboard($event, value.name)">{{value.name}}</div>
+    <div :title="uniqueid" @click="copyClipboard($event, uniqueid)" class="mb-4">{{uniqueid}}</div>
 
     <h5>
       <oh-doc-link show href="contexthelp/storage.md" class="link mr-2"><i class="far fa-question-circle"></i></oh-doc-link>
       Storage
     </h5>
-    <div v-if="value.storage">
+    <div v-if="value.storage" class="mb-4">
       Association: <input value="value.storage">
-      @ <input value="value.storage" type="number" placeholder="Position">
+      @ <input value="valuecopy.storage" type="number" placeholder="Position">
     </div>
+    <div v-else class="mb-4">Storage service not ready</div>
 
     <h5>
       <oh-doc-link show href="contexthelp/tags.md" class="link mr-2"><i class="far fa-question-circle"></i></oh-doc-link>
       Tags
     </h5>
-    <ui-tags v-if="value.tags" :suggestions="commontags()" :value.prop="value.tags" @input="value.tags = $event.target.value"></ui-tags>
+    <ui-tags open v-if="valuecopy.tags" :suggestions="commontags()" :value.prop="valuecopy.tags" @input="valuecopy.tags = $event.target.value"></ui-tags>
 
     <div class="btn-group btnbar my-2" role="group">
       <button @click.prevent="save" class="btn btn-primary" :class="{disabled:unchanged}">

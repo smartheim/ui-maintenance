@@ -13,8 +13,7 @@
 
   <nav class="sidebar leftright">
     <div class="wrapper fixedwrapper">
-      <div id="thingdescription" class="wrapper fixedwrapper mt-3"></div>
-      <p>Actions</p>
+      <h4>Actions</h4>
       <ul id="additionalactions">
       </ul>
     </div>
@@ -27,7 +26,7 @@
   <main>
 
     <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
-      select="Selection mode">
+      select="Selection mode" additionalButtons="Configuration,Linking">
       <button class="btn btn-danger" data-action="remove">
         <i class="fas fa-check"></i> Create missing links
         <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
@@ -45,8 +44,13 @@
           </template>
 
           <template #beforelist="{list}">
-            <ui-github-issues v-if="list.bindingid" :filter="list.bindingid" class="bs-callout bs-callout-danger mt-4"
-              label="There are known issues with the binding that provides this Thing" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
+
+            <div class="callouts">
+              <div v-if="list.hasDescription" class="bs-callout bs-callout-info">{{list.description()}}</div>
+
+              <ui-github-issues v-if="list.bindingid" :filter="list.bindingid" class="bs-callout bs-callout-danger"
+                label="There are known issues with the binding that provides this Thing" url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
+            </div>
           </template>
 
           <template #afterlist="{list}">
@@ -71,11 +75,6 @@
                 desckey="description" valuekey="UID" label="Channel-Type" @input="list.newchannel.channelTypeUID=$event.target.value"></ui-dropdown>
               <button class="btn btn-outline-success" @click.prevent="create">Create</button>
             </portal>
-
-            <portal v-if="list.hasDescription" target-el="#thingdescription" breakshadow slim>
-              <div class="bs-callout bs-callout-info" style="    width: min-content; min-width: 100%; padding: 10px;">{{list.description()}}</div>
-            </portal>
-
           </template>
         </list>
       </div>
@@ -99,33 +98,51 @@
                 class="fas fa-trash"></i></button>
           </section>
           <section class="description py-0">
-            <div v-if="!configurationParameters()">No fuher configuration available</div>
-            <div class="elements" v-else>
-              <template v-for="param in configurationParameters()">
-                <vue-config-element :param="param" :value="getConfigValue(param)" @input="setConfigValue"></vue-config-element>
-                <label class="form-text text-muted small" :title="param.description">{{param.name}}</label>
-                <button v-if="getConfigValue(param)" title="Reset to default" class="btn btn-outline-danger btn-sm resetdefault"
-                  @click.prevent="removeConfigValue(param)">
-                  <i class="fas fa-undo"></i> </button>
-              </template>
-            </div>
+            <ui-tabs upsidedown :activetab.prop="$list.secondarymode">
+              <div class="tab-content" slot="tabs">
 
-            <div class="links">
-              <div>An item <small>(item id)</small></div>
-              <ui-dropdown v-dynamicload:profile-types="" title="Profile" viewkey="label" desckey="description"
-                valuekey="uid" label="Profile"></ui-dropdown>
-              <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
-              <td></td><button class="btn btn-danger-hover btn-sm text-nowrap"><i class="fas fa-trash"></i> Remove</button></td>
-            </div>
+                <section class="configuration">
+                  <div v-if="!configurationParameters()">No fuher configuration available</div>
+                  <div class="elements" v-else>
+                    <template v-for="param in configurationParameters()">
+                      <vue-config-element :param="param" :value="getConfigValue(param)" @input="setConfigValue"></vue-config-element>
+                      <label :title="param.description">{{param.name}}</label>
+                      <button v-if="getConfigValue(param)" title="Reset to default" class="btn btn-outline-danger btn-sm resetdefault"
+                        @click.prevent="removeConfigValue(param)">
+                        <i class="fas fa-undo"></i> </button>
+                    </template>
+                  </div>
+                </section>
+
+                <section class="links">
+                  <div>An item <small>(item id)</small></div>
+                  <ui-dropdown v-dynamicload:profile-types="" title="Profile" viewkey="label" desckey="description"
+                    valuekey="uid" label="Profile"></ui-dropdown>
+                  <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
+                  <button class="btn btn-danger-hover btn-sm text-nowrap"><i class="fas fa-trash"></i> Remove</button>
+                </section>
+              </div>
+            </ui-tabs>
           </section>
-          <footer>
 
-            <ui-dropdown v-dynamicload:items="" class="ml-auto" label="Item" viewkey="label" desckey="name" valuekey="name"
-              label="Select item"></ui-dropdown>
-            <ui-dropdown v-dynamicload:profile-types="" title="Profile" viewkey="label" desckey="description" valuekey="uid"
-              value="system:default"></ui-dropdown>
-            <button class="btn btn-outline-success text-nowrap">Create link</button>
+          <footer>
+            <ui-tabs upsidedown :activetab.prop="$list.secondarymode" style="flex:1">
+              <div class="tab-content" slot="tabs">
+
+                <section class="configuration">
+                </section>
+
+                <section class="links" style="display: flex">
+                  <ui-dropdown v-dynamicload:items="" class="ml-auto" label="Item" viewkey="label" desckey="name"
+                    valuekey="name" label="Select item"></ui-dropdown>
+                  <ui-dropdown v-dynamicload:profile-types="" title="Profile" viewkey="label" desckey="description"
+                    valuekey="uid" value="system:default"></ui-dropdown>
+                  <button class="btn btn-outline-success text-nowrap">Create link</button>
+                </section>
+              </div>
+            </ui-tabs>
           </footer>
+
         </article>
       </template>
     </oh-vue-list>

@@ -64,7 +64,7 @@
           </header>
           <section class="actions btn-group">
             <oh-doc-link show class="btn btn-info-hover" title="Tags and Storage association" href="items_info.fragment.html"
-              :context.prop='item.uid'><i class="fas fa-info"></i></oh-doc-link>
+              :context.prop='{id:item.uid,adapter:"modeladapter_forms/rule-simple"}'><i class="fas fa-info"></i></oh-doc-link>
             <button class="btn btn-danger-hover" title="Remove item" @click="remove"><i class="fas fa-trash"></i></button>
           </section>
 

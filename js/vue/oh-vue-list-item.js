@@ -5,7 +5,6 @@ import Vue from 'vue/dist/vue.esm.js';
 import { ItemSelectionMixin } from '../_vuecomponents/vue-mixin-itemselection';
 
 import VueConfigElement from '../_vuecomponents/vue-config-element.vue';
-import VueConfigElementWithLabel from '../_vuecomponents/vue-config-element-with-label.vue';
 import VueInProgress from '../_vuecomponents/vue-inprogress';
 import { DynamicLoadMixin } from '../_vuecomponents/vue-mixin-dynamicload';
 
@@ -35,8 +34,7 @@ export function createItemComponent(mixins, template) {
     mixins: [ItemSelectionMixin, DynamicLoadMixin, ...mixins],
     components: {
       'vue-inprogress': VueInProgress,
-      'vue-config-element': VueConfigElement,
-      'vue-config-element-with-label': VueConfigElementWithLabel
+      'vue-config-element': VueConfigElement
     },
     methods: {
       discard: function () {

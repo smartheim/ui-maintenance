@@ -24,6 +24,11 @@ class OhVueFormBind extends HTMLElement {
     this.disconnectedBound = (e) => this.disconnected(e.detail);
   }
   async connectedCallback() {
+    if (this.objectid) {
+      const oid = this.objectid;
+      delete this.objectid;
+      this.objectid = oid;
+    }
     this.style.display = "none";
     const forid = this.getAttribute("for");
     this.target = document.getElementById(forid);
@@ -107,6 +112,11 @@ class OhVueFormBind extends HTMLElement {
       this.removeAttribute("objectid");
     if (!this.modeladapter) return;
     if (store.connected) this.connected(); else this.disconnected();
+  }
+
+  get objectid() {
+    console.log("GET OBJECT ID");
+    return this._objectid;
   }
 
   async connected() {

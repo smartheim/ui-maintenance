@@ -159,17 +159,17 @@
             <button class="btn btn-danger" title="Discard changes" @click="discard()"><i class="fas fa-undo"></i></button>
           </section>
           <section class="actions btn-group">
-            <oh-doc-link v-if="$list.secondarymode==3" title="About item groups" show href="contexthelp/itemgroupfunctions.md"
+            <oh-doc-link v-if="$list.secondarymode==2" title="About item groups" show href="contexthelp/itemgroupfunctions.md"
               class="btn btn-info-hover">
               <i class="fas fa-question-circle"></i></oh-doc-link>
-            <oh-doc-link v-if="$list.secondarymode==4" title="About item meta data" show href="contexthelp/itemmeta.md"
+            <oh-doc-link v-if="$list.secondarymode==3" title="About item meta data" show href="contexthelp/itemmeta.md"
               class="btn btn-info-hover">
               <i class="fas fa-question-circle"></i></oh-doc-link>
-            <oh-doc-link v-if="$list.secondarymode==5" title="About semantic tagging" show href="contexthelp/semantictagging.md"
+            <oh-doc-link v-if="$list.secondarymode==4" title="About semantic tagging" show href="contexthelp/semantictagging.md"
               class="btn btn-info-hover">
               <i class="fas fa-question-circle"></i></oh-doc-link>
             <oh-doc-link show class="btn btn-info-hover" title="Tags and Storage association" href="items_info.fragment.html"
-              :context.prop='item.name'><i class="fas fa-info"></i></oh-doc-link>
+              :context.prop='{id:item.name,adapter:"modeladapter_forms/item"}'><i class="fas fa-info"></i></oh-doc-link>
             <button class="btn btn-danger-hover" title="Remove item" @click="remove()"><i class="fas fa-trash"></i></button>
           </section>
 
@@ -262,7 +262,7 @@
                     <div class="elements" v-else>
                       <template v-for="param of namespace.parameters">
                         <vue-config-element :param="param" :value="namespace.values[param.name]" @input="setMeta(namespace.name,param.type,param.name,$event)"></vue-config-element>
-                        <label class="form-text text-muted small" :title="param.description">{{param.description}}</label>
+                        <label :title="param.description">{{param.description}}</label>
                         <button v-if="namespace.values[param.name]" title="Reset to default" class="btn btn-outline-danger btn-sm resetdefault"
                           @click.prevent="removeMeta(namespace.name,param.name)">
                           <i class="fas fa-undo"></i> </button>

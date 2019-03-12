@@ -1,8 +1,8 @@
-import { store } from '../app.js'; // Pre-bundled, external reference
+import { store, createNotification, fetchMethodWithTimeout } from '../app.js'; // Pre-bundled, external reference
 
 class ModelAdapter {
   constructor() {
-    this.STORE_ITEM_INDEX_PROP = Object.freeze("id");
+    this.STORE_ITEM_INDEX_PROP = Object.freeze("name");
     this.runtimeKeys = []; this.value = {};
   }
   stores() { return { "items": "value" } };
@@ -15,6 +15,9 @@ class ModelAdapter {
 
 const ItemMixin = {
   computed: {
+    uniqueid() {
+      return this.value.name;
+    }
   },
   methods: {
     copyClipboard(event, itemid) {
@@ -29,6 +32,17 @@ const ItemMixin = {
     commontags: function () {
       return ["Switchable", "Lighting", "ColorLighting"];
     },
+    save() {
+      this.changed = false;
+      fetchMethodWithTimeout(store.host + "/rest/items/" + this.valuecopy.name, "PUT", JSON.stringify(this.valuecopy))
+        .then(r => {
+          createNotification(null, `Saved ${this.valuecopy.label}`, false, 3000);
+          document.dispatchEvent(new CustomEvent("unsavedchanges", { detail: false }))
+        }).catch(e => {
+          this.changed = true;
+          createNotification(null, `Failed to save ${this.valuecopy.label}: ${e}`, true, 3000);
+        })
+    }
   }
 }
 

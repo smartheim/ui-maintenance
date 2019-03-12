@@ -3,7 +3,6 @@ import { createNotification } from './app.js'; // Pre-bundled, external referenc
 
 import { OhListStatus } from './oh-vue-list-status'
 import VueConfigElement from '../_vuecomponents/vue-config-element.vue';
-import VueConfigElementWithLabel from '../_vuecomponents/vue-config-element-with-label.vue';
 import { DynamicLoadMixin } from '../_vuecomponents/vue-mixin-dynamicload';
 
 Vue.config.ignoredElements = [
@@ -58,8 +57,7 @@ class OhVueForm extends HTMLElement {
       },
       mixins: [...mixins, DynamicLoadMixin],
       components: {
-        'vue-config-element': VueConfigElement,
-        'vue-config-element-with-label': VueConfigElementWithLabel
+        'vue-config-element': VueConfigElement
       },
       template: this.tmpl,
       data: function () {

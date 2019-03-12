@@ -355,13 +355,13 @@ const ItemsMixin = {
     showIconDialog() {
       document.getElementById('change-icon-source').context = this.item;
     },
-    setGroup: function (groupType) {
+    setGroup(groupType) {
       if (groupType != "-")
         this.$set(this.item, "groupType", groupType);
       else
         this.$delete(this.item, "groupType");
     },
-    setGroupFunction: function (value) {
+    setGroupFunction(value) {
       if (value)
         this.$set(this.item, "function", value);
       else
@@ -379,7 +379,7 @@ const ItemsMixin = {
       console.log("setFunctionParameter set", value, index);
       this.$set(this.item.function.params, index, value);
     },
-    sendCommand: function () {
+    sendCommand() {
       const command = this.$el.querySelector(".commandInput").value;
       this.message = null;
       this.messagetitle = "Sending: '" + command + "'";
@@ -397,7 +397,7 @@ const ItemsMixin = {
         })
 
     },
-    remove: function () {
+    remove() {
       this.message = null;
       this.messagetitle = "Removing item...";
       this.inProgress = true;
@@ -409,7 +409,7 @@ const ItemsMixin = {
           this.message = e.toString();
         })
     },
-    save: function () {
+    save() {
       this.message = null;
       this.messagetitle = "Saving item...";
       this.inProgress = true;

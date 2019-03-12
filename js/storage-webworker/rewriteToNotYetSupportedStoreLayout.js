@@ -168,7 +168,7 @@ export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) 
           entry.description = "Just pass new Channel values to the linked Item";
           break;
         case "system:follow":
-          entry.description = "The Link will also pass Item state updates to the connected Channel. You usually want that to synchronize two or more different Binding Channels.";
+          entry.description = "This channel will apply any Item updates and therefore 'follow' the Items state. You usually want that to synchronize two or more different Binding Channels.";
           break;
         default:
           entry.description = "";

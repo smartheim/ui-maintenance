@@ -1,66 +1,71 @@
 .ui-tags {
-    display: flex;
-    align-items: stretch;
-    flex-wrap: wrap;
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
 }
 
 .ui-tags-add {
-    border: 0; //display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 5px;
-    max-height: 100%;
+  border: 0; //display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
+  max-height: 100%;
 }
 
 .ui-tags-add>i {
-    padding: 0px 4px;
+  padding: 0px 4px;
 }
 
-.ui-tags-add input {
-    width: 0px;
-    opacity: 0;
-    max-height: calc(100% - 4px); //    transition: width 0.2s, opacity 0.1;
+.ui-tags-add:not(.open) input {
+  width: 0px;
+  opacity: 0;
+  max-height: calc(100% - 4px); //    transition: width 0.2s, opacity 0.1;
+}
+
+.ui-tags-add.open input {
+  width: 100px;
+  max-height: calc(100% - 4px); //    transition: width 0.2s, opacity 0.1;
 }
 
 @keyframes ui-tags-show {
-    1% {
-        opacity: 1;
-    }
-    100% {
-        width: 100px;
-        opacity: 1;
-    }
+  1% {
+    opacity: 1;
+  }
+  100% {
+    width: 100px;
+    opacity: 1;
+  }
 }
 
-.ui-tags:hover input,
-.ui-tags-add input:focus,
-.ui-tags-add input:target {
-    animation: ui-tags-show 0.3s linear 0s 1 normal forwards; //width: 100px;
-    //opacity: 1;
+.ui-tags:not(.open):hover input,
+.ui-tags-add:not(.open) input:focus,
+.ui-tags-add:not(.open) input:target {
+  animation: ui-tags-show 0.3s linear 0s 1 normal forwards; //width: 100px;
+  //opacity: 1;
 }
 
 .ui-tag-list {
-    display: flex;
-    align-items: center;
-    border-radius: .25rem;
-    border: 1px solid var(--border-btn);
-    color: var(--color);
-    font-weight: normal;
-    font-size: small;
-    margin-right: 5px;
-    margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  border-radius: .25rem;
+  border: 1px solid var(--border-btn);
+  color: var(--color);
+  font-weight: normal;
+  font-size: small;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .ui-tag-list>span {
-    padding: 0 5px;
+  padding: 0 5px;
 }
 
 .ui-tag-list>button {
+  align-self: stretch;
+  &>i {
+    color: inherit;
     align-self: stretch;
-    &>i {
-        color: inherit;
-        align-self: stretch;
-        padding: 4px 6px;
-        border-radius: .25rem;
-    }
+    padding: 4px 6px;
+    border-radius: .25rem;
+  }
 }

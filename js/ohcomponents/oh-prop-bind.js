@@ -51,17 +51,22 @@ class OhPropBind extends HTMLElement {
       console.warn("Failed to find target", forid);
       return;
     }
-
     if (this.hasAttribute("setcontent")) {
       this.target.innerHTML = data;
     }
     if (this.hasAttribute("attribute")) {
       const attribute = this.getAttribute("attribute");
-      this.target.setAttribute(attribute, data);
+      if (this.hasAttribute("unwrap"))
+        this.target.setAttribute(attribute, data[this.getAttribute("unwrap")]);
+      else
+        this.target.setAttribute(attribute, data);
     }
     if (this.hasAttribute("property")) {
       const property = this.getAttribute("property");
-      this.target[property] = data;
+      if (this.hasAttribute("unwrap"))
+        this.target[property] = data[this.getAttribute("unwrap")];
+      else
+        this.target[property] = data;
     }
   }
 

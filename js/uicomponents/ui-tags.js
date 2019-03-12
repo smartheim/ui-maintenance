@@ -6,6 +6,7 @@ import { html, render } from 'lit-html';
  * @description A component where an arbitrary number of "tags" can be added and individually removed.
  * @attribute [suggestions] A comma separated list of suggestions
  * @attribute [value] The value. A comma separated list is expected. Also settable as property.
+ * @attribute [open] Always open input, instead of a self-closing add-tag input.
  * 
  * @property {String|Array} [value] A comma separated list or an array
  * 
@@ -21,6 +22,7 @@ class UiTags extends HTMLElement {
   }
   connectedCallback() {
     this.classList.add("ui-tags");
+    this.alwaysopen = this.hasAttribute("open");
     if (this.hasAttribute("suggestions")) {
       this.suggestionsDomID = Math.random().toString(36).slice(2);
       const suggestionsEl = document.createElement("datalist");
@@ -81,7 +83,7 @@ class UiTags extends HTMLElement {
             </div>`
     );
     render(html`${tagsEl}
-        <div style="min-width:120px"><div class="ui-tags-add btn btn-success-hover p-0">
+        <div style="min-width:120px"><div class="ui-tags-add btn btn-success-hover p-0 ${this.alwaysopen ? "open" : ""}">
             <input list="${this.suggestionsDomID}" placeholder="Add" oninput="event.stopPropagation()"
                 @keypress="${(event) => this.inputKey(event)}">
             <i class="fas fa-plus" @click=${(event) => this.addTag(event.target.previousElementSibling)}></i>

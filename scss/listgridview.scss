@@ -94,9 +94,10 @@ ui-codeeditor[haschanges] {
   &.grid {
     display: grid;
     grid-gap: 20px;
-  }
-  &.grid:not(.single) {
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  }
+  article.single {
+    grid-column: 1 / -1;
   }
   &.selectionmode {
     article.selected,

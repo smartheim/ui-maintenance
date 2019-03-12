@@ -30,7 +30,7 @@ const tables = [
   { id: "semantic-tags", uri: "rest/  semantic-tags", key: null }, // NEW
   { id: "bundle-status", uri: "rest/bundle-status", key: "id", label: "Bundle management" }, // NEW
   { id: "item-group-function-types", uri: "rest/item-group-function-types", key: "id" }, // NEW
-  { id: "items", uri: "rest/items?metadata=.*", key: "name", onstart: true, label: "Items" },
+  { id: "items", uri: "rest/items", urlsuffix: "?metadata=.*", key: "name", onstart: true, label: "Items" },
   { id: "persistence-services", uri: "rest/persistence-services", key: "id" }, // NEW
   { id: "persistence", uri: "rest/persistence", key: "uid", singleRequests: false, label: "Persistence" }, // ALTERED
   { id: "inbox", uri: "rest/inbox", key: "thingUID", singleRequests: false, label: "Inbox" },
@@ -54,7 +54,7 @@ const tables = [
  * @category Webworker Storage Model
  * @memberof module:storage-webworker
  */
-const dbversion = 52;
+const dbversion = 53;
 
 /** 
  * This is an associative map of storenames to store-layout descriptions.

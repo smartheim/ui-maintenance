@@ -4,10 +4,6 @@
 Find your *Things* listed here.
 Also have a look at the [Inbox](inbox.html) for discovered and ready-to-use, configured *Things*.
 
-Click the *Things* name to show or modify the storage association (e.g. filename),
-see the <abbr title="The ID is used by Rules and Scripts">unique ID</abbr>, and change
-the icon category.
-
 ## Textual mode
 
 Batch edit your data while using copy &amp; paste, regex find &amp; replace syntax highlighting, and auto-suggestions.
