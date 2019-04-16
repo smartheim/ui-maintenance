@@ -30,6 +30,18 @@
 @import "ui-components/ui-dropdown";
 @import "ui-components/ui-filterbar";
 @import "ui-components/ui-radio-button-group";
+//AKBSDKJS
+@import "material-kit/variables";
+@import "material-kit/mixins";
+@import "material-kit/core-bootstrap";
+//@import "material-kit/layout";
+//@import "material-kit/buttons";
+//@import "material-kit/misc";
+@import "material-kit/checkboxes";
+@import "material-kit/custom-forms";
+@import "material-kit/switches";
+@import "material-kit/radios";
+//@import "material-kit/forms";
 progress::-webkit-progress-value {
   background-image: linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), linear-gradient(left, #09c, #f44);
   border-radius: 2px;
@@ -43,14 +55,12 @@ progress::-moz-progress-bar {
   box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.4), 0 2px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
-.btn {
-  cursor: pointer;
+label {
+  margin-bottom: 0;
 }
 
-.btn-primary {
-  background-color: var(--primary);
-  color: var(--background-color);
-  border-color: var(--primary);
+.btn {
+  cursor: pointer;
 }
 
 details[open] summary~* {
@@ -96,6 +106,9 @@ input:focus {
   @include hover {
     color: $link-hover-color;
     text-decoration: $link-hover-decoration;
+  }
+  &:focus {
+    outline: var(--primary) auto 5px;
   }
 }
 

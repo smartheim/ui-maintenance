@@ -35,13 +35,8 @@
         <section class="config" v-else>
           <h4>Configuration</h4>
           <div class="elements">
-            <template v-for="param in configuration.parameters">
-              <vue-config-element :param="param" :value="getConfigValue(param)" @input="setConfigValue"></vue-config-element>
-              <label :title="param.description">{{param.name}}</label>
-              <button v-if="getConfigValue(param)" title="Reset to default" class="btn btn-outline-danger btn-sm resetdefault"
-                @click.prevent="removeConfigValue(param)">
-                <i class="fas fa-undo"></i> </button>
-            </template>
+            <vue-config-element v-for="param in configuration.parameters" :desc="true" :key="param.id" :param="param"
+              :value="getConfigValue(param)" @input="setConfigValue" @remove="removeConfigValue(param)"></vue-config-element>
           </div>
         </section>
         <div class="btn-group btnbar mt-4" role="group">

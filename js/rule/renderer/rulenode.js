@@ -1,8 +1,12 @@
 const replace = s => s.toLowerCase().replace(/ /g, '-');
+import VueConfigElement from '../../_vuecomponents/vue-config-element.vue';
 
 const RuleNode = {
   template: '#rulenode',
   props: ['node', 'editor', 'bindSocket', 'bindControl'],
+  components: {
+    'vue-config-element': VueConfigElement
+  },
   methods: {
     edit() {
 

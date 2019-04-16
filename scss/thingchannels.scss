@@ -62,3 +62,8 @@
   grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
   gap: 10px;
 }
+
+.statusinfo {
+  display: flex;
+  align-items: center;
+}

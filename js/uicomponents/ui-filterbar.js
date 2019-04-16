@@ -84,7 +84,7 @@ class UiFilterBar extends HTMLElement {
             <input class="form-control py-2 filterinput" type="search" name="filter" placeholder="${this.placeholder}"
               value="${this.value}" @input="${this.searchI.bind(this)}">
             <span class="input-group-append">
-              <button class="btn btn-outline-secondary btn-outline-visible" type="submit">
+              <button class="btn btn-outline-secondary" @click="${this.search.bind(this)}">
                 <i class="fa fa-search"></i>
               </button>
             </span>
@@ -155,7 +155,8 @@ class UiFilterBar extends HTMLElement {
   }
   search(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    event.stopPropagation();
+    const formData = new FormData(this.filterbar);
     this.value = formData.get("filter");
     this.dispatchEvent(new CustomEvent('filter', { detail: { value: this.value } }));
   }

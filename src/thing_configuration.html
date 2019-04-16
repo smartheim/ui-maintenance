@@ -7,7 +7,9 @@
 </head>
 
 <body>
+  <script type="module" src="js/ui-maps.js"></script>
   <link rel="stylesheet" href="css/config.css">
+  <link rel="stylesheet" href="css/thingchannels.css" type="text/css" />
 
   <nav class="sidebar leftright">
     <div class="wrapper fixedwrapper">
@@ -25,57 +27,56 @@
     <oh-vue-form></oh-vue-form>
     <template>
       <partial src="vuelisterrors.html"></partial>
-      <form @submit.prevent="false" class="was-validated configheadergrid" v-else>
+      <div v-else>
         <portal target-el="#additionalactions" breakshadow slim>
           <li><a :href="'thing_channels.html?UID='+value.UID">
               <i class="fas fa-external-link-alt"></i> Configure Channels</a></li>
         </portal>
 
-        <ui-github-issues v-if="bindingid" :filter="bindingid" class="bs-callout bs-callout-danger" label="There are known issues with the binding that provides this Thing"
-          url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
 
-        <div v-if="hasDescription" class="bs-callout bs-callout-info"> {{description()}} </div>
+        <div class="callouts">
+          <div v-if="hasDescription" class="bs-callout bs-callout-info"> {{description()}} </div>
+          <ui-github-issues v-if="bindingid" :filter="bindingid" class="bs-callout bs-callout-danger" label="There are known issues with the binding that provides this Thing"
+            url="https://api.github.com/repos/openhab/openhab2-addons/issues"></ui-github-issues>
+        </div>
 
-        <div class="statusinfo" v-if="value.statusInfo">
+        <div class="statusinfo my-4" v-if="value.statusInfo">
           <ui-switch name="enabled" :value.prop="isEnabled" @input="setEnabled" label="Enabled" title="A disabled thing will not connect to its peer device"></ui-switch>
-          <div class="ml-auto">
+          <div class="ml-2">
             <i :class="statusBadge">{{statusInfo}}</i>
             <div v-if="value.statusInfo.description">{{value.statusInfo.description}}</div>
           </div>
         </div>
 
-        <label for="thingname">Thing label</label>
-        <div>
-          <input autofocus type="text" class="form-control" name="thingname" id="thingname" pattern=".{1,}" required
-            placeholder="Thing label" :value="valuecopy.label" @input="$set(valuecopy,'label',$event.target.value)">
-        </div>
+        <form @submit.prevent="false" class="was-validated configheadergrid">
+          <label for="thingname">Thing label</label>
+          <div>
+            <input autofocus type="text" class="form-control" name="thingname" id="thingname" pattern=".{1,}" required
+              placeholder="Thing label" :value="valuecopy.label" @input="$set(valuecopy,'label',$event.target.value)">
+          </div>
 
-        <label v-if="!value.UID" for="bindingid">Thing Type</label>
-        <div v-if="!value.UID && status==OhListStatus.READY">
-          <ui-dropdown id="bindingid" ref="bindingid" name="bindingid" title="Binding" viewkey="name" desckey="description"
-            valuekey="id" label="Select a binding" v-dynamicload:bindings="" @input="setBindingFilter($event.target.value)"
-            required></ui-dropdown>
-          <ui-dropdown id="thingtype" :value.prop="valuecopy.thingTypeUID" name="thingtype" title="Thing types" viewkey="label"
-            desckey="description" valuekey="UID" label="Select a thing type" v-dynamicload:thing-types="bindingfilter"
-            @input="setThingType($event.target.value)" required></ui-dropdown>
-        </div>
+          <label v-if="!value.UID" for="bindingid">Thing Type</label>
+          <div v-if="!value.UID && status==OhListStatus.READY">
+            <ui-dropdown id="bindingid" ref="bindingid" name="bindingid" title="Binding" viewkey="name" desckey="description"
+              valuekey="id" label="Select a binding" v-dynamicload:bindings="" @input="setBindingFilter($event.target.value)"
+              required></ui-dropdown>
+            <ui-dropdown id="thingtype" :value.prop="valuecopy.thingTypeUID" name="thingtype" title="Thing types"
+              viewkey="label" desckey="description" valuekey="UID" label="Select a thing type"
+              v-dynamicload:thing-types="bindingfilter" @input="setThingType($event.target.value)" required></ui-dropdown>
+          </div>
 
-        <template v-if="bridgeTypeFilter">
-          <label for="bridgetype">Bridge Type</label>
-          <ui-dropdown id="bridgetype" name="bridgetype" title="Bridge type" viewkey="label" desckey="description"
-            valuekey="UID" label="Select a bridge type" v-dynamicload:things="bridgeTypeFilter" required></ui-dropdown>
-        </template>
+          <template v-if="bridgeTypeFilter">
+            <label for="bridgetype">Bridge Type</label>
+            <ui-dropdown id="bridgetype" name="bridgetype" title="Bridge type" viewkey="label" desckey="description"
+              valuekey="UID" label="Select a bridge type" v-dynamicload:things="bridgeTypeFilter" required></ui-dropdown>
+          </template>
+        </form>
 
-        <section class="config" v-else-if="value.UID && configurationParameters">
+        <section class="config" v-if="!bridgeTypeFilter && value.UID && configurationParameters">
           <h4>Configuration</h4>
           <div class="elements">
-            <template v-for="param in configurationParameters">
-              <vue-config-element :param="param" :value="getConfigValue(param)" @input="setConfigValue(param,$event)"></vue-config-element>
-              <label :title="param.description">{{param.name}}</label>
-              <button v-if="getConfigValue(param)" title="Reset to default" class="mr-2 btn btn-outline-danger btn-sm resetdefault"
-                @click.prevent="removeConfigValue(param)">
-                <i class="fas fa-undo"></i> </button>
-            </template>
+            <vue-config-element v-for="param in configurationParameters" :desc="true" :key="param.id" :param="param"
+              :value="getConfigValue(param)" @input="setConfigValue(param,$event)" @remove="removeConfigValue(param)"></vue-config-element>
           </div>
         </section>
 
@@ -85,7 +86,6 @@
           <button v-else class="btn btn-primary" :class="{disabled:unchanged}" @click.prevent="save">
             <i class="fas fa-save"></i> Save</button>
         </div>
-      </form>
     </template>
 
   </main>

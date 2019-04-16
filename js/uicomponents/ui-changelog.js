@@ -100,8 +100,8 @@ class OhChangelog extends HTMLElement {
         localStorage.setItem(this.url, htmlstr);
         localStorage.setItem("timestamp_" + this.url, Date.now());
 
+        let tocstr = "";
         if (this.toc && this.toc.length) {
-          const tocstr = "";
           for (let t of this.toc) {
             if (t.level > 4)
               continue;

@@ -1,0 +1,66 @@
+/*!
+
+ =========================================================
+ * Material Kit - v2.0.5
+ =========================================================
+
+ * Product Page: https://www.creative-tim.com/product/material-kit
+ * Copyright 2018 Creative Tim (http://www.creative-tim.com)
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
+
+ @import "variables";
+ @import "mixins";
+ @import "core-bootstrap";
+ @import "reboot";
+
+ // Core Components
+ @import "layout";
+ @import "buttons";
+ @import "misc";
+ @import "checkboxes";
+ @import "custom-forms";
+ @import "switches";
+ @import "radios";
+ @import "carousel";
+ @import "forms";
+ @import "input-group";
+ @import "list-group";
+ @import "nav";
+ @import "images";
+ @import "navbar";
+ @import "badges";
+ @import "alerts";
+ @import "pagination";
+ @import "pills";
+ @import "info-areas";
+ @import "type";
+ @import "tabs";
+ @import "tooltip";
+ @import "popover";
+ @import "modal";
+ @import "dropdown";
+ @import "drawer";
+ @import "progress";
+ @import "togglebutton";
+ @import "ripples";
+ @import "headers";
+ @import "footers";
+
+ // Cards
+ @import 'cards';
+ @import 'cards/card-carousel';
+ @import 'cards/card-login';
+ @import 'cards/card-plain';
+
+ // Core Plugins
+ @import 'plugins/plugin-datetime-picker';
+ @import 'plugins/plugin-nouislider';
+
+ // Sections and Example pages
+ @import "example-pages";
+ @import "responsive";

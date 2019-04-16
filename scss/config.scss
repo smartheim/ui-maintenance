@@ -7,16 +7,74 @@
 .config {
   margin-top: 10px;
   margin-bottom: 10px;
-  .elements {
-    display: flex;
-    flex-wrap: wrap;
+  .elements:not(.oneline) {
+    display: grid;
+    column-gap: 10px;
+    row-gap: 30px;
+    align-items: flex-start;
     justify-content: space-around;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 400px));
   }
-  .element {
-    margin: 10px;
-    flex: 1;
-    min-width: 45%;
+  .elements {
+    &:not(.oneline) .element {
+      display: grid;
+      grid-template-areas: "label reset" "control control" "desc desc";
+      grid-template-columns: 1fr min-content;
+      &.isboolean {
+        grid-template-areas: "control reset" "desc desc";
+      }
+      .configdesc {
+        padding-top: 10px;
+        grid-area: desc;
+        font-size: 80%;
+        font-weight: 400;
+      }
+      .configcontrol {
+        grid-area: control;
+        width: 100%;
+      }
+      .resetdefault {
+        grid-area: reset;
+      }
+      label {
+        grid-area: label;
+        margin: 0;
+        font-size: smaller;
+        align-self: end;
+      }
+    }
+    &.oneline .element {
+      display: flex;
+      align-items: start;
+      .resetdefault {
+        order: 3;
+      }
+      .configcontrol {
+        order: 2;
+      }
+      label {
+        padding: .375rem 0;
+        order: 1;
+        width: 150;
+        text-overflow: ellipsis;
+        overflow-y: hidden;
+      }
+      .configdesc {
+        order: 4;
+        font-size: 80%;
+        font-weight: 400;
+      }
+    }
+    .configdesc {
+      p {
+        margin: 0;
+      }
+    }
   }
+}
+
+#listcontainer.grid>article footer.hidden {
+  display: none;
 }
 
 ui-github-issues {
@@ -25,26 +83,13 @@ ui-github-issues {
   }
 }
 
-.resetdefault {
-  align-self: center;
-}
-
 .configheadergrid {
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: min-content 1fr;
-  margin-top: 10px;
+  grid-template-columns: min-content minmax(120px, 300px);
   label {
     white-space: nowrap;
-  }
-  &>.bs-callout,
-  &>.config,
-  &>.btnbar {
-    grid-column: span 2;
-  }
-  &>.statusinfo {
-    display: flex;
-    align-items: center;
-    grid-column: span 2;
+    margin: 0;
+    align-self: center;
   }
 }

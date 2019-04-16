@@ -5,6 +5,11 @@ import { html, render } from 'lit-html';
  * @customelement ui-dropdown
  * @description A dropdown component.
  * @attribute novalue Will not apply the selected entry as new value, only emits an input event
+ * @attribute editable If set, displays an input box instead of a label
+ * @attribute allowunset If set, shows a clear option
+ * @attribute icons If set, displays an icon for each option. The icon file path is like: img/{icon}/{key}.png
+ * @attribute required If set, this element is required within a <form>.
+ * @attribute options The options to show as a comma separated string. You should prefer the options property instead.
  * @example <caption>A dropdown example</caption>
  * <ui-dropdown></ui-dropdown>
  */
@@ -16,6 +21,7 @@ class UiDropdown extends HTMLElement {
     if (this.hasAttribute("viewkey")) this.viewkey = this.getAttribute("viewkey");
     if (this.hasAttribute("desckey")) this.desckey = this.getAttribute("desckey");
     if (this.hasAttribute("valuekey")) this.valuekey = this.getAttribute("valuekey");
+    this.allowunset = this.hasAttribute("allowunset");
     this.editable = this.hasAttribute("editable");
     this.novalue = this.hasAttribute("novalue");
     this.nostate = this.hasAttribute("nostate");

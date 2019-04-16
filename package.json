@@ -1,10 +1,12 @@
 {
-  "name": "openhab-paper-ui-ng",
+  "name": "@openhab-ui/setup-and-maintenance",
   "keywords": [
     "openhab",
-    "ui"
+    "ui",
+    "administration",
+    "home-automation"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Configuration and maintenance interface for openHAB",
   "author": "David Graeff",
   "email": "davgraeff@gmail.com",
@@ -72,6 +74,7 @@
     "leaflet": "^1.4.0",
     "lit-html": "^1.0.0",
     "shepherd.js": "^2.3.3",
+    "surge": "^0.20.3",
     "vue": "^2.6.8"
   }
 }

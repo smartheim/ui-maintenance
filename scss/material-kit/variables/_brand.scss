@@ -1,0 +1,10 @@
+// Bootstrap brand color customization
+/*     brand Colors              */
+
+$brand-primary: theme-color("primary") !default;
+$brand-info: theme-color("info") !default;
+$brand-success: theme-color("success") !default;
+$brand-warning: theme-color("warning") !default;
+$brand-danger: theme-color("danger") !default;
+$brand-rose: $pink-500 !default;
+$brand-inverse: $black-color !default;

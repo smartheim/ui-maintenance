@@ -43,7 +43,7 @@ const tables = [
   { id: "ruletemplates", uri: "rest/templates", key: "uid" },
   { id: "thing-types", uri: "rest/thing-types", key: "UID", onstart: true },
   { id: "thing-types-extended", uri: "rest/thing-types", key: "UID" }, // Extended variant for single requested data
-  { id: "things", uri: "rest/things", key: "UID", onstart: true, label: "Things" },
+  { id: "things", uri: "rest/things", key: "UID", onstart: true, label: "Things" }, // ALTERED
   { id: "voice-interpreters", uri: "rest/voice", key: "id", label: "Voice interpreters" },
 ];
 

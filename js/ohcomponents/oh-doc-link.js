@@ -39,6 +39,7 @@ class OhDocLink extends HTMLElement {
     this.home = this.hasAttribute("home");
   }
   connectedCallback() {
+    this.setAttribute("tabindex", "0");
     this.attributeChangedCallback();
     const slot = this.shadowRoot.querySelector('slot');
     slot.addEventListener('slotchange', this.slotListenerBound, { passive: true });
@@ -59,8 +60,10 @@ class OhDocLink extends HTMLElement {
     if (!nodes.length) return;
     for (const node of nodes) {
       node.onclick = (e) => this.clickListener(e);
+      node.onkeyup = (e) => { if (e.keyCode === 13) this.clickListener(e) };
     }
     this.onclick = (e) => this.clickListener(e);
+    this.onkeyup = (e) => { if (e.keyCode === 13) this.clickListener(e) };
   }
 
   /**

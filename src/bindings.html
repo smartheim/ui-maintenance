@@ -48,11 +48,11 @@
           <section class="actions">
             <span class="btn-group" role="group">
               <a title="Configure this binding" :href="'binding_config.html?title='+encodeURIComponent(item.name)+'&id='+item.id"
-                class="btn btn-secondary-hover"><i class="fas fa-cog mr-2"></i>
-                <span>Configure</span></a>
+                class="btn btn-secondary-hover">
+                <i class="fas fa-cog"></i><span class="ml-2">Configure</span></a>
               <oh-doc-link show class="btn btn-secondary-hover text-nowrap" href="binding_supported_things.fragment.html"
                 :context.prop="'UID:'+item.id" title="Supported Things">
-                <i class="fas fa-clipboard-list mr-2"></i> <span>Supported Things</span>
+                <i class="fas fa-clipboard-list"></i><span class="ml-2">Supported Things</span>
               </oh-doc-link>
               <ui-dropdown btnclass="btn text-nowrap p-0 px-2" v-if="hasCustomPages()" class="btn btn-secondary-hover p-0"
                 nostate novalue label="AUX" title="Auxiliary pages" viewkey="label" valuekey="uri" :options.prop="this.item.custompages"

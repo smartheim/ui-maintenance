@@ -1,70 +1,81 @@
 :root {
-    --background-color: #22313a;
-    --main-bg: rgb(20, 20, 20);
-    --card-bg: #2b3942;
-    --color: #8a9ba1;
-    --light: #343a40;
-    --color-btn: white;
-    --color-card-header: #8a9ba1;
-    --ui-bg: rgb(122, 122, 122);
-    --calendar-lines: #42424259;
-    --border-btn: #616161;
-    --primary: #a5490c;
-    --primary-light: #ff72146b;
+  --background-color: #22313a;
+  --main-bg: rgb(20, 20, 20);
+  --card-bg: #2b3942;
+  --color: #8a9ba1;
+  --light: #343a40;
+  --color-btn: white;
+  --color-card-header: #8a9ba1;
+  --ui-bg: rgb(122, 122, 122);
+  --calendar-lines: #42424259;
+  --border-btn: #616161;
+  --primary: #a5490c;
+  --primary-light: #ff72146b;
 }
 
 .btn:not(.btn-danger, .btn-success, .btn-info) {
-    color: var(--color);
+  color: var(--color);
 }
 
 body.wide section.header {
-    background-color: inherit;
+  background-color: inherit;
 }
 
 body:not(.wide) section.header {
-    background-color: transparent;
-    color: whitesmoke;
+  background-color: transparent;
+  color: whitesmoke;
 }
 
 body.wide .navbarui {
-    box-shadow: 0 0 10px #030303;
-    z-index: 20;
-    background-color: #1e2a31;
+  box-shadow: 0 0 10px #030303;
+  z-index: 20;
+  background-color: #1e2a31;
 }
 
 body.wide .sidebar.leftright {
-    border-right: 1px solid var(--border-btn);
+  border-right: 1px solid var(--border-btn);
 }
 
 body>main,
 body>section.header {
-    box-shadow: 0 0 10px rgb(26, 26, 26);
+  box-shadow: 0 0 10px rgb(26, 26, 26);
 }
 
 input,
 .form-control,
 .custom-select {
-    border-color: #8d959c;
-    background-color: var(--background-color);
-    color: var(--color);
-    &:focus {
-        background-color: #edeff0;
-        border-right: 1px solid transparent;
-        box-shadow: none;
-    }
-    &:hover {
-        border: 1px solid var(--border-btn);
-    }
+  border-color: #8d959c;
+  background-color: var(--background-color);
+  color: var(--color);
+  border: 1px solid transparent;
+  &:focus {
+    background-color: #edeff0;
+    border-right: 1px solid transparent;
+    box-shadow: none;
+  }
+  &:hover {
+    border: 1px solid var(--border-btn);
+  }
+}
+
+.btn-light {
+  color: #f8f9fa;
+  background-color: #212529;
+  border-color: #212529;
 }
 
 .card {
-    border-radius: 2px 2px 0 0;
+  border-radius: 2px 2px 0 0;
+}
+
+main .table {
+  color: var(--color);
 }
 
 // .dropdown-menu.show {
 //   background-color
 // }
 body #listcontainer.grid>article {
-    box-shadow: none;
-    border-radius: 2px 2px 0 0;
+  box-shadow: none;
+  border-radius: 2px 2px 0 0;
 }

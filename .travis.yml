@@ -8,9 +8,13 @@ script:
   - npm run doc
   - mv out dist/
 deploy:
-  provider: pages
+  provider:
+  - pages
+  - surge
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   local-dir: dist
   on:
     branch: master
+  project: ./dist/
+  domain: paperui-ng.surge.sh

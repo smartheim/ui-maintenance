@@ -7,8 +7,8 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="css/config.css" type="text/css" />
   <link rel="stylesheet" href="css/listgridview.css" type="text/css" />
+  <link rel="stylesheet" href="css/config.css" type="text/css" />
   <link rel="stylesheet" href="css/thingchannels.css" type="text/css" />
 
   <nav class="sidebar leftright">
@@ -25,8 +25,8 @@
 
   <main>
 
-    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" textual="Textual representation"
-      select="Selection mode" additionalButtons="Configuration,Linking">
+    <ui-filter class="mt-4" placeholder="Filter..." grid="Grid view" list="List view" select="Selection mode"
+      additionalButtons="Linking,Configuration,Configuration with descriptions">
       <button class="btn btn-danger" data-action="remove">
         <i class="fas fa-check"></i> Create missing links
         <oh-event-bind eventName="selectionchanged" setcontent></oh-event-bind>
@@ -63,6 +63,8 @@
             <portal target-el="#additionalactions" breakshadow slim>
               <li><a href="#" @click.prevent="save" :class="{disabled:list.unchanged}">
                   <i class="fas fa-save"></i> Save changes</a></li>
+              <li><a href="#" @click.prevent="createMissingLinks" :class="{disabled:false}">
+                  <i class="fas fa-link"></i> Create missing Items</a></li>
               <li><a :href="'thing_configuration.html?UID='+list.value.UID">
                   <i class="fas fa-external-link-alt"></i> Configure Thing</a></li>
             </portal>
@@ -98,21 +100,8 @@
                 class="fas fa-trash"></i></button>
           </section>
           <section class="description py-0">
-            <ui-tabs upsidedown :activetab.prop="$list.secondarymode">
+            <ui-tabs upsidedown :activetab.prop="$list.secondarymode==0?0:1">
               <div class="tab-content" slot="tabs">
-
-                <section class="configuration">
-                  <div v-if="!configurationParameters()">No fuher configuration available</div>
-                  <div class="elements" v-else>
-                    <template v-for="param in configurationParameters()">
-                      <vue-config-element :param="param" :value="getConfigValue(param)" @input="setConfigValue"></vue-config-element>
-                      <label :title="param.description">{{param.name}}</label>
-                      <button v-if="getConfigValue(param)" title="Reset to default" class="btn btn-outline-danger btn-sm resetdefault"
-                        @click.prevent="removeConfigValue(param)">
-                        <i class="fas fa-undo"></i> </button>
-                    </template>
-                  </div>
-                </section>
 
                 <section class="links">
                   <div>An item <small>(item id)</small></div>
@@ -121,26 +110,27 @@
                   <oh-doc-link show href="contexthelp/profiles.md" class="link"><i class="far fa-question-circle"></i></oh-doc-link>
                   <button class="btn btn-danger-hover btn-sm text-nowrap"><i class="fas fa-trash"></i> Remove</button>
                 </section>
+
+                <section class="config">
+                  <div v-if="!configurationParameters()">No fuher configuration available</div>
+                  <div class="elements oneline" :class="{withdesc:$list.secondarymode==2}" v-else>
+                    <vue-config-element v-for="param in configurationParameters()" :desc="$list.secondarymode==2" :key="param.id"
+                      :param="param" :value="getConfigValue(param)" @input="setConfigValue" @remove="removeConfigValue(param)"></vue-config-element>
+                  </div>
+                </section>
+
               </div>
             </ui-tabs>
           </section>
 
-          <footer>
-            <ui-tabs upsidedown :activetab.prop="$list.secondarymode" style="flex:1">
-              <div class="tab-content" slot="tabs">
-
-                <section class="configuration">
-                </section>
-
-                <section class="links" style="display: flex">
-                  <ui-dropdown v-dynamicload:items="" class="ml-auto" label="Item" viewkey="label" desckey="name"
-                    valuekey="name" label="Select item"></ui-dropdown>
-                  <ui-dropdown v-dynamicload:profile-types="" title="Profile" viewkey="label" desckey="description"
-                    valuekey="uid" value="system:default"></ui-dropdown>
-                  <button class="btn btn-outline-success text-nowrap">Create link</button>
-                </section>
-              </div>
-            </ui-tabs>
+          <footer :class="{hidden:$list.secondarymode!=0}">
+            <input v-model="newlink.label" placeholder="item label" class="ml-auto w-100">
+            <ui-dropdown v-dynamicload:items="" label="Item" viewkey="label" desckey="name" valuekey="name" label="Select item"
+              @input="newlink.item=$event.target.value" allowunset></ui-dropdown>
+            <ui-dropdown v-dynamicload:profile-types="" title="Profile" viewkey="label" desckey="description" valuekey="uid"
+              :value="newlink.profile" @input="newlink.profile=$event.target.value"></ui-dropdown>
+            <button class="btn btn-outline-success text-nowrap" :disabled="!newlink.label.length">Create
+              link</button>
           </footer>
 
         </article>

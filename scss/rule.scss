@@ -129,15 +129,15 @@ main.rule {
   }
 }
 
-h4.trigger {
+h3.trigger {
   border-bottom: 1px solid var(--success);
 }
 
-h4.condition {
+h3.condition {
   border-bottom: 1px solid var(--info);
 }
 
-h4.action {
+h3.action {
   border-bottom: 1px solid var(--danger);
 }
 
@@ -239,7 +239,7 @@ h4.action {
   }
   .title {
     grid-area: title;
-    color: black;
+    color: var(--color);
     font-family: sans-serif;
     font-size: 18px;
     padding: 8px;

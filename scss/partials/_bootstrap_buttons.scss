@@ -1,10 +1,26 @@
+// .btn,
+// .btn.btn-default {
+//   box-shadow: 0 2px 2px 0 rgba(153, 153, 153, .14), 0 3px 1px -2px rgba(153, 153, 153, .2), 0 1px 5px 0 rgba(153, 153, 153, .12);
+// }
 @each $color,
 $value in $theme-colors {
+  .btn-#{$color} {
+    &:hover {
+      box-shadow: 0 14px 26px -12px rgba(153, 153, 153, .42), 0 4px 23px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(153, 153, 153, .2);
+    }
+    &:focus {
+      box-shadow: 0 14px 26px -12px rgba(153, 153, 153, .42), 0 4px 23px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(153, 153, 153, .2);
+    }
+  }
   .btn-#{$color}-hover {
     @include button-variant(theme-color(light), theme-color(light), $hover-background: lighten($value, 7.5%), $hover-border: lighten($value, 10%), $active-background: lighten($value, 10%), $active-border: lighten($value, 12.5%));
     &:active,
     &:not(:disabled):not(.disabled):active {
       box-shadow: initial;
+    }
+    &:focus,
+    &:active:focus {
+      box-shadow: 0 14px 26px -12px rgba(153, 153, 153, .42), 0 4px 23px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(153, 153, 153, .2);
     }
     & {
       background-color: var(--light);
@@ -26,13 +42,12 @@ $value in $theme-colors {
   }
   .btn-outline-#{$color} {
     @include button-variant(transparent, theme-color($color), $hover-background: $value, $hover-border: lighten($value, 10%), $active-background: transparent, $active-border: lighten($value, 12.5%));
-    &:focus,
     &:active,
     &.active,
+    &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active,
     &:not(:disabled):not(.disabled).active:focus,
     &:not(:disabled):not(.disabled):active:focus {
-      box-shadow: initial;
       color: theme-color($color);
     }
     & {
@@ -46,5 +61,24 @@ $value in $theme-colors {
     &.btn-outline-visible {
       border-color: lighten($value, 12.5%);
     }
+    &:disabled,
+    &.disabled {
+      color: theme-color($color);
+      border-color: transparent;
+      cursor: not-allowed;
+    }
   }
+}
+
+// Tweaks
+.btn.btn-primary {
+  background-color: var(--primary);
+  color: var(--background-color);
+  border-color: var(--primary);
+}
+
+.btn.btn-info {
+  background-color: var(--info);
+  color: white;
+  border-color: var(--info);
 }

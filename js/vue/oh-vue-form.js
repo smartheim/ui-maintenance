@@ -65,7 +65,8 @@ class OhVueForm extends HTMLElement {
           message: "",
           status: OhListStatus.PENDING,
           changed: false,
-          valuecopy: {}
+          valuecopy: {},
+          modelschema: null
         });
       },
       methods: {

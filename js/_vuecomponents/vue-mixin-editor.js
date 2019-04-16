@@ -127,14 +127,22 @@ const EditorMixin = {
         return null;
       }
 
-      var items = JSON.parse(JSON.stringify(this.items));
-      // Filter out the runtime keys in each item
-      if (this.runtimeKeys) {
-        for (var item of items) {
-          for (const runtimeKey of this.runtimeKeys)
-            delete item[runtimeKey];
+      let items;
+      if (Array.isArray(this.items)) {
+        items = JSON.parse(JSON.stringify(this.items));
+        // Filter out the runtime keys in each item
+        if (this.runtimeKeys) {
+          for (var item of items) {
+            for (const runtimeKey of this.runtimeKeys)
+              delete item[runtimeKey];
+          }
         }
+      } else if (this.valuecopy) {
+        items = JSON.parse(JSON.stringify(this.valuecopy));
+      } else {
+        return null;
       }
+
       return { value: items, language: 'yaml', modeluri: this.modelschema ? this.modelschema.uri : null };
     },
   }

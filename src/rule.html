@@ -27,17 +27,17 @@
         <div slot="app" v-else>
           <input class="form-control my-2 mx-4 search" type="search" name="filter" placeholder="Search" title="Enter a search string"
             @input="filter = $event.target.value.trim()">
-          <h4 class="trigger">Rule triggers</h4>
+          <h3 class="trigger">Rule triggers</h3>
           <div class="moduletypelist">
             <oh-vue-listitem v-for="item in triggersFiltered" v-if="item.visibility!='EXPERT'" :key="item.uid"
               :listitem="item"></oh-vue-listitem>
           </div>
-          <h4 class="condition">Rule conditions</h4>
+          <h3 class="condition">Rule conditions</h3>
           <div class="moduletypelist">
             <oh-vue-listitem v-for="item in conditionsFiltered" v-if="item.visibility!='EXPERT'" :key="item.uid"
               :listitem="item"></oh-vue-listitem>
           </div>
-          <h4 class="action">Rule actions</h4>
+          <h3 class="action">Rule actions</h3>
           <div class="moduletypelist">
             <oh-vue-listitem v-for="item in actionsFiltered" v-if="item.visibility!='EXPERT'" :key="item.uid" :listitem="item"></oh-vue-listitem>
           </div>

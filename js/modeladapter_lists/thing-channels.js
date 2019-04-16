@@ -76,9 +76,17 @@ const ThingChannelMixin = {
     changed(val) {
       if (val) this.$list.changed = true;
     }
-  }
+  },
+  data: () => {
+    return {
+      newlink: {
+        profile: "system:default",
+        item: null,
+        label: ""
+      }
+    }
+  },
 }
-
 
 const ItemListMixin = {
   data: () => {
@@ -116,6 +124,9 @@ const ItemListMixin = {
     }
   },
   methods: {
+    createMissingLinks() {
+
+    },
     save() {
       const thingCopy = JSON.parse(JSON.stringify(this.valuecopy));
       delete thingCopy.properties;
