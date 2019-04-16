@@ -1,0 +1,526 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: storage-webworker/rewriteToNotYetSupportedStoreLayout.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                     
+                        <img src="assets/img/openhab-logo.svg" alt="logo">
+                    
+                     
+                        <h1 class="navbar-item">Setup&Maintenance JS Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/davidgraeff/paperui-ng" target="_blank">Github</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://davidgraeff.github.io/paperui-ng/" target="_blank">The application</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3><a href="global.html">Global</a></h3></div><div class="category"><h2>App</h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li></ul><h3>Classes</h3><ul><li><a href="module-app.exports.StorageConnector.html">exports.StorageConnector</a></li></ul></div><div class="category"><h2>Data Components</h2><h3>Modules</h3><ul><li><a href="module-ohcomponents.html">ohcomponents</a></li></ul><h3>Externals</h3><ul><li><a href="oh-change-filter.html">oh-change-filter</a></li><li><a href="oh-doc-link.html">oh-doc-link</a></li><li><a href="oh-dropdown-bind.html">oh-dropdown-bind</a></li><li><a href="oh-event-bind.html">oh-event-bind</a></li><li><a href="oh-form-bind.html">oh-form-bind</a></li><li><a href="oh-list-bind.html">oh-list-bind</a></li><li><a href="oh-login-status-link.html">oh-login-status-link</a></li><li><a href="oh-nav-auto-link.html">oh-nav-auto-link</a></li><li><a href="oh-prop-bind.html">oh-prop-bind</a></li><li><a href="oh-script-snippets.html">oh-script-snippets</a></li><li><a href="oh-tutorial-starter.html">oh-tutorial-starter</a></li><li><a href="oh-vue-bind.html">oh-vue-bind</a></li><li><a href="oh-websocket-data.html">oh-websocket-data</a></li></ul><h3>Classes</h3><ul><li><a href="UpdateAdapter.html">UpdateAdapter</a></li></ul><h3>Events</h3><ul><li><a href="oh-websocket-data.html#event:data">data</a></li></ul></div><div class="category"><h2>Rules</h2><h3>Modules</h3><ul><li><a href="module-rule.html">rule</a></li></ul><h3>Classes</h3><ul><li><a href="module-rule.ImportExport.html">ImportExport</a></li><li><a href="module-rule.LayoutManager.html">LayoutManager</a></li><li><a href="module-rule.OHCaptionComponent.html">OHCaptionComponent</a></li><li><a href="module-rule.OHRuleComponent.html">OHRuleComponent</a></li></ul></div><div class="category"><h2>Webworker Storage Model</h2><h3>Modules</h3><ul><li><a href="module-storage-webworker.html">storage-webworker</a></li></ul><h3>Classes</h3><ul><li><a href="module-storage-webworker.StateWhileRevalidateStore.html">StateWhileRevalidateStore</a></li><li><a href="module-storage-webworker-StorageWorker.html">StorageWorker</a></li></ul></div><div class="category"><h2>Tutorial</h2><h3>Modules</h3><ul><li><a href="module-tutorial.html">tutorial</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-tutorial.Tools.html">Tools</a></li></ul></div><div class="category"><h2>Web Components</h2><h3>Modules</h3><ul><li><a href="module-ui-cron-expression.html">ui-cron-expression</a></li><li><a href="module-ui-maps.html">ui-maps</a></li><li><a href="module-ui-time-graph.html">ui-time-graph</a></li><li><a href="module-ui-time-picker.html">ui-time-picker</a></li><li><a href="module-uicomponents.html">uicomponents</a></li></ul><h3>Externals</h3><ul><li><a href="nav-ajax-page-load.html">nav-ajax-page-load</a></li><li><a href="nav-breadcrumb.html">nav-breadcrumb</a></li><li><a href="nav-buttons.html">nav-buttons</a></li><li><a href="oh-rule-editor.html">oh-rule-editor</a></li><li><a href="ui-changelog.html">ui-changelog</a></li><li><a href="ui-codeeditor.html">ui-codeeditor</a></li><li><a href="ui-community-topics.html">ui-community-topics</a></li><li><a href="ui-context-help.html">ui-context-help</a></li><li><a href="ui-cron-expression.html">ui-cron-expression</a></li><li><a href="ui-drop-zone.html">ui-drop-zone</a></li><li><a href="ui-dropdown.html">ui-dropdown</a></li><li><a href="ui-filter.html">ui-filter</a></li><li><a href="ui-github-issues.html">ui-github-issues</a></li><li><a href="ui-maps.html">ui-maps</a></li><li><a href="ui-multiselect.html">ui-multiselect</a></li><li><a href="ui-notification.html">ui-notification</a></li><li><a href="ui-switch.html">ui-switch</a></li><li><a href="ui-tabs.html">ui-tabs</a></li><li><a href="ui-tags.html">ui-tags</a></li><li><a href="ui-time-graph.html">ui-time-graph</a></li><li><a href="ui-time-picker.html">ui-time-picker</a></li><li><a href="ui-youtube.html">ui-youtube</a></li></ul><h3>Events</h3><ul><li><a href="ui-tags.html#event:input">input</a></li></ul></div><div class="category"><h2>Web Components (Reactive)</h2><h3>Modules</h3><ul><li><a href="module-vue.html">vue</a></li></ul><h3>Externals</h3><ul><li><a href="oh-vue.html">oh-vue</a></li><li><a href="oh-vue-form.html">oh-vue-form</a></li><li><a href="oh-vue-list.html">oh-vue-list</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>storage-webworker/rewriteToNotYetSupportedStoreLayout.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { fetchWithTimeout } from '../_common/fetch';
+
+const randomNames = [
+  {
+    "name": "Warner Wong"
+  },
+  {
+    "name": "Kara Bolton"
+  },
+  {
+    "name": "Hillary Castro"
+  },
+  {
+    "name": "Kay Mcmahon"
+  },
+  {
+    "name": "Fitzgerald Lynn"
+  },
+  {
+    "name": "Andrews Wilkerson"
+  },
+  {
+    "name": "Manning Phelps"
+  },
+  {
+    "name": "Cantu Peck"
+  },
+  {
+    "name": "Rochelle Henson"
+  }
+];
+
+const randomDesc = [
+  {
+    "about": "Tempor velit irure in ad laborum ex Lorem. Officia sint velit eu pariatur deserunt labore amet ea est. Deserunt fugiat reprehenderit culpa aliquip velit fugiat do."
+  },
+  {
+    "about": "Quis cupidatat commodo consequat anim incididunt. Cillum aliqua minim magna amet consectetur labore sint qui nostrud magna nulla eiusmod. Ea exercitation fugiat duis id irure mollit non."
+  },
+  {
+    "about": "Esse reprehenderit culpa est ipsum quis adipisicing esse. Lorem quis amet non esse et aliquip elit duis ad qui excepteur. Veniam voluptate officia id laboris do in fugiat laborum duis."
+  },
+  {
+    "about": "Eu culpa magna ut in ad quis consequat quis amet velit enim culpa. Est commodo culpa nulla adipisicing. Commodo exercitation cillum enim consequat veniam irure proident non quis dolore duis et tempor sint."
+  },
+  {
+    "about": "Ad deserunt proident velit ea velit enim officia elit. Reprehenderit fugiat labore id veniam et. Ea dolor amet ut ipsum incididunt cillum ullamco id sit laboris enim excepteur."
+  },
+  {
+    "about": "Veniam elit occaecat ipsum velit. Dolor qui exercitation labore reprehenderit dolore. Sunt ut nisi commodo irure duis nostrud adipisicing pariatur enim."
+  },
+  {
+    "about": "Ipsum proident commodo nulla fugiat adipisicing amet nisi fugiat est eu commodo commodo nulla fugiat. Fugiat commodo duis laborum incididunt incididunt dolore amet reprehenderit officia incididunt ut magna. Occaecat non labore esse qui anim reprehenderit veniam sunt dolor reprehenderit qui."
+  },
+  {
+    "about": "Nostrud ullamco exercitation ut tempor non minim laborum. Et non ut aute aliqua nisi aute cupidatat minim incididunt duis et adipisicing. Fugiat exercitation mollit nulla aliqua reprehenderit aute quis ipsum dolore enim."
+  },
+  {
+    "about": "Lorem nisi quis deserunt deserunt laborum aute occaecat do ad laborum anim aute. Velit ullamco elit quis anim cillum sunt anim duis minim. Est sunt dolor aute qui."
+  },
+  {
+    "about": "Id velit laboris dolor veniam consequat non fugiat ut aute cillum esse. Ea incididunt eu et cillum ut et. Ut aliquip deserunt cupidatat mollit ad excepteur."
+  }
+];
+
+/**
+ * This method implements hacks!
+ * It contains REST receive rewrite operations to support features that are not yet in
+ * the mainline openHAB.
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
+ */
+export function hack_rewriteEntryToNotYetSupportedStoreLayout(storename, entry) {
+  switch (storename) {
+    case "module-types": {
+      if (entry.inputs) {
+        for (let input of entry.inputs) {
+          let compatibleTo = {};
+          compatibleTo["java.lang.Object"] = true;
+          if (input.type == "org.openhab.core.types.Command") {
+            compatibleTo["org.openhab.core.types.State"] = true;
+          }
+          else if (input.type == "org.openhab.core.types.State") {
+            compatibleTo["org.openhab.core.types.Command"] = true;
+          }
+          else if (input.type == "org.eclipse.smarthome.core.types.Command") {
+            compatibleTo["org.eclipse.smarthome.core.types.State"] = true;
+          }
+          else if (input.type == "org.eclipse.smarthome.core.types.State") {
+            compatibleTo["org.eclipse.smarthome.core.types.Command"] = true;
+          }
+          input.compatibleTo = compatibleTo;
+        }
+      }
+      if (entry.outputs) {
+        for (let output of entry.outputs) {
+          let compatibleTo = {};
+          compatibleTo["java.lang.Object"] = true;
+          output.compatibleTo = compatibleTo;
+        }
+      }
+      if (entry.controls) {
+        for (let control of entry.controls) {
+          if (control.name == "cronExpression") {
+            control.context = "cronexpression";
+          }
+        }
+      }
+      if (entry.configDescriptions) {
+        for (let control of entry.configDescriptions) {
+          if (control.name == "cronExpression") {
+            control.context = "cronexpression";
+          }
+        }
+      }
+      break;
+    }
+    case "bindings": {
+      entry.versioninformation = [];
+      entry.version = "2.5M1";
+      entry.loglevel = "warn";
+      entry.source = "https://github.com/openhab/openhab2-addons/tree/master/addons/binding/org.openhab.binding." + entry.id;
+      if (entry.id == "zwave") {
+        entry.source = "https://github.com/openhab/org.openhab.binding.zwave/tree/master";
+        entry.custompages = [
+          {
+            "uri": "dummydata/mqtt.html",
+            "label": "MQTT Traffic monitor"
+          }
+        ]
+      }
+      else if (entry.id == "mqtt") {
+        entry.custompages = [
+          {
+            "uri": "dummydata/mqtt.html",
+            "label": "MQTT Traffic monitor"
+          }
+        ]
+        entry.versioninformation = [
+          { version: "2.4", message: "You will encounter a mqtt:client not found if configured via textual files. Solution: Restart openHAB after each change." },
+          { version: "2.5", message: "The HomeAssistant discovery will not work correctly." }
+        ];
+      }
+      break;
+    }
+    case "things": {
+      entry.actions = [
+        { id: "pair", label: "Start pairing", description: "This thing requires a special pairing method" },
+        { id: "unpair", label: "Unpair", description: "Removes the association to the remote device" },
+      ];
+      // Add group property to channels -> for grouping
+      if (entry.channels) {
+        for (let channel of entry.channels) {
+          const [groupid, channelid] = channel.id.split("#");
+          if (channelid) channel.group = groupid;
+        }
+      }
+      break;
+    }
+    case "channel-types": {
+      entry.id = entry.UID.split(":")[1];
+      break;
+    }
+    case "profile-types": {
+      switch (entry.uid) {
+        case "system:default":
+          entry.description = "Just pass new Channel values to the linked Item";
+          break;
+        case "system:follow":
+          entry.description = "This channel will apply any Item updates and therefore 'follow' the Items state. You usually want that to synchronize two or more different Binding Channels.";
+          break;
+        default:
+          entry.description = "";
+      }
+      break;
+    }
+    // Extend with available versions, authors, description, extended status
+    // as well as documentation link and changelog link
+    case "extensions": {
+      entry.availableVersions = [
+        "2.4 - Stable",
+        "2.5 - Snapshot"
+      ];
+      entry.availableVersions.push(entry.version);
+      entry.author = randomNames[Math.floor(Math.random() * 9)].name;
+      entry.description = randomDesc[Math.floor(Math.random() * 9)].about;
+      const installStatus = entry.installed;
+      delete entry.installed;
+      entry.status = {
+        status: installStatus ? "INSTALLED" : "AVAILABLE",
+        statusDetail: "INSTALL_DEPENDENCIES",
+        description: "Eclipse SmartHome Automation Providers"
+      }
+      entry.repository = "oh2addons"
+      if (entry.id.includes("binding")) {
+        const id = entry.id.replace("-", ".");
+        entry.url_doc = "https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab." + id + "/README.md";
+        entry.url_changelog = "https://raw.githubusercontent.com/openhab/openhab2-addons/master/addons/binding/org.openhab." + id + "/changelog.md";
+      }
+      break;
+    }
+    case "discovery": {
+      if (entry.id) break;
+      const id = entry;
+      entry = {
+        id: id,
+        background: id != "network" ? true : false,
+        duration: 60,
+        activeRemaining: id == "network" ? 40 : 0,
+      }
+      break;
+    }
+    case "services": {
+      break;
+    }
+  }
+  return entry;
+}
+
+/**
+ * Rewrites an entire store table. This happens after a http fetch.
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
+ */
+export async function hack_rewriteTableToNotYetSupportedStoreLayout(storename, table, store) {
+  if (store.host == "demo") {
+    return table;
+  }
+
+  switch (storename) {
+    case "service-config": {
+      let service = table.find(e => e.id == "org.openhab.longtimestability");
+      if (!service) {
+        table.push({
+          id: "org.openhab.longtimestability",
+          config: { websocketPort: null }
+        });
+      }
+      service = table.find(e => e.id == "org.openhab.logging");
+      if (!service) {
+        table.push({
+          id: "org.openhab.logging",
+          config: { websocketPort: null }
+        });
+      }
+      break;
+    }
+    /**
+     * Add backup and long-time stability service to "services" table. Includes extended status info.
+     */
+    case "services": {
+      let service = table.find(e => e.id == "org.openhab.backup");
+      if (!service) {
+        table.push({
+          id: "org.openhab.backup",
+          category: "system",
+          label: "Backup &amp; Restore",
+          multiple: false,
+          configDescriptionURI: null,
+          status: {
+            status: "ONLINE",
+            statusDetail: "NONE",
+            description: null,
+            extended: [
+              {
+                id: "lastbackup",
+                label: "Last backup",
+                value: "10.2 MB on Wed Jan 18 2019 07:00:23"
+              },
+              {
+                id: "schedule",
+                label: "Schedule",
+                value: "At 07:00, Monday through Friday"
+              },
+              {
+                id: "storage",
+                label: "Storage",
+                value: "Google Drive"
+              },
+              {
+                id: "type",
+                label: "Type",
+                value: "Full backup, zip"
+              }
+            ]
+          },
+          actions: [
+            {
+              id: "backupnow", label: "Backup now",
+              description: "Start a backup, if none is running at the moment"
+            },
+            {
+              id: "prune", label: "Prune backups",
+              description: "Remove backups that are older than the configured time"
+            },
+          ]
+        });
+      }
+      service = table.find(e => e.id == "org.openhab.longtimestability");
+      if (!service) {
+        table.push({
+          id: "org.openhab.longtimestability",
+          category: "system",
+          label: "Long-Time Stability",
+          multiple: false,
+          configDescriptionURI: null,
+          status: {
+            status: "ONLINE",
+            statusDetail: "NONE",
+            description: null,
+            extended: [
+              {
+                id: "storagesize",
+                label: "Used storage size",
+                value: "12 MB"
+              },
+              {
+                id: "warning",
+                label: "Warning",
+                value: "Memory consumption increased more than 100 MB within 7 days."
+              },
+            ]
+          },
+          actions: [
+            {
+              id: "clearcache", label: "Clear cache and restart",
+              description: "All cache files are moved and openHAB will be restarted."
+            },
+            {
+              id: "simulatecritical", label: "Simulate critical situation",
+              description: "A critical situation is simulated. You should be notified, if the service is configured correctly."
+            }
+          ]
+        });
+      }
+      service = table.find(e => e.id == "org.openhab.logging");
+      if (!service) {
+        table.push({
+          id: "org.openhab.logging",
+          category: "system",
+          label: "Logging",
+          multiple: false,
+          configDescriptionURI: null,
+          status: {
+            status: "ONLINE",
+            statusDetail: "NONE",
+            description: null,
+            extended: [
+              {
+                id: "storagesize",
+                label: "Used storage size",
+                value: "5 MB"
+              },
+            ]
+          },
+          actions: [
+            {
+              id: "clearlog", label: "Clear log files",
+              description: "All log files are emptied."
+            },
+          ]
+        });
+      }
+      break;
+    }
+    /**
+     * The module-types entries do not store their own type (what the heck??).
+     * So we need to http GET all three endpoints, for each type one, and compare all
+     * entries to those three sets. Tedious.
+     */
+    case "module-types": {
+      let uris = [store.host + "/rest/module-types?type=action",
+      store.host + "/rest/module-types?type=condition",
+      store.host + "/rest/module-types?type=trigger"];
+      let sets = [];
+      for (let uri of uris) {
+        const response = await fetchWithTimeout(uri);
+        const jsonList = await response.json();
+        let set = new Set();
+        for (let entry of jsonList) set.add(entry.uid);
+        sets.push(set);
+      }
+      for (let entry of table) {
+        if (sets[0].has(entry.uid)) {
+          entry.type = "action";
+        }
+        else if (sets[1].has(entry.uid)) {
+          entry.type = "condition";
+        }
+        else if (sets[2].has(entry.uid)) {
+          entry.type = "trigger";
+        }
+      }
+      break;
+    }
+  }
+  return table;
+}
+
+/**
+ * This structure contains all table rows that should be blocked from receiving REST updates.
+ * 
+ * Block some tutorial injected Things, Items, Bindings.
+ * Block some for the maintenance page injected, not yet existing, services
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
+ */
+export const blockLiveDataFromTableRows = {
+  "inbox": { "demo1": true, "demo2": true },
+  "things": { "demo1": true, "demo2": true },
+  "rules": { "demo1": true, "demo2": true },
+  "items": { "demo1": true, "demo2": true },
+  "bindings": { "demo1": true, "demo2": true },
+  "services": { "org.openhab.backup": true, "org.openhab.longtimestability": true, "org.openhab.logging": true },
+  "service-config": { "org.openhab.backup": true, "org.openhab.longtimestability": true, "org.openhab.logging": true },
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:12:34 GMT+0000 (Coordinated Universal Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

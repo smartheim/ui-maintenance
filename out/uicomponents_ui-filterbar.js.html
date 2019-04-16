@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: uicomponents/ui-filterbar.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                     
+                        <img src="assets/img/openhab-logo.svg" alt="logo">
+                    
+                     
+                        <h1 class="navbar-item">Setup&Maintenance JS Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/davidgraeff/paperui-ng" target="_blank">Github</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://davidgraeff.github.io/paperui-ng/" target="_blank">The application</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3><a href="global.html">Global</a></h3></div><div class="category"><h2>App</h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li></ul><h3>Classes</h3><ul><li><a href="module-app.exports.StorageConnector.html">exports.StorageConnector</a></li></ul></div><div class="category"><h2>Data Components</h2><h3>Modules</h3><ul><li><a href="module-ohcomponents.html">ohcomponents</a></li></ul><h3>Externals</h3><ul><li><a href="oh-change-filter.html">oh-change-filter</a></li><li><a href="oh-doc-link.html">oh-doc-link</a></li><li><a href="oh-dropdown-bind.html">oh-dropdown-bind</a></li><li><a href="oh-event-bind.html">oh-event-bind</a></li><li><a href="oh-form-bind.html">oh-form-bind</a></li><li><a href="oh-list-bind.html">oh-list-bind</a></li><li><a href="oh-login-status-link.html">oh-login-status-link</a></li><li><a href="oh-nav-auto-link.html">oh-nav-auto-link</a></li><li><a href="oh-prop-bind.html">oh-prop-bind</a></li><li><a href="oh-script-snippets.html">oh-script-snippets</a></li><li><a href="oh-tutorial-starter.html">oh-tutorial-starter</a></li><li><a href="oh-vue-bind.html">oh-vue-bind</a></li><li><a href="oh-websocket-data.html">oh-websocket-data</a></li></ul><h3>Classes</h3><ul><li><a href="UpdateAdapter.html">UpdateAdapter</a></li></ul><h3>Events</h3><ul><li><a href="oh-websocket-data.html#event:data">data</a></li></ul></div><div class="category"><h2>Rules</h2><h3>Modules</h3><ul><li><a href="module-rule.html">rule</a></li></ul><h3>Classes</h3><ul><li><a href="module-rule.ImportExport.html">ImportExport</a></li><li><a href="module-rule.LayoutManager.html">LayoutManager</a></li><li><a href="module-rule.OHCaptionComponent.html">OHCaptionComponent</a></li><li><a href="module-rule.OHRuleComponent.html">OHRuleComponent</a></li></ul></div><div class="category"><h2>Webworker Storage Model</h2><h3>Modules</h3><ul><li><a href="module-storage-webworker.html">storage-webworker</a></li></ul><h3>Classes</h3><ul><li><a href="module-storage-webworker.StateWhileRevalidateStore.html">StateWhileRevalidateStore</a></li><li><a href="module-storage-webworker-StorageWorker.html">StorageWorker</a></li></ul></div><div class="category"><h2>Tutorial</h2><h3>Modules</h3><ul><li><a href="module-tutorial.html">tutorial</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-tutorial.Tools.html">Tools</a></li></ul></div><div class="category"><h2>Web Components</h2><h3>Modules</h3><ul><li><a href="module-ui-cron-expression.html">ui-cron-expression</a></li><li><a href="module-ui-maps.html">ui-maps</a></li><li><a href="module-ui-time-graph.html">ui-time-graph</a></li><li><a href="module-ui-time-picker.html">ui-time-picker</a></li><li><a href="module-uicomponents.html">uicomponents</a></li></ul><h3>Externals</h3><ul><li><a href="nav-ajax-page-load.html">nav-ajax-page-load</a></li><li><a href="nav-breadcrumb.html">nav-breadcrumb</a></li><li><a href="nav-buttons.html">nav-buttons</a></li><li><a href="oh-rule-editor.html">oh-rule-editor</a></li><li><a href="ui-changelog.html">ui-changelog</a></li><li><a href="ui-codeeditor.html">ui-codeeditor</a></li><li><a href="ui-community-topics.html">ui-community-topics</a></li><li><a href="ui-context-help.html">ui-context-help</a></li><li><a href="ui-cron-expression.html">ui-cron-expression</a></li><li><a href="ui-drop-zone.html">ui-drop-zone</a></li><li><a href="ui-dropdown.html">ui-dropdown</a></li><li><a href="ui-filter.html">ui-filter</a></li><li><a href="ui-github-issues.html">ui-github-issues</a></li><li><a href="ui-maps.html">ui-maps</a></li><li><a href="ui-multiselect.html">ui-multiselect</a></li><li><a href="ui-notification.html">ui-notification</a></li><li><a href="ui-switch.html">ui-switch</a></li><li><a href="ui-tabs.html">ui-tabs</a></li><li><a href="ui-tags.html">ui-tags</a></li><li><a href="ui-time-graph.html">ui-time-graph</a></li><li><a href="ui-time-picker.html">ui-time-picker</a></li><li><a href="ui-youtube.html">ui-youtube</a></li></ul><h3>Events</h3><ul><li><a href="ui-tags.html#event:input">input</a></li></ul></div><div class="category"><h2>Web Components (Reactive)</h2><h3>Modules</h3><ul><li><a href="module-vue.html">vue</a></li></ul><h3>Externals</h3><ul><li><a href="oh-vue.html">oh-vue</a></li><li><a href="oh-vue-form.html">oh-vue-form</a></li><li><a href="oh-vue-list.html">oh-vue-list</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>uicomponents/ui-filterbar.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { html, render } from 'lit-html';
+
+/**
+ * @category Web Components
+ * @customelement ui-filter
+ * @description 
+ * A UI component with a filter bar and a button group "grid"/"list"/"textual".
+ * 
+ * This is not a shadow-dom component, but still allows children ("slots"). Those
+ * are shown when the selection mode is on.
+ * 
+ * Attributes:
+ * 
+ * - "placeholder": A placeholder for the filter bar
+ * - "value": A value for the filter bar
+ * - "mode": The current mode. Must be one of "grid","list","textual"
+ * - "grid": The tooltip title of the grid button
+ * - "list": The tooltip title of the list button
+ * - "textual": The tooltip title of the textual button
+ * 
+ * Events:
+ * 
+ * - "filter": The user clicked on the filter button or hit enter
+ * 
+ * @example &lt;caption>Import an image, name it minnie.&lt;/caption>
+ * &lt;ui-filter src="#minnie" name="minnie" index="1">&lt;/ui-filter>
+ */
+class UiFilterBar extends HTMLElement {
+  constructor() {
+    super();
+  }
+  static get observedAttributes() {
+    return ['value'];
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name == "value") {
+      this.value = this.getAttribute("value") || "";
+      this.input.value = this.value;
+      this.dispatchEvent(new CustomEvent('filter', { detail: { value: this.value, typing: true } }));
+    }
+  }
+  connectedCallback() {
+    this.classList.add("ui-filterbar");
+    if (this.hasAttribute("suggestions")) {
+      this.suggestionsDomID = Math.random().toString(36);
+      const suggestionsEl = document.createElement("datalist");
+      suggestionsEl.id = this.suggestionsDomID;
+      const items = this.getAttribute("suggestions").split(",");
+      for (let item of items) {
+        const openEL = document.createElement("option");
+        openEL.setAttribute("value", item);
+        suggestionsEl.appendChild(openEL);
+      }
+      document.body.appendChild(suggestionsEl);
+    }
+    this.placeholder = this.getAttribute("placeholder");
+    this.value = this.getAttribute("value") || "";
+    this.mode = this.getAttribute("mode") || "grid";
+    this.grid = this.getAttribute("grid");
+    this.list = this.getAttribute("list");
+    this.foritems = this.hasAttribute("additionalButtons") ? this.getAttribute("additionalButtons").split(",") : [];
+    this.textual = this.getAttribute("textual");
+    this.select = this.getAttribute("select");
+    this.selectmode = this.getAttribute("selectmode") || false;
+
+    // Non-shadow-dom but still slots magic - Part 1
+    const slotElements = [];
+    for (let node of this.childNodes) {
+      slotElements.push(node.cloneNode(true));
+    }
+    while (this.firstChild) { this.firstChild.remove(); }
+
+    const additionalButtons = [];
+    let btnIndex = 0;
+    for (const i of this.foritems) {
+      additionalButtons.push(html`&lt;button data-btnindex="${btnIndex}" class="btn btn-light" @click="${this.additionalButtonClicked.bind(this)}">${i}&lt;/button>`);
+      ++btnIndex;
+    }
+
+    render(html`
+        &lt;form @submit="${this.search.bind(this)}" class="ui-filterbar">
+        &lt;div class="btn-group additionalButtons" role="group" aria-label="Editor bar">${additionalButtons}&lt;/div>
+          &lt;div class="input-group">
+            &lt;input class="form-control py-2 filterinput" type="search" name="filter" placeholder="${this.placeholder}"
+              value="${this.value}" @input="${this.searchI.bind(this)}">
+            &lt;span class="input-group-append">
+              &lt;button class="btn btn-outline-secondary" @click="${this.search.bind(this)}">
+                &lt;i class="fa fa-search">&lt;/i>
+              &lt;/button>
+            &lt;/span>
+          &lt;/div>
+          &lt;div class="btn-group ml-3 viewmode" role="group" aria-label="Change view mode">&lt;/div>
+          ${!this.select ? '' :
+        html`&lt;div class="hidden selectcomponents ml-3">&lt;/div>
+          &lt;button type="button" title="${this.select}" @click="${this.selectChanged.bind(this)}" class="selectbtn ml-3 btn ${this.selectmode ? "btn-info" : "btn-light"}">
+            &lt;i class="fas fa-check-double">&lt;/i>
+          &lt;/button>`}
+        &lt;/form>
+        &lt;div class="ui-editorbar">
+          &lt;span class="editorHintMessage">&lt;/span>
+          &lt;div class="ml-auto btn-group" role="group" aria-label="Editor bar">
+            &lt;button class="btn btn-success" @click="${this.editorSave.bind(this)}">Submit&lt;/button>
+            &lt;button class="btn btn-danger" @click="${this.editorDiscard.bind(this)}">Discard&lt;/button>
+          &lt;/div>
+        &lt;/div>
+        `, this);
+
+    this.input = this.querySelector("input");
+    this.filterbar = this.querySelector(".ui-filterbar");
+    this.editorbar = this.querySelector(".ui-editorbar");
+    this.selectbtn = this.querySelector(".selectbtn");
+    this.selectcomponents = this.querySelector(".selectcomponents");
+    this.editorHintMessage = this.querySelector(".editorHintMessage");
+    this.additionalButtons = this.querySelector(".additionalButtons");
+    if (this.foritems.length) this.selectAdditionalButton(0);
+
+    this.editorbar.classList.add("hidden");
+
+    // Non-shadow-dom but still slots magic - Part 2
+    if (slotElements.length) {
+      const slot = this.selectcomponents;
+
+      for (let el of slotElements) {
+        slot.appendChild(el);
+      }
+
+      // Wire up all buttons that have a data-action to dispatch an event
+      // This is for the selection mode only.
+      slot.querySelectorAll("*[data-action]").forEach(button => {
+        button.addEventListener("click", e => {
+          e.preventDefault();
+          const action = e.target.dataset.action;
+          this.dispatchEvent(new CustomEvent('selection', { detail: { action } }));
+        });
+      });
+    }
+
+    // Don't show the mode button group if no mode changes allowed
+    if (!this.grid &amp;&amp; !this.list &amp;&amp; !this.textual) {
+      this.querySelector(".viewmode").classList.add("hidden");
+    } else
+      this.renderViewMode();
+  }
+  disconnectedCallback() {
+    if (this.suggestionsDomID) {
+      document.getElementById(this.suggestionsDomID).remove();
+      delete this.suggestionsDomID;
+    }
+  }
+
+  searchI(event) {
+    event.preventDefault();
+    this.value = event.target.value;
+    this.dispatchEvent(new CustomEvent('filter', { detail: { value: this.value, typing: true } }));
+  }
+  search(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const formData = new FormData(this.filterbar);
+    this.value = formData.get("filter");
+    this.dispatchEvent(new CustomEvent('filter', { detail: { value: this.value } }));
+  }
+  modeChange(event) {
+    event.preventDefault();
+    this.mode = event.target.dataset.mode;
+    this.renderViewMode();
+    this.dispatchEvent(new CustomEvent('mode', { detail: { mode: this.mode } }));
+    if (this.mode == "textual") {
+      this.selectmode = false;
+      this.selectbtn.classList.add("hidden");
+      this.additionalButtons.classList.add("hidden");
+    } else {
+      this.selectbtn.classList.remove("hidden");
+      this.additionalButtons.classList.remove("hidden");
+    }
+  }
+  selectAdditionalButton(index) {
+    for (let c of this.additionalButtons.children) {
+      if (index == parseInt(c.dataset.btnindex)) {
+        c.classList.remove("btn-light");
+        c.classList.add("btn-info");
+        this.dispatchEvent(new CustomEvent("secondaryMode", { detail: index }))
+      } else {
+        c.classList.add("btn-light");
+        c.classList.remove("btn-info");
+      }
+    }
+  }
+  additionalButtonClicked(event) {
+    event.preventDefault();
+    this.selectAdditionalButton(parseInt(event.target.dataset.btnindex))
+  }
+  setEditorContentChanged(val, message = "") {
+    if (val) {
+      this.editorHintMessage.innerHTML = message;
+      this.editorbar.classList.remove("hidden");
+      this.filterbar.classList.add("hidden");
+    } else {
+      this.editorbar.classList.add("hidden");
+      this.filterbar.classList.remove("hidden");
+    }
+    document.dispatchEvent(new CustomEvent("unsavedchanges", { detail: val }))
+  }
+  editorSave() {
+    this.dispatchEvent(new CustomEvent('editor', { detail: { save: true } }));
+  }
+  editorDiscard() {
+    this.dispatchEvent(new CustomEvent('editor', { detail: { discard: true } }));
+  }
+
+  selectChanged(event) {
+    event.preventDefault();
+    this.selectmode = !this.selectmode;
+    if (this.selectmode)
+      this.selectcomponents.classList.remove("hidden");
+    else
+      this.selectcomponents.classList.add("hidden");
+    this.dispatchEvent(new CustomEvent('selection', { detail: { selectmode: this.selectmode } }));
+  }
+  renderViewMode() {
+    render(html`${!this.grid ? '' : html`&lt;button type="button" title="${this.grid} (Alt+g)" accesskey="g" data-mode="grid" @click="${this.modeChange.bind(this)}"
+              class="btn ${this.mode == "grid" ? "btn-info" : "btn-light"}">&lt;i class="fas fa-th-large">&lt;/i>&lt;/button>`}
+          ${!this.list ? '' : html`&lt;button type="button" title="${this.list} (Alt+l)" data-mode="list" accesskey="l" @click="${this.modeChange.bind(this)}"
+              class="btn ${this.mode == "list" ? "btn-info" : "btn-light"}">&lt;i class="fas fa-th-list">&lt;/i>&lt;/button>`}
+          ${!this.textual ? '' : html`&lt;button type="button" title="${this.textual} (Alt+t)" data-mode="textual" accesskey="t" @click="${this.modeChange.bind(this)}"
+              class="btn ${this.mode == "textual" ? "btn-info" : "btn-light"}">&lt;i class="fas fa-align-justify">&lt;/i>&lt;/button>`}
+              `, this.querySelector(".viewmode"));
+  }
+}
+
+customElements.define('ui-filter', UiFilterBar);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:12:34 GMT+0000 (Coordinated Universal Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

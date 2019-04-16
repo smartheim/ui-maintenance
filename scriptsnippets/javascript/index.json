@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Basic rule",
+    "description": "A complete rule defined in javascript",
+    "file": "basicrule.js"
+  },
+  {
+    "name": "Logging",
+    "description": "Shows how to use logging in scripts",
+    "file": "logging.js"
+  }
+]

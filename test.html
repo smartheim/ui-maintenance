@@ -1,0 +1,43 @@
+<html><body><style>my-custom:not(:defined) {
+                display:none;
+            }
+            i.test {
+                color: blueviolet;
+            }</style><script type="module">import { Vue } from './js/vue.js';
+            class OhViewList extends HTMLElement {
+                constructor() {
+                    super();
+                    this.attachShadow({ mode: "open" });
+                }
+                connectedCallback() {
+                    console.log("online");
+    
+                    this.shadowRoot.innerHTML = `<slot name="app"></slot>`;
+    
+                    var elList = this.shadowRoot.querySelector('slot[name="app"]');
+                    elList = elList.assignedNodes()[0];
+    
+                    var tmp = document.createElement("div");
+                    tmp.appendChild(elList.firstChild);
+    
+    //elList = this.shadowRoot.querySelector('slot[name="app"]');
+                    // var tmp = document.createElement("template");
+                    // tmp.appendChild(elList.firstChild);
+    
+                    //console.log(tmp, tmp.content);
+    
+                    this.vue = new Vue({
+                        data: function () {
+                            return {
+                                abc: "blub",
+                                items: [0,1]
+                            }
+                        },
+                        template: tmp,
+                        mounted: function() {
+                            this.$el.setAttribute("slot","app");
+                        }
+                    }).$mount(elList);
+                }
+            }
+            customElements.define('my-custom', OhViewList);</script><my-custom><div slot="app"><div><i class="test" v-for="item in items">lala {{abc}}</i></div></div></my-custom></body></html>

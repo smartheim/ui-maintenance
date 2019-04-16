@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: storage-webworker/openhabStoreLayout.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                     
+                        <img src="assets/img/openhab-logo.svg" alt="logo">
+                    
+                     
+                        <h1 class="navbar-item">Setup&Maintenance JS Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/davidgraeff/paperui-ng" target="_blank">Github</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://davidgraeff.github.io/paperui-ng/" target="_blank">The application</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3><a href="global.html">Global</a></h3></div><div class="category"><h2>App</h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li></ul><h3>Classes</h3><ul><li><a href="module-app.exports.StorageConnector.html">exports.StorageConnector</a></li></ul></div><div class="category"><h2>Data Components</h2><h3>Modules</h3><ul><li><a href="module-ohcomponents.html">ohcomponents</a></li></ul><h3>Externals</h3><ul><li><a href="oh-change-filter.html">oh-change-filter</a></li><li><a href="oh-doc-link.html">oh-doc-link</a></li><li><a href="oh-dropdown-bind.html">oh-dropdown-bind</a></li><li><a href="oh-event-bind.html">oh-event-bind</a></li><li><a href="oh-form-bind.html">oh-form-bind</a></li><li><a href="oh-list-bind.html">oh-list-bind</a></li><li><a href="oh-login-status-link.html">oh-login-status-link</a></li><li><a href="oh-nav-auto-link.html">oh-nav-auto-link</a></li><li><a href="oh-prop-bind.html">oh-prop-bind</a></li><li><a href="oh-script-snippets.html">oh-script-snippets</a></li><li><a href="oh-tutorial-starter.html">oh-tutorial-starter</a></li><li><a href="oh-vue-bind.html">oh-vue-bind</a></li><li><a href="oh-websocket-data.html">oh-websocket-data</a></li></ul><h3>Classes</h3><ul><li><a href="UpdateAdapter.html">UpdateAdapter</a></li></ul><h3>Events</h3><ul><li><a href="oh-websocket-data.html#event:data">data</a></li></ul></div><div class="category"><h2>Rules</h2><h3>Modules</h3><ul><li><a href="module-rule.html">rule</a></li></ul><h3>Classes</h3><ul><li><a href="module-rule.ImportExport.html">ImportExport</a></li><li><a href="module-rule.LayoutManager.html">LayoutManager</a></li><li><a href="module-rule.OHCaptionComponent.html">OHCaptionComponent</a></li><li><a href="module-rule.OHRuleComponent.html">OHRuleComponent</a></li></ul></div><div class="category"><h2>Webworker Storage Model</h2><h3>Modules</h3><ul><li><a href="module-storage-webworker.html">storage-webworker</a></li></ul><h3>Classes</h3><ul><li><a href="module-storage-webworker.StateWhileRevalidateStore.html">StateWhileRevalidateStore</a></li><li><a href="module-storage-webworker-StorageWorker.html">StorageWorker</a></li></ul></div><div class="category"><h2>Tutorial</h2><h3>Modules</h3><ul><li><a href="module-tutorial.html">tutorial</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-tutorial.Tools.html">Tools</a></li></ul></div><div class="category"><h2>Web Components</h2><h3>Modules</h3><ul><li><a href="module-ui-cron-expression.html">ui-cron-expression</a></li><li><a href="module-ui-maps.html">ui-maps</a></li><li><a href="module-ui-time-graph.html">ui-time-graph</a></li><li><a href="module-ui-time-picker.html">ui-time-picker</a></li><li><a href="module-uicomponents.html">uicomponents</a></li></ul><h3>Externals</h3><ul><li><a href="nav-ajax-page-load.html">nav-ajax-page-load</a></li><li><a href="nav-breadcrumb.html">nav-breadcrumb</a></li><li><a href="nav-buttons.html">nav-buttons</a></li><li><a href="oh-rule-editor.html">oh-rule-editor</a></li><li><a href="ui-changelog.html">ui-changelog</a></li><li><a href="ui-codeeditor.html">ui-codeeditor</a></li><li><a href="ui-community-topics.html">ui-community-topics</a></li><li><a href="ui-context-help.html">ui-context-help</a></li><li><a href="ui-cron-expression.html">ui-cron-expression</a></li><li><a href="ui-drop-zone.html">ui-drop-zone</a></li><li><a href="ui-dropdown.html">ui-dropdown</a></li><li><a href="ui-filter.html">ui-filter</a></li><li><a href="ui-github-issues.html">ui-github-issues</a></li><li><a href="ui-maps.html">ui-maps</a></li><li><a href="ui-multiselect.html">ui-multiselect</a></li><li><a href="ui-notification.html">ui-notification</a></li><li><a href="ui-switch.html">ui-switch</a></li><li><a href="ui-tabs.html">ui-tabs</a></li><li><a href="ui-tags.html">ui-tags</a></li><li><a href="ui-time-graph.html">ui-time-graph</a></li><li><a href="ui-time-picker.html">ui-time-picker</a></li><li><a href="ui-youtube.html">ui-youtube</a></li></ul><h3>Events</h3><ul><li><a href="ui-tags.html#event:input">input</a></li></ul></div><div class="category"><h2>Web Components (Reactive)</h2><h3>Modules</h3><ul><li><a href="module-vue.html">vue</a></li></ul><h3>Externals</h3><ul><li><a href="oh-vue.html">oh-vue</a></li><li><a href="oh-vue-form.html">oh-vue-form</a></li><li><a href="oh-vue-list.html">oh-vue-list</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>storage-webworker/openhabStoreLayout.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import VirtualThingChannels from './virtual-stores/thing-channel';
+
+/**
+ * The following table describes all available stores for the model (database). Most
+ * of the stores correspond to a REST endpoint. If a rest endpoint does not allow
+ * indiviual object requests, it is annotated with "singleRequests: false".
+ * 
+ * Some stores are pre-loaded on application start, annotated with "onstart: true".
+ * 
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
+ */
+const tables = [
+  { id: "bindings", uri: "rest/bindings", key: "id", singleRequests: false, onstart: true, label: "Bindings" },// ALTERED
+  { id: "binding-config", uri: "rest/bindings", urlsuffix: "/config", wrapkey: "config", key: "id" },
+  { id: "channel-types", uri: "rest/channel-types", key: "UID", onstart: true },
+  { id: "config-descriptions", uri: "rest/config-descriptions", key: "uri" },
+  { id: "discovery", uri: "rest/discovery", key: "id", singleRequests: false, label: "Discovery" },// ALTERED
+  { id: "extensions", uri: "rest/extensions", key: "id", label: "Extensions" },// ALTERED
+  { id: "extension-repositories", uri: "rest/extension-repositories", key: "url", label: "Extension repositories" },// NEW
+  { id: "manualextensions", uri: "rest/manualextensions", key: "id", label: "Manual extensions" }, // NEW
+  { id: "scripts", uri: "rest/scripts", key: "filename", label: "Scripts" }, // NEW
+  { id: "script-types", uri: "rest/script-types", key: "id" }, // NEW
+  { id: "user-roles", uri: "rest/user-roles", key: "id", label: "User roles" }, // NEW
+  { id: "icon-set", uri: "rest/icon-set", key: null }, // NEW
+  { id: "about", uri: "rest/about", key: null }, // NEW
+  { id: "virtual-thing-channels", uri: null, key: "uid", virtual: VirtualThingChannels }, // VIRTUAL
+  { id: "user-interfaces", uri: "rest/user-interfaces", key: "id", label: "User interfaces" }, // NEW
+  { id: "item-types", uri: "rest/item-types", key: "id" }, // NEW
+  { id: "semantic-tags", uri: "rest/  semantic-tags", key: null }, // NEW
+  { id: "bundle-status", uri: "rest/bundle-status", key: "id", label: "Bundle management" }, // NEW
+  { id: "item-group-function-types", uri: "rest/item-group-function-types", key: "id" }, // NEW
+  { id: "items", uri: "rest/items", urlsuffix: "?metadata=.*", key: "name", onstart: true, label: "Items" },
+  { id: "persistence-services", uri: "rest/persistence-services", key: "id" }, // NEW
+  { id: "persistence", uri: "rest/persistence", key: "uid", singleRequests: false, label: "Persistence" }, // ALTERED
+  { id: "inbox", uri: "rest/inbox", key: "thingUID", singleRequests: false, label: "Inbox" },
+  { id: "links", uri: "rest/links", key: ["itemName", "channelUID"], singleRequests: false, label: "Item linking" },
+  { id: "module-types", uri: "rest/module-types", key: "uid" },
+  { id: "profile-types", uri: "rest/profile-types", key: "uid", singleRequests: false },
+  { id: "rules", uri: "rest/rules", key: "uid", label: "Rules" },
+  { id: "services", uri: "rest/services", key: "id", label: "Services" },
+  { id: "service-config", uri: "rest/services", urlsuffix: "/config", wrapkey: "config", key: "id" },
+  { id: "ruletemplates", uri: "rest/templates", key: "uid" },
+  { id: "thing-types", uri: "rest/thing-types", key: "UID", onstart: true },
+  { id: "thing-types-extended", uri: "rest/thing-types", key: "UID" }, // Extended variant for single requested data
+  { id: "things", uri: "rest/things", key: "UID", onstart: true, label: "Things" }, // ALTERED
+  { id: "voice-interpreters", uri: "rest/voice", key: "id", label: "Voice interpreters" },
+];
+
+/**
+ * The current DB version.
+ * Whenever the data table layout or rewrite-data is changed, this need to be increased.
+ * It will force the indexed db to be cleared out and rebuild.
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
+ */
+const dbversion = 53;
+
+/** 
+ * This is an associative map of storenames to store-layout descriptions.
+ * @const
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
+ */
+const tableIDtoEntry = Object.freeze(tables.reduce((acc, t) => { acc[t.id] = t; return acc; }, {}));
+
+export { tables, tableIDtoEntry, dbversion };</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:12:34 GMT+0000 (Coordinated Universal Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

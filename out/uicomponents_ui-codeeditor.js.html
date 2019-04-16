@@ -1,0 +1,570 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: uicomponents/ui-codeeditor.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                     
+                        <img src="assets/img/openhab-logo.svg" alt="logo">
+                    
+                     
+                        <h1 class="navbar-item">Setup&Maintenance JS Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/davidgraeff/paperui-ng" target="_blank">Github</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://davidgraeff.github.io/paperui-ng/" target="_blank">The application</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3><a href="global.html">Global</a></h3></div><div class="category"><h2>App</h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li></ul><h3>Classes</h3><ul><li><a href="module-app.exports.StorageConnector.html">exports.StorageConnector</a></li></ul></div><div class="category"><h2>Data Components</h2><h3>Modules</h3><ul><li><a href="module-ohcomponents.html">ohcomponents</a></li></ul><h3>Externals</h3><ul><li><a href="oh-change-filter.html">oh-change-filter</a></li><li><a href="oh-doc-link.html">oh-doc-link</a></li><li><a href="oh-dropdown-bind.html">oh-dropdown-bind</a></li><li><a href="oh-event-bind.html">oh-event-bind</a></li><li><a href="oh-form-bind.html">oh-form-bind</a></li><li><a href="oh-list-bind.html">oh-list-bind</a></li><li><a href="oh-login-status-link.html">oh-login-status-link</a></li><li><a href="oh-nav-auto-link.html">oh-nav-auto-link</a></li><li><a href="oh-prop-bind.html">oh-prop-bind</a></li><li><a href="oh-script-snippets.html">oh-script-snippets</a></li><li><a href="oh-tutorial-starter.html">oh-tutorial-starter</a></li><li><a href="oh-vue-bind.html">oh-vue-bind</a></li><li><a href="oh-websocket-data.html">oh-websocket-data</a></li></ul><h3>Classes</h3><ul><li><a href="UpdateAdapter.html">UpdateAdapter</a></li></ul><h3>Events</h3><ul><li><a href="oh-websocket-data.html#event:data">data</a></li></ul></div><div class="category"><h2>Rules</h2><h3>Modules</h3><ul><li><a href="module-rule.html">rule</a></li></ul><h3>Classes</h3><ul><li><a href="module-rule.ImportExport.html">ImportExport</a></li><li><a href="module-rule.LayoutManager.html">LayoutManager</a></li><li><a href="module-rule.OHCaptionComponent.html">OHCaptionComponent</a></li><li><a href="module-rule.OHRuleComponent.html">OHRuleComponent</a></li></ul></div><div class="category"><h2>Webworker Storage Model</h2><h3>Modules</h3><ul><li><a href="module-storage-webworker.html">storage-webworker</a></li></ul><h3>Classes</h3><ul><li><a href="module-storage-webworker.StateWhileRevalidateStore.html">StateWhileRevalidateStore</a></li><li><a href="module-storage-webworker-StorageWorker.html">StorageWorker</a></li></ul></div><div class="category"><h2>Tutorial</h2><h3>Modules</h3><ul><li><a href="module-tutorial.html">tutorial</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-tutorial.Tools.html">Tools</a></li></ul></div><div class="category"><h2>Web Components</h2><h3>Modules</h3><ul><li><a href="module-ui-cron-expression.html">ui-cron-expression</a></li><li><a href="module-ui-maps.html">ui-maps</a></li><li><a href="module-ui-time-graph.html">ui-time-graph</a></li><li><a href="module-ui-time-picker.html">ui-time-picker</a></li><li><a href="module-uicomponents.html">uicomponents</a></li></ul><h3>Externals</h3><ul><li><a href="nav-ajax-page-load.html">nav-ajax-page-load</a></li><li><a href="nav-breadcrumb.html">nav-breadcrumb</a></li><li><a href="nav-buttons.html">nav-buttons</a></li><li><a href="oh-rule-editor.html">oh-rule-editor</a></li><li><a href="ui-changelog.html">ui-changelog</a></li><li><a href="ui-codeeditor.html">ui-codeeditor</a></li><li><a href="ui-community-topics.html">ui-community-topics</a></li><li><a href="ui-context-help.html">ui-context-help</a></li><li><a href="ui-cron-expression.html">ui-cron-expression</a></li><li><a href="ui-drop-zone.html">ui-drop-zone</a></li><li><a href="ui-dropdown.html">ui-dropdown</a></li><li><a href="ui-filter.html">ui-filter</a></li><li><a href="ui-github-issues.html">ui-github-issues</a></li><li><a href="ui-maps.html">ui-maps</a></li><li><a href="ui-multiselect.html">ui-multiselect</a></li><li><a href="ui-notification.html">ui-notification</a></li><li><a href="ui-switch.html">ui-switch</a></li><li><a href="ui-tabs.html">ui-tabs</a></li><li><a href="ui-tags.html">ui-tags</a></li><li><a href="ui-time-graph.html">ui-time-graph</a></li><li><a href="ui-time-picker.html">ui-time-picker</a></li><li><a href="ui-youtube.html">ui-youtube</a></li></ul><h3>Events</h3><ul><li><a href="ui-tags.html#event:input">input</a></li></ul></div><div class="category"><h2>Web Components (Reactive)</h2><h3>Modules</h3><ul><li><a href="module-vue.html">vue</a></li></ul><h3>Externals</h3><ul><li><a href="oh-vue.html">oh-vue</a></li><li><a href="oh-vue-form.html">oh-vue-form</a></li><li><a href="oh-vue-list.html">oh-vue-list</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>uicomponents/ui-codeeditor.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Embeds the VS code editor. There are some workarounds in place,
+ * because the monaco editor is a no ES6-module RequireJS package.
+ * 
+ * That hopefully changes in the future. (Microsoft is working on it)
+ */
+import { fetchWithTimeout } from '../_common/fetch'
+import Yaml from '../_yaml';
+
+const NEVER_CANCEL_TOKEN = {
+  isCancellationRequested: false,
+  onCancellationRequested: () => Event.NONE,
+};
+
+/**
+* @category Web Components
+* @customelement ui-codeeditor
+* @description A VS-Code based editor component. (Project "monaco").
+*
+* Events:
+* - "state": Emited as soon as the editor content has been altered
+ * 
+ * @property {String} scriptfile A URL to show in the editor
+ * @property {Object} content A content object: {value:"text",language:"javascript|yaml",modeluri:"optional_schema_uri"}
+ * @property {Object} modelschema A model schema object
+ * @property {Boolean} haschanges A boolean that is true if the editor content has been altered
+ * @example &lt;caption>Code editor example&lt;/caption>
+ * &lt;ui-codeeditor>&lt;/ui-codeeditor>
+ */
+class OhCodeEditor extends HTMLElement {
+  constructor() {
+    super();
+    this.themechangeBound = () => this.updateTheme();
+    //this.attachShadow({ mode: 'open' });
+  }
+
+  set scriptfile(filename) {
+    fetchWithTimeout(filename).then(response => response.text())
+      .then(res => {
+        this.content = { value: res, language: "javascript" };
+      })
+      .catch(error => console.warn(error, e));
+  }
+
+  get scriptfile() {
+    return "";
+  }
+
+  set haschanges(val) {
+    if (this._haschanges == val) return;
+    this._haschanges = val;
+    if (!val) {
+      this.removeAttribute("haschanges");
+    } else {
+      this.setAttribute("haschanges", "true");
+      this.dispatchEvent(new Event("state"));
+    }
+  }
+
+  get haschanges() {
+    return this._haschanges;
+  }
+
+  /**
+   * The editor content. You can always access the original content via `originalcontent`.
+   * If you set data.language to "yaml", the json content will be converted internally for presentation.
+   */
+  set content(data) {
+    if (!data) {
+      return;
+    }
+
+    if (this.editor) {
+      // Dispose old
+      delete this.cached;
+      this.haschanges = false;
+      this.editor.setModel(null);
+      if (this.model) this.model.dispose();
+
+      // Create new model
+      this._originalcontent = data.value;
+      const editorContent = data.language == "yaml" ? Yaml.dump(data.value, 10, 4).replace(/-     /g, "-\n    ") : data.value;
+      this.model = this.monaco.editor.createModel(editorContent, data.language, data.modeluri);
+      this.model.onDidChangeContent(() => {
+        this.haschanges = true;
+        this.undoRedoUpdateAfterModelChange();
+      });
+      this.editor.setModel(this.model);
+      // Load language extensions and schemas
+      if (data.language == "yaml") this.loadYamlHighlightSupport();
+      this.updateSchema();
+      // Undo/Redo
+      this.initialVersion = this.model.getAlternativeVersionId();
+      this.currentVersion = this.initialVersion;
+      this.lastVersion = this.initialVersion;
+      this.dispatchEvent(new CustomEvent("redoavailable", { detail: false }));
+      this.dispatchEvent(new CustomEvent("undoavailable", { detail: false }));
+
+    }
+    else
+      this.cached = data;
+  }
+
+  get content() {
+    if (this.model) {
+      const datavalue = this.model.getValue();
+      if (this.model.getModeId() == "yaml") return Yaml.parse(datavalue);
+      return datavalue;
+    }
+    return null;
+  }
+
+  addAtCursorPosition(additionalText) {
+    if (!this.model) return;
+    const line = this.editor.getPosition();
+    const range = new this.monaco.Range(line.lineNumber, 1, line.lineNumber, 1);
+    this.editor.executeEdits("my-source", [{ identifier: { major: 1, minor: 1 }, range: range, text: additionalText, forceMoveMarkers: true }]);
+    this.editor.pushUndoStop();
+  }
+
+  /**
+   * Return the unmodifed content that was set by `content = "value"`.
+   */
+  get originalcontent() {
+    return this._originalcontent;
+  }
+
+  showConfirmDialog(callbackID, okBtn = null, cancelBtn = null, text = "Read-only mode. Storing data &amp;hellip;") {
+    this.overlayWidget.callbackID = callbackID;
+    this.overlayWidget.btnConfirmNode.style.display = okBtn ? "block" : "none";
+    this.overlayWidget.btnConfirmNode.innerHTML = okBtn;
+    this.overlayWidget.btnCancelNode.style.display = cancelBtn ? "block" : "none";
+    this.overlayWidget.btnCancelNode.innerHTML = cancelBtn;
+    this.overlayWidget.textNode.innerHTML = text;
+    this.readonly = true;
+  }
+
+  confirmDialog(result) {
+    this.dispatchEvent(new CustomEvent("confirmed", { detail: { result, dialogid: this.overlayWidget.callbackID } }));
+    if (!result) this.readonly = false;
+  }
+
+  /**
+   * Show an overlay with the text that was set in `showConfirmDialog`.
+   */
+  set readonly(val) {
+    if (this._readonly == val) return;
+    this._readonly = val;
+    if (this.editor) {
+      this.editor.updateOptions({ readOnly: val })
+      if (val) {
+        this.editor.addOverlayWidget(this.overlayWidget);
+      } else {
+        this.editor.removeOverlayWidget(this.overlayWidget);
+      }
+    }
+  }
+
+  updateSchema() {
+    if (!this.modelschema || !this.monaco || !this.monaco.languages.yaml) return;
+    this.monaco.languages.yaml.yamlDefaults.setDiagnosticsOptions({
+      enableSchemaRequest: false,
+      validate: true,
+      schemas: [
+        this.modelschema
+      ],
+    });
+    if (this.yamlCompletionProvider) {
+      this.yamlCompletionProvider.dispose();
+      delete this.yamlCompletionProvider;
+    }
+    this.yamlCompletionProvider = this.monaco.languages.registerCompletionItemProvider('yaml', {
+      triggerCharacters: ["-"],
+      provideCompletionItems: async (model, position, context, token) => {
+        const symbols = await this.getSymbolsForPosition(position);
+        let suggestions = [];
+        if (this.completionHelper) {
+          // Must return "label","documentation","insertText"
+          let prefilledArray = await this.completionHelper(symbols, context.triggerCharacter);
+          for (let prefilled of prefilledArray) {
+            if (data.language == "yaml") {
+              // Convert to yaml
+              prefilled.insertText = Yaml.dump([prefilled.insertText], 10, 4).replace(/-     /g, "-\n    ");
+              if (context.triggerCharacter) prefilled.insertText = prefilled.insertText.replace("-", "");
+            }
+            prefilled.kind = monaco.languages.CompletionItemKind.Snippet;
+            prefilled.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
+            suggestions.push(prefilled);
+          }
+        }
+        return { suggestions: suggestions };
+      }
+    });
+  }
+
+  setCompletionHelper(helper) {
+    this.completionHelper = helper;
+  }
+
+  loadRequireJS() {
+    if (window.require) return Promise.resolve("");
+    const url = "vs/loader.js";
+    return new Promise((resolve, reject) => {
+      let script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = url;
+      script.id = url.replace("/", "_").replace(".", "_");
+      script.addEventListener('load', () => resolve(script), { passive: true });
+      script.addEventListener('error', () => reject(script), { passive: true });
+      this.appendChild(script);
+    }).then(() => {
+      window.require = require;
+      window.define = define;
+      if (!window.define) {
+        console.error("Failed to make the vs loader globally available");
+      }
+      require.config = { paths: { 'vs': '.', baseUrl: '.' } };
+    });
+  }
+
+  undoRedoUpdateAfterModelChange() {
+    const versionId = this.editor.getModel().getAlternativeVersionId();
+    // undoing
+    if (versionId &lt; this.currentVersion) {
+      this.dispatchEvent(new CustomEvent("redoavailable", { detail: true }));
+      // no more undo possible
+      if (versionId === this.initialVersion) {
+        this.dispatchEvent(new CustomEvent("undoavailable", { detail: false }));
+      }
+    } else {
+      // redoing
+      if (versionId &lt;= this.lastVersion) {
+        // redoing the last change
+        if (versionId == this.lastVersion) {
+          this.dispatchEvent(new CustomEvent("redoavailable", { detail: false }));
+        }
+      } else { // adding new change, disable redo when adding new changes
+        this.dispatchEvent(new CustomEvent("redoavailable", { detail: false }));
+        if (this.currentVersion > this.lastVersion) {
+          this.lastVersion = this.currentVersion;
+        }
+      }
+      this.dispatchEvent(new CustomEvent("undoavailable", { detail: true }));
+    }
+    this.currentVersion = versionId;
+  }
+
+  undo() {
+    this.editor.trigger('aaaa', 'undo', 'aaaa');
+    this.editor.focus();
+  }
+
+  redo() {
+    this.editor.trigger('aaaa', 'redo', 'aaaa');
+    this.editor.focus();
+  }
+
+  async getSymbolsForPosition(position) {
+    if (!this.quickOpen) return null;
+    let symbols = await this.quickOpen.getDocumentSymbols(
+      this.model,
+      true,
+      NEVER_CANCEL_TOKEN
+    );
+
+    symbols = symbols.filter(symbol =>
+      symbol.range.containsPosition(position)
+    );
+    if (symbols.length) {
+      // this.model.getLineContent()
+      let uidLine = null;
+      for (let i = symbols[0].range.startLineNumber; i &lt; symbols[0].range.endLineNumber; ++i) {
+        let t = this.model.getLineContent(i);
+        t = t.match(" thingTypeUID: [']+(.*)[']+");
+        if (t &amp;&amp; t.length > 0) {
+          uidLine = t[1];
+          break;
+        }
+      }
+      if (!uidLine) return null;
+      symbols[0] = { name: uidLine };
+    }
+    symbols = symbols.map(symbol => {
+      const makeNumber = parseInt(symbol.name);
+      if (makeNumber) return makeNumber;
+      return symbol.name;
+    });
+
+    return symbols;
+  }
+
+  async cursorChangeListener(selection) {
+    const position = selection.getPosition();
+    let symbols = await this.getSymbolsForPosition(position);
+    if (symbols &amp;&amp; symbols.length) {
+      this.dispatchEvent(new CustomEvent("selected", { detail: symbols }));
+    }
+  }
+
+  loadYamlHighlightSupport() {
+    if (this.yamlquickopen) return Promise.resolve("");
+    return new Promise((resolve, reject) => {
+      require(['vs/editor/contrib/quickOpen/quickOpen'], async quickOpen => {
+        this.quickOpen = quickOpen;
+        this.editor.onDidChangeCursorSelection(event => this.cursorChangeListener(event.selection));
+        resolve();
+      })
+    });
+  }
+
+  loadYamlSupport() {
+    if (this.monaco.languages.yaml) {
+      return Promise.resolve("");
+    }
+    return new Promise((resolve, reject) => {
+      require([
+        'vs/language/yaml/monaco.contribution',
+      ], () => {
+        this.updateSchema();
+        resolve();
+      })
+    });
+  }
+
+  loadMonaco() {
+    if (window.monaco) {
+      this.monaco = window.monaco;
+      return Promise.resolve("");
+    }
+    return new Promise((resolve, reject) => {
+      require(['./vs/editor/editor.main'], () => {
+        window.monaco = monaco;
+        this.monaco = monaco;
+        resolve();
+      });
+    });
+  }
+
+  connectedCallback() {
+    while (this.firstChild) { this.firstChild.remove(); }
+    if (this.hasAttribute("themechangeevent")) {
+      document.addEventListener(this.getAttribute("themechangeevent"), this.themechangeBound, { passive: true });
+    }
+
+    const that = this;
+    this.overlayWidget = {
+      domNode: null,
+      textNode: null,
+      btnConfirmNode: null,
+      btnCancelNode: null,
+      getId: function () {
+        return 'my.overlay.widget';
+      },
+      getDomNode: function () {
+        if (!this.domNode) {
+          this.textNode = document.createElement('div');
+          this.textNode.innerHTML = '&amp;hellip;';
+          this.btnConfirmNode = document.createElement('button');
+          this.btnConfirmNode.classList.add("btn", "btn-success", "text-center");
+          this.btnConfirmNode.innerHTML = "";
+          this.btnConfirmNode.style["margin-right"] = "10px";
+          this.btnConfirmNode.addEventListener("click", () => that.confirmDialog(true), { passive: true });
+          this.btnCancelNode = document.createElement('button');
+          this.btnCancelNode.classList.add("btn", "btn-secondary", "text-center");
+          this.btnCancelNode.innerHTML = "";
+          this.btnCancelNode.addEventListener("click", () => that.confirmDialog(false), { passive: true });
+          this.domNode = document.createElement('div');
+          this.domNode.appendChild(this.textNode);
+          let btnContainer = this.domNode.appendChild(document.createElement('div'));
+          btnContainer.style.display = "flex";
+          btnContainer.appendChild(this.btnConfirmNode);
+          btnContainer.appendChild(this.btnCancelNode);
+          this.domNode.classList.add("editoroverlay");
+        }
+        return this.domNode;
+      },
+      getPosition: function () {
+        return null;
+      }
+    };
+
+    this.innerHTML = "&lt;div>Loading editor &amp;hellip;&lt;br>This can take some seconds&lt;/div>"
+    if (this.hasAttribute("scriptfile")) this.scriptfile = this.getAttribute("scriptfile");
+    this.loadRequireJS()
+      .then(() => this.loadMonaco())
+      .then(() => this.loadYamlSupport())
+      .then(() => this.updateSchema())
+      .then(() => this.startEditor());
+  }
+
+  disconnectedCallback() {
+    if (this.hasAttribute("themechangeevent")) {
+      document.removeEventListener(this.getAttribute("themechangeevent"), this.themechangeBound, { passive: true });
+    }
+    if (this.resizeBound) window.removeEventListener('resize', this.resizeBound, { passive: true });
+    if (this.debounceResizeTimer) clearInterval(this.debounceResizeTimer);
+    delete this.debounceResizeTimer;
+
+    if (this.model) this.model.dispose();
+    delete this.model;
+    if (this.editor) this.editor.dispose();
+    delete this.editor;
+  }
+
+  updateTheme() {
+    this.monaco.editor.setTheme(localStorage.getItem("darktheme") == "true" ? "vs-dark" : "vs");
+  }
+
+  startEditor() {
+    const el = this;
+    while (this.firstChild) { this.firstChild.remove(); }
+    this.editor = this.monaco.editor.create(el);
+    this.offset = { width: el.offsetWidth, height: el.offsetHeight - 50 }
+    this.editor.layout(this.offset);
+    this.updateTheme();
+
+    // Resizing
+    if (this.resizeBound) window.removeEventListener('resize', this.resizeBound, { passive: true });
+    this.resizeBound = () => {
+      if (this.debounceResizeTimer) {
+        clearTimeout(this.debounceResizeTimer);
+        delete this.debounceResizeTimer;
+      }
+      this.debounceResizeTimer = setTimeout(() => {
+        let newOffset = { width: el.offsetWidth, height: el.offsetHeight - 50 }
+        if (this.offset.height != newOffset.height || this.offset.width != newOffset.width) {
+          this.offset = newOffset;
+          this.editor.layout(this.offset);
+        }
+      }, 500);
+    }
+    window.addEventListener('resize', this.resizeBound, { passive: true });
+
+    if (this.cached) {
+      this.content = this.cached;
+    } else {
+      this.content = { value: "", language: "javascript", modeluri: null };
+    }
+
+    return Promise.resolve("");
+  }
+}
+
+window.MonacoEnvironment = {
+  baseUrl: '.',
+  getWorkerUrl: function (moduleId, label) {
+    if (label === 'json') {
+      return './vs/language/json/jsonWorker.js';
+    }
+    if (label === 'css') {
+      return './vs/language/css/cssWorker.js';
+    }
+    if (label === 'html') {
+      return './vs/language/html/htmlWorker.js';
+    }
+    if (label === 'typescript' || label === 'javascript') {
+      return './vs/language/typescript/tsWorker.js';
+    }
+    return './vs/base/worker/workerMain.js';
+  }
+}
+
+customElements.define('ui-codeeditor', OhCodeEditor);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:12:34 GMT+0000 (Coordinated Universal Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

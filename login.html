@@ -1,0 +1,57 @@
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=yes"><link rel="icon" href="img/favicon.ico"><link rel="manifest" href="/manifest.json"><link rel="preload" href="fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-500.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="fonts/roboto-v18-latin-ext_greek_cyrillic_cyrillic-ext_greek-ext_latin_vietnamese-700.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="img/pattern_opacity.png" as="image"><link rel="preload" href="img/openhab-logo.svg" as="image"><link rel="stylesheet" href="css/main.css" type="text/css"><link rel="stylesheet" href="css/main_deferred.css" type="text/css"><script type="module" src="js/app.js" async></script><script type="module" src="js/vue.js" async></script><script type="module" src="js/ohcomponents.js" async></script><script type="module" src="js/uicomponents.js" async></script><script type="module">async function applyTheme() {
+                if (localStorage.getItem("darktheme") === "true") {
+                  let darkthemecss = document.getElementById("darkthemecss");
+                  if (!darkthemecss) {
+                    let head = document.getElementsByTagName('head')[0];
+                    let link = document.createElement('style');
+                    link.id = "darkthemecss";
+                    link.innerHTML = await fetch('css/dark.css').then(d => d.text());
+                    head.appendChild(link);
+                    document.dispatchEvent(new Event("themechanged"));
+                  }
+                } else {
+                  let darkthemecss = document.getElementById("darkthemecss");
+                  if (darkthemecss) darkthemecss.remove();
+                }
+                if (localStorage.getItem("widetheme") === "true") {
+                  document.querySelector("body").classList.add("wide");
+                } else {
+                  document.querySelector("body").classList.remove("wide");
+                }
+                window.requestAnimationFrame(() => {
+                  window.dispatchEvent(new Event("resize"));
+                });
+              }
+              window.toggleWideTheme = function (event) {
+                event.preventDefault();
+                let isEnabled = localStorage.getItem("widetheme") === "true";
+                localStorage.setItem("widetheme", !isEnabled);
+                applyTheme();
+              }
+              applyTheme();
+              window.addEventListener('storage', e => { if (e.key == "darktheme") applyTheme(); });
+              document.addEventListener('themechange', e => applyTheme());</script><title>openHAB - Empowering the smart home</title></head><body><nav></nav><header class="navbarui"><a class="sidebar-button" href="#" onclick="toggleSidebar(event)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon" style="max-width: 20px;"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg> </a><a class="home" id="home" href="index.html"><div alt="openHAB" class="logo"></div></a><nav><oh-nav-auto-link></oh-nav-auto-link><div><a id="navmaintenance" href="maintenance.html">Maintenance</a></div><div><a id="navbindings" href="bindings.html">Add-ons</a></div><div><a id="navinbox" href="inbox.html" style="display: inline-flex;align-items: center;">Inbox<oh-form-bind adapter="modeladapter_forms/inboxcounter" objectid=""></oh-form-bind><oh-vue-form></oh-vue-form><template><span class="ml-2 badge badge-pill badge-orange">{{inboxcounter}}</span></template></a></div><div><a id="navthings" href="things.html">Things</a></div><div><a id="navitems" href="items.html">Items</a></div><div><a id="navscheduler" href="schedules.html">Scheduler</a></div><div><a id="navscenes" href="scenes.html">Scenes</a></div><div><a id="navrules" href="rules.html">Automation</a></div></nav></header><nav-ajax-page-load></nav-ajax-page-load><div id="alert-area" class="alert-area"></div><template id="alert-template"><div class="alert-box"><div class="alert-content"><slot></slot></div><a class="alert-close no-loader" data-close href="#"></a></div></template><section class="header"><h4>Connect to openHAB Server</h4></section><main style="justify-content: center;"><style>@keyframes wronglog {
+                    0% {
+                transform: translateX(0px);
+              }
+              25% {
+                transform: translateX(-20px);
+              }
+              50% {
+                transform: translateX(20px);
+              }
+              100% {
+                transform: translateX(0px);
+              }
+                  }
+                    .wronglog {
+                      animation: wronglog 0.7s;
+                    }</style><oh-vue-bind adapter="modeladapter_mixins/login"></oh-vue-bind><oh-vue></oh-vue><template><div><h4 class="text-center">You are currently: <mark v-if="connected">Connected</mark> <mark v-else>Not connected ({{connectionStatus}})</mark></h4><form class="card centeredsmallcard was-validated" :class="{wronglog:notconnectedpulse}" @submit="submitted"><div class="text-center"><h4 class="text-dark">openHAB Server</h4><p class="text-muted">Please enter your openHAB network address<span v-if="credentialsRequired">, username and password</span>!</p></div><div class="form-group"><label class="w-100">Host (Example: http://127.0.0.1:80 <span class="text-muted">Enter "demo" for a demo data set.</span>) <input :class="{'text-danger':notconnected}" class="form-control" name="host" required pattern="(http|https)://(.*)" v-model="host" placeholder="http://127.0.0.1:80"></label></div><div v-if="credentialsRequired" class="form-group">User credentials <label class="w-100"><input type="username" class="form-control" id="inputUsername" placeholder="User name"></label> <label class="w-100"></label> <input type="password" class="form-control" id="inputPassword" placeholder="Password"><div class="my-2"><a target="_blank" href="https://www.openhab.org/docs/installation/security.html#authentication-and-access-control">Why do I need to enter credentials?</a></div></div><div v-if="crossorigin" class="my-2"><details class="alert alert-info" role="alert"><summary>Your openHAB installation does not allow access from another domain.</summary><p class="mt-2">If you do not use a reverse proxy:<br>Please add <q>org.eclipse.smarthome.cors:enable=true</q> to your <code>services.cfg</code> file.</p><p>If you do use a reverse proxy (openhabian!):<br>Add the following lines to `/etc/nginx/sites-enabled/openhab`:<pre>
+server {
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow_Credentials' 'true' always;
+    add_header 'Access-Control-Allow-Headers' 'Authorization,Accept,Origin,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range' always;
+    add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS,PUT,DELETE,PATCH' always;
+    ...
+}
+</pre></p></details></div><button type="submit" :class="{disabled:connecting}" class="btn btn-orange w-100">Login</button></form><div class="centeredsmallcard mt-0 p-1 card" v-if="hostedapp">Although you have apparently accessed this application from an external webpage, it can only find and access your network internal openHAB installation. <mark>No openHAB data is leaving your network at any time.</mark></div><div class="card centeredsmallcard mt-0 text-right p-3" style="display: flex;flex-direction: row;"><div v-if="dumpError" style="flex:1;">{{dumpError}}</div><progress v-else max="100" min="0" :value="dumpProgress" style="flex:1;height: initial;"></progress><button class="ml-2 btn btn-primary" :class="{disabled: dumpInProgress}" @click="dump">Export openHAB data</button></div></div></template></main><footer></footer><aside></aside></body></html>

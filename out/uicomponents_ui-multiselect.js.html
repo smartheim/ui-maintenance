@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: uicomponents/ui-multiselect.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                     
+                        <img src="assets/img/openhab-logo.svg" alt="logo">
+                    
+                     
+                        <h1 class="navbar-item">Setup&Maintenance JS Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/davidgraeff/paperui-ng" target="_blank">Github</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://davidgraeff.github.io/paperui-ng/" target="_blank">The application</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3><a href="global.html">Global</a></h3></div><div class="category"><h2>App</h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li></ul><h3>Classes</h3><ul><li><a href="module-app.exports.StorageConnector.html">exports.StorageConnector</a></li></ul></div><div class="category"><h2>Data Components</h2><h3>Modules</h3><ul><li><a href="module-ohcomponents.html">ohcomponents</a></li></ul><h3>Externals</h3><ul><li><a href="oh-change-filter.html">oh-change-filter</a></li><li><a href="oh-doc-link.html">oh-doc-link</a></li><li><a href="oh-dropdown-bind.html">oh-dropdown-bind</a></li><li><a href="oh-event-bind.html">oh-event-bind</a></li><li><a href="oh-form-bind.html">oh-form-bind</a></li><li><a href="oh-list-bind.html">oh-list-bind</a></li><li><a href="oh-login-status-link.html">oh-login-status-link</a></li><li><a href="oh-nav-auto-link.html">oh-nav-auto-link</a></li><li><a href="oh-prop-bind.html">oh-prop-bind</a></li><li><a href="oh-script-snippets.html">oh-script-snippets</a></li><li><a href="oh-tutorial-starter.html">oh-tutorial-starter</a></li><li><a href="oh-vue-bind.html">oh-vue-bind</a></li><li><a href="oh-websocket-data.html">oh-websocket-data</a></li></ul><h3>Classes</h3><ul><li><a href="UpdateAdapter.html">UpdateAdapter</a></li></ul><h3>Events</h3><ul><li><a href="oh-websocket-data.html#event:data">data</a></li></ul></div><div class="category"><h2>Rules</h2><h3>Modules</h3><ul><li><a href="module-rule.html">rule</a></li></ul><h3>Classes</h3><ul><li><a href="module-rule.ImportExport.html">ImportExport</a></li><li><a href="module-rule.LayoutManager.html">LayoutManager</a></li><li><a href="module-rule.OHCaptionComponent.html">OHCaptionComponent</a></li><li><a href="module-rule.OHRuleComponent.html">OHRuleComponent</a></li></ul></div><div class="category"><h2>Webworker Storage Model</h2><h3>Modules</h3><ul><li><a href="module-storage-webworker.html">storage-webworker</a></li></ul><h3>Classes</h3><ul><li><a href="module-storage-webworker.StateWhileRevalidateStore.html">StateWhileRevalidateStore</a></li><li><a href="module-storage-webworker-StorageWorker.html">StorageWorker</a></li></ul></div><div class="category"><h2>Tutorial</h2><h3>Modules</h3><ul><li><a href="module-tutorial.html">tutorial</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-tutorial.Tools.html">Tools</a></li></ul></div><div class="category"><h2>Web Components</h2><h3>Modules</h3><ul><li><a href="module-ui-cron-expression.html">ui-cron-expression</a></li><li><a href="module-ui-maps.html">ui-maps</a></li><li><a href="module-ui-time-graph.html">ui-time-graph</a></li><li><a href="module-ui-time-picker.html">ui-time-picker</a></li><li><a href="module-uicomponents.html">uicomponents</a></li></ul><h3>Externals</h3><ul><li><a href="nav-ajax-page-load.html">nav-ajax-page-load</a></li><li><a href="nav-breadcrumb.html">nav-breadcrumb</a></li><li><a href="nav-buttons.html">nav-buttons</a></li><li><a href="oh-rule-editor.html">oh-rule-editor</a></li><li><a href="ui-changelog.html">ui-changelog</a></li><li><a href="ui-codeeditor.html">ui-codeeditor</a></li><li><a href="ui-community-topics.html">ui-community-topics</a></li><li><a href="ui-context-help.html">ui-context-help</a></li><li><a href="ui-cron-expression.html">ui-cron-expression</a></li><li><a href="ui-drop-zone.html">ui-drop-zone</a></li><li><a href="ui-dropdown.html">ui-dropdown</a></li><li><a href="ui-filter.html">ui-filter</a></li><li><a href="ui-github-issues.html">ui-github-issues</a></li><li><a href="ui-maps.html">ui-maps</a></li><li><a href="ui-multiselect.html">ui-multiselect</a></li><li><a href="ui-notification.html">ui-notification</a></li><li><a href="ui-switch.html">ui-switch</a></li><li><a href="ui-tabs.html">ui-tabs</a></li><li><a href="ui-tags.html">ui-tags</a></li><li><a href="ui-time-graph.html">ui-time-graph</a></li><li><a href="ui-time-picker.html">ui-time-picker</a></li><li><a href="ui-youtube.html">ui-youtube</a></li></ul><h3>Events</h3><ul><li><a href="ui-tags.html#event:input">input</a></li></ul></div><div class="category"><h2>Web Components (Reactive)</h2><h3>Modules</h3><ul><li><a href="module-vue.html">vue</a></li></ul><h3>Externals</h3><ul><li><a href="oh-vue.html">oh-vue</a></li><li><a href="oh-vue-form.html">oh-vue-form</a></li><li><a href="oh-vue-list.html">oh-vue-list</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>uicomponents/ui-multiselect.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import style from './ui-multiselect.scss';
+import { html, render } from 'lit-html';
+
+/**
+ * @category Web Components
+ * @customelement ui-multiselect
+ * @description A multiselect
+
+ * @example &lt;caption>Multi select example&lt;/caption>
+ * &lt;ui-multiselect>&lt;/ui-multiselect>
+ */
+class UImultiSelect extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.selected = {};
+    this.items = [];
+  }
+  connectedCallback() {
+    this._options = {
+      placeholder: this.getAttribute("placeholder") || 'Select'
+    };
+    if (this.hasAttribute("viewkey")) this.viewkey = this.getAttribute("viewkey");
+    if (this.hasAttribute("desckey")) this.desckey = this.getAttribute("desckey");
+    if (this.hasAttribute("valuekey")) this.valuekey = this.getAttribute("valuekey");
+    render(html`&lt;style>${style}&lt;/style>
+        &lt;slot>&lt;input>&lt;/slot>
+        &lt;div class="multiselect-popup">
+            &lt;ul class="multiselect-list" role="listbox" aria-multiselectable="true">&lt;/ul>
+        &lt;/div>
+        `, this.shadowRoot);
+
+    let slot = this.shadowRoot.querySelector('slot').assignedNodes();
+    let input = (slot.length > 0) ? slot[0] : this.shadowRoot.querySelector('input');
+    if (this.hasAttribute("required")) input.setAttribute("required", "required");
+    input.style.color = "transparent";
+    input.style.height = "initial";
+    input.addEventListener("click", e => e.preventDefault());
+    input.setAttribute("autocomplete", "off");
+    this.input = input;
+    this.style.height = "initial";
+    this._field = this.shadowRoot;
+    this._popup = this.shadowRoot.querySelector('.multiselect-popup');
+    this._list = this.shadowRoot.querySelector('.multiselect-list');
+
+    this.fieldClickHandlerBound = e => this.fieldClickHandler(e);
+    this.shadowRoot.addEventListener('click', this.fieldClickHandlerBound);
+    this.shadowRoot.addEventListener('keydown', this.keyDownHandler.bind(this));
+
+    this._field.appendChild(this.createPlaceholder());
+
+    if (this.hasAttribute("options")) {
+      this.items = this.getAttribute("options").split(",").map(e => { return { "id": e, "label": e } });
+      this.renderOptionsList();
+    } else if (this.cachedOptions) {
+      this.options = this.cachedOptions;
+      delete this.cachedOptions;
+    }
+
+    if (this.cachedValue) {
+      this.value = this.cachedValue;
+      delete this.cachedValue;
+    }
+  }
+  disconnectedCallback() {
+    this.shadowRoot.removeEventListener('click', this.fieldClickHandlerBound);
+  }
+  attributeChangedCallback(optionName, oldValue, newValue) {
+    this._options[optionName] = newValue;
+    if (optionName == "options") this.renderOptionsList();
+  };
+  set options(newValue) {
+    if (!this._list) {
+      this.cachedOptions = newValue;
+      return;
+    }
+    if (!this.viewkey || !this.valuekey) {
+      console.warn("No viewkey/valuekey set!", newValue);
+      return;
+    }
+    const options = [];
+    for (let entry of newValue) {
+      const id = entry[this.valuekey];
+      const label = entry[this.viewkey];
+      const desc = entry[this.desckey];
+      //console.log("OPTION", { id, label, desc });
+      options.push({ id, label, desc });
+    }
+    this.items = options;
+    this.renderOptionsList();
+    this.renderField();
+  }
+  get value() {
+    return Object.keys(this.selected).join(",");
+  }
+  get valueArray() {
+    return Object.keys(this.selected);
+  }
+  set value(newVal) {
+    if (!this._list) {
+      this.cachedValue = newVal;
+      return;
+    }
+
+    if (!newVal || !newVal.length) newVal = [];
+
+    let keys = Array.isArray(newVal) ? newVal : newVal.split(",");
+    for (let key of keys) {
+      if (this.selected[key]) continue;
+      let found = false;
+      for (let item of this.items) {
+        if (item.id === key) {
+          this.selected[key] = item;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        this.selected[key] = { id: key, label: key };
+      }
+    }
+    // Remove entries form this.selected that are not in keys
+    let oldKeys = Object.keys(this.selected);
+    for (let oldKey of oldKeys) {
+      if (!keys.includes(oldKey)) {
+        delete this.selected[oldKey];
+      }
+    }
+
+    this.renderField();
+  }
+  renderOptionsList() {
+    while (this._list.firstChild) { this._list.firstChild.remove(); }
+    for (let item of this.items) {
+      const liEl = document.createElement("li");
+      liEl.setAttribute("role", "option");
+      liEl.setAttribute("tabindex", -1);
+      liEl.dataset.id = item.id;
+      liEl.dataset.label = item.label;
+      if (item.desc) {
+        liEl.dataset.desc = item.desc;
+        liEl.innerHTML = `&lt;b>${item.label}&lt;/b>&lt;br>&lt;small>${item.desc}&lt;/small>`;
+      } else liEl.innerHTML = item.label;
+      // Selected?
+      if (this.selected[item.id]) {
+        liEl.setAttribute('selected', 'selected');
+        liEl.setAttribute('aria-selected', true);
+        this.selected[item.id] = { id: item.id, label: item.label, desc: item.desc };
+      }
+
+      const liEl2 = this._list.appendChild(liEl);
+      liEl2.addEventListener("click", (e) => this.selectItem(e.target.closest("li"), e));
+    }
+  }
+  renderField() {
+    let keys = Object.keys(this.selected);
+
+    // Placeholder
+    if (!keys.length) {
+      this._field.querySelectorAll(".multiselect-tag").forEach(e => e.remove());
+      if (!this._field.querySelector(".multiselect-field-placeholder"))
+        this._field.appendChild(this.createPlaceholder());
+      this.input.removeAttribute("value");
+      return;
+    } else {
+      let placeholder = this._field.querySelector(".multiselect-field-placeholder");
+      if (placeholder) placeholder.remove();
+      this.input.setAttribute("value", "-");
+    }
+
+    const foundItems = {};
+    const nodes = this._field.querySelectorAll(".multiselect-tag");
+    for (let node of nodes) {
+      const id = node.dataset.id;
+      if (!keys.includes(id)) { // Remove
+        node.remove();
+      } else { // Update
+        let tagInfo = this.selected[id];
+        if (!tagInfo.label) continue;
+        node.querySelector(".multiselect-tag-text").textContent = tagInfo.label;
+        foundItems[id] = true;
+      }
+    }
+
+    // Add
+    for (let tagKey of keys) {
+      const newTagInfo = this.selected[tagKey];
+      const id = newTagInfo.id;
+      if (!id || foundItems[id]) continue;
+
+      const tag = document.createElement('div');
+      tag.dataset.id = id;
+      tag.className = 'multiselect-tag';
+      const content = document.createElement('div');
+      content.className = 'multiselect-tag-text';
+      content.textContent = newTagInfo.label;
+      if (newTagInfo.desc) content.title = newTagInfo.desc;
+      const removeButton = document.createElement('div');
+      removeButton.className = 'multiselect-tag-remove-button';
+      removeButton.dataset.id = id;
+      removeButton.addEventListener('click', (e) => this.removeClick(e));
+      tag.appendChild(content);
+      tag.appendChild(removeButton);
+
+      this._field.appendChild(tag);
+    }
+  }
+  fieldClickHandler() {
+    this._isOpened ? this.close() : this.open();
+  }
+  keyDownHandler(event) {
+    switch (event.which) {
+      case 8:
+        this.handleBackspaceKey();
+        break;
+      case 13:
+        this.handleEnterKey();
+        break;
+      case 27:
+        this.handleEscapeKey();
+        break;
+      case 38:
+        event.altKey ? this.handleAltArrowUpKey() : this.handleArrowUpKey();
+        break;
+      case 40:
+        event.altKey ? this.handleAltArrowDownKey() : this.handleArrowDownKey();
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+  }
+  handleEnterKey() {
+    if (this._isOpened) {
+      const focusedItem = this.shadowRoot.querySelectorAll('li')[this._focusedItemIndex];
+      if (focusedItem) this.selectItem(focusedItem);
+    }
+  }
+  handleArrowDownKey() {
+    this._focusedItemIndex = (this._focusedItemIndex &lt; this.shadowRoot.querySelectorAll('li').length - 1)
+      ? this._focusedItemIndex + 1
+      : 0;
+    this.refreshFocusedItem();
+  }
+  handleArrowUpKey() {
+    this._focusedItemIndex = (this._focusedItemIndex > 0)
+      ? this._focusedItemIndex - 1
+      : this.shadowRoot.querySelectorAll('li').length - 1;
+    this.refreshFocusedItem();
+  }
+  handleAltArrowDownKey() {
+    this.open();
+  }
+  handleAltArrowUpKey() {
+    this.close();
+  }
+  refreshFocusedItem() {
+    const el = this.shadowRoot.querySelectorAll('li')[this._focusedItemIndex];
+    if (el) el.focus();
+  }
+  handleBackspaceKey() {
+    const selectedItemElements = this.shadowRoot.querySelectorAll("li[selected]");
+    if (selectedItemElements.length) {
+      const item = selectedItemElements[selectedItemElements.length - 1];
+      const itemID = item.dataset.id;
+      delete this.selected[itemID];
+      item.removeAttribute('selected');
+      item.setAttribute('aria-selected', false);
+      this.renderField();
+      this.fireChangeEvent();
+      this.unselectItem();
+    }
+  }
+  handleEscapeKey() {
+    this.close();
+  }
+  selectItem(item, event) {
+    if (event) event.stopPropagation();
+    if (!item.hasAttribute('selected')) {
+      item.setAttribute('selected', 'selected');
+      item.setAttribute('aria-selected', true);
+      this.selected[item.dataset.id] = { id: item.dataset.id, label: item.dataset.label, desc: item.dataset.desc };
+      this.renderField();
+      this.fireChangeEvent();
+    }
+    this.close();
+  }
+  fireChangeEvent() {
+    const event = new CustomEvent("input");
+    this.dispatchEvent(event);
+  }
+  togglePopup(show) {
+    this._isOpened = show;
+    this._popup.style.display = show ? 'block' : 'none';
+    this.setAttribute("aria-expanded", show);
+  }
+  removeClick(event) {
+    event.stopPropagation();
+    const id = event.target.dataset.id;
+    delete this.selected[id];
+    const item = this._list.querySelector('li[data-id="' + id + '"]');
+    if (item) {
+      item.removeAttribute('selected');
+      item.setAttribute('aria-selected', false);
+    }
+    let fieldItem = event.target.parentElement;
+    fieldItem.remove();
+    this.fireChangeEvent();
+    this._focusedItemIndex = 0;
+    if (Object.keys(this.selected).length == 0) this.renderField();
+  }
+  createPlaceholder() {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'multiselect-field-placeholder';
+    placeholder.textContent = this._options.placeholder;
+    return placeholder;
+  }
+  open() {
+    this.togglePopup(true);
+    this.refreshFocusedItem();
+  }
+  close() {
+    this.togglePopup(false);
+    //this.shadowRoot.focus();
+  }
+  selectedItems() {
+    const result = [];
+    const selectedItems = this.shadowRoot.querySelectorAll('li[selected]');
+    for (let i = 0; i &lt; selectedItems.length; i++) {
+      const selectedItem = selectedItems[i];
+      result.push(selectedItem.hasAttribute('value')
+        ? selectedItem.getAttribute('value')
+        : selectedItem.textContent);
+    }
+    return result;
+  }
+}
+
+customElements.define('ui-multiselect', UImultiSelect);</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:12:34 GMT+0000 (Coordinated Universal Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

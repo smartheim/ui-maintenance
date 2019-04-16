@@ -1,0 +1,587 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: modeladapter_lists/items-full.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                     
+                        <img src="assets/img/openhab-logo.svg" alt="logo">
+                    
+                     
+                        <h1 class="navbar-item">Setup&Maintenance JS Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/davidgraeff/paperui-ng" target="_blank">Github</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://davidgraeff.github.io/paperui-ng/" target="_blank">The application</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3><a href="global.html">Global</a></h3></div><div class="category"><h2>App</h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li></ul><h3>Classes</h3><ul><li><a href="module-app.exports.StorageConnector.html">exports.StorageConnector</a></li></ul></div><div class="category"><h2>Data Components</h2><h3>Modules</h3><ul><li><a href="module-ohcomponents.html">ohcomponents</a></li></ul><h3>Externals</h3><ul><li><a href="oh-change-filter.html">oh-change-filter</a></li><li><a href="oh-doc-link.html">oh-doc-link</a></li><li><a href="oh-dropdown-bind.html">oh-dropdown-bind</a></li><li><a href="oh-event-bind.html">oh-event-bind</a></li><li><a href="oh-form-bind.html">oh-form-bind</a></li><li><a href="oh-list-bind.html">oh-list-bind</a></li><li><a href="oh-login-status-link.html">oh-login-status-link</a></li><li><a href="oh-nav-auto-link.html">oh-nav-auto-link</a></li><li><a href="oh-prop-bind.html">oh-prop-bind</a></li><li><a href="oh-script-snippets.html">oh-script-snippets</a></li><li><a href="oh-tutorial-starter.html">oh-tutorial-starter</a></li><li><a href="oh-vue-bind.html">oh-vue-bind</a></li><li><a href="oh-websocket-data.html">oh-websocket-data</a></li></ul><h3>Classes</h3><ul><li><a href="UpdateAdapter.html">UpdateAdapter</a></li></ul><h3>Events</h3><ul><li><a href="oh-websocket-data.html#event:data">data</a></li></ul></div><div class="category"><h2>Rules</h2><h3>Modules</h3><ul><li><a href="module-rule.html">rule</a></li></ul><h3>Classes</h3><ul><li><a href="module-rule.ImportExport.html">ImportExport</a></li><li><a href="module-rule.LayoutManager.html">LayoutManager</a></li><li><a href="module-rule.OHCaptionComponent.html">OHCaptionComponent</a></li><li><a href="module-rule.OHRuleComponent.html">OHRuleComponent</a></li></ul></div><div class="category"><h2>Webworker Storage Model</h2><h3>Modules</h3><ul><li><a href="module-storage-webworker.html">storage-webworker</a></li></ul><h3>Classes</h3><ul><li><a href="module-storage-webworker.StateWhileRevalidateStore.html">StateWhileRevalidateStore</a></li><li><a href="module-storage-webworker-StorageWorker.html">StorageWorker</a></li></ul></div><div class="category"><h2>Tutorial</h2><h3>Modules</h3><ul><li><a href="module-tutorial.html">tutorial</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-tutorial.Tools.html">Tools</a></li></ul></div><div class="category"><h2>Web Components</h2><h3>Modules</h3><ul><li><a href="module-ui-cron-expression.html">ui-cron-expression</a></li><li><a href="module-ui-maps.html">ui-maps</a></li><li><a href="module-ui-time-graph.html">ui-time-graph</a></li><li><a href="module-ui-time-picker.html">ui-time-picker</a></li><li><a href="module-uicomponents.html">uicomponents</a></li></ul><h3>Externals</h3><ul><li><a href="nav-ajax-page-load.html">nav-ajax-page-load</a></li><li><a href="nav-breadcrumb.html">nav-breadcrumb</a></li><li><a href="nav-buttons.html">nav-buttons</a></li><li><a href="oh-rule-editor.html">oh-rule-editor</a></li><li><a href="ui-changelog.html">ui-changelog</a></li><li><a href="ui-codeeditor.html">ui-codeeditor</a></li><li><a href="ui-community-topics.html">ui-community-topics</a></li><li><a href="ui-context-help.html">ui-context-help</a></li><li><a href="ui-cron-expression.html">ui-cron-expression</a></li><li><a href="ui-drop-zone.html">ui-drop-zone</a></li><li><a href="ui-dropdown.html">ui-dropdown</a></li><li><a href="ui-filter.html">ui-filter</a></li><li><a href="ui-github-issues.html">ui-github-issues</a></li><li><a href="ui-maps.html">ui-maps</a></li><li><a href="ui-multiselect.html">ui-multiselect</a></li><li><a href="ui-notification.html">ui-notification</a></li><li><a href="ui-switch.html">ui-switch</a></li><li><a href="ui-tabs.html">ui-tabs</a></li><li><a href="ui-tags.html">ui-tags</a></li><li><a href="ui-time-graph.html">ui-time-graph</a></li><li><a href="ui-time-picker.html">ui-time-picker</a></li><li><a href="ui-youtube.html">ui-youtube</a></li></ul><h3>Events</h3><ul><li><a href="ui-tags.html#event:input">input</a></li></ul></div><div class="category"><h2>Web Components (Reactive)</h2><h3>Modules</h3><ul><li><a href="module-vue.html">vue</a></li></ul><h3>Externals</h3><ul><li><a href="oh-vue.html">oh-vue</a></li><li><a href="oh-vue-form.html">oh-vue-form</a></li><li><a href="oh-vue-list.html">oh-vue-list</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>modeladapter_lists/items-full.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { store, fetchMethodWithTimeout, MultiRestError, createNotification } from '../app.js'; // Pre-bundled, external reference
+
+let schema = {
+  uri: 'http://openhab.org/schema/items-schema.json', // id of the item schema
+  fileMatch: ["http://openhab.org/schema/items-schema.json"], // associate with our model
+  schema: {
+    type: 'array',
+    items: { "$ref": "#/definitions/item" },
+    definitions: {
+      item: {
+        type: "object",
+        description: "An openHAB item",
+        required: ["type", "name", "label"],
+        properties: {
+          link: { type: "string", description: "Internal URI information for openHAB REST clients" },
+          type: {
+            type: "string",
+            enum: ['String', 'Number', 'Switch', 'Color', 'Contact', 'DateTime', 'Dimmer', 'Image', 'Location', 'Player',
+              'Rollershutter', 'Group'],
+            description: "The item type"
+          },
+          category: {
+            type: "string",
+            description: "The item icon",
+            enum: []
+          },
+          editable: { type: "boolean", description: "Items defined via old .item files are not editable" },
+          state: {
+            type: ["integer", "string", "boolean"],
+            description: "The current state of the item",
+          },
+          stateDescription: {
+            type: "object",
+            description: "The state can be limited to a number of options and formatted",
+            required: ["pattern", "readOnly", "options"],
+            properties: {
+              pattern: { type: "string", description: "A formatter pattern" },
+              readOnly: { type: "boolean", description: "Is this state read-only?" },
+              options: { type: "array", description: "Options" },
+            }
+          },
+          metadata: {
+            type: "object",
+            description: "An item can have metadata. Metadata is organized in namespaces",
+            properties: {}
+          },
+          function: {
+            type: "object",
+            description: "A group item can have a function assigned to compute an overall state for all items",
+            required: ["name"],
+            properties: {
+              name: { type: "string", description: "The function name" },
+              params: { type: "array", description: "Parameters for the function" },
+            }
+          },
+          name: { type: "string", description: "A unique ID for this item", minLength: 2 },
+          label: { type: "string", description: "A friendly name", minLength: 2 },
+          tags: {
+            type: "array", "uniqueItems": true, description: "Tags of this item",
+            items: {
+              "type": "string"
+            }
+          },
+          groupNames: {
+            type: "array", "uniqueItems": true, description: "Assign this item to groups",
+            items: {
+              "type": "string",
+              "enum": []
+            }
+          },
+        }
+      }
+    }
+  },
+}
+
+class ModelAdapter {
+  constructor() {
+    this.STORE_ITEM_INDEX_PROP = Object.freeze("name");
+    this.runtimeKeys = ["link", "editable", "state"]; this.items = [];
+  }
+  stores() { return { "items": "items" } };
+  sortStore() { return "items" };
+  getall(options = null) {
+    return store.get("item-types", null, { force: true })
+      .then(json => this.itemtypes = json)
+      .then(() => store.get("item-group-function-types", null, { force: true }))
+      .then(v => this.functiontypes = v)
+      .then(() => store.get("config-descriptions", null, { filter: "uri:metadata", force: true }))
+      .then(v => this.config = v)
+      .then(() => store.get("icon-set", null, { force: true }))
+      .then(v => this.iconset = v)
+      .then(() => store.get("semantic-tags", null, { force: true }))
+      .then(v => {
+        let semantic = {};
+        // Create a map from type->entry
+        for (let semanticTag of v) {
+          // Create another inner map from tag->entry
+          if (!semantic[semanticTag.type])
+            semantic[semanticTag.type] = new Map;
+          semantic[semanticTag.type].set(semanticTag.tag, semanticTag);
+        }
+        this.semantic = semantic;
+      })
+      .then(() => this.get(null, null, options))
+  }
+  async get(table = null, objectid = null, options = null) {
+    this.items = await store.get("items", null, options);
+    this.adaptSchema();
+  }
+  dispose() {
+  }
+  adaptSchema() {
+    // Add all known metadata namespaces and their properties to the json schema
+    let metadata = schema.schema.definitions.item.properties.metadata;
+    metadata.properties = {};
+    for (let config of this.config) {
+      const namespace = config.uri.split("metadata:")[1];
+      metadata.properties[namespace] = { type: "object", description: "The metadata namespace " + namespace, properties: {} };
+      for (let param of config.parameters) {
+        metadata.properties[namespace].properties[param.name] = {};
+        let o = metadata.properties[namespace].properties[param.name];
+        o.description = param.description || param.name;
+        switch (param.type) {
+          case "BOOLEAN":
+            o.type = "boolean";
+            break;
+          case "DECIMAL":
+          case "INTEGER":
+            o.type = "number";
+            break;
+          default:
+            o.type = "string";
+        }
+        if (param.options &amp;&amp; param.options.length &amp;&amp; param.limitToOptions) {
+          o.enum = param.options.map(e => e.value);
+        }
+      }
+    }
+
+    // Add all allowed function types to the schema
+    let functiontypes = schema.schema.definitions.item.properties.function;
+    functiontypes.properties.name.enum = this.functiontypes.map(e => e.id);
+
+    // Add all possible group items to the schema
+    schema.schema.definitions.item.properties.groupNames.items.enum = this.items.filter(i => i.type === "Group").map(i => i.name);
+
+    // Add icon set options
+    schema.schema.definitions.item.properties.category.enum = this.iconset;
+    schema.schema.definitions.item.properties.category.enum.push("");
+  }
+  getAllowedStates(itemtype) {
+    for (let t of this.itemtypes) {
+      if (t.id == itemtype) {
+        return t.allowedStates;
+      }
+    }
+    return [];
+  }
+  getCommands(itemtype) {
+    for (let t of this.itemtypes) {
+      if (t.id == itemtype) {
+        return t.commands || [];
+      }
+    }
+    return [];
+  }
+}
+
+const ItemsMixin = {
+  computed: {
+    isGroup: function () {
+      return this.item.type == "Group";
+    },
+    iconpath: function () {
+      if (store.host != "demo" &amp;&amp; this.item.category) {
+        return store.host + "/icon/" + this.item.category;
+      } else {
+        return "./img/scene_dummy.jpg";
+      }
+      return null;
+    },
+    itemcommands() {
+      let commands = this.$list.store.getCommands(this.item.groupType ? this.item.groupType : this.item.type);
+      if (commands.length)
+        return commands.join(",");
+      return "";
+    },
+    groupfunctions() {
+      return this.$list.store.functiontypes.filter(e => e.compatible.length == 0 || e.compatible.includes(this.item.groupType));
+    },
+    hasFunctionParameters() {
+      if (!this.item.function || !this.item.function.name) return false;
+      let fun = this.$list.store.functiontypes.find(e => e.id == this.item.function.name);
+      return (fun &amp;&amp; fun.params);
+    },
+    functionparameters() {
+      let fun = this.$list.store.functiontypes.find(e => e.id == this.item.function.name);
+      if (!fun || !fun.params) return [];
+      const params = [];
+      for (let i = 0; i &lt; fun.params.length; ++i) {
+        let param = fun.params[i];
+        const value = (this.item.function.params &amp;&amp; this.item.function.params.length > i) ? this.item.function.params[i] : null;
+        let allowedStates = this.$list.store.getAllowedStates(this.item.groupType);
+        if (allowedStates.length) allowedStates = allowedStates.join(",");
+        params.push(Object.assign({ value, allowedStates }, param));
+      }
+      return params;
+    },
+    namespaces: function () {
+      let result = [];
+      const configs = this.$list.store.config || [];
+      const metadata = this.item.metadata || {};
+
+      for (let config of configs) {
+        if (!config.uri.startsWith("metadata:") || !config.parameters) continue;
+        const namespace = config.uri.split("metadata:")[1];
+        const data = metadata[namespace] || {};
+        result.push({ name: namespace, values: Object.assign({}, data), parameters: config.parameters, hasconfig: true })
+      }
+
+      let namespaces = Object.keys(metadata);
+      for (const namespaceName of namespaces) {
+        const config = configs.find(e => e.uri == "metadata:" + namespaceName);
+        if (config) continue; // Raw namespace data: No configuration associated
+        const namespace = this.item.metadata[namespaceName];
+        let values = [];
+        const rawData = Object.keys(namespace);
+        for (let key of rawData) {
+          values.push({ id: key, description: key, value: Object.assign({}, rawData[key]) });
+        }
+
+        result.push({ name: namespaceName, values: values, hasconfig: false })
+      }
+      return result;
+    },
+    getSemanticLocation() {
+      return this.item.tags.filter(e => this.$list.semantic.Location.has(e));
+    },
+    getSemanticProperty() {
+      return this.item.tags.filter(e => this.$list.semantic.Property.has(e));
+    },
+    getSemanticPoint() {
+      return this.item.tags.filter(e => this.$list.semantic.Point.has(e));
+    },
+    getSemanticEquipment() {
+      return this.item.tags.filter(e => this.$list.semantic.Equipment.has(e));
+    }
+  },
+  methods: {
+    setLabel(event) {
+      if (event.target.innerText.trim().length)
+        this.item.label = event.target.innerText.trim();
+      else {
+        event.target.innerText = this.item.label;
+      }
+    },
+    /**
+     * Sets the semantic tags of one of the multi-select boxes.
+     * The difficulty is that we need to merge that into the item.tags,
+     * by removing every semantic tag of the given multi-select box type
+     * and adding the selected ones back.
+     * @param {Object} event multi-select input change event
+     */
+    setSemanticTag(event) {
+      const selectedTags = event.target.valueArray;
+      const dest = event.target.dataset.type;
+
+      const itemTags = new Set(this.item.tags);
+      const destTags = this.$list.semantic[dest].keys();
+      for (let destTag of destTags) {
+        itemTags.delete(destTag);
+      }
+      for (let tag of selectedTags) {
+        itemTags.add(tag);
+      }
+      this.item.tags = [...itemTags];
+      console.log("SETTYPE TAGS", selectedTags, itemTags, this.item.tags);
+    },
+    addMeta() {
+      if (!this.$refs.namespacename.value.length) return;
+      if (!this.$refs.namespacevalue.value.length) return;
+      this.setMeta(this.$refs.namespacename.value, 'TEXT', "value", this.$refs.namespacevalue.value)
+      this.$refs.namespacename.value = "";
+      this.$refs.namespacevalue.value = "";
+      this.$refs.namespacename.focus();
+    },
+    /**
+     * At the moment "name" is always "value", because a namespace can only hold one single "value".
+     */
+    removeMeta(namespacename, name) {
+      let data = this.item.metadata || {};
+      if (!data[namespacename]) return;
+      let promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespacename, "DELETE");
+      promise.then(r => {
+        this.messagetitle = "Removed '" + namespacename + "'";
+        this.changeNotification();
+        setTimeout(() => {
+          this.inProgress = false;
+        }, 500);
+      }).catch(e => {
+        console.log(e);
+        if (e.status &amp;&amp; e.status == 400) {
+          this.message = "Meta writing failed!";
+        } else
+          this.message = e.toString();
+      })
+    },
+    /**
+     * At the moment "name" is always "value", because a namespace can only hold one single "value".
+     */
+    setMeta(namespacename, type, name, value) {
+      let data = this.item.metadata || {};
+      data = data[namespacename] || {};
+      switch (type) {
+        case "BOOLEAN":
+          data[name] = value === "true";
+          break;
+        case "DECIMAL":
+          data[name] = parseFloat(value);
+          break;
+        case "INTEGER":
+          data[name] = parseInt(value);
+          break;
+        default:
+          data[name] = value;
+      }
+      if (value == null) {
+        delete data[name];
+      }
+      data = JSON.stringify(data);
+      this.message = null;
+      this.messagetitle = "Write meta: '" + namespacename + "'";
+      this.inProgress = true;
+      let promise;
+      if (data.length == 2) // Empty object "{}"
+        promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespacename, "DELETE");
+      else
+        promise = fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name + "/metadata/" + namespacename, "PUT", data);
+
+      promise.then(r => {
+        this.messagetitle = "Success '" + namespacename + "'";
+        this.changeNotification();
+        setTimeout(() => {
+          this.inProgress = false;
+        }, 500);
+      }).catch(e => {
+        console.log(e);
+        if (e.status &amp;&amp; e.status == 400) {
+          this.message = "Meta writing failed!";
+        } else
+          this.message = e.toString();
+      })
+    },
+    showIconDialog() {
+      document.getElementById('change-icon-source').context = this.item;
+    },
+    setGroup(groupType) {
+      if (groupType != "-")
+        this.$set(this.item, "groupType", groupType);
+      else
+        this.$delete(this.item, "groupType");
+    },
+    setGroupFunction(value) {
+      if (value)
+        this.$set(this.item, "function", value);
+      else
+        this.$delete(this.item, "function");
+    },
+    setFunctionParameter(index, value) {
+      if (!this.item.function) {
+        console.warn("No function in setFunctionParameter");
+        return;
+      }
+      if (!this.item.function.params)
+        this.$set(this.item.function, 'params', []);
+      while (this.item.function.params.length &lt; index + 1) this.item.function.params.push(null);
+
+      console.log("setFunctionParameter set", value, index);
+      this.$set(this.item.function.params, index, value);
+    },
+    sendCommand() {
+      const command = this.$el.querySelector(".commandInput").value;
+      this.message = null;
+      this.messagetitle = "Sending: '" + command + "'";
+      this.inProgress = true;
+      fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "POST", command, "text/plain")
+        .then(r => {
+          this.messagetitle = "Success '" + command + "'";
+          this.inProgress = false;
+        }).catch(e => {
+          console.log(e);
+          if (e.status &amp;&amp; e.status == 400) {
+            this.message = "Command not applicable for item type!";
+          } else
+            this.message = e.toString();
+        })
+
+    },
+    remove() {
+      this.message = null;
+      this.messagetitle = "Removing item...";
+      this.inProgress = true;
+      fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "DELETE", null)
+        .then(r => {
+          this.message = "Item '" + this.item.label + "' removed";
+          this.inProgress = false;
+        }).catch(e => {
+          this.message = e.toString();
+        })
+    },
+    save() {
+      this.message = null;
+      this.messagetitle = "Saving item...";
+      this.inProgress = true;
+      this.changed = false;
+      fetchMethodWithTimeout(store.host + "/rest/items/" + this.item.name, "PUT", JSON.stringify(this.item))
+        .then(r => {
+          this.message = "Item '" + this.item.label + "' saved";
+          this.inProgress = false;
+        }).catch(e => {
+          this.message = e.toString();
+        })
+    }
+  }
+}
+
+const ItemListMixin = {
+  data() {
+    return {
+      viewmode: '0'
+    }
+  },
+  mounted() {
+    this.modelschema = schema;  // Don't freeze: The schema is adapted dynamically
+  },
+  computed: {
+    groupItems: function () {
+      return this.items.filter(e => e.type == 'Group');
+    },
+    itemtypes() {
+      return this.store.itemtypes;
+    },
+    grouptypes() {
+      return this.store.itemtypes.filter(e => e.group);
+    },
+    semantic() {
+      return this.store.semantic;
+    },
+  },
+  methods: {
+    async saveAll(updated, created, removed) {
+      let errorItems = [];
+      console.log("saveAll", updated, created, removed);
+      for (let c of created) updated.push(c);
+      console.log("saveAll2", updated, created, removed);
+      for (let item of updated) {
+        await fetchMethodWithTimeout(store.host + "/rest/items/" + item.name, "PUT", JSON.stringify(item))
+          .catch(e => {
+            errorItems.push(item.name + ":" + e.toString());
+          })
+      }
+      for (let item of removed) {
+        await fetchMethodWithTimeout(store.host + "/rest/items/" + item.name, "DELETE")
+          .catch(e => {
+            errorItems.push(item.name + ":" + e.toString());
+          })
+      }
+      if (errorItems.length) {
+        throw new MultiRestError("Some objects failed", errorItems);
+      } else {
+        createNotification(null, `Updated ${updated.length}, Created ${created.length}, Removed ${removed.length} objects`, false, 1500);
+      }
+    }
+  }
+};
+
+const mixins = [ItemsMixin];
+const listmixins = [ItemListMixin];
+export { mixins, listmixins, ModelAdapter };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:12:34 GMT+0000 (Coordinated Universal Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

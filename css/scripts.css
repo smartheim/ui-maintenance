@@ -1,0 +1,1 @@
+main{display:flex;flex-direction:column}main #editorwindow{flex:1;overflow:hidden}main #editorwindow>div{position:absolute;bottom:30px;margin-top:30px}

@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: storage-webworker/sortFilterLimit.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                     
+                        <img src="assets/img/openhab-logo.svg" alt="logo">
+                    
+                     
+                        <h1 class="navbar-item">Setup&Maintenance JS Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/davidgraeff/paperui-ng" target="_blank">Github</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://davidgraeff.github.io/paperui-ng/" target="_blank">The application</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3><a href="global.html">Global</a></h3></div><div class="category"><h2>App</h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li></ul><h3>Classes</h3><ul><li><a href="module-app.exports.StorageConnector.html">exports.StorageConnector</a></li></ul></div><div class="category"><h2>Data Components</h2><h3>Modules</h3><ul><li><a href="module-ohcomponents.html">ohcomponents</a></li></ul><h3>Externals</h3><ul><li><a href="oh-change-filter.html">oh-change-filter</a></li><li><a href="oh-doc-link.html">oh-doc-link</a></li><li><a href="oh-dropdown-bind.html">oh-dropdown-bind</a></li><li><a href="oh-event-bind.html">oh-event-bind</a></li><li><a href="oh-form-bind.html">oh-form-bind</a></li><li><a href="oh-list-bind.html">oh-list-bind</a></li><li><a href="oh-login-status-link.html">oh-login-status-link</a></li><li><a href="oh-nav-auto-link.html">oh-nav-auto-link</a></li><li><a href="oh-prop-bind.html">oh-prop-bind</a></li><li><a href="oh-script-snippets.html">oh-script-snippets</a></li><li><a href="oh-tutorial-starter.html">oh-tutorial-starter</a></li><li><a href="oh-vue-bind.html">oh-vue-bind</a></li><li><a href="oh-websocket-data.html">oh-websocket-data</a></li></ul><h3>Classes</h3><ul><li><a href="UpdateAdapter.html">UpdateAdapter</a></li></ul><h3>Events</h3><ul><li><a href="oh-websocket-data.html#event:data">data</a></li></ul></div><div class="category"><h2>Rules</h2><h3>Modules</h3><ul><li><a href="module-rule.html">rule</a></li></ul><h3>Classes</h3><ul><li><a href="module-rule.ImportExport.html">ImportExport</a></li><li><a href="module-rule.LayoutManager.html">LayoutManager</a></li><li><a href="module-rule.OHCaptionComponent.html">OHCaptionComponent</a></li><li><a href="module-rule.OHRuleComponent.html">OHRuleComponent</a></li></ul></div><div class="category"><h2>Webworker Storage Model</h2><h3>Modules</h3><ul><li><a href="module-storage-webworker.html">storage-webworker</a></li></ul><h3>Classes</h3><ul><li><a href="module-storage-webworker.StateWhileRevalidateStore.html">StateWhileRevalidateStore</a></li><li><a href="module-storage-webworker-StorageWorker.html">StorageWorker</a></li></ul></div><div class="category"><h2>Tutorial</h2><h3>Modules</h3><ul><li><a href="module-tutorial.html">tutorial</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-tutorial.Tools.html">Tools</a></li></ul></div><div class="category"><h2>Web Components</h2><h3>Modules</h3><ul><li><a href="module-ui-cron-expression.html">ui-cron-expression</a></li><li><a href="module-ui-maps.html">ui-maps</a></li><li><a href="module-ui-time-graph.html">ui-time-graph</a></li><li><a href="module-ui-time-picker.html">ui-time-picker</a></li><li><a href="module-uicomponents.html">uicomponents</a></li></ul><h3>Externals</h3><ul><li><a href="nav-ajax-page-load.html">nav-ajax-page-load</a></li><li><a href="nav-breadcrumb.html">nav-breadcrumb</a></li><li><a href="nav-buttons.html">nav-buttons</a></li><li><a href="oh-rule-editor.html">oh-rule-editor</a></li><li><a href="ui-changelog.html">ui-changelog</a></li><li><a href="ui-codeeditor.html">ui-codeeditor</a></li><li><a href="ui-community-topics.html">ui-community-topics</a></li><li><a href="ui-context-help.html">ui-context-help</a></li><li><a href="ui-cron-expression.html">ui-cron-expression</a></li><li><a href="ui-drop-zone.html">ui-drop-zone</a></li><li><a href="ui-dropdown.html">ui-dropdown</a></li><li><a href="ui-filter.html">ui-filter</a></li><li><a href="ui-github-issues.html">ui-github-issues</a></li><li><a href="ui-maps.html">ui-maps</a></li><li><a href="ui-multiselect.html">ui-multiselect</a></li><li><a href="ui-notification.html">ui-notification</a></li><li><a href="ui-switch.html">ui-switch</a></li><li><a href="ui-tabs.html">ui-tabs</a></li><li><a href="ui-tags.html">ui-tags</a></li><li><a href="ui-time-graph.html">ui-time-graph</a></li><li><a href="ui-time-picker.html">ui-time-picker</a></li><li><a href="ui-youtube.html">ui-youtube</a></li></ul><h3>Events</h3><ul><li><a href="ui-tags.html#event:input">input</a></li></ul></div><div class="category"><h2>Web Components (Reactive)</h2><h3>Modules</h3><ul><li><a href="module-vue.html">vue</a></li></ul><h3>Externals</h3><ul><li><a href="oh-vue.html">oh-vue</a></li><li><a href="oh-vue-form.html">oh-vue-form</a></li><li><a href="oh-vue-list.html">oh-vue-list</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>storage-webworker/sortFilterLimit.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Process a collection of items and returns the processed collection.
+ * 
+ * @param {Object[]} data The collection of items to sort / filter / limit
+ * @param {Object} options Options for sorting, filtering, limiting
+ * @param {Number} options.limit Optional: Limit for the resulting collection. Is applied after sorting of course.
+ * @param {String} options.sort Optional: Sort criteria (aka collection item property).
+ * @param {String} options.filter Optional: A filter query like "label:living room" or "tags:abc &amp;&amp; label:def"
+ * 
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
+ */
+function process(data, options) {
+  const limit = options.limit;
+  const hasmore = limit &amp;&amp; limit &lt; data.length;
+  const filterString = options.filter &amp;&amp; options.filter.length ? options.filter : null;
+  const sortCriteria = options.sort;
+
+  // No filter, no sort?
+  if (!(filterString) &amp;&amp; !sortCriteria) {
+    // But limit?
+    if (hasmore) {
+      const copy = data.slice(0, limit);
+      copy.hasmore = true;
+      return copy;
+    }
+
+    return data;
+  }
+
+  // Tokenize the filter string
+  // Array of filter condition tupels [c,f] with c:criteria,f:filterQuery
+  let filters = [];
+  if (filterString) {
+    const queryParts = filterString.split("&amp;&amp;");
+    for (let queryPart of queryParts) {
+      const criteriaAndQuery = queryPart.split(/:(.+)/);
+      if (criteriaAndQuery.length >= 2) {
+        filters.push({ c: criteriaAndQuery[0], f: criteriaAndQuery[1].trim().toLowerCase() });
+      } else {
+        console.warn("Filter query must be criteria:filterQuery");
+      }
+    }
+  }
+
+  // First filter if necessary
+  let c = 0;
+  const reverse = options.direction == "↓"; // ↓ or ↑
+  const filtered = [];
+  // Filter list. The criteria item property can be an array in which case we check
+  // if the filter string is within the array. Do not limit here if we are sorting.
+  for (let item of data) {
+    if (!applyFilter(filters, item)) continue;
+
+    if (sortCriteria &amp;&amp; item[sortCriteria])
+      insertInto(filtered, item, sortCriteria, reverse);
+    else { // No sorting but limit? Return now
+      c += 1;
+      filtered.push(item);
+      if (limit &amp;&amp; c >= limit) {
+        filtered.hasmore = true;
+        return filtered;
+      }
+    }
+  }
+
+  // Apply limit after sorting
+  if (limit &amp;&amp; limit &lt; data.length) {
+    filtered.splice(limit);
+    filtered.hasmore = true;
+  }
+  return filtered;
+}
+export { process };
+
+/**
+ * Returns true if item1 is greater than item2
+ * 
+ * @param {Object} item1 Item to compare
+ * @param {Object} item2 Item to compare
+ * @param {String} sortCriteria A property name that must exist on both items
+ * 
+ * @memberof module:storage-webworker
+ * @category Webworker Storage Model
+ */
+function isGreater(item1, item2, sortCriteria) {
+  return item1[sortCriteria] > item2[sortCriteria];
+}
+
+/**
+ * Inserts a new item into a collection by using insertion sort with
+ * a binary search on bigger collections and small collection size
+ * manually handling otherwise.
+ * 
+ * This sort is not stable, because we use `isGreater` which can't
+ * make an assertment about item equality.
+ *
+ * @param {Object[]} collection A sorted collection
+ * @param {Object} newItem The new item to be inserted into the sorted collection
+ * @param {String} sortCriteria The sort criteria
+ * @param {Boolean} reverse Reverses the sort
+ * 
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
+ */
+function insertInto(collection, newItem, sortCriteria, reverse) {
+  // Handle small sizes manually
+  switch (collection.length) {
+    case 0: // First item: Just add
+      collection.push(newItem);
+      return;
+    case 1: // Two items: One comparison
+      if (isGreater(collection[0], newItem, sortCriteria)) {
+        collection.unshift(newItem);
+      } else {
+        collection.push(newItem);
+      }
+      return;
+    case 2: // linear insertion sort
+    case 3:
+    case 4:
+    case 5:
+      for (let c = 0; c &lt; collection.length; ++c) {
+        if (isGreater(collection[c], newItem, sortCriteria)) {
+          collection.splice(c, 0, newItem);
+          return;
+        }
+      }
+      collection.push(newItem);
+      return;
+  }
+
+  let left = 0;
+  let right = collection.length;
+  let middle = Math.floor((left + right) / 2);
+  while (left &lt;= right) {
+    if (isGreater(newItem, collection[middle], sortCriteria)) {
+      left = middle + 1;
+    } else if (isGreater(collection[middle], newItem, sortCriteria)) {
+      right = middle - 1;
+    } else {
+      break;
+    }
+    middle = Math.floor((right + left) / 2);
+  }
+  collection.splice(left, 0, newItem);
+}
+
+/**
+ * Returns true if the filter pattern matches with the item.
+ * @param {Object[]} filters The filter arguments
+ * @param {String} filters[].c The property name (for instance "id","label")
+ * @param {String} filters[].f The filter term (for instance ("living room"))
+ * @param {*} item The item
+ * 
+ * @category Webworker Storage Model
+ * @memberof module:storage-webworker
+ */
+function applyFilter(filters, item) {
+  for (let filter of filters) {
+    let value = item[filter.c];
+    if (!value) return false;
+    if (Array.isArray(value)) {
+      if (!value.some(element => element.toLowerCase().match(filter.f)))
+        return false;
+    } else if (value instanceof Object) {
+      if (!Object.keys(value).some(key => value[key].toLowerCase().match(filter.f)))
+        return false;
+    } else if (!value.toLowerCase().match(filter.f)) {
+      return false;
+    }
+  }
+  return true;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:12:34 GMT+0000 (Coordinated Universal Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
