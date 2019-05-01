@@ -121,8 +121,12 @@ class OhGithubIssues extends HTMLElement {
 
     const ul = document.createElement('ul');
     let counter = 0;
+    entryloop:
     for (const entry of data) {
       if (!entry.title.toLowerCase().includes("[" + filter + "]")) continue;
+      for(const label of entry.labels) {
+        if (label.name.toLowerCase().includes("enhancement")) continue entryloop;
+      }
       const li = document.createElement("li");
       const a = document.createElement("a");
       a.innerHTML = entry.title;
