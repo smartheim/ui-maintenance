@@ -2,18 +2,9 @@
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 
-This repository contains a new generation openHAB Setup & Maintenance UI.
-
-See https://davidgraeff.github.io/paperui-ng/.
+This repository contains the Setup & Maintenance UI for OHX.
 
 ![Application screenshot](docs/screenshot.png "Application screenshot")
-
-Please participate by editing files in this repository and make pull requests.
-Especially the help texts and introduction text, graphics and potential videos require help.
-
-## Is this a full Paper UI replacement?
-
-Not yet. "Things" cannot be edited and "Rules" cannot be created or saved.
 
 ## Local development
 
@@ -39,24 +30,15 @@ Open the generated documentation in "out/index.html".
 
 You can find a pre-build documentation here: https://davidgraeff.github.io/paperui-ng/out
 
-## Paper UI
-
-The original Paper UI is a Single Page Application (SPA) developed using a js framework called Angular.
+## Architecture
 
 The downside of using a js framework is that you bind yourself to its API and concepts.
-Angular has a step learning curve, is not versioned semantically, does breaking changes regulary
-and people familiar with the framework are rare, because of the many existing and partly easier to
-use competitors like Reactive, VueJS, Ember, Backbone, Aurelia, Meteor.js.
 
 SPAs require most libraries and interfaces to be loaded and initialized during startup,
 although only a fraction is used on every rendered page. The browser is optimized in rendering
 html and SPAs are usually 10 lines of html and the rest is javascript generated DOM nodes.
 
-Paper UI therefore suffered from feeling unresponsive in certain situations and is hard to extend.
-
-## New approach: Architecture and used technology
-
-This new approch uses Web components (v1), static html pages, progressive enhancement
+This approch uses Web components (v1), static html pages, progressive enhancement
 and progressive webapps (PWA) technologies like advanced caching.
 
 Web components allow to define own html tags like "oh-binding-doc".
@@ -126,12 +108,6 @@ service worker (Tab "Application" -> "Service Worker" -> "Bypass for network" in
 ### Icons / Fonts / Styling
 
 See [Styling Readme](scss/readme.md).
-
-## Missing openHAB functionality
-
-This design study incorporates functionality, that is not yet implemented in openHAB.
-
-See [Missing services and functionality](assets/roadmap.md).
 
 ## Pitfals
 
